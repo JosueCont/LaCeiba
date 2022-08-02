@@ -1,4 +1,5 @@
 const commonConfig = {
+    "name": "Club La Hacienda",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -12,8 +13,6 @@ const commonConfig = {
     "assetBundlePatterns": [
         "**/*"
     ],
-
-
     "web": {
         "favicon": "./assets/favicon.png"
     }
@@ -29,27 +28,25 @@ const android = {
         "backgroundColor": "#FFFFFF"
     }
 };
+
 module.exports = () => {
     if (process.env.APP_ENV === "ios") {
         return {
             ...commonConfig,
-            "name": "Expo React Native Template",
             "slug": "Expo-React-Native-Template",
-            "version": "7.0.8",
+            "version": "1.0.0",
             "ios": ios
         };
     } else if (process.env.APP_ENV === "android") {
         return {
             ...commonConfig,
-            "name": "Expo React Native Template",
             "slug": "Expo-React-Native-Template",
-            "version": "5.33",
+            "version": "1.0.0",
             "android": android
         };
     } else if (process.env.APP_ENV === "expo") {
         return {
             ...commonConfig,
-            "name": "Expo React Native Template",
             "slug": "Expo-React-Native-Template",
             "version": "1.0.0",
             "ios": ios,
