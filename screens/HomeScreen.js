@@ -1,7 +1,9 @@
 import React, {useEffect} from "react";
-import {Box, Text} from "native-base";
+import {Button, Image, View} from "native-base";
 import {connect} from "react-redux";
-import productsDuck from "../redux/ducks/productsDuck";
+import {ImageBackground} from "react-native";
+import bgGolfV2 from '../assets/bgGolfV2.png'
+import imgLogo from '../assets/imgLogo.png';
 
 const HomeScreen = ({productsDuck}) => {
 
@@ -10,9 +12,17 @@ const HomeScreen = ({productsDuck}) => {
     }, [])
 
     return (
-        <Box flex={1} bg="#fff" alignItems="center" justifyContent="center">
-            <Text color={'amber.400'}>Open up App.js to start working on your app!</Text>
-        </Box>
+
+        <ImageBackground source={bgGolfV2} style={{flex: 1}}>
+            <View flex={1} alignItems={'center'} justifyContent={'center'}>
+                <Image source={imgLogo}/>
+            </View>
+            <View flex={1} mx={20}>
+                <Button mb={2}>Iniciar sesión</Button>
+                <Button>Registrar</Button>
+            </View>
+        </ImageBackground>
+
     )
 }
 

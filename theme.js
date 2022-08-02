@@ -6,14 +6,23 @@ export const theme = extendTheme({
             baseStyle: {
                 color: 'emerald.400'
             },
-            defaultProps: { size: 'lg' },
+            defaultProps: {size: 'lg'},
             sizes: {
-                xl: { fontSize: '64px' },
-                lg: { fontSize: '32px' },
-                md: { fontSize: '16px' },
-                sm: { fontSize: '12px' },
+                xl: {fontSize: '64px'},
+                lg: {fontSize: '32px'},
+                md: {fontSize: '16px'},
+                sm: {fontSize: '12px'},
             },
         },
+        Button: {
+            baseStyle: {
+                borderRadius: 15
+            },
+            defaultProps: {
+                colorScheme: 'green',
+                size: 'sm'
+            },
+        }
     },
     fontConfig: {
         Roboto: {
@@ -69,6 +78,9 @@ export const theme = extendTheme({
         },
         amber: {
             400: '#d97706',
+        },
+        green: {
+            400: '#146842',
         },
     },
     config: {
