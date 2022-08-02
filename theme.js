@@ -4,9 +4,12 @@ export const theme = extendTheme({
     components: {
         Text: {
             baseStyle: {
-                color: 'emerald.400'
+                color: 'emerald.400',
+                fontFamily: 'ComfortaaRegular'
             },
-            defaultProps: {size: 'lg'},
+            defaultProps: {
+                size: 'lg'
+            },
             sizes: {
                 xl: {fontSize: '64px'},
                 lg: {fontSize: '32px'},
@@ -16,11 +19,13 @@ export const theme = extendTheme({
         },
         Button: {
             baseStyle: {
-                borderRadius: 15
+                borderRadius: 15,
+
             },
             defaultProps: {
                 colorScheme: 'green',
-                size: 'sm'
+                size: 'sm',
+                //fontFamily:"ComfortaaRegular"
             },
         }
     },
