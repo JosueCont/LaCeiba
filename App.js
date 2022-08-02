@@ -4,11 +4,15 @@ import {NativeBaseProvider, Spinner, Text, View} from 'native-base';
 import {theme} from "./theme";
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from "@react-navigation/native";
-import HomeScreen from "./screens/HomeScreen";
 import {Provider} from "react-redux";
 import {store} from "./redux/store";
 import {useFonts} from "expo-font";
 import {Color} from "./Colors";
+import StartScreen from "./screens/StartScreen";
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
+import ComponentsScreen from "./screens/ComponentsScreen";
+import VerifyAccountScreen from "./screens/VerifyAccountScreen";
 
 const Stack = createStackNavigator();
 
@@ -52,8 +56,14 @@ export default function App() {
             <Provider store={store}>
                 <NativeBaseProvider theme={theme}>
                     <NavigationContainer>
-                        <Stack.Navigator>
-                            <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
+                        <Stack.Navigator screenOptions={{gestureEnabled: true}}>
+
+                            <Stack.Screen name="HomeScreen" component={StartScreen} options={{headerShown: false}}/>
+                            <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown: false}}/>
+                            <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerShown: false}}/>
+                            <Stack.Screen name="ComponentsScreen" component={ComponentsScreen} options={{headerShown: false}}/>
+                            <Stack.Screen name="VerifyAccountScreen" component={VerifyAccountScreen} options={{headerShown: false}}/>
+
                         </Stack.Navigator>
                     </NavigationContainer>
                 </NativeBaseProvider>

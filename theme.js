@@ -4,16 +4,16 @@ export const theme = extendTheme({
     components: {
         Text: {
             baseStyle: {
-                color: 'emerald.400',
+                color: 'white',
                 fontFamily: 'ComfortaaRegular'
             },
             defaultProps: {
-                size: 'lg'
+                size: 'md'
             },
             sizes: {
                 xl: {fontSize: '64px'},
                 lg: {fontSize: '32px'},
-                md: {fontSize: '16px'},
+                md: {fontSize: '14px'},
                 sm: {fontSize: '12px'},
             },
         },
@@ -25,7 +25,17 @@ export const theme = extendTheme({
             defaultProps: {
                 colorScheme: 'green',
                 size: 'sm',
-                //fontFamily:"ComfortaaRegular"
+            },
+        },
+        Input: {
+            baseStyle: {
+                color: 'black'
+            },
+            defaultProps: {
+                backgroundColor: 'white',
+                size: 'xs',
+                borderWidth: 0,
+
             },
         }
     },
@@ -92,8 +102,7 @@ export const theme = extendTheme({
         initialColorMode: 'dark',
     },
     fonts: {
-        heading: 'Roboto',
-        body: 'Roboto',
-        mono: 'Roboto',
+        titleRegular: 'BrandonReg',
+        titleLight: 'BrandonLight'
     },
 });
