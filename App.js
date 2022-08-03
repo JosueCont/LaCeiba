@@ -7,12 +7,14 @@ import {NavigationContainer} from "@react-navigation/native";
 import {Provider} from "react-redux";
 import {store} from "./redux/store";
 import {useFonts} from "expo-font";
-import {Color} from "./Colors";
+import {Colors} from "./Colors";
 import StartScreen from "./screens/StartScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import ComponentsScreen from "./screens/ComponentsScreen";
 import VerifyAccountScreen from "./screens/VerifyAccountScreen";
+import RegisterStep2Screen from "./screens/RegisterStep2Screen";
+import RecoverPasswordScreen from "./screens/RecoverPasswordScreen";
 
 const Stack = createStackNavigator();
 
@@ -63,6 +65,8 @@ export default function App() {
                             <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerShown: false}}/>
                             <Stack.Screen name="ComponentsScreen" component={ComponentsScreen} options={{headerShown: false}}/>
                             <Stack.Screen name="VerifyAccountScreen" component={VerifyAccountScreen} options={{headerShown: false}}/>
+                            <Stack.Screen name="RegisterStep2Screen" component={RegisterStep2Screen} options={{headerShown: false}}/>
+                            <Stack.Screen name="RecoverPasswordScreen" component={RecoverPasswordScreen} options={{headerShown: false}}/>
 
                         </Stack.Navigator>
                     </NavigationContainer>
@@ -72,7 +76,7 @@ export default function App() {
     }
     return (
         <NativeBaseProvider theme={theme}>
-            <View flex={1} justifyContent={'center'} alignItems={'center'} backgroundColor={Color.green}>
+            <View flex={1} justifyContent={'center'} alignItems={'center'} backgroundColor={Colors.green}>
                 <Spinner></Spinner>
             </View>
         </NativeBaseProvider>

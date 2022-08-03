@@ -1,4 +1,5 @@
 import {extendTheme} from "native-base";
+import {Colors} from "./Colors";
 
 export const theme = extendTheme({
     components: {
@@ -29,13 +30,14 @@ export const theme = extendTheme({
         },
         Input: {
             baseStyle: {
-                color: 'black'
+                color: 'black',
+                borderRadius: 20,
+                backgroundColor: '#D1D4C4'
             },
             defaultProps: {
                 backgroundColor: 'white',
-                size: 'xs',
                 borderWidth: 0,
-
+                size: 'xs'
             },
         }
     },
@@ -95,7 +97,10 @@ export const theme = extendTheme({
             400: '#d97706',
         },
         green: {
-            400: '#146842',
+            400: Colors.green,
+        },
+        greenV2: {
+            400: Colors.greenV3,
         },
     },
     config: {
