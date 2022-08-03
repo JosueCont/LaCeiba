@@ -1,5 +1,4 @@
 import {StyleSheet} from "react-native";
-import {Colors} from "../../Colors";
 
 export const styles = StyleSheet.create({
     centeredView: {
@@ -9,12 +8,11 @@ export const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.8)'
     },
     modalView: {
-
         width: '80%',
-        backgroundColor: Colors.greenV5,
+        //backgroundColor: Colors.greenV5,
         borderRadius: 20,
-        padding: 30,
         alignItems: "center",
+
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -22,7 +20,9 @@ export const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
-        elevation: 5
+        elevation: 5,
+        padding: 30
+
     },
     button: {
         borderRadius: 20,
