@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Input, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 
-const RegisterStep2Screen = () => {
+const RegisterStep3Screen = () => {
 
 
     return (
@@ -11,12 +11,13 @@ const RegisterStep2Screen = () => {
             </View>
             <View flex={1}>
                 <View mx={20} mt={10}>
-                    <Text textAlign={'center'} mb={2}>Correo electrónico</Text>
+                    <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={8}>Verificar número móvil</Text>
+
+                    <Text textAlign={'center'} mb={2}>Ingresa tu número móvil</Text>
                     <Input mb={4}/>
-                    <Text textAlign={'center'} mb={2}>Contraseña</Text>
-                    <Input mb={6}/>
-                    <Text textAlign={'center'} mb={2}>Repetir contraseña</Text>
-                    <Input mb={6}/>
+                    <Text mb={6} textAlign={'center'} fontSize={'xs'}>Recibirás un SMS con el código de confirmación</Text>
+
+
                     <Button>Continuar</Button>
                 </View>
             </View>
@@ -25,4 +26,4 @@ const RegisterStep2Screen = () => {
 }
 
 
-export default RegisterStep2Screen
+export default RegisterStep3Screen

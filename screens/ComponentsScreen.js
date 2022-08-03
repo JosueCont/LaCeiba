@@ -11,6 +11,7 @@ const ComponentsScreen = ({navigation}) => {
     const [modalCompletedVisible, setModalCompletedVisible] = useState(null)
     const [modalRequestSentVisible, setModalRequestSentVisible] = useState(null)
 
+
     return (
         <Layout overlay={true}>
             <View flex={1} justifyContent={'center'} mx={10}>
@@ -20,7 +21,10 @@ const ComponentsScreen = ({navigation}) => {
                 <Button onPress={() => setModalCompletedVisible(true)} mb={2}>Modal Registro Completado</Button>
                 <Button onPress={() => navigation.navigate('RegisterStep2Screen')} mb={2}>Registro Pantalla 2</Button>
                 <Button onPress={() => setModalRequestSentVisible(true)} mb={2}>Modal Solicitud Enviada</Button>
-                <Button onPress={() => navigation.navigate('RecoverPasswordScreen')}>Pantalla Recuperar Contraseña</Button>
+                <Button onPress={() => navigation.navigate('RecoverPasswordScreen')} mb={2}>Pantalla Recuperar Contraseña</Button>
+                <Button onPress={() => navigation.navigate('RegisterStep3Screen')} mb={2}>Pantalla solicitar movil</Button>
+                <Button onPress={() => navigation.navigate('RegisterStep4Screen')}>Pantalla verificar code</Button>
+
 
             </View>
             <ModalInfo

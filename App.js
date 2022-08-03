@@ -15,6 +15,8 @@ import ComponentsScreen from "./screens/ComponentsScreen";
 import VerifyAccountScreen from "./screens/VerifyAccountScreen";
 import RegisterStep2Screen from "./screens/RegisterStep2Screen";
 import RecoverPasswordScreen from "./screens/RecoverPasswordScreen";
+import RegisterStep3Screen from "./screens/RegisterStep3Screen";
+import RegisterStep4Screen from "./screens/RegisterStep4Screen";
 
 const Stack = createStackNavigator();
 
@@ -67,6 +69,8 @@ export default function App() {
                             <Stack.Screen name="VerifyAccountScreen" component={VerifyAccountScreen} options={{headerShown: false}}/>
                             <Stack.Screen name="RegisterStep2Screen" component={RegisterStep2Screen} options={{headerShown: false}}/>
                             <Stack.Screen name="RecoverPasswordScreen" component={RecoverPasswordScreen} options={{headerShown: false}}/>
+                            <Stack.Screen name="RegisterStep3Screen" component={RegisterStep3Screen} options={{headerShown: false}}/>
+                            <Stack.Screen name="RegisterStep4Screen" component={RegisterStep4Screen} options={{headerShown: false}}/>
 
                         </Stack.Navigator>
                     </NavigationContainer>
