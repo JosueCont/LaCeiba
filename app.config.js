@@ -17,7 +17,10 @@ const commonConfig = {
         "favicon": "./assets/favicon.png"
     },
     "extra": {
-        "debug": true
+        "debug": true,
+        "production": false,
+        "URL": "https://api.hacienda.hiumanlab.com",
+        "URL_DEV": "https://api.hacienda.hiumanlab.com",
     }
 };
 
