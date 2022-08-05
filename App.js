@@ -3,20 +3,11 @@ import {LogBox, StyleSheet, Text as TextRN, TextInput} from 'react-native';
 import {NativeBaseProvider, Spinner, Text, View} from 'native-base';
 import {theme} from "./theme";
 import {createStackNavigator} from '@react-navigation/stack';
-import {NavigationContainer} from "@react-navigation/native";
 import {Provider} from "react-redux";
 import {store} from "./redux/store";
 import {useFonts} from "expo-font";
 import {Colors} from "./Colors";
-import StartScreen from "./screens/StartScreen";
-import LoginScreen from "./screens/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen";
-import ComponentsScreen from "./screens/ComponentsScreen";
-import VerifyAccountScreen from "./screens/VerifyAccountScreen";
-import RegisterStep2Screen from "./screens/RegisterStep2Screen";
-import RecoverPasswordScreen from "./screens/RecoverPasswordScreen";
-import RegisterStep3Screen from "./screens/RegisterStep3Screen";
-import RegisterStep4Screen from "./screens/RegisterStep4Screen";
+import NavigationContainerMain from "./navigation/NavigationContainerMain";
 
 const Stack = createStackNavigator();
 
@@ -59,29 +50,15 @@ export default function App() {
         return (
             <Provider store={store}>
                 <NativeBaseProvider theme={theme}>
-                    <NavigationContainer>
-                        <Stack.Navigator screenOptions={{gestureEnabled: true}}>
-
-                            <Stack.Screen name="HomeScreen" component={StartScreen} options={{headerShown: false}}/>
-                            <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown: false}}/>
-                            <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerShown: false}}/>
-                            <Stack.Screen name="ComponentsScreen" component={ComponentsScreen} options={{headerShown: false}}/>
-                            <Stack.Screen name="VerifyAccountScreen" component={VerifyAccountScreen} options={{headerShown: false}}/>
-                            <Stack.Screen name="RegisterStep2Screen" component={RegisterStep2Screen} options={{headerShown: false}}/>
-                            <Stack.Screen name="RecoverPasswordScreen" component={RecoverPasswordScreen} options={{headerShown: false}}/>
-                            <Stack.Screen name="RegisterStep3Screen" component={RegisterStep3Screen} options={{headerShown: false}}/>
-                            <Stack.Screen name="RegisterStep4Screen" component={RegisterStep4Screen} options={{headerShown: false}}/>
-
-                        </Stack.Navigator>
-                    </NavigationContainer>
+                    <NavigationContainerMain/>
                 </NativeBaseProvider>
             </Provider>
         );
     }
     return (
         <NativeBaseProvider theme={theme}>
-            <View flex={1} justifyContent={'center'} alignItems={'center'} backgroundColor={Colors.green}>
-                <Spinner></Spinner>
+            <View flex={1} backgroundColor={Colors.green} alignItems={'center'} justifyContent={'center'}>
+                <Spinner size={'sm'} color={'white'}></Spinner>
             </View>
         </NativeBaseProvider>
 

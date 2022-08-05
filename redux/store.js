@@ -1,8 +1,10 @@
-import {createStore, combineReducers, compose, applyMiddleware} from "redux"
+import {applyMiddleware, combineReducers, createStore} from "redux"
 import thunk from "redux-thunk"
 import productsDuck from "./ducks/productsDuck";
+import appDuck from "./ducks/appDuck";
 
 const rootReducer = combineReducers({
+    appDuck: appDuck,
     productsDuck: productsDuck,
 })
 

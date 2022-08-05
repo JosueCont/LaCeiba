@@ -2,9 +2,28 @@ import React from "react";
 import {Button, Image, Input, Text, View} from "native-base";
 import imgLogo from '../assets/imgLogo.png';
 import Layout from "./Layouts/Layout";
+import {signIn} from "../api/Requests";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {loggedAction} from "../redux/ducks/appDuck";
+import {connect} from "react-redux";
 
-const StartScreen = () => {
+const LoginScreen = ({loggedAction}) => {
 
+
+    const loginFunction = async () => {
+        try {
+            let data = {
+                email: 'admin@admin.com',
+                password: 'Password123'
+            }
+            const response = await signIn(data)
+            await AsyncStorage.setItem('@user', JSON.stringify(response.data))
+            await loggedAction()
+        } catch (ex) {
+            console.log(ex)
+        }
+
+    }
 
     return (
         <Layout overlay={true}>
@@ -20,7 +39,7 @@ const StartScreen = () => {
                     <Text textAlign={'center'} mb={2}>Contraseña</Text>
                     <Input mb={4}/>
                     <Text textAlign={'center'} mb={6}>¿Olvidaste tu contraseña?</Text>
-                    <Button>Entrar</Button>
+                    <Button onPress={() => loginFunction()}>Entrar</Button>
                 </View>
             </View>
         </Layout>
@@ -28,4 +47,7 @@ const StartScreen = () => {
 }
 
 
-export default StartScreen
+const mapState = (state) => {
+    return {}
+}
+export default connect(mapState, {loggedAction})(LoginScreen);
