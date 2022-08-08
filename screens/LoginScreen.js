@@ -1,21 +1,18 @@
 import React from "react";
-import {Button, Image, Input, Text, View} from "native-base";
+import {Button, FormControl, Image, Input, Text, View} from "native-base";
 import imgLogo from '../assets/imgLogo.png';
 import Layout from "./Layouts/Layout";
 import {signIn} from "../api/Requests";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {loggedAction} from "../redux/ducks/appDuck";
 import {connect} from "react-redux";
+import {useFormik} from 'formik';
+import * as Yup from 'yup'
 
 const LoginScreen = ({loggedAction}) => {
 
-
-    const loginFunction = async () => {
+    const loginFunction = async (data) => {
         try {
-            let data = {
-                email: 'admin@admin.com',
-                password: 'Password123'
-            }
             const response = await signIn(data)
             await AsyncStorage.setItem('@user', JSON.stringify(response.data))
             await loggedAction()
@@ -24,6 +21,21 @@ const LoginScreen = ({loggedAction}) => {
         }
 
     }
+
+    const {touched, handleSubmit, errors, setFieldValue} = useFormik({
+        initialValues: {
+            email: '',
+            password: ''
+        },
+        onSubmit: (formValue) => {
+            loginFunction(formValue)
+        },
+        validateOnChange: false,
+        validationSchema: Yup.object({
+            email: Yup.string().email("El email no es correcto").required("El email es obligatorio"),
+            password: Yup.string().required("La contraseña es obligatoria"),
+        })
+    });
 
     return (
         <Layout overlay={true}>
@@ -34,12 +46,27 @@ const LoginScreen = ({loggedAction}) => {
                 <View mx={20} mt={10}>
                     <Text fontSize={'5xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>Bienvenido</Text>
 
-                    <Text textAlign={'center'} mb={2}>Correo electrónico</Text>
-                    <Input mb={4}/>
-                    <Text textAlign={'center'} mb={2}>Contraseña</Text>
-                    <Input mb={4}/>
+
+                    <FormControl isInvalid={errors.email} mb={2}>
+                        <Text textAlign={'center'} mb={2}>Correo electrónico</Text>
+                        <Input autoCapitalize={'none'} mb={4} onChangeText={(v) => setFieldValue('email', v)}/>
+                        <FormControl.ErrorMessage>
+                            {errors.email}
+                        </FormControl.ErrorMessage>
+                    </FormControl>
+
+
+                    <FormControl isInvalid={errors.password} mb={2}>
+                        <Text textAlign={'center'} mb={2}>Contraseña</Text>
+                        <Input mb={4} type="password" onChangeText={(v) => setFieldValue('password', v)}/>
+                        <FormControl.ErrorMessage>
+                            {errors.password}
+                        </FormControl.ErrorMessage>
+                    </FormControl>
+
+
                     <Text textAlign={'center'} mb={6}>¿Olvidaste tu contraseña?</Text>
-                    <Button onPress={() => loginFunction()}>Entrar</Button>
+                    <Button onPress={() => handleSubmit()}>Entrar</Button>
                 </View>
             </View>
         </Layout>

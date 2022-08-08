@@ -3,8 +3,10 @@ import {Button, View} from "native-base";
 import Layout from "./Layouts/Layout";
 import ModalInfo from "./Modals/ModalInfo";
 import ModalResendSMS from "./Modals/ModalResendSMS";
+import {loggedOutAction} from "../redux/ducks/appDuck";
+import {connect} from "react-redux";
 
-const ComponentsScreen = ({navigation}) => {
+const ComponentsScreen = ({navigation, loggedOutAction}) => {
 
     const [modalInfoVisible, setModalInfoVisible] = useState(null)
     const [modalResendSMSVisible, setModalResendSMSVisible] = useState(null)
@@ -23,7 +25,8 @@ const ComponentsScreen = ({navigation}) => {
                 <Button onPress={() => setModalRequestSentVisible(true)} mb={2}>Modal Solicitud Enviada</Button>
                 <Button onPress={() => navigation.navigate('RecoverPasswordScreen')} mb={2}>Pantalla Recuperar Contraseña</Button>
                 <Button onPress={() => navigation.navigate('RegisterStep3Screen')} mb={2}>Pantalla solicitar movil</Button>
-                <Button onPress={() => navigation.navigate('RegisterStep4Screen')}>Pantalla verificar code</Button>
+                <Button onPress={() => navigation.navigate('RegisterStep4Screen')} mb={2}>Pantalla verificar code</Button>
+                <Button onPress={() => loggedOutAction()}>Cerrar sesión</Button>
 
 
             </View>
@@ -53,5 +56,8 @@ const ComponentsScreen = ({navigation}) => {
     )
 }
 
+const mapState = () => {
+    return {}
+}
 
-export default ComponentsScreen
+export default connect(mapState, {loggedOutAction})(ComponentsScreen)

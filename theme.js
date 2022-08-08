@@ -39,6 +39,14 @@ export const theme = extendTheme({
                 borderWidth: 0,
                 size: 'xs'
             },
+        },
+        FormControl: {
+            ErrorMessage: {
+                baseStyle: {
+                    color: 'black',
+                },
+            }
+
         }
     },
     fontConfig: {

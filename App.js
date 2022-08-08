@@ -2,14 +2,14 @@ import React from 'react';
 import {LogBox, StyleSheet, Text as TextRN, TextInput} from 'react-native';
 import {NativeBaseProvider, Spinner, Text, View} from 'native-base';
 import {theme} from "./theme";
-import {createStackNavigator} from '@react-navigation/stack';
 import {Provider} from "react-redux";
-import {store} from "./redux/store";
+import generateStore from "./redux/store";
 import {useFonts} from "expo-font";
 import {Colors} from "./Colors";
 import NavigationContainerMain from "./navigation/NavigationContainerMain";
 
-const Stack = createStackNavigator();
+
+const store = generateStore();
 
 
 LogBox.ignoreAllLogs();

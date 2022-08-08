@@ -1,7 +1,8 @@
 import {applyMiddleware, combineReducers, createStore} from "redux"
 import thunk from "redux-thunk"
 import productsDuck from "./ducks/productsDuck";
-import appDuck from "./ducks/appDuck";
+import appDuck, {loggedAction} from "./ducks/appDuck";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const rootReducer = combineReducers({
     appDuck: appDuck,
@@ -14,6 +15,20 @@ export const store = createStore(
 )
 
 export default () => {
-    //savedSession()(store.dispatch)
+    (async () => {
+        try {
+
+            const user = await AsyncStorage.getItem('@user')
+            const userJSON = JSON.parse(user);
+            if (userJSON) {
+                loggedAction()(store.dispatch)
+            }
+
+
+        } catch (e) {
+            console.log('store error => ', e.toString())
+        }
+    })()
     return store
 }
+
