@@ -10,18 +10,6 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup'
 
 const LoginScreen = ({loggedAction}) => {
-
-    const loginFunction = async (data) => {
-        try {
-            const response = await signIn(data)
-            await AsyncStorage.setItem('@user', JSON.stringify(response.data))
-            await loggedAction()
-        } catch (ex) {
-            console.log(ex)
-        }
-
-    }
-
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
         initialValues: {
             email: '',
@@ -36,6 +24,18 @@ const LoginScreen = ({loggedAction}) => {
             password: Yup.string().required("La contraseña es obligatoria"),
         })
     });
+
+    const loginFunction = async (data) => {
+        try {
+            const response = await signIn(data)
+            await AsyncStorage.setItem('@user', JSON.stringify(response.data))
+            await loggedAction()
+        } catch (ex) {
+            console.log(ex)
+        }
+
+    }
+
 
     return (
         <Layout overlay={true}>

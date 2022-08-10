@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Input, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 
-const RegisterStep3Screen = ({navigation}) => {
+const RegisterStep3ScreenNOT = ({navigation}) => {
 
 
     return (
@@ -26,4 +26,4 @@ const RegisterStep3Screen = ({navigation}) => {
 }
 
 
-export default RegisterStep3Screen
+export default RegisterStep3ScreenNOT

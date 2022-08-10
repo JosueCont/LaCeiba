@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 
-const RegisterStep2Screen = ({navigation}) => {
+const RegisterStep2ScreenNOT = ({navigation, route}) => {
 
 
     return (
@@ -12,9 +12,14 @@ const RegisterStep2Screen = ({navigation}) => {
             <View flex={1}>
                 <View mx={20} mt={10}>
                     <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>¿Son éstas sus iniciales?</Text>
-                    <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>M***** L**** {'\n'}F****** H********</Text>
+                    <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>
+                        {
+                            route.params.partner.split(' ').slice(0, 2).join(' ') + `\n` + route.params.partner.split(' ').slice(2, 4).join(' ')
 
-                    <Button mb={2} onPress={() => navigation.navigate('RegisterStep3Screen')}>Continuar</Button>
+                        }
+                    </Text>
+
+                    <Button mb={2} onPress={() => navigation.navigate('RegisterStep4Screen')}>Continuar</Button>
                     <Button>Cancelar</Button>
                 </View>
             </View>
@@ -23,4 +28,4 @@ const RegisterStep2Screen = ({navigation}) => {
 }
 
 
-export default RegisterStep2Screen
+export default RegisterStep2ScreenNOT

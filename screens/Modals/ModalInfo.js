@@ -7,7 +7,7 @@ import {Colors} from "../../Colors";
 import {LinearGradient} from "expo-linear-gradient";
 
 
-const ModalInfo = ({visible, setVisible, title = '', text = 'Texto informativo', textButton = 'Continuar'}) => {
+const ModalInfo = ({visible, setVisible, title = '', text = 'Texto informativo', textButton = 'Continuar', close = true}) => {
 
     const [heightGradient, setHeightGradient] = useState(null);
     return (
@@ -39,10 +39,14 @@ const ModalInfo = ({visible, setVisible, title = '', text = 'Texto informativo',
                         }}
                     />
 
-                    <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.greenV4, borderRadius: 60}}
-                                      onPress={() => setVisible(false)}>
-                        <Icon as={AntDesign} name={'close'} color={'white'} size={'xs'}></Icon>
-                    </TouchableOpacity>
+                    {
+                        close === true &&
+                        <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.greenV4, borderRadius: 60}}
+                                          onPress={() => setVisible(false)}>
+                            <Icon as={AntDesign} name={'close'} color={'white'} size={'xs'}></Icon>
+                        </TouchableOpacity>
+                    }
+
                     <View mb={10} width={'100%'} alignItems={'center'} justifyContent={'center'}>
                         <Icon as={AntDesign} name={'checkcircleo'} color={Colors.yellow} size={'2xl'}/>
                     </View>
