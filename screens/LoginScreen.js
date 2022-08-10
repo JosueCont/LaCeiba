@@ -8,8 +8,9 @@ import {loggedAction} from "../redux/ducks/appDuck";
 import {connect} from "react-redux";
 import {useFormik} from 'formik';
 import * as Yup from 'yup'
+import {TouchableOpacity} from "react-native";
 
-const LoginScreen = ({loggedAction}) => {
+const LoginScreen = ({loggedAction, navigation}) => {
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
         initialValues: {
             email: '',
@@ -65,7 +66,11 @@ const LoginScreen = ({loggedAction}) => {
                     </FormControl>
 
 
-                    <Text textAlign={'center'} mb={6}>¿Olvidaste tu contraseña?</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('RecoverPasswordScreen')}>
+
+                        <Text textAlign={'center'} mb={6}>¿Olvidaste tu contraseña?</Text>
+                    </TouchableOpacity>
+
                     <Button onPress={() => handleSubmit()}>Entrar</Button>
                 </View>
             </View>
