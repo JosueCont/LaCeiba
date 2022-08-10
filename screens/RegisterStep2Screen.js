@@ -1,8 +1,8 @@
 import React from "react";
-import {Button, Input, Text, View} from "native-base";
+import {Button, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 
-const RegisterStep2Screen = () => {
+const RegisterStep2Screen = ({navigation}) => {
 
 
     return (
@@ -11,13 +11,11 @@ const RegisterStep2Screen = () => {
             </View>
             <View flex={1}>
                 <View mx={20} mt={10}>
-                    <Text textAlign={'center'} mb={2}>Correo electrónico</Text>
-                    <Input mb={4}/>
-                    <Text textAlign={'center'} mb={2}>Contraseña</Text>
-                    <Input mb={6}/>
-                    <Text textAlign={'center'} mb={2}>Repetir contraseña</Text>
-                    <Input mb={6}/>
-                    <Button>Continuar</Button>
+                    <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>¿Son éstas sus iniciales?</Text>
+                    <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>M***** L**** {'\n'}F****** H********</Text>
+
+                    <Button mb={2} onPress={() => navigation.navigate('RegisterStep3Screen')}>Continuar</Button>
+                    <Button>Cancelar</Button>
                 </View>
             </View>
         </Layout>

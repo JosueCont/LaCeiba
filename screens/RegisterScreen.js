@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Input, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 
-const RegisterScreen = () => {
+const RegisterScreen = ({navigation}) => {
 
 
     return (
@@ -17,7 +17,7 @@ const RegisterScreen = () => {
                     <Input mb={4}/>
                     <Text textAlign={'center'} mb={2}>Nombre de socio</Text>
                     <Input mb={6}/>
-                    <Button>Continuar</Button>
+                    <Button onPress={() => navigation.navigate('RegisterStep2Screen')}>Continuar</Button>
                 </View>
             </View>
         </Layout>

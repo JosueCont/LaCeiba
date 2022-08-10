@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Input, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 
-const RegisterStep3Screen = () => {
+const RegisterStep3Screen = ({navigation}) => {
 
 
     return (
@@ -18,7 +18,7 @@ const RegisterStep3Screen = () => {
                     <Text mb={6} textAlign={'center'} fontSize={'xs'}>Recibirás un SMS con el código de confirmación</Text>
 
 
-                    <Button>Continuar</Button>
+                    <Button onPress={() => navigation.navigate('RegisterStep4Screen')}>Continuar</Button>
                 </View>
             </View>
         </Layout>

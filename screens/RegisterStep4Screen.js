@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Input, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 
-const RegisterStep4Screen = () => {
+const RegisterStep4Screen = ({navigation}) => {
 
 
     return (
@@ -15,7 +15,7 @@ const RegisterStep4Screen = () => {
 
                     <Text textAlign={'center'} mb={2}>Escriba los 5 digitos enviados</Text>
                     <Input mb={4}/>
-                    <Button>Continuar</Button>
+                    <Button onPress={() => navigation.navigate('RegisterStep5Screen')}>Continuar</Button>
                 </View>
             </View>
         </Layout>

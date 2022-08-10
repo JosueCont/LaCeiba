@@ -1,45 +1,39 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet} from 'react-native';
 import {Spinner, View} from 'native-base';
-import {connect} from "react-redux";
+import {useSelector} from "react-redux";
 import {NavigationContainer} from "@react-navigation/native";
 import StackNavigatorSecurity from "./StackNavigatorSecurity";
 import StackNavigatorMain from "./StackNavigatorMain";
+import {Colors} from "../Colors";
 
-const NavigatorContainerMain = (appDuck) => {
-    const [loading, setLoading] = useState(null);
+const NavigatorContainerMain = () => {
+    const status = useSelector(state => {
+        return state.appDuck.logged;
+    });
+    const [loading, setLoading] = useState(null)
 
     useEffect(() => {
         setLoading(true)
         setTimeout(() => {
             setLoading(false)
         }, 100)
-    }, []);
+    }, [status]);
 
-    console.log(appDuck.appDuck.logged)
+    console.log(status)
 
 
     return (
         <NavigationContainer>
             {
                 loading ?
-                    <View flex={1} backgroundColor={'#000'} alignItems={'center'} justifyContent={'center'}>
+                    <View flex={1} backgroundColor={Colors.green} alignItems={'center'} justifyContent={'center'}>
                         <Spinner size={'sm'} color={'white'}></Spinner>
                     </View> :
-                    appDuck.appDuck.logged === true ? <StackNavigatorMain/> : <StackNavigatorSecurity/>
+                    status === true ? <StackNavigatorMain/> : <StackNavigatorSecurity/>
             }
         </NavigationContainer>
     );
 }
 
 
-const styles = StyleSheet.create({
-    container: {}
-});
-const mapState = (state) => {
-    return {
-        appDuck: state.appDuck
-    }
-}
-
-export default connect(mapState)(NavigatorContainerMain);
+export default NavigatorContainerMain;
