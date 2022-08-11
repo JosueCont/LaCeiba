@@ -55,7 +55,10 @@ const RegisterStep4Screen = ({navigation, route}) => {
 
                     <FormControl isInvalid={errors.code} mb={4}>
                         <Text textAlign={'center'} mb={2}>Escriba los 5 digitos enviados</Text>
-                        <Input onChangeText={(v) => setFieldValue('code', v)}/>
+                        <Input
+                            returnKeyType={'done'}
+                            keyboardType={'number-pad'}
+                            onChangeText={(v) => setFieldValue('code', v)}/>
                         <FormControl.ErrorMessage>
                             {errors.code}
                         </FormControl.ErrorMessage>

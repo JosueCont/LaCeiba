@@ -45,7 +45,10 @@ const RegisterStep3Screen = ({navigation}) => {
 
                     <FormControl isInvalid={errors.phone} mb={4}>
                         <Text textAlign={'center'} mb={2}>Ingresa tu número móvil</Text>
-                        <Input onChangeText={(v) => setFieldValue('phone', v)}/>
+                        <Input
+                            keyboardType={'phone-pad'}
+                            returnKeyType={'done'}
+                            onChangeText={(v) => setFieldValue('phone', v)}/>
 
                         <FormControl.ErrorMessage>
                             {errors.phone}

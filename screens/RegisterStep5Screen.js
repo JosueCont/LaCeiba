@@ -57,7 +57,11 @@ const RegisterStep5Screen = ({navigation, loggedAction}) => {
                 <View mx={20} mt={10}>
                     <FormControl isInvalid={errors.email} mb={4}>
                         <Text textAlign={'center'} mb={2}>Correo electrónico</Text>
-                        <Input autoCapitalize={'none'} autoCorrect={false} onChangeText={(v) => setFieldValue('email', v)}/>
+                        <Input
+                            autoCapitalize={'none'}
+                            autoCorrect={false}
+                            keyboardType={'email-address'}
+                            onChangeText={(v) => setFieldValue('email', v)}/>
                         <FormControl.ErrorMessage>
                             {errors.email}
                         </FormControl.ErrorMessage>
