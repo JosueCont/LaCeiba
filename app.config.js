@@ -40,21 +40,21 @@ module.exports = () => {
     if (process.env.APP_ENV === "ios") {
         return {
             ...commonConfig,
-            "slug": "club-la-hacienda",
+            "slug": "clublahacienda",
             "version": "1.0.0",
             "ios": ios
         };
     } else if (process.env.APP_ENV === "android") {
         return {
             ...commonConfig,
-            "slug": "club-la-hacienda",
+            "slug": "clublahacienda",
             "version": "1.0.0",
             "android": android
         };
     } else if (process.env.APP_ENV === "expo") {
         return {
             ...commonConfig,
-            "slug": "club-la-hacienda-dev",
+            "slug": "clublahacienda-dev",
             "version": "1.0.0",
             "ios": ios,
             "android": android

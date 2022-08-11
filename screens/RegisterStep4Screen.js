@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import {registerConfirmPhone} from "../api/Requests";
 import ModalResendSMS from "./Modals/ModalResendSMS";
 
-const RegisterStep4Screen = ({navigation}) => {
+const RegisterStep4Screen = ({navigation, route}) => {
     const [modalResendSMSVisible, setModalResendSMSVisible] = useState(null);
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
         initialValues: {
@@ -23,14 +23,16 @@ const RegisterStep4Screen = ({navigation}) => {
         })
     });
 
+
     const registerConfirmPhoneFuncion = async (values) => {
         try {
             const data = {
-                code: parseInt(values.code)
+                phone: route.params.phone,
+                code: values.code
             }
             const response = await registerConfirmPhone(data);
             console.log(response.data)
-            if (response.data.confirm === true) {
+            if (response.data.isValid === true) {
                 navigation.navigate('RegisterStep5Screen')
             } else {
 

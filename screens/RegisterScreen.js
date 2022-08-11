@@ -28,7 +28,7 @@ const RegisterScreen = ({navigation}) => {
                 name: values.numberPartner,
             }
             const response = await registerPartner(data);
-            navigation.navigate('RegisterStep4Screen', {data, ...response.data})
+            navigation.navigate('RegisterStep2Screen', {data, ...response.data})
             console.log(response.data)
         } catch (e) {
             console.log(e)

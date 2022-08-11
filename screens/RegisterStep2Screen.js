@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 
-const RegisterStep2ScreenNOT = ({navigation, route}) => {
+const RegisterStep2Screen = ({navigation, route}) => {
 
 
     return (
@@ -19,8 +19,8 @@ const RegisterStep2ScreenNOT = ({navigation, route}) => {
                         }
                     </Text>
 
-                    <Button mb={2} onPress={() => navigation.navigate('RegisterStep4Screen')}>Continuar</Button>
-                    <Button>Cancelar</Button>
+                    <Button mb={2} onPress={() => navigation.navigate('RegisterStep3Screen')}>Continuar</Button>
+                    <Button onPress={() => navigation.goBack()}>Cancelar</Button>
                 </View>
             </View>
         </Layout>
@@ -28,4 +28,4 @@ const RegisterStep2ScreenNOT = ({navigation, route}) => {
 }
 
 
-export default RegisterStep2ScreenNOT
+export default RegisterStep2Screen

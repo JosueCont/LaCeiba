@@ -8,3 +8,5 @@ export const registerPartner = async (params) => await request(URLTypes.REGISTER
 export const registerConfirmPhone = async (params) => await request(URLTypes.REGISTER_CONFIRM_PHONE, params, 'post');
 
 export const registerPartnerLogin = async (params) => await request(URLTypes.REGISTER_PARTNER_LOGIN, params, 'post');
+
+export const registerSendConfirmPhone = async (params) => await request(URLTypes.REGISTER_SEND_CONFIRM_PHONE, params, 'post');
