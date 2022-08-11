@@ -51,10 +51,10 @@ const RegisterStep4Screen = ({navigation, route}) => {
             </View>
             <View flex={1}>
                 <View mx={20} mt={10}>
-                    <Text fontSize={'xl'} textAlign={'center'} fontFamily={'titleLight'} mb={8}>Confirmar codigo de validacion</Text>
+                    <Text fontSize={'xl'} textAlign={'center'} fontFamily={'titleLight'} mb={8}>Confirmar código de validación</Text>
 
                     <FormControl isInvalid={errors.code} mb={4}>
-                        <Text textAlign={'center'} mb={2}>Escriba los 5 digitos enviados</Text>
+                        <Text textAlign={'center'} mb={2}>Escriba los 4 dígitos enviados</Text>
                         <Input
                             returnKeyType={'done'}
                             keyboardType={'number-pad'}
