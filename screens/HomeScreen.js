@@ -1,20 +1,33 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Image, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import bgButton from "../assets/bgButton.png";
-import {ImageBackground} from "react-native";
+import {Image as ImageRN, ImageBackground} from "react-native";
 import iconAccess from '../assets/iconAccess.png';
 import iconReserve from '../assets/iconReserve.png'
 import iconLocations from '../assets/iconLocations.png'
 import iconServices from '../assets/iconServices.png'
 import iconGuests from '../assets/iconGuests.png'
 import iconMembership from '../assets/iconMembership.png'
+import SliderCustom from "../components/SliderCustom/SliderCustom";
 
 const HomeScreen = () => {
+    const [sliderPosition, setSliderPosition] = useState(0)
+
     return (
         <View flex={1}>
-            <View flex={0.4} bgColor={Colors.green}>
+            <View bgColor={Colors.green}>
+                <SliderCustom
+                    height={250}
+                    items={[
+                        {image: ImageRN.resolveAssetSource(require('../assets/slider/Slide01.png')).uri},
+                        {image: ImageRN.resolveAssetSource(require('../assets/slider/Slide02.png')).uri},
+                        {image: ImageRN.resolveAssetSource(require('../assets/slider/Slide03.png')).uri},
+                        {image: ImageRN.resolveAssetSource(require('../assets/slider/Slide04.png')).uri},
 
+                    ]}
+                    position={sliderPosition}
+                    setPosition={setSliderPosition}/>
             </View>
             <View flex={1} pt={10}>
                 <View mb={4} flexDirection={'row'}>

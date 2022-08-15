@@ -15,6 +15,7 @@ import iconsInvocing from '../assets/iconsInvocing.png';
 import iconNotifications from '../assets/iconNotifications.png';
 import iconHelp from '../assets/iconHelp.png';
 import iconLogout from '../assets/iconLogout.png';
+import face from '../assets/face.png';
 
 const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck, ...props}) => {
 
@@ -24,13 +25,16 @@ const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck,
             {...props}
             nestedScrollEnabled={true}
             contentContainerStyle={{flex: 1, backgroundColor: Colors.greenV4}}>
-            <View height={200}>
 
+
+            <View my={10} alignItems={'center'} justifyContent={'center'}>
+                <Image source={face} width={100} height={100} borderRadius={60} resizeMode={'stretch'}></Image>
+                <Text fontSize={'md'} mt={5}>Juan Couoh</Text>
             </View>
             <View flex={1}>
                 <View flexDirection={'row'} mb={4}>
                     <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconHome} style={{fontSize: 9}}></Image>
+                        <Image source={iconHome} style={{width: 20, height: 20}}></Image>
                     </View>
                     <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Home</Text>
@@ -38,7 +42,7 @@ const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck,
                 </View>
                 <View flexDirection={'row'} mb={4}>
                     <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconProfile} style={{fontSize: 9}}></Image>
+                        <Image source={iconProfile} style={{width: 20, height: 20}}></Image>
                     </View>
                     <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Mi perfil</Text>
@@ -46,7 +50,7 @@ const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck,
                 </View>
                 <View flexDirection={'row'} mb={4}>
                     <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconMembers} style={{fontSize: 9}}></Image>
+                        <Image source={iconMembers} style={{width: 20, height: 20}}></Image>
                     </View>
                     <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Miembros adicionales</Text>
@@ -54,7 +58,7 @@ const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck,
                 </View>
                 <View flexDirection={'row'} mb={4}>
                     <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconReservationsmall} style={{fontSize: 9}}></Image>
+                        <Image source={iconReservationsmall} style={{width: 20, height: 20}}></Image>
                     </View>
                     <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Mis reservaciones</Text>
@@ -62,7 +66,7 @@ const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck,
                 </View>
                 <View flexDirection={'row'} mb={4}>
                     <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconGuestsSmall} style={{fontSize: 9}}></Image>
+                        <Image source={iconGuestsSmall} style={{width: 20, height: 20}}></Image>
                     </View>
                     <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Invitados</Text>
@@ -70,7 +74,7 @@ const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck,
                 </View>
                 <View flexDirection={'row'} mb={4}>
                     <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconMatches} style={{fontSize: 9}}></Image>
+                        <Image source={iconMatches} style={{width: 20, height: 20}}></Image>
                     </View>
                     <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Partidos</Text>
@@ -78,7 +82,7 @@ const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck,
                 </View>
                 <View flexDirection={'row'} mb={4}>
                     <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconTransactions} style={{fontSize: 9}}></Image>
+                        <Image source={iconTransactions} style={{width: 20, height: 20}}></Image>
                     </View>
                     <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Transacciones</Text>
@@ -86,7 +90,7 @@ const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck,
                 </View>
                 <View flexDirection={'row'} mb={4}>
                     <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconStatistics} style={{fontSize: 9}}></Image>
+                        <Image source={iconStatistics} style={{width: 20, height: 20}}></Image>
                     </View>
                     <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Estadísticas</Text>
@@ -94,7 +98,7 @@ const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck,
                 </View>
                 <View flexDirection={'row'} mb={4}>
                     <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconsInvocing} style={{fontSize: 9}}></Image>
+                        <Image source={iconsInvocing} style={{width: 20, height: 20}}></Image>
                     </View>
                     <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Facturación</Text>
@@ -102,7 +106,7 @@ const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck,
                 </View>
                 <View flexDirection={'row'} mb={4}>
                     <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconNotifications} style={{fontSize: 9}}></Image>
+                        <Image source={iconNotifications} style={{width: 20, height: 20}}></Image>
                     </View>
                     <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Notificaciones</Text>
@@ -110,7 +114,7 @@ const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck,
                 </View>
                 <View flexDirection={'row'} mb={4}>
                     <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconHelp} style={{fontSize: 9}}></Image>
+                        <Image source={iconHelp} style={{width: 20, height: 20}}></Image>
                     </View>
                     <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Ayuda</Text>
@@ -118,15 +122,16 @@ const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck,
                 </View>
                 <View flexDirection={'row'} mb={4}>
                     <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconLogout} style={{fontSize: 9}}></Image>
+                        <Image source={iconLogout} style={{width: 20, height: 20}}></Image>
                     </View>
                     <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Cerrar sesión</Text>
                     </View>
                 </View>
             </View>
-
         </DrawerContentScrollView>
+
+
     );
 }
 
