@@ -6,6 +6,7 @@ import {Icon, View} from "native-base";
 import {TouchableOpacity} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
 import {Colors} from "../Colors";
+import ComponentsScreen from "../screens/ComponentsScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -18,36 +19,29 @@ const DrawerConfig = () => {
             screenOptions={({navigation, route}) => ({
                 drawerPosition: 'right',
                 headerLeft: () => {
-                    // console.log(route.params)
+                    if (route.name.includes('HomeScreenx')) {
+                        <View/>
+                    } else {
+                        return (
+                            <TouchableOpacity onPress={async () => {
 
-                    return (
-                        <TouchableOpacity onPress={async () => {
-                            try {
-                                if (route.name.includes('GroupsScreen')) {
-                                    navigation.navigate('HomeScreen')
-                                } else if (route.params.from === 'intro') {
-                                    navigation.navigate('HomeScreen')
-                                } else {
-                                    navigation.goBack(0)
-                                }
-                            } catch (e) {
-                                console.log('DrawerConfig error => ', e.toString())
                                 navigation.goBack(0)
-                            }
 
 
-                        }} style={{
-                            width: 50,
-                            height: '100%',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            borderRadius: 5,
-                            marginLeft: 10
-                        }}>
-                            <Icon as={MaterialIcons} name={'arrow-back-ios'} color={Colors.red} size={'xl'}/>
+                            }} style={{
+                                width: 50,
+                                height: '100%',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                borderRadius: 5,
+                                marginLeft: 10
+                            }}>
+                                <Icon as={MaterialIcons} name={'arrow-back-ios'} color={Colors.red} size={'xl'}/>
 
-                        </TouchableOpacity>
-                    )
+                            </TouchableOpacity>
+                        )
+
+                    }
 
                 },
                 headerStyle: {backgroundColor: Colors.green},
@@ -75,6 +69,7 @@ const DrawerConfig = () => {
                 swipeEnabled: false
             })}
             drawerContent={(props) => <CustomDrawerContent  {...props} />}>
+            <Drawer.Screen name="ComponentsScreen" component={ComponentsScreen} options={{headerShown: false}}/>
 
             <Drawer.Screen name={'HomeScreen'} component={HomeScreen} options={{title: ''}}/>
         </Drawer.Navigator>
