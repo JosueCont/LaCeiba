@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import {NavigationContainer} from "@react-navigation/native";
 import StackNavigatorSecurity from "./StackNavigatorSecurity";
-import StackNavigatorMain from "./StackNavigatorMain";
 import {Colors} from "../Colors";
 import {Spinner, View} from "native-base";
+import DrawerConfig from "./DrawerConfig";
 
 const NavigatorContainerMain = () => {
     const status = useSelector(state => {
@@ -29,7 +29,7 @@ const NavigatorContainerMain = () => {
                     <View flex={1} backgroundColor={Colors.green} alignItems={'center'} justifyContent={'center'}>
                         <Spinner size={'sm'} color={'white'}></Spinner>
                     </View> :
-                    status === true ? <StackNavigatorMain/> : <StackNavigatorSecurity/>
+                    status === true ? <DrawerConfig/> : <StackNavigatorSecurity/>
             }
         </NavigationContainer>
     );
