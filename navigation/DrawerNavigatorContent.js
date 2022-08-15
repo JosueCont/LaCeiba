@@ -1,51 +1,22 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {DrawerContentScrollView,} from "@react-navigation/drawer";
 import {connect} from "react-redux";
-import {Text, View} from "native-base";
+import {Image, Text, View} from "native-base";
 import {Colors} from "../Colors";
+import iconHome from '../assets/iconHome.png';
+import iconProfile from '../assets/iconProfile.png';
+import iconMembers from '../assets/iconMembers.png';
+import iconReservationsmall from '../assets/iconReservationsmall.png';
+import iconGuestsSmall from '../assets/iconGuestsSmall.png';
+import iconMatches from '../assets/iconMatches.png';
+import iconTransactions from '../assets/iconTransactions.png';
+import iconStatistics from '../assets/iconStatistics.png';
+import iconsInvocing from '../assets/iconsInvocing.png';
+import iconNotifications from '../assets/iconNotifications.png';
+import iconHelp from '../assets/iconHelp.png';
+import iconLogout from '../assets/iconLogout.png';
 
 const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck, ...props}) => {
-
-    const [groups, setGroups] = useState([]);
-    const [groupsRequests, setGroupsRequests] = useState([])
-
-    useEffect(() => {
-        getGroupsRequests();
-        getGroups();
-    }, [])
-
-    const redirectValidation = async () => {
-        try {
-            if (groups.length === 0 && groupsRequests.length === 0) {
-                navigation.navigate('GroupsStartScreen')
-            } else {
-                navigation.navigate('GroupsScreen')
-            }
-        } catch (e) {
-            console.log('DrawerConfig redirectValidation error => ', e.toString())
-        }
-
-    }
-
-    const getGroupsRequests = async () => {
-        try {
-            const response = await ApiApp.getGroupsRequests(authDuck.user.id)
-            setGroupsRequests(response.data.data)
-        } catch (e) {
-            console.log('DrawerConfig getGroupsRequests error => ', e.toString())
-        }
-    }
-
-    const getGroups = async () => {
-        try {
-            const response = await ApiApp.getMyGroups(authDuck.user.id)
-            setGroups(response.data.data)
-        } catch (e) {
-            console.log('DrawerConfig getGroups error =>', e.toString())
-        }
-
-    }
-
 
     return (
         <DrawerContentScrollView
@@ -58,86 +29,98 @@ const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck,
             </View>
             <View flex={1}>
                 <View flexDirection={'row'} mb={4}>
-                    <View style={{width: 50}}>
+                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                        <Image source={iconHome} style={{fontSize: 9}}></Image>
                     </View>
-                    <View flex={1}>
+                    <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Home</Text>
                     </View>
                 </View>
                 <View flexDirection={'row'} mb={4}>
-                    <View style={{width: 50}}>
+                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                        <Image source={iconProfile} style={{fontSize: 9}}></Image>
                     </View>
-                    <View flex={1}>
+                    <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Mi perfil</Text>
                     </View>
                 </View>
                 <View flexDirection={'row'} mb={4}>
-                    <View style={{width: 50}}>
+                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                        <Image source={iconMembers} style={{fontSize: 9}}></Image>
                     </View>
-                    <View flex={1}>
+                    <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Miembros adicionales</Text>
                     </View>
                 </View>
                 <View flexDirection={'row'} mb={4}>
-                    <View style={{width: 50}}>
+                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                        <Image source={iconReservationsmall} style={{fontSize: 9}}></Image>
                     </View>
-                    <View flex={1}>
+                    <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Mis reservaciones</Text>
                     </View>
                 </View>
                 <View flexDirection={'row'} mb={4}>
-                    <View style={{width: 50}}>
+                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                        <Image source={iconGuestsSmall} style={{fontSize: 9}}></Image>
                     </View>
-                    <View flex={1}>
+                    <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Invitados</Text>
                     </View>
                 </View>
                 <View flexDirection={'row'} mb={4}>
-                    <View style={{width: 50}}>
+                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                        <Image source={iconMatches} style={{fontSize: 9}}></Image>
                     </View>
-                    <View flex={1}>
+                    <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Partidos</Text>
                     </View>
                 </View>
                 <View flexDirection={'row'} mb={4}>
-                    <View style={{width: 50}}>
+                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                        <Image source={iconTransactions} style={{fontSize: 9}}></Image>
                     </View>
-                    <View flex={1}>
+                    <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Transacciones</Text>
                     </View>
                 </View>
                 <View flexDirection={'row'} mb={4}>
-                    <View style={{width: 50}}>
+                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                        <Image source={iconStatistics} style={{fontSize: 9}}></Image>
                     </View>
-                    <View flex={1}>
+                    <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Estadísticas</Text>
                     </View>
                 </View>
                 <View flexDirection={'row'} mb={4}>
-                    <View style={{width: 50}}>
+                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                        <Image source={iconsInvocing} style={{fontSize: 9}}></Image>
                     </View>
-                    <View flex={1}>
+                    <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Facturación</Text>
                     </View>
                 </View>
                 <View flexDirection={'row'} mb={4}>
-                    <View style={{width: 50}}>
+                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                        <Image source={iconNotifications} style={{fontSize: 9}}></Image>
                     </View>
-                    <View flex={1}>
+                    <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Notificaciones</Text>
                     </View>
                 </View>
                 <View flexDirection={'row'} mb={4}>
-                    <View style={{width: 50}}>
+                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                        <Image source={iconHelp} style={{fontSize: 9}}></Image>
                     </View>
-                    <View flex={1}>
+                    <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Ayuda</Text>
                     </View>
                 </View>
                 <View flexDirection={'row'} mb={4}>
-                    <View style={{width: 50}}>
+                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                        <Image source={iconLogout} style={{fontSize: 9}}></Image>
                     </View>
-                    <View flex={1}>
+                    <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Cerrar sesión</Text>
                     </View>
                 </View>
