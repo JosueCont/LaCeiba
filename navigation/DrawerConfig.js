@@ -7,6 +7,8 @@ import {TouchableOpacity} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
 import {Colors} from "../Colors";
 import ComponentsScreen from "../screens/ComponentsScreen";
+import QRInstructionsScreen from "../screens/QRInstructionsScreen";
+import QRScreen from "../screens/QRScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -72,6 +74,9 @@ const DrawerConfig = () => {
             <Drawer.Screen name="ComponentsScreen" component={ComponentsScreen} options={{headerShown: false}}/>
 
             <Drawer.Screen name={'HomeScreen'} component={HomeScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'QRInstructionsScreen'} component={QRInstructionsScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'QRScreen'} component={QRScreen} options={{title: ''}}/>
+
         </Drawer.Navigator>
     );
 }

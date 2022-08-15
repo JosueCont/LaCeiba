@@ -1,15 +1,15 @@
 import React from 'react';
 import {ImageBackground} from "react-native";
-import bgGolfV2 from "../../assets/bgGolfV2.png";
+import bgQR from "../../assets/bgQR.png";
 import {KeyboardAvoidingView, View} from "native-base";
 
-const Layout = ({children, overlay = false}) => {
+const LayoutV2 = ({children, overlay = false}) => {
     return (
         <KeyboardAvoidingView flexGrow={1} behavior={'height'}>
 
 
             <View flex={1}>
-                <ImageBackground source={bgGolfV2} style={{flex: 1}}>
+                <ImageBackground source={bgQR} style={{flex: 1}}>
                     {
                         overlay === true &&
                         <View style={{
@@ -27,4 +27,4 @@ const Layout = ({children, overlay = false}) => {
     )
 }
 
-export default Layout
+export default LayoutV2

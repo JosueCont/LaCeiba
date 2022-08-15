@@ -105,10 +105,10 @@ export const theme = extendTheme({
             400: '#d97706',
         },
         green: {
-            400: Colors.green,
+            400: Colors.greenV2,
         },
         greenV2: {
-            400: Colors.greenV3,
+            400: Colors.greenV2,
         },
     },
     config: {
@@ -116,6 +116,8 @@ export const theme = extendTheme({
     },
     fonts: {
         titleRegular: 'BrandonReg',
-        titleLight: 'BrandonLight'
+        titleLight: 'BrandonLight',
+        titleComfortaaBold: 'ComfortaaBold',
+
     },
 });

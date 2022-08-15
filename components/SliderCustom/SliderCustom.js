@@ -50,7 +50,7 @@ const SliderCustom = ({height, items, position, setPosition}) => {
     }
 
     return (
-        <ScrollView _contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}>
+        <ScrollView bounces={false} _contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}>
             <View width={'100%'}>
                 {
                     loading ?
