@@ -10,3 +10,5 @@ export const registerConfirmPhone = async (params) => await request(URLTypes.REG
 export const registerPartnerLogin = async (params) => await request(URLTypes.REGISTER_PARTNER_LOGIN, params, 'post');
 
 export const registerSendConfirmPhone = async (params) => await request(URLTypes.REGISTER_SEND_CONFIRM_PHONE, params, 'post');
+
+export const forgotPassword = async (params) => await request(URLTypes.FORGOT_PASSWORD, params, 'post');

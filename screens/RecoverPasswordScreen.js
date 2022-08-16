@@ -1,22 +1,38 @@
-import React from "react";
+import React, {useState} from "react";
 import {Button, FormControl, Input, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 import {useFormik} from "formik";
 import * as Yup from "yup";
+import {forgotPassword} from "../api/Requests";
+import ModalInfo from "./Modals/ModalInfo";
 
 const RecoverPasswordScreen = () => {
+    const [modalRequestSentVisible, setModalRequestSentVisible] = useState(null)
+
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
         initialValues: {
             email: '',
         },
         onSubmit: (formValue) => {
             console.log(formValue)
+            forgotPasswordFunction(formValue)
         },
         validateOnChange: false,
         validationSchema: Yup.object({
             email: Yup.string().email("El email no es correcto").required("El correo electrónico es obligatorio"),
         })
     });
+
+
+    const forgotPasswordFunction = async (values) => {
+        try {
+            const response = await forgotPassword(values)
+            setModalRequestSentVisible(true)
+
+        } catch (ex) {
+            console.log(ex)
+        }
+    }
 
     return (
         <Layout overlay={true}>
@@ -38,6 +54,13 @@ const RecoverPasswordScreen = () => {
                     <Button onPress={() => handleSubmit()}>Continuar</Button>
                 </View>
             </View>
+            <ModalInfo
+                visible={modalRequestSentVisible}
+                setVisible={setModalRequestSentVisible}
+                title={'Solicitud enviada'}
+                text={'Hemos enviado un email con las instrucciones para recuperar tu contraseña'}
+            />
+
         </Layout>
     )
 }

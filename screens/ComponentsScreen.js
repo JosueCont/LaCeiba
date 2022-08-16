@@ -23,6 +23,7 @@ const ComponentsScreen = ({navigation, loggedOutAction}) => {
                 <Button onPress={() => navigation.navigate('QRSentScreen')} mb={2}>QR enviado</Button>
                 <Button onPress={() => navigation.navigate('QRNonPaymentScreen')} mb={2}>QR falta de pago</Button>
                 <Button onPress={() => navigation.navigate('NotificationsScreen')} mb={2}>Notificaciones</Button>
+                <Button onPress={() => loggedOutAction()}>Cerrar sesión</Button>
 
             </View>
             <ModalInfo

@@ -5,7 +5,7 @@ import {KeyboardAvoidingView, View} from "native-base";
 
 const Layout = ({children, overlay = false}) => {
     return (
-        <KeyboardAvoidingView flexGrow={1} behavior={Platform.OS === 'ios' ? 'height' : 'padding'}>
+        <KeyboardAvoidingView style={{flex: 1}} behavior={Platform.OS === 'ios' ? 'height' : 'padding'}>
 
 
             <View flex={1}>

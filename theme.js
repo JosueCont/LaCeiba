@@ -105,7 +105,7 @@ export const theme = extendTheme({
             400: '#d97706',
         },
         green: {
-            400: Colors.greenV2,
+            400: Colors.green,
         },
         greenV2: {
             400: Colors.greenV2,
