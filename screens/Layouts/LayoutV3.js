@@ -1,11 +1,10 @@
 import React from 'react';
 import {KeyboardAvoidingView, View} from "native-base";
+import {Platform} from "react-native";
 
 const LayoutV3 = ({children, overlay = false}) => {
     return (
-        <KeyboardAvoidingView flexGrow={1} behavior={'height'}>
-
-
+        <KeyboardAvoidingView flexGrow={1} behavior={Platform.OS === 'ios' ? 'height' : 'padding'}>
             <View flex={1}>
                 <View style={{flex: 1}}>
                     {

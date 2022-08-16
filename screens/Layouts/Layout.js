@@ -1,11 +1,11 @@
 import React from 'react';
-import {ImageBackground} from "react-native";
+import {ImageBackground, Platform} from "react-native";
 import bgGolfV2 from "../../assets/bgGolfV2.png";
 import {KeyboardAvoidingView, View} from "native-base";
 
 const Layout = ({children, overlay = false}) => {
     return (
-        <KeyboardAvoidingView flexGrow={1} behavior={'height'}>
+        <KeyboardAvoidingView flexGrow={1} behavior={Platform.OS === 'ios' ? 'height' : 'padding'}>
 
 
             <View flex={1}>

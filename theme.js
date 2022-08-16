@@ -30,14 +30,14 @@ export const theme = extendTheme({
         },
         Input: {
             baseStyle: {
-                color: 'black',
                 borderRadius: 20,
                 backgroundColor: '#D1D4C4'
             },
             defaultProps: {
                 backgroundColor: 'white',
                 borderWidth: 0,
-                size: 'xs'
+                size: 'sm',
+                color: 'black',
             },
         },
         FormControl: {

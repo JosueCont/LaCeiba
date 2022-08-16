@@ -9,6 +9,9 @@ import {Colors} from "../Colors";
 import ComponentsScreen from "../screens/ComponentsScreen";
 import QRInstructionsScreen from "../screens/QRInstructionsScreen";
 import QRScreen from "../screens/QRScreen";
+import QRSentScreen from "../screens/QRSentScreen";
+import QRNonPaymentScreen from "../screens/QRNonPaymentScreen";
+import NotificationsScreen from "../screens/NotificationsScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -76,6 +79,9 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'HomeScreen'} component={HomeScreen} options={{title: ''}}/>
             <Drawer.Screen name={'QRInstructionsScreen'} component={QRInstructionsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'QRScreen'} component={QRScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'QRSentScreen'} component={QRSentScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'QRNonPaymentScreen'} component={QRNonPaymentScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'NotificationsScreen'} component={NotificationsScreen} options={{title: ''}}/>
 
         </Drawer.Navigator>
     );
