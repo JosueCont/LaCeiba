@@ -18,6 +18,7 @@ import iconLogout from '../assets/iconLogout.png';
 import face from '../assets/face.png';
 import {TouchableOpacity} from "react-native";
 import {loggedOutAction} from "../redux/ducks/appDuck";
+import iconGroupPermanent from '../assets/iconGroupPermanent.png';
 
 const CustomDrawerContent = ({navigation, loggedOutAction}) => {
 
@@ -33,14 +34,16 @@ const CustomDrawerContent = ({navigation, loggedOutAction}) => {
                 <Text fontSize={'md'} mt={5}>Juan Couoh</Text>
             </View>
             <View flex={1}>
-                <View flexDirection={'row'} mb={4}>
-                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconHome} style={{width: 20, height: 20}}></Image>
+                <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+                    <View flexDirection={'row'} mb={4}>
+                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                            <Image source={iconHome} style={{width: 20, height: 20}}></Image>
+                        </View>
+                        <View flex={1} justifyContent={'center'}>
+                            <Text fontSize={'md'}>Home</Text>
+                        </View>
                     </View>
-                    <View flex={1} justifyContent={'center'}>
-                        <Text fontSize={'md'}>Home</Text>
-                    </View>
-                </View>
+                </TouchableOpacity>
                 <View flexDirection={'row'} mb={4}>
                     <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
                         <Image source={iconProfile} style={{width: 20, height: 20}}></Image>
@@ -49,22 +52,27 @@ const CustomDrawerContent = ({navigation, loggedOutAction}) => {
                         <Text fontSize={'md'}>Mi perfil</Text>
                     </View>
                 </View>
-                <View flexDirection={'row'} mb={4}>
-                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconMembers} style={{width: 20, height: 20}}></Image>
+                <TouchableOpacity onPress={() => navigation.navigate('MembersScreen')}>
+                    <View flexDirection={'row'} mb={4}>
+                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                            <Image source={iconMembers} style={{width: 20, height: 20}}></Image>
+                        </View>
+                        <View flex={1} justifyContent={'center'}>
+                            <Text fontSize={'md'}>Miembros adicionales</Text>
+                        </View>
                     </View>
-                    <View flex={1} justifyContent={'center'}>
-                        <Text fontSize={'md'}>Miembros adicionales</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen')}>
+
+                    <View flexDirection={'row'} mb={4}>
+                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                            <Image source={iconReservationsmall} style={{width: 20, height: 20}}></Image>
+                        </View>
+                        <View flex={1} justifyContent={'center'}>
+                            <Text fontSize={'md'}>Mis reservaciones</Text>
+                        </View>
                     </View>
-                </View>
-                <View flexDirection={'row'} mb={4}>
-                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconReservationsmall} style={{width: 20, height: 20}}></Image>
-                    </View>
-                    <View flex={1} justifyContent={'center'}>
-                        <Text fontSize={'md'}>Mis reservaciones</Text>
-                    </View>
-                </View>
+                </TouchableOpacity>
                 <View flexDirection={'row'} mb={4}>
                     <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
                         <Image source={iconGuestsSmall} style={{width: 20, height: 20}}></Image>
@@ -79,6 +87,14 @@ const CustomDrawerContent = ({navigation, loggedOutAction}) => {
                     </View>
                     <View flex={1} justifyContent={'center'}>
                         <Text fontSize={'md'}>Partidos</Text>
+                    </View>
+                </View>
+                <View flexDirection={'row'} mb={4}>
+                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                        <Image source={iconGroupPermanent} style={{width: 20, height: 20}}></Image>
+                    </View>
+                    <View flex={1} justifyContent={'center'}>
+                        <Text fontSize={'md'}>Grupos fijos</Text>
                     </View>
                 </View>
                 <View flexDirection={'row'} mb={4}>
@@ -142,9 +158,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction}) => {
 }
 
 const mapState = (state) => {
-    return {
-
-    }
+    return {}
 }
 
 export default connect(mapState, {loggedOutAction})(CustomDrawerContent);

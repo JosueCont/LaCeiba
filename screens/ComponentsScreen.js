@@ -20,6 +20,7 @@ const ComponentsScreen = ({navigation, loggedOutAction}) => {
                 <Button onPress={() => navigation.navigate('HomeScreen')} mb={2}>Home screen</Button>
                 <Button onPress={() => navigation.navigate('QRSentScreen')} mb={2}>QR enviado</Button>
                 <Button onPress={() => navigation.navigate('QRNonPaymentScreen')} mb={2}>QR falta de pago</Button>
+                <Button onPress={() => navigation.navigate('GroupEditScreen')} mb={2}>Grupos golf</Button>
 
             </View>
             <ModalInfo
