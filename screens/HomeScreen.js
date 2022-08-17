@@ -57,24 +57,29 @@ const HomeScreen = ({navigation}) => {
                 </View>
                 <View mb={4} flexDirection={'row'}>
                     <View flex={1}>
-                        <View alignItems={'center'} mb={2}>
-                            <ImageBackground borderRadius={60} source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                <Image source={iconLocations}/>
-                            </ImageBackground>
-                        </View>
-                        <View>
-                            <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Instalaciones</Text>
-                        </View>
+                        <TouchableOpacity onPress={() => navigation.navigate('InstallationsScreen')}>
+                            <View alignItems={'center'} mb={2}>
+                                <ImageBackground borderRadius={60} source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                    <Image source={iconLocations}/>
+                                </ImageBackground>
+                            </View>
+                            <View>
+                                <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Instalaciones</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                     <View flex={1}>
-                        <View alignItems={'center'} mb={2}>
-                            <ImageBackground borderRadius={60} source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                <Image source={iconServices}/>
-                            </ImageBackground>
-                        </View>
-                        <View>
-                            <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Servicios</Text>
-                        </View>
+                        <TouchableOpacity onPress={() => navigation.navigate('ServicesScreen')}>
+
+                            <View alignItems={'center'} mb={2}>
+                                <ImageBackground borderRadius={60} source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                    <Image source={iconServices}/>
+                                </ImageBackground>
+                            </View>
+                            <View>
+                                <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Servicios</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View mb={4} flexDirection={'row'}>

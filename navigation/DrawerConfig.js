@@ -12,6 +12,8 @@ import QRScreen from "../screens/QRScreen";
 import QRSentScreen from "../screens/QRSentScreen";
 import QRNonPaymentScreen from "../screens/QRNonPaymentScreen";
 import NotificationsScreen from "../screens/NotificationsScreen";
+import InstallationsScreen from "../screens/InstallationsScreen";
+import ServicesScreen from "../screens/ServicesScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -82,6 +84,8 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'QRSentScreen'} component={QRSentScreen} options={{title: ''}}/>
             <Drawer.Screen name={'QRNonPaymentScreen'} component={QRNonPaymentScreen} options={{title: ''}}/>
             <Drawer.Screen name={'NotificationsScreen'} component={NotificationsScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'InstallationsScreen'} component={InstallationsScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'ServicesScreen'} component={ServicesScreen} options={{title: ''}}/>
 
         </Drawer.Navigator>
     );
