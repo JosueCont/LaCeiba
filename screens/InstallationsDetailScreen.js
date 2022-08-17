@@ -13,10 +13,7 @@ const InstallationsDetailScreen = ({navigation}) => {
                 <SliderCustom
                     height={250}
                     items={[
-                        {image: ImageRN.resolveAssetSource(require('../assets/slider/Slide01.png')).uri},
-                        {image: ImageRN.resolveAssetSource(require('../assets/slider/Slide02.png')).uri},
-                        {image: ImageRN.resolveAssetSource(require('../assets/slider/Slide03.png')).uri},
-                        {image: ImageRN.resolveAssetSource(require('../assets/slider/Slide04.png')).uri},
+                        {image: ImageRN.resolveAssetSource(require('../assets/aerobicsSlider.png')).uri},
 
                     ]}
                     position={sliderPosition}
