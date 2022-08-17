@@ -1,15 +1,17 @@
 import React from "react";
-import {Image, Text, View} from "native-base";
+import {Text, View} from "native-base";
 import {Colors} from "../Colors";
 import LayoutV4 from "./Layouts/LayoutV4";
 import {ImageBackground, TouchableOpacity} from "react-native";
-import bgButton from "../assets/bgButton.png";
-import iconAccess from "../assets/iconAccess.png";
-import iconReserve from "../assets/iconReserve.png";
-import iconLocations from "../assets/iconLocations.png";
-import iconServices from "../assets/iconServices.png";
-import iconGuests from "../assets/iconGuests.png";
-import iconMembership from "../assets/iconMembership.png";
+import campodegolf from '../assets/installations/campo-de-golf.png'
+import canchadetenis from '../assets/installations/canchas-de-tenis.png'
+import canchadepadel from '../assets/installations/cancha-de-padel.png'
+import gimnasio from '../assets/installations/gimnasio.png'
+import alberca from '../assets/installations/alberca.png'
+import restaurantes from '../assets/installations/restaurantes.png'
+import casaclub from '../assets/installations/casa-club.png'
+import salondeeventos from '../assets/installations/salขn-de-eventos.png'
+
 
 const InstallationsScreen = ({navigation}) => {
 
@@ -24,9 +26,8 @@ const InstallationsScreen = ({navigation}) => {
                         <View flex={1}>
                             <TouchableOpacity onPress={() => navigation.navigate('QRInstructionsScreen')}>
                                 <View alignItems={'center'} mb={2}>
-                                    {/*<View borderRadius={60} height={120} width={120} bgColor={'#ccc'}></View>*/}
-                                    <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                        <Image source={iconAccess}/>
+                                    <ImageBackground borderRadius={60} source={campodegolf} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+
                                     </ImageBackground>
                                 </View>
                                 <View>
@@ -36,8 +37,8 @@ const InstallationsScreen = ({navigation}) => {
                         </View>
                         <View flex={1}>
                             <View alignItems={'center'} mb={2}>
-                                <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                    <Image source={iconReserve}/>
+                                <ImageBackground borderRadius={60} source={canchadetenis} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+
                                 </ImageBackground>
                             </View>
                             <View>
@@ -48,8 +49,7 @@ const InstallationsScreen = ({navigation}) => {
                     <View mb={6} flexDirection={'row'}>
                         <View flex={1}>
                             <View alignItems={'center'} mb={2}>
-                                <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                    <Image source={iconLocations}/>
+                                <ImageBackground borderRadius={60} source={canchadepadel} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                 </ImageBackground>
                             </View>
                             <View>
@@ -58,8 +58,8 @@ const InstallationsScreen = ({navigation}) => {
                         </View>
                         <View flex={1}>
                             <View alignItems={'center'} mb={2}>
-                                <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                    <Image source={iconServices}/>
+                                <ImageBackground borderRadius={60} source={gimnasio} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+
                                 </ImageBackground>
                             </View>
                             <View>
@@ -70,8 +70,8 @@ const InstallationsScreen = ({navigation}) => {
                     <View mb={6} flexDirection={'row'}>
                         <View flex={1}>
                             <View alignItems={'center'} mb={2}>
-                                <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                    <Image source={iconGuests}/>
+                                <ImageBackground borderRadius={60} source={alberca} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+
                                 </ImageBackground>
                             </View>
                             <View>
@@ -80,8 +80,7 @@ const InstallationsScreen = ({navigation}) => {
                         </View>
                         <View flex={1}>
                             <View alignItems={'center'} mb={2}>
-                                <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                    <Image source={iconMembership}/>
+                                <ImageBackground borderRadius={60} source={restaurantes} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                 </ImageBackground>
                             </View>
                             <View>
@@ -92,8 +91,7 @@ const InstallationsScreen = ({navigation}) => {
                     <View flexDirection={'row'}>
                         <View flex={1}>
                             <View alignItems={'center'} mb={2}>
-                                <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                    <Image source={iconGuests}/>
+                                <ImageBackground borderRadius={60} source={casaclub} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                 </ImageBackground>
                             </View>
                             <View>
@@ -102,8 +100,7 @@ const InstallationsScreen = ({navigation}) => {
                         </View>
                         <View flex={1}>
                             <View alignItems={'center'} mb={2}>
-                                <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                    <Image source={iconMembership}/>
+                                <ImageBackground borderRadius={60} source={salondeeventos} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                 </ImageBackground>
                             </View>
                             <View>

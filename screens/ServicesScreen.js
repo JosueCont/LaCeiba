@@ -1,15 +1,16 @@
 import React from "react";
-import {Image, Text, View} from "native-base";
+import {Text, View} from "native-base";
 import {Colors} from "../Colors";
 import LayoutV4 from "./Layouts/LayoutV4";
 import {ImageBackground, TouchableOpacity} from "react-native";
-import bgButton from "../assets/bgButton.png";
-import iconAccess from "../assets/iconAccess.png";
-import iconReserve from "../assets/iconReserve.png";
-import iconLocations from "../assets/iconLocations.png";
-import iconServices from "../assets/iconServices.png";
-import iconGuests from "../assets/iconGuests.png";
-import iconMembership from "../assets/iconMembership.png";
+import aerobics from '../assets/services/aerobics.png'
+import yoga from '../assets/services/yoga.png'
+import salondebelleza from '../assets/services/salon-de-belleza.png'
+import guarderia from '../assets/services/guarderia.png'
+import peluqueria from '../assets/services/peluqueria.png'
+import natacion from '../assets/services/natacion.png'
+import padel from '../assets/services/padel.png'
+import crossfit from '../assets/services/crossfit.png'
 
 const ServicesScreen = ({navigation}) => {
 
@@ -24,9 +25,7 @@ const ServicesScreen = ({navigation}) => {
                         <View flex={1}>
                             <TouchableOpacity onPress={() => navigation.navigate('QRInstructionsScreen')}>
                                 <View alignItems={'center'} mb={2}>
-                                    {/*<View borderRadius={60} height={120} width={120} bgColor={'#ccc'}></View>*/}
-                                    <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                        <Image source={iconAccess}/>
+                                    <ImageBackground borderRadius={60} source={aerobics} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                     </ImageBackground>
                                 </View>
                                 <View>
@@ -36,8 +35,7 @@ const ServicesScreen = ({navigation}) => {
                         </View>
                         <View flex={1}>
                             <View alignItems={'center'} mb={2}>
-                                <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                    <Image source={iconReserve}/>
+                                <ImageBackground borderRadius={60} source={yoga} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                 </ImageBackground>
                             </View>
                             <View>
@@ -48,8 +46,7 @@ const ServicesScreen = ({navigation}) => {
                     <View mb={6} flexDirection={'row'}>
                         <View flex={1}>
                             <View alignItems={'center'} mb={2}>
-                                <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                    <Image source={iconLocations}/>
+                                <ImageBackground borderRadius={60} source={salondebelleza} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                 </ImageBackground>
                             </View>
                             <View>
@@ -58,8 +55,7 @@ const ServicesScreen = ({navigation}) => {
                         </View>
                         <View flex={1}>
                             <View alignItems={'center'} mb={2}>
-                                <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                    <Image source={iconServices}/>
+                                <ImageBackground borderRadius={60} source={guarderia} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                 </ImageBackground>
                             </View>
                             <View>
@@ -70,8 +66,7 @@ const ServicesScreen = ({navigation}) => {
                     <View mb={6} flexDirection={'row'}>
                         <View flex={1}>
                             <View alignItems={'center'} mb={2}>
-                                <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                    <Image source={iconGuests}/>
+                                <ImageBackground borderRadius={60} source={peluqueria} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                 </ImageBackground>
                             </View>
                             <View>
@@ -80,8 +75,7 @@ const ServicesScreen = ({navigation}) => {
                         </View>
                         <View flex={1}>
                             <View alignItems={'center'} mb={2}>
-                                <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                    <Image source={iconMembership}/>
+                                <ImageBackground borderRadius={60} source={natacion} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                 </ImageBackground>
                             </View>
                             <View>
@@ -92,8 +86,7 @@ const ServicesScreen = ({navigation}) => {
                     <View flexDirection={'row'}>
                         <View flex={1}>
                             <View alignItems={'center'} mb={2}>
-                                <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                    <Image source={iconGuests}/>
+                                <ImageBackground borderRadius={60} source={padel} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                 </ImageBackground>
                             </View>
                             <View>
@@ -102,12 +95,11 @@ const ServicesScreen = ({navigation}) => {
                         </View>
                         <View flex={1}>
                             <View alignItems={'center'} mb={2}>
-                                <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                    <Image source={iconMembership}/>
+                                <ImageBackground borderRadius={60} source={crossfit} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                 </ImageBackground>
                             </View>
                             <View>
-                                <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Clases</Text>
+                                <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Crossfit</Text>
                             </View>
                         </View>
                     </View>
