@@ -17,13 +17,9 @@ const ComponentsScreen = ({navigation, loggedOutAction}) => {
     return (
         <Layout overlay={true}>
             <View flex={1} justifyContent={'center'} mx={10}>
-                <Button onPress={() => setModalInfoVisible(true)} mb={2}>Modal informativo</Button>
-                <Button onPress={() => setModalRequestSentVisible(true)} mb={2}>Modal solicitud enviada</Button>
                 <Button onPress={() => navigation.navigate('HomeScreen')} mb={2}>Home screen</Button>
                 <Button onPress={() => navigation.navigate('QRSentScreen')} mb={2}>QR enviado</Button>
                 <Button onPress={() => navigation.navigate('QRNonPaymentScreen')} mb={2}>QR falta de pago</Button>
-                <Button onPress={() => navigation.navigate('NotificationsScreen')} mb={2}>Notificaciones</Button>
-                <Button onPress={() => loggedOutAction()}>Cerrar sesión</Button>
 
             </View>
             <ModalInfo

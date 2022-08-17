@@ -16,13 +16,14 @@ import iconNotifications from '../assets/iconNotifications.png';
 import iconHelp from '../assets/iconHelp.png';
 import iconLogout from '../assets/iconLogout.png';
 import face from '../assets/face.png';
+import {TouchableOpacity} from "react-native";
+import {loggedOutAction} from "../redux/ducks/appDuck";
 
-const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck, ...props}) => {
+const CustomDrawerContent = ({navigation, loggedOutAction}) => {
 
     return (
         <DrawerContentScrollView
             bounces={false}
-            {...props}
             nestedScrollEnabled={true}
             contentContainerStyle={{flex: 1, backgroundColor: Colors.greenV4}}>
 
@@ -104,14 +105,16 @@ const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck,
                         <Text fontSize={'md'}>Facturación</Text>
                     </View>
                 </View>
-                <View flexDirection={'row'} mb={4}>
-                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconNotifications} style={{width: 20, height: 20}}></Image>
+                <TouchableOpacity onPress={() => navigation.navigate('NotificationsScreen')}>
+                    <View flexDirection={'row'} mb={4}>
+                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                            <Image source={iconNotifications} style={{width: 20, height: 20}}></Image>
+                        </View>
+                        <View flex={1} justifyContent={'center'}>
+                            <Text fontSize={'md'}>Notificaciones</Text>
+                        </View>
                     </View>
-                    <View flex={1} justifyContent={'center'}>
-                        <Text fontSize={'md'}>Notificaciones</Text>
-                    </View>
-                </View>
+                </TouchableOpacity>
                 <View flexDirection={'row'} mb={4}>
                     <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
                         <Image source={iconHelp} style={{width: 20, height: 20}}></Image>
@@ -120,14 +123,17 @@ const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck,
                         <Text fontSize={'md'}>Ayuda</Text>
                     </View>
                 </View>
-                <View flexDirection={'row'} mb={4}>
-                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconLogout} style={{width: 20, height: 20}}></Image>
+                <TouchableOpacity onPress={() => loggedOutAction()}>
+                    <View flexDirection={'row'} mb={4}>
+                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                            <Image source={iconLogout} style={{width: 20, height: 20}}></Image>
+                        </View>
+                        <View flex={1} justifyContent={'center'}>
+                            <Text fontSize={'md'}>Cerrar sesión</Text>
+                        </View>
                     </View>
-                    <View flex={1} justifyContent={'center'}>
-                        <Text fontSize={'md'}>Cerrar sesión</Text>
-                    </View>
-                </View>
+                </TouchableOpacity>
+
             </View>
         </DrawerContentScrollView>
 
@@ -137,10 +143,8 @@ const CustomDrawerContent = ({authDuck, navigation, navigationDuck, accountDuck,
 
 const mapState = (state) => {
     return {
-        authDuck: state.authDuck,
-        navigationDuck: state.navigationDuck,
-        accountDuck: state.accountDuck
+
     }
 }
 
-export default connect(mapState)(CustomDrawerContent);
+export default connect(mapState, {loggedOutAction})(CustomDrawerContent);
