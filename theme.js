@@ -117,6 +117,7 @@ export const theme = extendTheme({
     fonts: {
         titleRegular: 'BrandonReg',
         titleLight: 'BrandonLight',
+        titleBrandonBldBold: 'BrandonBld',
         titleComfortaaBold: 'ComfortaaBold',
 
     },

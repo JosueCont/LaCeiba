@@ -4,5 +4,6 @@ export const Colors = {
     greenV3: '#033421',
     greenV4: '#07422A',
     greenV5: '#1C8B42',
-    yellow: '#FFB718'
+    yellow: '#FFB718',
+    gray: '#4C5A61'
 }

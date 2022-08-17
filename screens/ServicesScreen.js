@@ -23,7 +23,7 @@ const ServicesScreen = ({navigation}) => {
 
                     <View mb={6} flexDirection={'row'}>
                         <View flex={1}>
-                            <TouchableOpacity onPress={() => navigation.navigate('QRInstructionsScreen')}>
+                            <TouchableOpacity onPress={() => navigation.navigate('ServicesDetailScreen')}>
                                 <View alignItems={'center'} mb={2}>
                                     <ImageBackground borderRadius={60} source={aerobics} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                     </ImageBackground>
