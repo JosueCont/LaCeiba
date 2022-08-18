@@ -23,6 +23,7 @@ import TransactionsScreen from "../screens/TransactionsScreen";
 import InvoicingScreen from "../screens/InvoicingScreen";
 import MatchesScreen from "../screens/MatchesScreen";
 import StatisticsScreen from "../screens/StatisticsScreen";
+import HelpScreen from "../screens/HelpScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -104,6 +105,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'InvoicingScreen'} component={InvoicingScreen} options={{title: ''}}/>
             <Drawer.Screen name={'MatchesScreen'} component={MatchesScreen} options={{title: ''}}/>
             <Drawer.Screen name={'StatisticsScreen'} component={StatisticsScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'HelpScreen'} component={HelpScreen} options={{title: ''}}/>
 
         </Drawer.Navigator>
     );
