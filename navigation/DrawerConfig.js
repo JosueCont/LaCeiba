@@ -19,6 +19,10 @@ import ServicesDetailScreen from "../screens/ServicesDetailScreen";
 import MembersScreen from "../screens/MembersScreen";
 import ReservationsScreen from "../screens/ReservationsScreen";
 import GroupEditScreen from "../screens/GroupEditScreen";
+import TransactionsScreen from "../screens/TransactionsScreen";
+import InvoicingScreen from "../screens/InvoicingScreen";
+import MatchesScreen from "../screens/MatchesScreen";
+import StatisticsScreen from "../screens/StatisticsScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -96,6 +100,10 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'MembersScreen'} component={MembersScreen} options={{title: ''}}/>
             <Drawer.Screen name={'ReservationsScreen'} component={ReservationsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'GroupEditScreen'} component={GroupEditScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'TransactionsScreen'} component={TransactionsScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'InvoicingScreen'} component={InvoicingScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'MatchesScreen'} component={MatchesScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'StatisticsScreen'} component={StatisticsScreen} options={{title: ''}}/>
 
         </Drawer.Navigator>
     );

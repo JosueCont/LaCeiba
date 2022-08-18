@@ -81,14 +81,17 @@ const CustomDrawerContent = ({navigation, loggedOutAction}) => {
                         <Text fontSize={'md'}>Invitados</Text>
                     </View>
                 </View>
-                <View flexDirection={'row'} mb={4}>
-                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconMatches} style={{width: 20, height: 20}}></Image>
+                <TouchableOpacity onPress={() => navigation.navigate('MatchesScreen')}>
+
+                    <View flexDirection={'row'} mb={4}>
+                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                            <Image source={iconMatches} style={{width: 20, height: 20}}></Image>
+                        </View>
+                        <View flex={1} justifyContent={'center'}>
+                            <Text fontSize={'md'}>Partidos</Text>
+                        </View>
                     </View>
-                    <View flex={1} justifyContent={'center'}>
-                        <Text fontSize={'md'}>Partidos</Text>
-                    </View>
-                </View>
+                </TouchableOpacity>
                 <View flexDirection={'row'} mb={4}>
                     <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
                         <Image source={iconGroupPermanent} style={{width: 20, height: 20}}></Image>
@@ -97,30 +100,37 @@ const CustomDrawerContent = ({navigation, loggedOutAction}) => {
                         <Text fontSize={'md'}>Grupos fijos</Text>
                     </View>
                 </View>
-                <View flexDirection={'row'} mb={4}>
-                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconTransactions} style={{width: 20, height: 20}}></Image>
+                <TouchableOpacity onPress={() => navigation.navigate('TransactionsScreen')}>
+                    <View flexDirection={'row'} mb={4}>
+                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                            <Image source={iconTransactions} style={{width: 20, height: 20}}></Image>
+                        </View>
+                        <View flex={1} justifyContent={'center'}>
+                            <Text fontSize={'md'}>Transacciones</Text>
+                        </View>
                     </View>
-                    <View flex={1} justifyContent={'center'}>
-                        <Text fontSize={'md'}>Transacciones</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('StatisticsScreen')}>
+                    <View flexDirection={'row'} mb={4}>
+                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                            <Image source={iconStatistics} style={{width: 20, height: 20}}></Image>
+                        </View>
+                        <View flex={1} justifyContent={'center'}>
+                            <Text fontSize={'md'}>Estadísticas</Text>
+                        </View>
                     </View>
-                </View>
-                <View flexDirection={'row'} mb={4}>
-                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconStatistics} style={{width: 20, height: 20}}></Image>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('InvoicingScreen')}>
+
+                    <View flexDirection={'row'} mb={4}>
+                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                            <Image source={iconsInvocing} style={{width: 20, height: 20}}></Image>
+                        </View>
+                        <View flex={1} justifyContent={'center'}>
+                            <Text fontSize={'md'}>Facturación</Text>
+                        </View>
                     </View>
-                    <View flex={1} justifyContent={'center'}>
-                        <Text fontSize={'md'}>Estadísticas</Text>
-                    </View>
-                </View>
-                <View flexDirection={'row'} mb={4}>
-                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconsInvocing} style={{width: 20, height: 20}}></Image>
-                    </View>
-                    <View flex={1} justifyContent={'center'}>
-                        <Text fontSize={'md'}>Facturación</Text>
-                    </View>
-                </View>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('NotificationsScreen')}>
                     <View flexDirection={'row'} mb={4}>
                         <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
