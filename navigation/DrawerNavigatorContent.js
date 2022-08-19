@@ -44,14 +44,17 @@ const CustomDrawerContent = ({navigation, loggedOutAction}) => {
                         </View>
                     </View>
                 </TouchableOpacity>
-                <View flexDirection={'row'} mb={4}>
-                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconProfile} style={{width: 20, height: 20}}></Image>
+                <TouchableOpacity onPress={() => navigation.navigate('ProfileScreen')}>
+
+                    <View flexDirection={'row'} mb={4}>
+                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                            <Image source={iconProfile} style={{width: 20, height: 20}}></Image>
+                        </View>
+                        <View flex={1} justifyContent={'center'}>
+                            <Text fontSize={'md'}>Mi perfil</Text>
+                        </View>
                     </View>
-                    <View flex={1} justifyContent={'center'}>
-                        <Text fontSize={'md'}>Mi perfil</Text>
-                    </View>
-                </View>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('MembersScreen')}>
                     <View flexDirection={'row'} mb={4}>
                         <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
@@ -92,14 +95,16 @@ const CustomDrawerContent = ({navigation, loggedOutAction}) => {
                         </View>
                     </View>
                 </TouchableOpacity>
-                <View flexDirection={'row'} mb={4}>
-                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconGroupPermanent} style={{width: 20, height: 20}}></Image>
+                <TouchableOpacity onPress={() => navigation.navigate('GroupsScreen')}>
+                    <View flexDirection={'row'} mb={4}>
+                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                            <Image source={iconGroupPermanent} style={{width: 20, height: 20}}></Image>
+                        </View>
+                        <View flex={1} justifyContent={'center'}>
+                            <Text fontSize={'md'}>Grupos fijos</Text>
+                        </View>
                     </View>
-                    <View flex={1} justifyContent={'center'}>
-                        <Text fontSize={'md'}>Grupos fijos</Text>
-                    </View>
-                </View>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('TransactionsScreen')}>
                     <View flexDirection={'row'} mb={4}>
                         <View flex={0.3} alignItems={'center'} justifyContent={'center'}>

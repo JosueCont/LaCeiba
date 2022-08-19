@@ -119,6 +119,7 @@ export const theme = extendTheme({
         titleLight: 'BrandonLight',
         titleBrandonBldBold: 'BrandonBld',
         titleComfortaaBold: 'ComfortaaBold',
+        titleConfortaaRegular: 'ComfortaaRegular'
 
     },
 });
