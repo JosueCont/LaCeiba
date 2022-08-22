@@ -26,6 +26,8 @@ import StatisticsScreen from "../screens/StatisticsScreen";
 import HelpScreen from "../screens/HelpScreen";
 import GroupsScreen from "../screens/GroupsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import BookingCollectDataScreen from "../screens/BookingCollectDataScreen";
+import BookingScreen from "../screens/BookingScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -110,6 +112,8 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'HelpScreen'} component={HelpScreen} options={{title: ''}}/>
             <Drawer.Screen name={'GroupsScreen'} component={GroupsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'ProfileScreen'} component={ProfileScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'BookingCollectDataScreen'} component={BookingCollectDataScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'BookingScreen'} component={BookingScreen} options={{title: ''}}/>
 
         </Drawer.Navigator>
     );

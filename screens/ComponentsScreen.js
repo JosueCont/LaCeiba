@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 import {Button, View} from "native-base";
 import Layout from "./Layouts/Layout";
-import ModalInfo from "./Modals/ModalInfo";
-import ModalResendSMS from "./Modals/ModalResendSMS";
 import {loggedOutAction} from "../redux/ducks/appDuck";
 import {connect} from "react-redux";
 
@@ -22,28 +20,7 @@ const ComponentsScreen = ({navigation, loggedOutAction}) => {
                 <Button onPress={() => navigation.navigate('QRNonPaymentScreen')} mb={2}>QR falta de pago</Button>
 
             </View>
-            <ModalInfo
-                visible={modalInfoVisible}
-                setVisible={setModalInfoVisible}
-                text={`Verificación\nexitosa`}
-            />
-            <ModalResendSMS
-                visible={modalResendSMSVisible}
-                setVisible={setModalResendSMSVisible}
-                text={'Verificación\nfallida'}
-            />
-            <ModalInfo
-                visible={modalCompletedVisible}
-                setVisible={setModalCompletedVisible}
-                text={'Registro\ncompletado'}
-                textButton={'Terminar'}
-            />
-            <ModalInfo
-                visible={modalRequestSentVisible}
-                setVisible={setModalRequestSentVisible}
-                title={'Solicitud enviada'}
-                text={'Hemos enviado un email con las instrucciones para recuperar tu contraseña'}
-            />
+
         </Layout>
     )
 }
