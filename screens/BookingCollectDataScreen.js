@@ -3,7 +3,7 @@ import {Button, Input, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import React from "react";
 
-const BookingCollectDataScreen = () => {
+const BookingCollectDataScreen = ({navigation}) => {
     return (
         <LayoutV4>
             <View flex={1} mx={12}>
@@ -73,7 +73,7 @@ const BookingCollectDataScreen = () => {
                 </View>
 
 
-                <Button onPress={() => navigation.goBack()}>Reservar</Button>
+                <Button onPress={() => navigation.navigate('BookingConfirmScreen')}>Reservar</Button>
 
             </View>
         </LayoutV4>
