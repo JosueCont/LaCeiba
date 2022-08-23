@@ -5,4 +5,6 @@ export const URLTypes = {
     REGISTER_SEND_CONFIRM_PHONE: '/v1/auth/partner/send-confirm-phone',
     REGISTER_CONFIRM_PHONE: '/v1/auth/partner/confirm-phone',
     FORGOT_PASSWORD: '/v1/auth/forgot-password',
+    QR_CODE: '/v1/users/1/qr-code',
+
 };

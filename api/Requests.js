@@ -12,3 +12,5 @@ export const registerPartnerLogin = async (params) => await request(URLTypes.REG
 export const registerSendConfirmPhone = async (params) => await request(URLTypes.REGISTER_SEND_CONFIRM_PHONE, params, 'post');
 
 export const forgotPassword = async (params) => await request(URLTypes.FORGOT_PASSWORD, params, 'post');
+
+export const generateQRCode = async (params) => await request(URLTypes.QR_CODE, params, 'get');

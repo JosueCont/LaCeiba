@@ -21,7 +21,7 @@ export default () => {
             const user = await AsyncStorage.getItem('@user')
             const userJSON = JSON.parse(user);
             if (userJSON) {
-                loggedAction()(store.dispatch)
+                loggedAction(userJSON)(store.dispatch)
             }
 
 

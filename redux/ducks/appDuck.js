@@ -19,9 +19,9 @@ const appDuck = (state = initialData, action) => {
     }
 }
 
-export let loggedAction = () => {
+export let loggedAction = (data) => {
     return async (dispatch, getState) => {
-        dispatch({type: LOGIN});
+        dispatch({type: LOGIN, payload: data});
     };
 }
 
