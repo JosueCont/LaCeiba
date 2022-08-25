@@ -7,7 +7,15 @@ import {Colors} from "../../Colors";
 import {LinearGradient} from "expo-linear-gradient";
 
 
-const ModalInfo = ({visible, setVisible, title = '', text = 'Texto informativo', textButton = 'Continuar', close = true}) => {
+const ModalInfo = ({
+                       visible,
+                       setVisible,
+                       title = '',
+                       text = 'Texto informativo',
+                       textButton = 'Continuar',
+                       close = true,
+                       iconType = 'check'
+                   }) => {
 
     const [heightGradient, setHeightGradient] = useState(null);
     return (
@@ -48,7 +56,14 @@ const ModalInfo = ({visible, setVisible, title = '', text = 'Texto informativo',
                     }
 
                     <View mb={10} width={'100%'} alignItems={'center'} justifyContent={'center'}>
-                        <Icon as={AntDesign} name={'checkcircleo'} color={Colors.yellow} size={'2xl'}/>
+                        {
+                            iconType === 'exclamation' ?
+                                <Icon as={AntDesign} name={'exclamationcircleo'} color={Colors.yellow} size={'2xl'}/> :
+                                iconType === 'check' &&
+                                <Icon as={AntDesign} name={'checkcircleo'} color={Colors.yellow} size={'2xl'}/>
+                        }
+
+
                     </View>
                     <View>
                         {

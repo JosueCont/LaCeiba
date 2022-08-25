@@ -76,14 +76,17 @@ const CustomDrawerContent = ({navigation, loggedOutAction}) => {
                         </View>
                     </View>
                 </TouchableOpacity>
-                <View flexDirection={'row'} mb={4}>
-                    <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                        <Image source={iconGuestsSmall} style={{width: 20, height: 20}}></Image>
+                <TouchableOpacity onPress={() => navigation.navigate('GuestsScreen')}>
+
+                    <View flexDirection={'row'} mb={4}>
+                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                            <Image source={iconGuestsSmall} style={{width: 20, height: 20}}></Image>
+                        </View>
+                        <View flex={1} justifyContent={'center'}>
+                            <Text fontSize={'md'}>Invitados</Text>
+                        </View>
                     </View>
-                    <View flex={1} justifyContent={'center'}>
-                        <Text fontSize={'md'}>Invitados</Text>
-                    </View>
-                </View>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('MatchesScreen')}>
 
                     <View flexDirection={'row'} mb={4}>

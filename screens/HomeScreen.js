@@ -86,14 +86,17 @@ const HomeScreen = ({navigation}) => {
                 </View>
                 <View mb={4} flexDirection={'row'}>
                     <View flex={1}>
-                        <View alignItems={'center'} mb={2}>
-                            <ImageBackground borderRadius={60} source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                <Image source={iconGuests}/>
-                            </ImageBackground>
-                        </View>
-                        <View>
-                            <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Invitados</Text>
-                        </View>
+                        <TouchableOpacity onPress={() => navigation.navigate('GuestsScreen')}>
+
+                            <View alignItems={'center'} mb={2}>
+                                <ImageBackground borderRadius={60} source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                    <Image source={iconGuests}/>
+                                </ImageBackground>
+                            </View>
+                            <View>
+                                <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Invitados</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                     <View flex={1}>
                         <View alignItems={'center'} mb={2}>

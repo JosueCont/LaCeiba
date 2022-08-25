@@ -29,6 +29,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 import BookingCollectDataScreen from "../screens/BookingCollectDataScreen";
 import BookingScreen from "../screens/BookingScreen";
 import BookingConfirmScreen from "../screens/BookingConfirmScreen";
+import GuestsScreen from "../screens/GuestsScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -116,6 +117,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'BookingCollectDataScreen'} component={BookingCollectDataScreen} options={{title: ''}}/>
             <Drawer.Screen name={'BookingScreen'} component={BookingScreen} options={{title: ''}}/>
             <Drawer.Screen name={'BookingConfirmScreen'} component={BookingConfirmScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'GuestsScreen'} component={GuestsScreen} options={{title: ''}}/>
 
         </Drawer.Navigator>
     );

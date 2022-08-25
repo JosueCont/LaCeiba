@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Button, FormControl, Image, Input, Text, View} from "native-base";
 import imgLogo from '../assets/imgLogo.png';
 import Layout from "./Layouts/Layout";
@@ -9,8 +9,10 @@ import {connect} from "react-redux";
 import {useFormik} from 'formik';
 import * as Yup from 'yup'
 import {TouchableOpacity} from "react-native";
+import ModalInfo from "./Modals/ModalInfo";
 
 const LoginScreen = ({loggedAction, navigation}) => {
+    const [modalInfoVisible, setModalInfoVisible] = useState(null);
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
         initialValues: {
             email: '',
@@ -30,10 +32,12 @@ const LoginScreen = ({loggedAction, navigation}) => {
         try {
             data['refresh'] = true;
             const response = await signIn(data)
+            console.log(response.data)
             await AsyncStorage.setItem('@user', JSON.stringify(response.data))
             await loggedAction(response.data)
         } catch (ex) {
             console.log(ex)
+            setModalInfoVisible(true)
         }
 
     }
@@ -75,6 +79,15 @@ const LoginScreen = ({loggedAction, navigation}) => {
                     <Button onPress={() => handleSubmit()}>Entrar</Button>
                 </View>
             </View>
+            <ModalInfo
+                close={true}
+                visible={modalInfoVisible}
+                setVisible={setModalInfoVisible}
+                title={'Aviso'}
+                text={'El nombre de usuario o la contraseña son incorrectos.'}
+                textButton={'Entendido'}
+                iconType={'exclamation'}
+            />
         </Layout>
     )
 }
