@@ -21,7 +21,6 @@ export const theme = extendTheme({
         Button: {
             baseStyle: {
                 borderRadius: 15,
-
             },
             defaultProps: {
                 colorScheme: 'green',
@@ -105,10 +104,8 @@ export const theme = extendTheme({
             400: '#d97706',
         },
         green: {
-            400: Colors.green,
-        },
-        greenV2: {
-            400: Colors.greenV2,
+            600: Colors.greenV2,
+            800: Colors.greenV5,
         },
     },
     config: {

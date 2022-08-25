@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Image, ScrollView, Text, View} from "native-base";
-import QR from '../assets/QR.png'
+import {Button, Image, ScrollView, Skeleton, Text, View} from "native-base";
 import LayoutV3 from "./Layouts/LayoutV3";
 import {Colors} from "../Colors";
 import {request} from "../api/Methods";
@@ -9,7 +8,7 @@ import {RefreshControl} from "react-native";
 
 const QRScreen = ({navigation, appDuck}) => {
     const [refreshing, setRefreshing] = useState(null);
-
+    const [imageQRCode, setImageQRCode] = useState(null);
 
     useEffect(() => {
         generateQRCodeFunction()
@@ -19,10 +18,10 @@ const QRScreen = ({navigation, appDuck}) => {
         try {
             setRefreshing(true)
             const response = await request(`/v1/users/${appDuck.user.id}/qr-code`, '', 'get')
-            console.log(response.data)
-
+            setImageQRCode(response.data.qrCode)
+            navigation.navigate('QRNonPaymentScreen')
         } catch (e) {
-
+            console.log(e)
         } finally {
             setRefreshing(false)
         }
@@ -44,15 +43,19 @@ const QRScreen = ({navigation, appDuck}) => {
                 <View mx={20} mt={20}>
 
                     <View alignItems={'center'} mb={10}>
-                        <Image source={QR} width={230} height={230}/>
-
+                        {
+                            refreshing === true ?
+                                <Skeleton width={230} height={230}/>
+                                :
+                                <Image source={{uri: imageQRCode}} width={230} height={230}/>
+                        }
                     </View>
 
                     <Text color={Colors.green} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={10}>
                         Muestra este código en {'\n'}la entrada del club para {'\n'}poder ingresar
                     </Text>
 
-                    <Button mb={4} onPress={() => console.log('....')}>Descargar</Button>
+                    <Button mb={4} onPress={() => navigation.navigate('QRSentScreen')}>Descargar</Button>
                     <Button onPress={() => navigation.goBack()}>Terminar</Button>
                 </View>
             </ScrollView>

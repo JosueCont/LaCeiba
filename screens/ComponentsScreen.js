@@ -16,8 +16,6 @@ const ComponentsScreen = ({navigation, loggedOutAction}) => {
         <Layout overlay={true}>
             <View flex={1} justifyContent={'center'} mx={10}>
                 <Button onPress={() => navigation.navigate('HomeScreen')} mb={2}>Home screen</Button>
-                <Button onPress={() => navigation.navigate('QRSentScreen')} mb={2}>QR enviado</Button>
-                <Button onPress={() => navigation.navigate('QRNonPaymentScreen')} mb={2}>QR falta de pago</Button>
 
             </View>
 

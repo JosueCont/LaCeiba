@@ -9,7 +9,8 @@ const RegisterScreen = ({navigation}) => {
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
         initialValues: {
             numberAction: '',
-            numberPartner: ''
+            namePartner: '',
+            lastNamePartner: ''
         },
         onSubmit: (formValue) => {
             registerPartnerFuncion(formValue)
@@ -17,7 +18,8 @@ const RegisterScreen = ({navigation}) => {
         validateOnChange: false,
         validationSchema: Yup.object({
             numberAction: Yup.string().required("El número de acción es obligatorio"),
-            numberPartner: Yup.string().required("El nombre del socio es obligatorio")
+            namePartner: Yup.string().required("El nombre del socio es obligatorio"),
+            lastNamePartner: Yup.string().required("El apellido del socio es obligatorio")
         })
     });
 
@@ -57,11 +59,18 @@ const RegisterScreen = ({navigation}) => {
                     </FormControl>
 
 
-                    <FormControl isInvalid={errors.numberPartner} mb={4}>
-                        <Text textAlign={'center'} mb={2}>Nombre de socio</Text>
-                        <Input onChangeText={(v) => setFieldValue('numberPartner', v)}/>
+                    <FormControl isInvalid={errors.namePartner} mb={4}>
+                        <Text textAlign={'center'} mb={2}>Nombre(s) de socio</Text>
+                        <Input onChangeText={(v) => setFieldValue('namePartner', v)}/>
                         <FormControl.ErrorMessage>
-                            {errors.numberPartner}
+                            {errors.namePartner}
+                        </FormControl.ErrorMessage>
+                    </FormControl>
+                    <FormControl isInvalid={errors.lastNamePartner} mb={4}>
+                        <Text textAlign={'center'} mb={2}>Apellido(s) de socio</Text>
+                        <Input onChangeText={(v) => setFieldValue('lastNamePartner', v)}/>
+                        <FormControl.ErrorMessage>
+                            {errors.lastNamePartner}
                         </FormControl.ErrorMessage>
                     </FormControl>
 
