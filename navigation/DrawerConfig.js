@@ -17,7 +17,7 @@ import ServicesScreen from "../screens/ServicesScreen";
 import InstallationsDetailScreen from "../screens/InstallationsDetailScreen";
 import ServicesDetailScreen from "../screens/ServicesDetailScreen";
 import MembersScreen from "../screens/MembersScreen";
-import ReservationsScreen from "../screens/ReservationsScreen";
+import BookingsScreen from "../screens/BookingsScreen";
 import GroupEditScreen from "../screens/GroupEditScreen";
 import TransactionsScreen from "../screens/TransactionsScreen";
 import InvoicingScreen from "../screens/InvoicingScreen";
@@ -33,6 +33,8 @@ import GuestsScreen from "../screens/GuestsScreen";
 import MembershipsScreen from "../screens/MembershipsScreen";
 import GuestGeneratePassScreen from "../screens/GuestGeneratePassScreen";
 import GuestGeneratePassSuccessScreen from "../screens/GuestGeneratePassSuccessScreen";
+import MemberEditScreen from "../screens/MemberEditScreen";
+import BookingsDetailScreen from "../screens/BookingsDetailScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -108,7 +110,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'InstallationsDetailScreen'} component={InstallationsDetailScreen} options={{title: ''}}/>
             <Drawer.Screen name={'ServicesDetailScreen'} component={ServicesDetailScreen} options={{title: ''}}/>
             <Drawer.Screen name={'MembersScreen'} component={MembersScreen} options={{title: ''}}/>
-            <Drawer.Screen name={'ReservationsScreen'} component={ReservationsScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'ReservationsScreen'} component={BookingsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'GroupEditScreen'} component={GroupEditScreen} options={{title: ''}}/>
             <Drawer.Screen name={'TransactionsScreen'} component={TransactionsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'InvoicingScreen'} component={InvoicingScreen} options={{title: ''}}/>
@@ -124,6 +126,8 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'MembershipsScreen'} component={MembershipsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'GuestGeneratePassScreen'} component={GuestGeneratePassScreen} options={{title: ''}}/>
             <Drawer.Screen name={'GuestGeneratePassSuccessScreen'} component={GuestGeneratePassSuccessScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'MemberEditScreen'} component={MemberEditScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'BookingsDetailScreen'} component={BookingsDetailScreen} options={{title: ''}}/>
 
         </Drawer.Navigator>
     );

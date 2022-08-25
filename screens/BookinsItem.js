@@ -6,7 +6,7 @@ import bgButton from "../assets/bgButton.png";
 import {ImageBackground} from "react-native";
 import iconGolfHit from '../assets/iconsReservations/iconGolfHit.png';
 
-const ReservationItem = ({navigation, mb = 2}) => {
+const BookinsItem = ({navigation, mb = 2}) => {
 
 
     return (
@@ -33,4 +33,4 @@ const ReservationItem = ({navigation, mb = 2}) => {
 }
 
 
-export default ReservationItem;
+export default BookinsItem;
