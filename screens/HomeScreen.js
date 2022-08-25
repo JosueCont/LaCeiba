@@ -99,14 +99,17 @@ const HomeScreen = ({navigation}) => {
                         </TouchableOpacity>
                     </View>
                     <View flex={1}>
-                        <View alignItems={'center'} mb={2}>
-                            <ImageBackground borderRadius={60} source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                <Image source={iconMembership}/>
-                            </ImageBackground>
-                        </View>
-                        <View>
-                            <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Membresía</Text>
-                        </View>
+                        <TouchableOpacity onPress={() => navigation.navigate('MembershipsScreen')}>
+
+                            <View alignItems={'center'} mb={2}>
+                                <ImageBackground borderRadius={60} source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                    <Image source={iconMembership}/>
+                                </ImageBackground>
+                            </View>
+                            <View>
+                                <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Membresía</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>

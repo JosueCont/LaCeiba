@@ -21,10 +21,10 @@ export const theme = extendTheme({
         Button: {
             baseStyle: {
                 borderRadius: 15,
+                size: 'md'
             },
             defaultProps: {
                 colorScheme: 'green',
-                size: 'sm',
             },
         },
         Input: {

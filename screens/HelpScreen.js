@@ -10,8 +10,6 @@ const HelpScreen = ({navigation}) => {
         <LayoutV3>
             <View flex={1} mx={20}>
                 <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>Documentos de ayuda</Text>
-
-
                 <Button onPress={() => navigation.goBack()} mb={6}>Mapa</Button>
                 <Button onPress={() => navigation.goBack()} mb={6}>Directorio</Button>
                 <Button onPress={() => navigation.goBack()} mb={6}>Reglamento</Button>

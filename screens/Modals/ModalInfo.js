@@ -78,7 +78,7 @@ const ModalInfo = ({
                                 </View>
                         }
 
-                        <Button colorScheme={'greenV2'} onPress={() => setVisible(false)}>{textButton}</Button>
+                        <Button colorScheme={'green'} onPress={() => setVisible(false)}>{textButton}</Button>
                     </View>
 
                 </View>

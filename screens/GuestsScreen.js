@@ -4,6 +4,7 @@ import {Colors} from "../Colors";
 import LayoutV4 from "./Layouts/LayoutV4";
 import GuestItem from "./GuestItem";
 import {MaterialIcons} from "@expo/vector-icons";
+import {TouchableOpacity} from "react-native";
 
 const GuestsScreen = ({navigation}) => {
 
@@ -20,7 +21,9 @@ const GuestsScreen = ({navigation}) => {
                     </View>
                 </View>
 
-                <GuestItem mb={4}/>
+                <TouchableOpacity onPress={() => navigation.navigate('GuestGeneratePassScreen')}>
+                    <GuestItem mb={4}/>
+                </TouchableOpacity>
                 <GuestItem mb={4}/>
                 <GuestItem mb={4}/>
                 <GuestItem mb={4}/>

@@ -1,9 +1,12 @@
 import LayoutV4 from "./Layouts/LayoutV4";
 import {Button, Input, Text, View} from "native-base";
 import {Colors} from "../Colors";
-import React from "react";
+import React, {useState} from "react";
+import ModalConfirmBooking from "./Modals/ModalConfirmBooking";
 
 const BookingCollectDataScreen = ({navigation}) => {
+    const [modalConfirmBooking, setModalConfirmBooking] = useState(true)
+
     return (
         <LayoutV4>
             <View flex={1} mx={12}>
@@ -76,6 +79,11 @@ const BookingCollectDataScreen = ({navigation}) => {
                 <Button onPress={() => navigation.navigate('BookingConfirmScreen')}>Reservar</Button>
 
             </View>
+            <ModalConfirmBooking
+                visible={modalConfirmBooking}
+                setVisible={setModalConfirmBooking}
+                text={'Esta reserva descontará 3 green fee y 3 puntos comprometidos'}
+            />
         </LayoutV4>
     )
 }
