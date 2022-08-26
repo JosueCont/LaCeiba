@@ -27,7 +27,9 @@ const RegisterScreen = ({navigation}) => {
         try {
             const data = {
                 userId: values.numberAction,
-                name: values.numberPartner,
+                firstName: values.namePartner,
+                lastName: values.lastNamePartner,
+                parent: 1
             }
             const response = await registerPartner(data);
             navigation.navigate('RegisterStep2Screen', {data, ...response.data})
@@ -49,6 +51,7 @@ const RegisterScreen = ({navigation}) => {
                     <FormControl isInvalid={errors.numberAction} mb={4}>
                         <Text textAlign={'center'} mb={2}>Número de acción</Text>
                         <Input
+                            maxLength={3}
                             returnKeyType={'done'}
                             keyboardType={'number-pad'}
                             onChangeText={(v) => setFieldValue('numberAction', v)}/>

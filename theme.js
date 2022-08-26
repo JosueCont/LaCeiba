@@ -31,13 +31,16 @@ export const theme = extendTheme({
             baseStyle: {
                 borderRadius: 20,
                 backgroundColor: '#D1D4C4',
+
+
             },
             defaultProps: {
                 backgroundColor: 'white',
                 borderWidth: 0,
                 color: Colors.greenV4,
                 height: 45,
-                fontSize: 'md'
+                fontSize: 'md',
+                textAlign: 'center'
             },
         },
         FormControl: {
