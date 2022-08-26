@@ -1,12 +1,12 @@
 import {applyMiddleware, combineReducers, createStore} from "redux"
 import thunk from "redux-thunk"
-import productsDuck from "./ducks/productsDuck";
 import appDuck, {loggedAction} from "./ducks/appDuck";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import navigationDuck from "./ducks/navigationDuck";
 
 const rootReducer = combineReducers({
     appDuck: appDuck,
-    productsDuck: productsDuck,
+    navigationDuck: navigationDuck,
 })
 
 export const store = createStore(

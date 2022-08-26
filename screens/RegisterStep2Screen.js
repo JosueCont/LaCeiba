@@ -1,10 +1,12 @@
 import React from "react";
 import {Button, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
+import {connect} from "react-redux";
 
-const RegisterStep2Screen = ({navigation, route}) => {
+const RegisterStep2Screen = ({navigation, navigationDuck}) => {
 
 
+    console.log(navigationDuck)
     const astericks = (w) => {
         return w.substring(0, 1) + '*'.repeat(w.length - 1);
     }
@@ -18,16 +20,16 @@ const RegisterStep2Screen = ({navigation, route}) => {
                     <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>¿Son éstas sus iniciales?</Text>
                     <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>
                         {
-                            route.params.user.firstName.split(' ').map((item, index) => {
-                                return astericks(route.params.user.firstName.split(' ')[index]) + ' '
+                            navigationDuck.user.firstName.split(' ').map((item, index) => {
+                                return astericks(navigationDuck.user.firstName.split(' ')[index]) + ' '
                             })
 
                         }
                     </Text>
                     <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>
                         {
-                            route.params.user.lastName.split(' ').map((item, index) => {
-                                return astericks(route.params.user.lastName.split(' ')[index]) + ' '
+                            navigationDuck.user.lastName.split(' ').map((item, index) => {
+                                return astericks(navigationDuck.user.lastName.split(' ')[index]) + ' '
                             })
 
                         }
@@ -42,4 +44,10 @@ const RegisterStep2Screen = ({navigation, route}) => {
 }
 
 
-export default RegisterStep2Screen
+const mapState = (state) => {
+    return {
+        navigationDuck: state.navigationDuck
+    }
+}
+
+export default connect(mapState)(RegisterStep2Screen)

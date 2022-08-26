@@ -31,6 +31,7 @@ const RegisterStep3Screen = ({navigation}) => {
             navigation.navigate('RegisterStep4Screen', {phone: response.data.to})
         } catch (e) {
             console.log(e)
+            alert(e)
         }
     }
 

@@ -1,9 +1,9 @@
 export const URLTypes = {
     SIGN_IN: '/v1/auth/login',
-    REGISTER_PARTNER: '/v1/auth/partner',
-    REGISTER_PARTNER_LOGIN: '/v1/auth/partner/login',
+    FIND_PARTNER: '/v1/auth/partner',
     REGISTER_SEND_CONFIRM_PHONE: '/v1/auth/partner/send-confirm-phone',
     REGISTER_CONFIRM_PHONE: '/v1/auth/partner/confirm-phone',
+    REGISTER_PARTNER: '/v1/users',
     FORGOT_PASSWORD: '/v1/auth/forgot-password',
     QR_CODE: '/v1/users/1/qr-code',
 

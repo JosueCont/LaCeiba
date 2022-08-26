@@ -3,13 +3,13 @@ import {Button, FormControl, Input, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import {registerPartnerLogin} from "../api/Requests";
+import {registerPartner, signIn} from "../api/Requests";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {connect} from "react-redux";
 import {loggedAction} from "../redux/ducks/appDuck";
 import ModalInfo from "./Modals/ModalInfo";
 
-const RegisterStep5Screen = ({navigation, loggedAction}) => {
+const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck}) => {
     const [modalCompletedVisible, setModalCompletedVisible] = useState(null)
     const [dataValues, setDataValues] = useState(null);
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
@@ -19,7 +19,7 @@ const RegisterStep5Screen = ({navigation, loggedAction}) => {
             passwordConfirm: '',
         },
         onSubmit: (formValue) => {
-            registerPartnerLoginFuncion(formValue)
+            registerPartnerFuncion(formValue)
         },
         validateOnChange: false,
         validationSchema: Yup.object({
@@ -29,24 +29,43 @@ const RegisterStep5Screen = ({navigation, loggedAction}) => {
         })
     });
 
-    const registerPartnerLoginFuncion = async (values) => {
+    const registerPartnerFuncion = async (values) => {
         try {
             const data = {
+                firstName: navigationDuck.user.firstName,
+                lastName: navigationDuck.user.lastName,
                 email: values.email,
                 password: values.password,
-                passwordConfirm: values.passwordConfirm
+                confirm: values.passwordConfirm
             }
-            const response = await registerPartnerLogin(data);
+            console.log(data)
+            const response = await registerPartner(data);
+            console.log(response)
+
             setDataValues(response.data)
             setModalCompletedVisible(true)
         } catch (e) {
-            console.log(e)
+            console.log(e, 48)
+            alert(e)
         }
     }
 
     const saveData = async () => {
-        await AsyncStorage.setItem('@user', JSON.stringify(dataValues))
-        await loggedAction()
+
+        try {
+            const data = {
+                email: values.email,
+                password: values.password,
+                refresh: true
+            }
+            const response = await signIn(data)
+            await AsyncStorage.setItem('@user', JSON.stringify(dataValues))
+            await loggedAction()
+        } catch (e) {
+            console.log(e)
+            alert(e)
+        }
+
     }
 
     return (
@@ -97,8 +116,10 @@ const RegisterStep5Screen = ({navigation, loggedAction}) => {
     )
 }
 
-const mapState = () => {
-    return {}
+const mapState = (state) => {
+    return {
+        navigationDuck: state.navigationDuck
+    }
 }
 
 export default connect(mapState, {loggedAction})(RegisterStep5Screen);

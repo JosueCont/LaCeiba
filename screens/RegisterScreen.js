@@ -1,11 +1,13 @@
 import React from "react";
 import {Button, FormControl, Input, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
-import {registerPartner} from "../api/Requests";
+import {findPartner} from "../api/Requests";
 import {useFormik} from "formik";
 import * as Yup from "yup";
+import {connect} from "react-redux";
+import {setAttribute} from "../redux/ducks/navigationDuck";
 
-const RegisterScreen = ({navigation}) => {
+const RegisterScreen = ({navigation, setAttribute}) => {
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
         initialValues: {
             numberAction: '',
@@ -31,11 +33,12 @@ const RegisterScreen = ({navigation}) => {
                 lastName: values.lastNamePartner,
                 parent: 1
             }
-            const response = await registerPartner(data);
-            navigation.navigate('RegisterStep2Screen', {data, ...response.data})
-            console.log(response.data)
+            const response = await findPartner(data);
+            setAttribute('user', response.data.user)
+            navigation.navigate('RegisterStep2Screen')
         } catch (e) {
             console.log(e)
+            alert(e)
         }
     }
 
@@ -84,5 +87,8 @@ const RegisterScreen = ({navigation}) => {
     )
 }
 
+const mapState = () => {
+    return {}
+}
 
-export default RegisterScreen
+export default connect(mapState, {setAttribute})(RegisterScreen)

@@ -8,8 +8,8 @@ export const request = async (uri, params, method) => {
     }
 }
 
-const requestPost = async (uri, params) => {
-    return await AxiosInstance.post(uri, params)
+const requestPost = async (uri, params, config = null) => {
+    return await AxiosInstance.post(uri, params, config)
 }
 
 const requestGET = async (uri, params = '') => {

@@ -40,6 +40,7 @@ const RegisterStep4Screen = ({navigation, route}) => {
                 console.log(response.data)
             }
         } catch (e) {
+            alert(e)
             setModalResendSMSVisible(true)
         }
     }
