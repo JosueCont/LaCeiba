@@ -10,7 +10,6 @@ const axiosInstance = axios.create({
         Accept: "application/json",
     }
 });
-
 axiosInstance.interceptors.request.use(async (request) => {
     try {
         const token = JSON.parse(await AsyncStorage.getItem('@user'));
@@ -50,13 +49,13 @@ axiosInstance.interceptors.request.use(async (request) => {
 
     return request;
 }, (error) => {
-    //console.log(error.response, 'interceptors.request.error')
+    console.log(error.response, 'interceptors.request.error')
 })
 
 axiosInstance.interceptors.response.use((response) => {
     return response;
 }, (error) => {
-    //console.log(error.response, 'interceptors.response.error')
+    console.log(error.response, 'interceptors.response.error')
 })
 
 export default axiosInstance;

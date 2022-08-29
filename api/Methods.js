@@ -1,8 +1,8 @@
 import AxiosInstance from "./AxiosInstance";
 
-export const request = async (uri, params, method) => {
+export const request = async (uri, params, method, config = null) => {
     if (method === 'post') {
-        return await requestPost(uri, params)
+        return await requestPost(uri, params, config)
     } else if (method === 'get') {
         return await requestGET(uri, params)
     }

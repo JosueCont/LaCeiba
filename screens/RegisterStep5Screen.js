@@ -9,7 +9,7 @@ import {connect} from "react-redux";
 import {loggedAction} from "../redux/ducks/appDuck";
 import ModalInfo from "./Modals/ModalInfo";
 
-const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck}) => {
+const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) => {
     const [modalCompletedVisible, setModalCompletedVisible] = useState(null)
     const [dataValues, setDataValues] = useState(null);
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
@@ -38,15 +38,18 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck}) => {
                 password: values.password,
                 confirm: values.passwordConfirm
             }
-            console.log(data)
-            const response = await registerPartner(data);
-            console.log(response)
+
+            const headers = {
+                Accept: "application/json",
+                Authorization: `Bearer ${route.params.access_token}`
+            }
+
+            const response = await registerPartner(data, {headers: headers});
 
             setDataValues(response.data)
             setModalCompletedVisible(true)
         } catch (e) {
-            console.log(e, 48)
-            alert(e)
+            console.log(e.response)
         }
     }
 
