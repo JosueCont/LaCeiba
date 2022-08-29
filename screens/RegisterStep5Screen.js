@@ -24,7 +24,14 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
         validateOnChange: false,
         validationSchema: Yup.object({
             email: Yup.string().required("El correo electrónico es obligatorio"),
-            password: Yup.string().required("La contraseña es obligatoria").min(8, "La contraseña debe ser de al menos 8 caracteres."),
+            password: Yup
+                .string()
+                .matches(/\w*[a-z]\w*/, "la contraseña debe contener al menos una minúscula")
+                .matches(/\w*[A-Z]\w*/, "la contraseña debe contener al menos una mayúscula")
+                .matches(/\d/, "la contraseña debe contener al menos un número")
+                .min(8, ({min}) => `La contraseña debe ser de al menos ${8} caracteres.`)
+                .max(12, ({max}) => `La contraseña debe contener como máximo ${12} caracteres.`)
+                .required("La contraseña es obligatoria"),
             passwordConfirm: Yup.string().required("La contraseña es obligatoria").oneOf([Yup.ref('password')], "Las contraseñas tienen que ser iguales."),
         })
     });
@@ -46,7 +53,7 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
 
             const response = await registerPartner(data, {headers: headers});
 
-            setDataValues(response.data)
+            setDataValues(data)
             setModalCompletedVisible(true)
         } catch (e) {
             console.log(e.response)
@@ -57,10 +64,11 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
 
         try {
             const data = {
-                email: values.email,
-                password: values.password,
+                email: dataValues.email,
+                password: dataValues.password,
                 refresh: true
             }
+            console.log(data)
             const response = await signIn(data)
             await AsyncStorage.setItem('@user', JSON.stringify(dataValues))
             await loggedAction()

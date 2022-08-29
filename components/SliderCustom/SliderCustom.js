@@ -57,7 +57,7 @@ const SliderCustom = ({height, items, position, setPosition}) => {
                         <Skeleton variant="rect" height={height}/> :
                         <View>
                             <Image alt={'Image'} source={{uri: currentImage}}
-                                   style={{height: height, width: '100%', resizeMode: 'cover'}}
+                                   style={{height: height, width: '100%', resizeMode: 'stretch'}}
                             />
                             <View flexDir={'row'} height={height} width={'100%'} style={{position: 'absolute'}}>
                                 <TouchableOpacity style={{flex: 1}}
