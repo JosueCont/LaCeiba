@@ -14,7 +14,7 @@ const TransactionItem = ({navigation, mb = 2}) => {
                 <Text color={Colors.green} fontSize={'xs'}>Comida mariscos</Text>
             </View>
             <View flex={0.4} justifyContent={'center'} pr={5}>
-                <Text textAlign={'right'} color={Colors.green} fontSize={'xs'}>$120</Text>
+                <Text textAlign={'right'} color={Colors.green} fontSize={'md'} numberOfLines={1} adjustsFontSizeToFit>$120.00 MXN</Text>
             </View>
         </View>
     )

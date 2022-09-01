@@ -37,8 +37,8 @@ const HomeScreen = ({navigation}) => {
                             <TouchableOpacity onPress={() => navigation.navigate('QRInstructionsScreen')}>
                                 <View alignItems={'center'} mb={2}>
                                     {/*<View borderRadius={60} height={120} width={120} bgColor={'#ccc'}></View>*/}
-                                    <ImageBackground borderRadius={60} source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                        <Image source={iconAccess}/>
+                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                        <Image source={iconAccess} style={{width: 45, resizeMode: 'contain'}}/>
                                     </ImageBackground>
                                 </View>
                                 <View>
@@ -49,8 +49,8 @@ const HomeScreen = ({navigation}) => {
                         <View flex={1}>
                             <TouchableOpacity onPress={() => navigation.navigate('BookingScreen')}>
                                 <View alignItems={'center'} mb={2}>
-                                    <ImageBackground borderRadius={60} source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                        <Image source={iconReserve}/>
+                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                        <Image source={iconReserve} style={{width: 45, resizeMode: 'contain'}}/>
                                     </ImageBackground>
                                 </View>
                                 <View>
@@ -63,8 +63,8 @@ const HomeScreen = ({navigation}) => {
                         <View flex={1}>
                             <TouchableOpacity onPress={() => navigation.navigate('InstallationsScreen')}>
                                 <View alignItems={'center'} mb={2}>
-                                    <ImageBackground borderRadius={60} source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                        <Image source={iconLocations}/>
+                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                        <Image source={iconLocations} style={{width: 45, resizeMode: 'contain'}}/>
                                     </ImageBackground>
                                 </View>
                                 <View>
@@ -76,8 +76,8 @@ const HomeScreen = ({navigation}) => {
                             <TouchableOpacity onPress={() => navigation.navigate('ServicesScreen')}>
 
                                 <View alignItems={'center'} mb={2}>
-                                    <ImageBackground borderRadius={60} source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                        <Image source={iconServices}/>
+                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                        <Image source={iconServices} style={{width: 45, resizeMode: 'contain'}}/>
                                     </ImageBackground>
                                 </View>
                                 <View>
@@ -91,8 +91,8 @@ const HomeScreen = ({navigation}) => {
                             <TouchableOpacity onPress={() => navigation.navigate('GuestsScreen')}>
 
                                 <View alignItems={'center'} mb={2}>
-                                    <ImageBackground borderRadius={60} source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                        <Image source={iconGuests}/>
+                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                        <Image source={iconGuests} style={{width: 45, resizeMode: 'contain'}}/>
                                     </ImageBackground>
                                 </View>
                                 <View>
@@ -104,8 +104,8 @@ const HomeScreen = ({navigation}) => {
                             <TouchableOpacity onPress={() => navigation.navigate('MembershipsScreen')}>
 
                                 <View alignItems={'center'} mb={2}>
-                                    <ImageBackground borderRadius={60} source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                        <Image source={iconMembership}/>
+                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                        <Image source={iconMembership} style={{width: 45, resizeMode: 'contain'}}/>
                                     </ImageBackground>
                                 </View>
                                 <View>

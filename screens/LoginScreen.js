@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, FormControl, Image, Input, Text, View} from "native-base";
+import {Button, FormControl, Icon, Image, Input, Text, View} from "native-base";
 import imgLogo from '../assets/imgLogo.png';
 import Layout from "./Layouts/Layout";
 import {signIn} from "../api/Requests";
@@ -10,9 +10,11 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup'
 import {TouchableOpacity} from "react-native";
 import ModalInfo from "./Modals/ModalInfo";
+import {MaterialIcons} from "@expo/vector-icons";
 
 const LoginScreen = ({loggedAction, navigation}) => {
     const [modalInfoVisible, setModalInfoVisible] = useState(null);
+    const [showPasssword, setShowPassword] = useState(null)
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
         initialValues: {
             email: '',
@@ -64,7 +66,16 @@ const LoginScreen = ({loggedAction, navigation}) => {
 
                     <FormControl isInvalid={errors.password} mb={2}>
                         <Text textAlign={'center'} mb={2}>Contraseña</Text>
-                        <Input mb={4} type="password" onChangeText={(v) => setFieldValue('password', v)}/>
+                        <Input
+                            type={showPasssword ? "text" : "password"}
+                            onChangeText={(v) => setFieldValue('password', v)}
+                            mb={4}
+                            InputRightElement={
+                                <TouchableOpacity onPress={() => setShowPassword(!showPasssword)}>
+                                    <Icon as={<MaterialIcons name={showPasssword ? "visibility" : "visibility-off"}/>} size={5} mr="2" color="muted.400"/>
+                                </TouchableOpacity>
+                            }
+                        />
                         <FormControl.ErrorMessage>
                             {errors.password}
                         </FormControl.ErrorMessage>

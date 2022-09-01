@@ -8,6 +8,7 @@ const axiosInstance = axios.create({
     baseURL: Constants.manifest.extra.production ? Constants.manifest.extra.URL : Constants.manifest.extra.URL_DEV,
     headers: {
         Accept: "application/json",
+        Platform: 'app-partner'
     }
 });
 axiosInstance.interceptors.request.use(async (request) => {
