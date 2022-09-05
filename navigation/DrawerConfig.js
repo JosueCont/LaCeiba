@@ -35,6 +35,9 @@ import GuestGeneratePassScreen from "../screens/GuestGeneratePassScreen";
 import GuestGeneratePassSuccessScreen from "../screens/GuestGeneratePassSuccessScreen";
 import MemberEditScreen from "../screens/MemberEditScreen";
 import BookingsDetailScreen from "../screens/BookingsDetailScreen";
+import ManualsScreen from "../screens/ManualsScreen";
+import RegulationsScreen from "../screens/RegulationsScreen";
+import DirectoryScreen from "../screens/DirectoryScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -128,6 +131,9 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'GuestGeneratePassSuccessScreen'} component={GuestGeneratePassSuccessScreen} options={{title: ''}}/>
             <Drawer.Screen name={'MemberEditScreen'} component={MemberEditScreen} options={{title: ''}}/>
             <Drawer.Screen name={'BookingsDetailScreen'} component={BookingsDetailScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'ManualsScreen'} component={ManualsScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'RegulationsScreen'} component={RegulationsScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'DirectoryScreen'} component={DirectoryScreen} options={{title: ''}}/>
 
         </Drawer.Navigator>
     );

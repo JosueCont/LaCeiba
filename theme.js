@@ -43,6 +43,16 @@ export const theme = extendTheme({
                 textAlign: 'center'
             },
         },
+        Select: {
+            baseStyle: {},
+            defaultProps: {
+                color: Colors.greenV4,
+                height: 45,
+                fontSize: 'md',
+                textAlign: 'center',
+                placeholderTextColor: Colors.greenV4
+            },
+        },
         FormControl: {
             ErrorMessage: {
                 baseStyle: {
