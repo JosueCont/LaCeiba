@@ -69,7 +69,7 @@ const DrawerConfig = () => {
                                 borderRadius: 5,
                                 marginLeft: 10
                             }}>
-                                <Icon as={MaterialIcons} name={'arrow-back-ios'} color={Colors.red} size={'xl'}/>
+                                <Icon as={MaterialIcons} name={'arrow-back-ios'} color={'white'} size={'md'}/>
 
                             </TouchableOpacity>
                         )
@@ -96,7 +96,7 @@ const DrawerConfig = () => {
                         justifyContent: 'center',
                         marginRight: 5
                     }}>
-                        <Icon as={MaterialIcons} color={Colors.red} name={'menu'} size={'xl'}></Icon>
+                        <Icon as={MaterialIcons} color={'white'} name={'menu'} size={'md'}></Icon>
                     </TouchableOpacity>
                 ),
                 swipeEnabled: false

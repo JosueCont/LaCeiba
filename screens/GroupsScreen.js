@@ -18,7 +18,7 @@ const GroupScreen = ({navigation}) => {
                 <TouchableOpacity onPress={() => navigation.navigate('GroupEditScreen')}>
                     <View mb={10} borderRadius={20} overflow={1}>
                         <View style={{zIndex: 0}}>
-                            <Image source={imgGolf}/>
+                            <Image source={imgGolf} style={{width: '100%'}}/>
                         </View>
 
                         <View alignItems={'center'} justifyContent={'center'} height={50} width={'100%'} bgColor={Colors.green} style={{bottom: 0, position: 'absolute', zIndex: 1}}>
@@ -29,7 +29,7 @@ const GroupScreen = ({navigation}) => {
                 <TouchableOpacity onPress={() => navigation.navigate('GroupEditScreen')}>
                     <View mb={10} borderRadius={20} overflow={1}>
                         <View style={{zIndex: 0}}>
-                            <Image source={imageTenis}/>
+                            <Image source={imageTenis} style={{width: '100%'}}/>
                         </View>
 
                         <View alignItems={'center'} justifyContent={'center'} height={50} width={'100%'} bgColor={Colors.green} style={{bottom: 0, position: 'absolute', zIndex: 1}}>
