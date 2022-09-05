@@ -38,6 +38,8 @@ import BookingsDetailScreen from "../screens/BookingsDetailScreen";
 import ManualsScreen from "../screens/ManualsScreen";
 import RegulationsScreen from "../screens/RegulationsScreen";
 import DirectoryScreen from "../screens/DirectoryScreen";
+import TutorialsScreen from "../screens/TutorialsScreen";
+import TermsAndConditionsScreen from "../screens/TermsAndConditionsScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -134,6 +136,8 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'ManualsScreen'} component={ManualsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'RegulationsScreen'} component={RegulationsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'DirectoryScreen'} component={DirectoryScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'TutorialsScreen'} component={TutorialsScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'TermsAndConditionsScreen'} component={TermsAndConditionsScreen} options={{title: ''}}/>
 
         </Drawer.Navigator>
     );
