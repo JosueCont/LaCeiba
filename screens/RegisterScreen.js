@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Button, FormControl, Input, Select, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 import {findPartner} from "../api/Requests";
@@ -7,8 +7,10 @@ import * as Yup from "yup";
 import {connect} from "react-redux";
 import {setAttribute} from "../redux/ducks/navigationDuck";
 import {ScrollView} from "react-native";
+import ModalInfo from "./Modals/ModalInfo";
 
 const RegisterScreen = ({navigation, setAttribute}) => {
+    const [modalErrorVisible, setModalErrorVisible] = useState(null);
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
         initialValues: {
             numberAction: '',
@@ -35,11 +37,15 @@ const RegisterScreen = ({navigation, setAttribute}) => {
             const queryString = `?userId=${values.numberAction}&firstName=${values.namePartner}&lastName=${values.lastNamePartner}&parent=${values.relationship}`;
 
             const response = await findPartner(queryString);
-            console.log(response.data)
-            setAttribute('user', response.data)
-            navigation.navigate('RegisterStep2Screen')
+
+            if (response.status === 404) {
+                setModalErrorVisible(true)
+            } else {
+                setAttribute('user', response.data)
+                navigation.navigate('RegisterStep2Screen')
+            }
+
         } catch (e) {
-            console.log(e)
             alert(e)
         }
     }
@@ -108,8 +114,7 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                     </View>
                 </ScrollView>
             </View>
-
-
+            <ModalInfo text={'Socio no encontrado.'} iconType={'exclamation'} textButton={'Entendido'} visible={modalErrorVisible} setVisible={setModalErrorVisible}/>
         </Layout>
     )
 }

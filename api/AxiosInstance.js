@@ -51,12 +51,15 @@ axiosInstance.interceptors.request.use(async (request) => {
     return request;
 }, (error) => {
     console.log(error.response, 'interceptors.request.error')
+    return error.response
 })
 
 axiosInstance.interceptors.response.use((response) => {
     return response;
 }, (error) => {
     console.log(error.response, 'interceptors.response.error')
+
+    return error.response
 })
 
 export default axiosInstance;
