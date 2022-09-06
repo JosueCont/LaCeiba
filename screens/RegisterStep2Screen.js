@@ -18,23 +18,23 @@ const RegisterStep2Screen = ({navigation, navigationDuck}) => {
             <View flex={1}>
                 <View mx={20} mt={10}>
                     <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>¿Son éstas sus iniciales?</Text>
-                    <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>
+                    <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6} numberOfLines={2}>
                         {
-                            navigationDuck.user.firstName.split(' ').map((item, index) => {
-                                return astericks(navigationDuck.user.firstName.split(' ')[index]) + ' '
+                            navigationDuck.user.nombreSocio.split(' ').map((item, index) => {
+                                return astericks(navigationDuck.user.nombreSocio.split(' ')[index]) + ' '
                             })
 
                         }
                     </Text>
-                    <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>
-                        {
-                            navigationDuck.user.lastName.split(' ').map((item, index) => {
-                                return astericks(navigationDuck.user.lastName.split(' ')[index]) + ' '
-                            })
+                    {/*<Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>*/}
+                    {/*    {*/}
+                    {/*        navigationDuck.user.lastName.split(' ').map((item, index) => {*/}
+                    {/*            return astericks(navigationDuck.user.lastName.split(' ')[index]) + ' '*/}
+                    {/*        })*/}
 
-                        }
+                    {/*    }*/}
 
-                    </Text>
+                    {/*</Text>*/}
                     <Button mb={2} onPress={() => navigation.navigate('RegisterStep3Screen')}>Continuar</Button>
                     <Button onPress={() => navigation.goBack()}>Cancelar</Button>
                 </View>

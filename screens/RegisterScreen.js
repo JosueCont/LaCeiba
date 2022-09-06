@@ -29,15 +29,14 @@ const RegisterScreen = ({navigation, setAttribute}) => {
     });
 
     const registerPartnerFuncion = async (values) => {
+
         try {
-            const data = {
-                userId: values.numberAction,
-                firstName: values.namePartner,
-                lastName: values.lastNamePartner,
-                parent: values.relationship
-            }
-            const response = await findPartner(data);
-            setAttribute('user', response.data.user)
+
+            const queryString = `?userId=${values.numberAction}&firstName=${values.namePartner}&lastName=${values.lastNamePartner}&parent=${values.relationship}`;
+
+            const response = await findPartner(queryString);
+            console.log(response.data)
+            setAttribute('user', response.data)
             navigation.navigate('RegisterStep2Screen')
         } catch (e) {
             console.log(e)
@@ -92,12 +91,12 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                                         setFieldValue('relationship', v)
                                     }}
                                     placeholder="Seleccionar">
-                                    <Select.Item label={'Titular'} value={'1'}/>
-                                    <Select.Item label={'Hijo(a) titular'} value={'2'}/>
-                                    <Select.Item label={'Hijo(a) membresista'} value={'3'}/>
-                                    <Select.Item label={'Esposo(a) titular'} value={'4'}/>
-                                    <Select.Item label={'Esposo(a) membresista'} value={'5'}/>
-                                    <Select.Item label={'Cotitular'} value={'6'}/>
+                                    <Select.Item label={'Titular'} value={'0'}/>
+                                    <Select.Item label={'Hijo(a) titular'} value={'1'}/>
+                                    <Select.Item label={'Hijo(a) membresista'} value={'2'}/>
+                                    <Select.Item label={'Esposo(a) titular'} value={'3'}/>
+                                    <Select.Item label={'Esposo(a) membresista'} value={'4'}/>
+                                    <Select.Item label={'Cotitular'} value={'5'}/>
                                 </Select>
                                 <FormControl.ErrorMessage>
                                     {errors.relationship}
