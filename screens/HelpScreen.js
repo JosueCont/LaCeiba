@@ -17,7 +17,7 @@ const HelpScreen = ({navigation}) => {
                 <Button onPress={() => navigation.navigate('TutorialsScreen')} mb={6}>Video tutoriales</Button>
                 <Button onPress={() => navigation.navigate('TermsAndConditionsScreen')} mb={6}>Términos y condiciones</Button>
 
-                <Button onPress={() => navigation.goBack()}>Contacto</Button>
+                <Button onPress={() => navigation.navigate('ContactScreen')}>Contacto</Button>
             </View>
 
         </LayoutV3>

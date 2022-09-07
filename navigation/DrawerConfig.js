@@ -40,6 +40,7 @@ import RegulationsScreen from "../screens/RegulationsScreen";
 import DirectoryScreen from "../screens/DirectoryScreen";
 import TutorialsScreen from "../screens/TutorialsScreen";
 import TermsAndConditionsScreen from "../screens/TermsAndConditionsScreen";
+import ContactScreen from "../screens/ContactScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -138,6 +139,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'DirectoryScreen'} component={DirectoryScreen} options={{title: ''}}/>
             <Drawer.Screen name={'TutorialsScreen'} component={TutorialsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'TermsAndConditionsScreen'} component={TermsAndConditionsScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'ContactScreen'} component={ContactScreen} options={{title: ''}}/>
 
         </Drawer.Navigator>
     );
