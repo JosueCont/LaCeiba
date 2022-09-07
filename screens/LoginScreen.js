@@ -34,7 +34,9 @@ const LoginScreen = ({loggedAction, navigation}) => {
         try {
             data['refresh'] = true;
             const response = await signIn(data)
-            console.log(response.data)
+
+
+            console.log(response.data, 37)
             await AsyncStorage.setItem('@user', JSON.stringify(response.data))
             await loggedAction(response.data)
         } catch (ex) {

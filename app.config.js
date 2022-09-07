@@ -1,38 +1,47 @@
 const commonConfig = {
-    "name": "Club La Hacienda",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
+    name: "Club La Hacienda",
+    orientation: "portrait",
+    icon: "./assets/icon.png",
+    splash: {
         "image": "./assets/splash.png",
         "resizeMode": "cover",
         "backgroundColor": "#146842"
     },
-    "updates": {
+    updates: {
         "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
+    assetBundlePatterns: [
         "**/*"
     ],
-    "web": {
+    web: {
         "favicon": "./assets/favicon.png"
     },
-    "extra": {
-        "debug": true,
-        "production": false,
-        "URL": "https://api.hacienda.hiumanlab.com",
-        "URL_DEV": "https://api.hacienda.hiumanlab.com",
+    extra: {
+        debug: true,
+        production: false,
+        URL: "https://api.hacienda.hiumanlab.com",
+        URL_DEV: "https://api.hacienda.hiumanlab.com",
+        eas: {
+            projectId: "c16e312d-b8ac-495f-b1bc-39e309569e13"
+        }
+
     }
 };
 
 const ios = {
-    "supportsTablet": true
+    buildNumber: "1",
+    supportsTablet: false,
+    bundleIdentifier: "com.hiumanlab.clublahacienda"
 };
 
 const android = {
-    "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-    }
+    versionCode: 1,
+    adaptiveIcon: {
+        foregroundImage: "./assets/adaptive-icon.png",
+        backgroundColor: "#FFFFFF"
+    },
+    googleServicesFile: "./google-services.json",
+    package: "com.hiumanlab.clublahacienda"
 };
 
 
@@ -40,24 +49,24 @@ module.exports = () => {
     if (process.env.APP_ENV === "ios") {
         return {
             ...commonConfig,
-            "slug": "clublahacienda",
-            "version": "1.0.0",
-            "ios": ios
+            slug: "clublahacienda",
+            version: "1.0.0",
+            ios: ios
         };
     } else if (process.env.APP_ENV === "android") {
         return {
             ...commonConfig,
-            "slug": "clublahacienda",
-            "version": "1.0.0",
-            "android": android
+            slug: "clublahacienda",
+            version: "1.0.0",
+            android: android
         };
     } else if (process.env.APP_ENV === "expo") {
         return {
             ...commonConfig,
-            "slug": "clublahacienda-dev",
-            "version": "1.0.0",
-            "ios": ios,
-            "android": android
+            slug: "clublahacienda-dev",
+            version: "1.0.0",
+            ios: ios,
+            android: android
         };
     }
 };

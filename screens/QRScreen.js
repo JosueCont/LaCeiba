@@ -10,6 +10,7 @@ const QRScreen = ({navigation, appDuck}) => {
     const [refreshing, setRefreshing] = useState(null);
     const [imageQRCode, setImageQRCode] = useState(null);
 
+    console.log(appDuck)
     useEffect(() => {
         generateQRCodeFunction()
     }, [])

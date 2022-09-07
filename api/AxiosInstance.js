@@ -51,7 +51,7 @@ axiosInstance.interceptors.request.use(async (request) => {
     return request;
 }, (error) => {
     console.log(error.response, 'interceptors.request.error')
-    return error.response
+    return error
 })
 
 axiosInstance.interceptors.response.use((response) => {
@@ -59,7 +59,7 @@ axiosInstance.interceptors.response.use((response) => {
 }, (error) => {
     console.log(error.response, 'interceptors.response.error')
 
-    return error.response
+    return error
 })
 
 export default axiosInstance;
