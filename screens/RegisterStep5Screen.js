@@ -8,13 +8,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {connect} from "react-redux";
 import {loggedAction} from "../redux/ducks/appDuck";
 import ModalInfo from "./Modals/ModalInfo";
+import Constants from "expo-constants";
 
 const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) => {
     const [modalCompletedVisible, setModalCompletedVisible] = useState(null)
     const [dataValues, setDataValues] = useState(null);
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
         initialValues: {
-            email: '',
             password: '',
             passwordConfirm: '',
         },
@@ -23,7 +23,6 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
         },
         validateOnChange: false,
         validationSchema: Yup.object({
-            email: Yup.string().required("El correo electrónico es obligatorio"),
             password: Yup
                 .string()
                 .matches(/\w*[a-z]\w*/, "la contraseña debe contener al menos una minúscula")
@@ -36,14 +35,18 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
         })
     });
 
+
     const registerPartnerFuncion = async (values) => {
         try {
             const data = {
                 firstName: navigationDuck.user.firstName,
                 lastName: navigationDuck.user.lastName,
-                email: values.email,
+                email: Constants.manifest.extra.debug === true ? Constants.manifest.extra.debugEmail : navigationDuck.user.email,
                 password: values.password,
-                confirm: values.passwordConfirm
+                confirm: values.passwordConfirm,
+                claveSocio: navigationDuck.user.claveSocio,
+                countryCode: '+' + route.params.countryCode,
+                phone: navigationDuck.user.celular,
             }
 
             const headers = {
@@ -91,7 +94,9 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
                             autoCapitalize={'none'}
                             autoCorrect={false}
                             keyboardType={'email-address'}
-                            onChangeText={(v) => setFieldValue('email', v)}/>
+                            defaultValue={navigationDuck.user.email}
+                            editable={false}
+                        />
                         <FormControl.ErrorMessage>
                             {errors.email}
                         </FormControl.ErrorMessage>

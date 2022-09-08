@@ -23,8 +23,9 @@ const commonConfig = {
         URL_DEV: "https://api.hacienda.hiumanlab.com",
         eas: {
             projectId: "c16e312d-b8ac-495f-b1bc-39e309569e13"
-        }
-
+        },
+        debugEmail: 'couoheduardo@icloud.com',
+        debugPhone: '9991979545'
     }
 };
 

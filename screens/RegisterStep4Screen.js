@@ -33,7 +33,12 @@ const RegisterStep4Screen = ({navigation, route}) => {
             const response = await registerConfirmPhone(data);
             console.log(response.data)
             if (response.data.isValid === true) {
-                navigation.navigate('RegisterStep5Screen', {access_token: response.data.access_token})
+                navigation.navigate('RegisterStep5Screen',
+                    {
+                        countryCode: route.params.countryCode,
+                        phone: route.params.phone,
+                        access_token: response.data.access_token,
+                    })
             } else {
 
                 setModalResendSMSVisible(true)

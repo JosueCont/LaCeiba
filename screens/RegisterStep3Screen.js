@@ -1,15 +1,17 @@
 import React from "react";
-import {Button, FormControl, Input, Text, View} from "native-base";
+import {Button, FormControl, Input, Select, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import {registerSendConfirmPhone} from "../api/Requests";
+import {connect} from "react-redux";
+import {CountriesArray} from "../CountriesArray";
+import Constants from "expo-constants";
 
-const RegisterStep3Screen = ({navigation}) => {
-
+const RegisterStep3Screen = ({navigation, navigationDuck}) => {
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
         initialValues: {
-            phone: '',
+            countryCode: ''
         },
         onSubmit: (formValue) => {
             registerSendConfirmPhoneFunction(formValue)
@@ -17,23 +19,30 @@ const RegisterStep3Screen = ({navigation}) => {
         },
         validateOnChange: false,
         validationSchema: Yup.object({
-            phone: Yup.string().required("El número móvil es obligatorio"),
+            countryCode: Yup.string().required("El país es obligatorio")
         })
     });
 
     const registerSendConfirmPhoneFunction = async (values) => {
         try {
             const data = {
-                phone: '+52' + values.phone
+                phone: Constants.manifest.extra.debug === true ? '+' + values.countryCode + Constants.manifest.extra.debugPhone : '+' + values.countryCode + navigationDuck.user.celular
             }
+
+            console.log(data)
             const response = await registerSendConfirmPhone(data);
             console.log(response.data)
-            navigation.navigate('RegisterStep4Screen', {phone: response.data.to})
+            navigation.navigate('RegisterStep4Screen',
+                {
+                    countryCode: values.countryCode,
+                    phone: response.data.to
+                })
         } catch (e) {
             console.log(e)
             alert(e)
         }
     }
+
 
     return (
         <Layout overlay={true}>
@@ -41,19 +50,42 @@ const RegisterStep3Screen = ({navigation}) => {
             </View>
             <View flex={1}>
                 <View mx={20} mt={10}>
+
+
                     <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={8}>Verificar número móvil</Text>
 
 
-                    <FormControl isInvalid={errors.phone} mb={4}>
+                    <FormControl isInvalid={errors.countryCode} mb={4}>
+                        <Text textAlign={'center'} mb={2}>Selecciona el país</Text>
+                        <Select
+                            onValueChange={(v) => {
+                                setFieldValue('countryCode', v)
+                            }}
+                            placeholder="Seleccionar">
+                            {
+                                CountriesArray.map((item) => {
+                                    return (
+                                        <Select.Item label={item.nombre} value={item.phone_code}/>
+                                    )
+                                })
+                            }
+                        </Select>
+
+                        <FormControl.ErrorMessage>
+                            {errors.countryCode}
+                        </FormControl.ErrorMessage>
+                    </FormControl>
+
+
+                    <FormControl mb={4}>
                         <Text textAlign={'center'} mb={2}>Ingresa tu número móvil</Text>
                         <Input
                             keyboardType={'phone-pad'}
                             returnKeyType={'done'}
-                            onChangeText={(v) => setFieldValue('phone', v)}/>
-
-                        <FormControl.ErrorMessage>
-                            {errors.phone}
-                        </FormControl.ErrorMessage>
+                            defaultValue={navigationDuck.user.celular}
+                            maxLength={10}
+                            editable={false}
+                        />
                     </FormControl>
 
                     <Text mb={6} textAlign={'center'} fontSize={'xs'}>Recibirás un SMS con el código de confirmación</Text>
@@ -67,4 +99,10 @@ const RegisterStep3Screen = ({navigation}) => {
 }
 
 
-export default RegisterStep3Screen
+const mapState = (state) => {
+    return {
+        navigationDuck: state.navigationDuck
+    }
+}
+
+export default connect(mapState)(RegisterStep3Screen)

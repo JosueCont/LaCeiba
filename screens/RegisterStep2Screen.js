@@ -1,14 +1,26 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 import {connect} from "react-redux";
 
 const RegisterStep2Screen = ({navigation, navigationDuck}) => {
 
+    const [movil, setMovil] = useState(null);
 
-    console.log(navigationDuck, 9)
+    useEffect(() => {
+        setMovil(navigationDuck.user.celular)
+    }, [navigationDuck.user.claveSocio])
+
     const astericks = (w) => {
         return w.substring(0, 1) + '*'.repeat(w.length - 1);
+    }
+
+    const validateMovil = async () => {
+        if (movil.length === 10) {
+            navigation.navigate('RegisterStep3Screen')
+        } else {
+            alert('Número movil incorrecto')
+        }
     }
 
     return (
@@ -25,7 +37,7 @@ const RegisterStep2Screen = ({navigation, navigationDuck}) => {
                             })
                         }
                     </Text>
-                    <Button mb={2} onPress={() => navigation.navigate('RegisterStep3Screen')}>Continuar</Button>
+                    <Button mb={2} onPress={() => validateMovil()}>Continuar</Button>
                     <Button onPress={() => navigation.goBack()}>Cancelar</Button>
                 </View>
             </View>
