@@ -38,6 +38,7 @@ const RegisterScreen = ({navigation, setAttribute}) => {
 
             const response = await findPartner(queryString);
 
+            console.log(response.data)
             if (response.status === 404) {
                 setModalErrorVisible(true)
             } else {

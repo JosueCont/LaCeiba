@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 const RegisterStep2Screen = ({navigation, navigationDuck}) => {
 
 
-    console.log(navigationDuck)
+    console.log(navigationDuck, 9)
     const astericks = (w) => {
         return w.substring(0, 1) + '*'.repeat(w.length - 1);
     }
@@ -23,18 +23,8 @@ const RegisterStep2Screen = ({navigation, navigationDuck}) => {
                             navigationDuck.user.nombreSocio.split(' ').map((item, index) => {
                                 return astericks(navigationDuck.user.nombreSocio.split(' ')[index]) + ' '
                             })
-
                         }
                     </Text>
-                    {/*<Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>*/}
-                    {/*    {*/}
-                    {/*        navigationDuck.user.lastName.split(' ').map((item, index) => {*/}
-                    {/*            return astericks(navigationDuck.user.lastName.split(' ')[index]) + ' '*/}
-                    {/*        })*/}
-
-                    {/*    }*/}
-
-                    {/*</Text>*/}
                     <Button mb={2} onPress={() => navigation.navigate('RegisterStep3Screen')}>Continuar</Button>
                     <Button onPress={() => navigation.goBack()}>Cancelar</Button>
                 </View>

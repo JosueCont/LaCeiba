@@ -29,16 +29,16 @@ const commonConfig = {
 };
 
 const ios = {
-    buildNumber: "1",
+    buildNumber: "2",
     supportsTablet: false,
     bundleIdentifier: "com.hiumanlab.clublahacienda"
 };
 
 const android = {
-    versionCode: 1,
+    versionCode: 2,
     adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
-        backgroundColor: "#FFFFFF"
+        backgroundImage: "./assets/adaptive-icon-bg.png"
     },
     googleServicesFile: "./google-services.json",
     package: "com.hiumanlab.clublahacienda"
