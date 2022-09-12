@@ -70,11 +70,11 @@ const ModalInfo = ({
                             title !== '' ?
                                 <View>
                                     <Text style={styles.modalText} fontSize={'lg'} mb={6}>{title}</Text>
-                                    <Text style={styles.modalText} fontSize={'xs'} mb={6}>{text}</Text>
+                                    <Text style={styles.modalText} fontSize={'xs'} mb={6} textAlign={'justify'}>{text}</Text>
                                 </View>
                                 :
                                 <View>
-                                    <Text style={styles.modalText} fontSize={'lg'} mb={6}>{text}</Text>
+                                    <Text style={styles.modalText} fontSize={'lg'} mb={6} textAlign={'justify'}>{text}</Text>
                                 </View>
                         }
 

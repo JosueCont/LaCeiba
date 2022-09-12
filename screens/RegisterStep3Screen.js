@@ -44,6 +44,8 @@ const RegisterStep3Screen = ({navigation, navigationDuck}) => {
     }
 
 
+    console.log(navigationDuck)
+
     return (
         <Layout overlay={true}>
             <View flex={0.4} alignItems={'center'} justifyContent={'flex-end'}>

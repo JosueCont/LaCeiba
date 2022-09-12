@@ -34,20 +34,27 @@ const RegisterScreen = ({navigation, setAttribute}) => {
 
         try {
 
+
             const queryString = `?userId=${values.numberAction}&firstName=${values.namePartner}&lastName=${values.lastNamePartner}&parent=${values.relationship}`;
 
             const response = await findPartner(queryString);
+
+            const userUpdate = {
+                ...response.data,
+                firstName: values.namePartner,
+                lastName: values.lastNamePartner
+            }
 
             console.log(response.data)
             if (response.status === 404) {
                 setModalErrorVisible(true)
             } else {
-                setAttribute('user', response.data)
+                setAttribute('user', userUpdate)
                 navigation.navigate('RegisterStep2Screen')
             }
 
         } catch (e) {
-            alert(e)
+            alert(e.toString())
         }
     }
 

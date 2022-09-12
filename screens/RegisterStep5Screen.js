@@ -33,7 +33,9 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
                 .required("La contraseña es obligatoria"),
             passwordConfirm: Yup.string().required("La contraseña es obligatoria").oneOf([Yup.ref('password')], "Las contraseñas tienen que ser iguales."),
         })
-    });
+    })
+
+    console.log(navigationDuck)
 
 
     const registerPartnerFuncion = async (values) => {
