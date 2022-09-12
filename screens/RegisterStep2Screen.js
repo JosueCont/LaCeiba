@@ -29,7 +29,7 @@ const RegisterStep2Screen = ({navigation, navigationDuck}) => {
             </View>
             <View flex={1}>
                 <View mx={20} mt={10}>
-                    <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>¿Son éstas sus iniciales?</Text>
+                    <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>¿Son estas sus iniciales?</Text>
                     <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6} numberOfLines={2}>
                         {
                             navigationDuck.user.nombreSocio.split(' ').map((item, index) => {
