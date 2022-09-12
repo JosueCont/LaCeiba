@@ -37,13 +37,19 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
 
     console.log(navigationDuck)
 
+    const aliasGenerate = (email) => {
+        return email.split('@')[0] + '+' + getRandomInt(100).toString() + '@' + email.split('@')[1];
+    }
 
+    const getRandomInt = (max) => {
+        return Math.floor(Math.random() * max);
+    }
     const registerPartnerFuncion = async (values) => {
         try {
             const data = {
                 firstName: navigationDuck.user.firstName,
                 lastName: navigationDuck.user.lastName,
-                email: Constants.manifest.extra.debug === true ? Constants.manifest.extra.debugEmail : navigationDuck.user.email,
+                email: Constants.manifest.extra.debug === true ? aliasGenerate(Constants.manifest.extra.debugEmail) : navigationDuck.user.email,
                 password: values.password,
                 confirm: values.passwordConfirm,
                 claveSocio: navigationDuck.user.claveSocio,
@@ -58,10 +64,13 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
 
             const response = await registerPartner(data, {headers: headers});
 
+            console.log(response.data)
+
             setDataValues(data)
             setModalCompletedVisible(true)
         } catch (e) {
             console.log(e.response)
+            alert(e.toString())
         }
     }
 

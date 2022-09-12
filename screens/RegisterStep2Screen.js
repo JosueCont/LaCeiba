@@ -37,11 +37,8 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
                 ...response.data
             }
 
-
-            setAttribute('user', userUpdate)
-
+            await setAttribute('user', userUpdate)
             setMovil(response.data.celular)
-
             setRetry(false)
         } catch (e) {
             alert(e.toString())
