@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Text, View} from "native-base";
+import {Button, Skeleton, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 import {connect} from "react-redux";
 import ModalInfo from "./Modals/ModalInfo";
@@ -10,6 +10,7 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
 
     const [movil, setMovil] = useState(null);
     const [retry, setRetry] = useState(null);
+    const [loading, setLoading] = useState(null);
 
     useEffect(() => {
         setMovil(navigationDuck.user.celular)
@@ -30,6 +31,7 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
 
     const tryFindPartnerFunction = async () => {
         try {
+            setLoading(true)
             const response = await tryFindPartner('/' + navigationDuck.user.claveSocio);
 
             const userUpdate = {
@@ -42,6 +44,8 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
             setRetry(false)
         } catch (e) {
             alert(e.toString())
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -52,21 +56,30 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
             <View flex={1}>
                 <View mx={20} mt={10}>
                     <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>¿Son estas sus iniciales?</Text>
-                    <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6} numberOfLines={2}>
-                        {
-                            navigationDuck.user.nombreSocio.split(' ').map((item, index) => {
-                                return astericks(navigationDuck.user.nombreSocio.split(' ')[index]) + ' '
-                            })
-                        }
 
+                    {
+                        loading === true ?
+                            <Skeleton h={20}/> :
+                            <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6} numberOfLines={2}>
+                                {
+                                    navigationDuck.user.nombreSocio.split(' ').map((item, index) => {
+                                        return astericks(navigationDuck.user.nombreSocio.split(' ')[index]) + ' '
+                                    })
+                                }
+                            </Text>
+                    }
 
-                    </Text>
-                    <Text fontSize={'lg'} textAlign={'center'} fontFamily={'titleLight'} mb={6} numberOfLines={1}>
-                        {
-                            astericks(navigationDuck.user.email.split('@')[0], 2) + '@' + navigationDuck.user.email.split('@')[1]
+                    {
+                        loading === true ?
+                            <Skeleton h={20}/> :
+                            <Text fontSize={'lg'} textAlign={'center'} fontFamily={'titleLight'} mb={6} numberOfLines={1}>
+                                {
+                                    astericks(navigationDuck.user.email.split('@')[0], 2) + '@' + navigationDuck.user.email.split('@')[1]
 
-                        }
-                    </Text>
+                                }
+                            </Text>
+                    }
+
                     <Button mb={2} onPress={() => validateMovil()}>Continuar</Button>
                     <Button onPress={() => navigation.goBack()}>Cancelar</Button>
                 </View>

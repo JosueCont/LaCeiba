@@ -36,9 +36,9 @@ const LoginScreen = ({loggedAction, navigation}) => {
             const response = await signIn(data)
 
 
-            console.log(response.data, 37)
             await AsyncStorage.setItem('@user', JSON.stringify(response.data))
             await loggedAction(response.data)
+
         } catch (ex) {
             console.log(ex)
             setModalInfoVisible(true)

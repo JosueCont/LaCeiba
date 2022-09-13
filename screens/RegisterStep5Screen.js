@@ -82,10 +82,9 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
                 password: dataValues.password,
                 refresh: true
             }
-            console.log(data)
             const response = await signIn(data)
-            await AsyncStorage.setItem('@user', JSON.stringify(dataValues))
-            await loggedAction()
+            await AsyncStorage.setItem('@user', JSON.stringify(response.data))
+            await loggedAction(response.data)
         } catch (e) {
             console.log(e)
             alert(e)

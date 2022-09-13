@@ -45,16 +45,15 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                 lastName: values.lastNamePartner
             }
 
-            console.log(response.data)
-            if (response.status === 404) {
-                setModalErrorVisible(true)
-            } else {
-                setAttribute('user', userUpdate)
-                navigation.navigate('RegisterStep2Screen')
-            }
+            setAttribute('user', userUpdate)
+            navigation.navigate('RegisterStep2Screen')
 
         } catch (e) {
-            alert(e.toString())
+            if (e.status === 404) {
+                setModalErrorVisible(true)
+            } else {
+                alert(e.toString())
+            }
         }
     }
 
