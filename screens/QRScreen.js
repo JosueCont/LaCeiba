@@ -20,7 +20,6 @@ const QRScreen = ({navigation, appDuck}) => {
             setRefreshing(true)
             const response = await request(`/v1/users/${appDuck.user.id}/qr-code`, '', 'get')
             setImageQRCode(response.data.qrCode)
-            navigation.navigate('QRNonPaymentScreen')
         } catch (e) {
             console.log(e)
         } finally {

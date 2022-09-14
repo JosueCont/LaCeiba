@@ -6,5 +6,6 @@ export const URLTypes = {
     REGISTER_PARTNER: '/v1/users',
     FORGOT_PASSWORD: '/v1/auth/forgot-password',
     QR_CODE: '/v1/users/1/qr-code',
-    TRY_FIND_PARTNER: '/v1/users/app/partners'
+    TRY_FIND_PARTNER: '/v1/users/app/partners',
+    VALIDATE_PARTNER: '/v1/users'
 };

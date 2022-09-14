@@ -66,6 +66,8 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
 
             console.log(response.data)
 
+            alert(data['email'].toString())
+
             setDataValues(data)
             setModalCompletedVisible(true)
         } catch (e) {
