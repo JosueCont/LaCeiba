@@ -65,8 +65,10 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
             const response = await registerPartner(data, {headers: headers});
 
             console.log(response.data)
+            if (Constants.manifest.extra.debug === true) {
+                alert(data['email'].toString())
+            }
 
-            alert(data['email'].toString())
 
             setDataValues(data)
             setModalCompletedVisible(true)
