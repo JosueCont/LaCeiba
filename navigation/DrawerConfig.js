@@ -6,7 +6,6 @@ import {Icon, View} from "native-base";
 import {TouchableOpacity} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
 import {Colors} from "../Colors";
-import ComponentsScreen from "../screens/ComponentsScreen";
 import QRInstructionsScreen from "../screens/QRInstructionsScreen";
 import QRScreen from "../screens/QRScreen";
 import QRSentScreen from "../screens/QRSentScreen";
@@ -103,8 +102,6 @@ const DrawerConfig = () => {
                 swipeEnabled: false
             })}
             drawerContent={(props) => <CustomDrawerContent  {...props} />}>
-            <Drawer.Screen name="ComponentsScreen" component={ComponentsScreen} options={{headerShown: false}}/>
-
             <Drawer.Screen name={'HomeScreen'} component={HomeScreen} options={{title: ''}}/>
             <Drawer.Screen name={'QRInstructionsScreen'} component={QRInstructionsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'QRScreen'} component={QRScreen} options={{title: ''}}/>
