@@ -11,6 +11,9 @@ import ModalInfo from "./Modals/ModalInfo";
 
 const RegisterScreen = ({navigation, setAttribute}) => {
     const [modalErrorVisible, setModalErrorVisible] = useState(null);
+    const [modalUserExists, setModalUserExists] = useState(null);
+
+
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
         initialValues: {
             numberAction: '',
@@ -39,6 +42,8 @@ const RegisterScreen = ({navigation, setAttribute}) => {
 
             const response = await findPartner(queryString);
 
+            console.log(response.data)
+
             const userUpdate = {
                 ...response.data,
                 firstName: values.namePartner,
@@ -51,6 +56,9 @@ const RegisterScreen = ({navigation, setAttribute}) => {
         } catch (e) {
             if (e.status === 404) {
                 setModalErrorVisible(true)
+            } else if (e.status === 400) {
+                setModalUserExists(true)
+
             } else {
                 alert(e.toString())
             }
@@ -122,6 +130,8 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                 </ScrollView>
             </View>
             <ModalInfo text={'Socio no encontrado.'} iconType={'exclamation'} textButton={'Entendido'} visible={modalErrorVisible} setVisible={setModalErrorVisible}/>
+            <ModalInfo text={'El usuario ya se encuentra registrado.'} iconType={'exclamation'} textButton={'Entendido'} visible={modalUserExists} setVisible={setModalUserExists}/>
+
         </Layout>
     )
 }
