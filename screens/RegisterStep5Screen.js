@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, FormControl, Input, Text, View} from "native-base";
+import {Button, FormControl, Icon, Input, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 import {useFormik} from "formik";
 import * as Yup from "yup";
@@ -9,6 +9,8 @@ import {connect} from "react-redux";
 import {loggedAction} from "../redux/ducks/appDuck";
 import ModalInfo from "./Modals/ModalInfo";
 import Constants from "expo-constants";
+import {TouchableOpacity} from "react-native";
+import {MaterialIcons} from "@expo/vector-icons";
 
 const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) => {
     const [modalCompletedVisible, setModalCompletedVisible] = useState(null)
@@ -34,6 +36,8 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
             passwordConfirm: Yup.string().required("La contraseña es obligatoria").oneOf([Yup.ref('password')], "Las contraseñas tienen que ser iguales."),
         })
     })
+    const [showPasssword, setShowPassword] = useState(null)
+    const [showPassswordConfirm, setShowPasswordConfirm] = useState(null)
 
     console.log(navigationDuck)
 
@@ -73,7 +77,7 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
             setDataValues(data)
             setModalCompletedVisible(true)
         } catch (e) {
-            console.log(e.response)
+            console.log(e)
             alert(e.toString())
         }
     }
@@ -117,14 +121,30 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
                     </FormControl>
                     <FormControl isInvalid={errors.password} mb={4}>
                         <Text textAlign={'center'} mb={2}>Contraseña</Text>
-                        <Input type={'password'} onChangeText={(v) => setFieldValue('password', v)}/>
+                        <Input
+                            onChangeText={(v) => setFieldValue('password', v)}
+                            type={showPasssword ? "text" : "password"}
+                            InputRightElement={
+                                <TouchableOpacity onPress={() => setShowPassword(!showPasssword)}>
+                                    <Icon as={<MaterialIcons name={showPasssword ? "visibility" : "visibility-off"}/>} size={5} mr="2" color="muted.400"/>
+                                </TouchableOpacity>
+                            }
+                        />
                         <FormControl.ErrorMessage>
                             {errors.password}
                         </FormControl.ErrorMessage>
                     </FormControl>
                     <FormControl isInvalid={errors.passwordConfirm} mb={4}>
                         <Text textAlign={'center'} mb={2}>Repetir contraseña</Text>
-                        <Input type={'password'} onChangeText={(v) => setFieldValue('passwordConfirm', v)}/>
+                        <Input
+                            onChangeText={(v) => setFieldValue('passwordConfirm', v)}
+                            type={showPassswordConfirm ? "text" : "password"}
+                            InputRightElement={
+                                <TouchableOpacity onPress={() => setShowPasswordConfirm(!showPassswordConfirm)}>
+                                    <Icon as={<MaterialIcons name={showPassswordConfirm ? "visibility" : "visibility-off"}/>} size={5} mr="2" color="muted.400"/>
+                                </TouchableOpacity>
+                            }
+                        />
                         <FormControl.ErrorMessage>
                             {errors.passwordConfirm}
                         </FormControl.ErrorMessage>

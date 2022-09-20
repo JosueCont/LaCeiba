@@ -30,17 +30,20 @@ export const theme = extendTheme({
         Input: {
             baseStyle: {
                 borderRadius: 20,
-                backgroundColor: '#D1D4C4',
+                backgroundColor: 'white',
 
 
             },
             defaultProps: {
-                backgroundColor: 'white',
+                ///backgroundColor: 'white',
                 borderWidth: 0,
                 color: Colors.greenV4,
                 height: 45,
                 fontSize: 'md',
-                textAlign: 'center'
+                textAlign: 'center',
+                caretHidden: false,
+                selectionColor: Colors.greenV4
+
             },
         },
         Select: {

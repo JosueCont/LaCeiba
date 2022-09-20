@@ -3,10 +3,12 @@ import {Button, FormControl, Input, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import {registerConfirmPhone} from "../api/Requests";
+import {registerConfirmPhone, registerSendConfirmPhone} from "../api/Requests";
 import ModalResendSMS from "./Modals/ModalResendSMS";
+import Constants from "expo-constants";
+import {connect} from "react-redux";
 
-const RegisterStep4Screen = ({navigation, route}) => {
+const RegisterStep4Screen = ({navigation, route, navigationDuck}) => {
     const [modalResendSMSVisible, setModalResendSMSVisible] = useState(null);
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
         initialValues: {
@@ -45,8 +47,23 @@ const RegisterStep4Screen = ({navigation, route}) => {
                 console.log(response.data)
             }
         } catch (e) {
-            alert(e)
             setModalResendSMSVisible(true)
+        }
+    }
+
+
+    const registerSendConfirmPhoneFunctionV2 = async () => {
+        try {
+            const data = {
+                phone: Constants.manifest.extra.debug === true ? '+' + route.params.countryCode + Constants.manifest.extra.debugPhone : '+' + values.countryCode + navigationDuck.user.celular
+            }
+
+            console.log(data)
+            const response = await registerSendConfirmPhone(data);
+            console.log(response.data)
+        } catch (e) {
+            console.log(e)
+            alert(e)
         }
     }
 
@@ -64,6 +81,7 @@ const RegisterStep4Screen = ({navigation, route}) => {
                         <Input
                             returnKeyType={'done'}
                             keyboardType={'number-pad'}
+                            maxLength={4}
                             onChangeText={(v) => setFieldValue('code', v)}/>
                         <FormControl.ErrorMessage>
                             {errors.code}
@@ -75,7 +93,10 @@ const RegisterStep4Screen = ({navigation, route}) => {
             </View>
             <ModalResendSMS
                 visible={modalResendSMSVisible}
-                setVisible={setModalResendSMSVisible}
+                setVisible={(v) => {
+                    registerSendConfirmPhoneFunctionV2()
+                    setModalResendSMSVisible(v)
+                }}
                 text={'Verificación fallida'}
                 textButton={'Reenviar SMS'}
                 textButtonCancel={'Cancelar'}
@@ -84,5 +105,10 @@ const RegisterStep4Screen = ({navigation, route}) => {
     )
 }
 
+const mapState = (state) => {
+    return {
+        navigationDuck: state.navigationDuck
+    }
+}
 
-export default RegisterStep4Screen
+export default connect(mapState)(RegisterStep4Screen)

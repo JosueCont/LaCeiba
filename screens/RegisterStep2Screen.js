@@ -13,6 +13,7 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
     const [loading, setLoading] = useState(null);
 
     useEffect(() => {
+        console.log(navigationDuck.user.celular, 16)
         setMovil(navigationDuck.user.celular)
     }, [navigationDuck.user.claveSocio])
 
@@ -21,6 +22,7 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
     }
 
     const validateMovil = async () => {
+        console.log(movil, 24)
         if (movil.length === 10) {
             navigation.navigate('RegisterStep3Screen')
         } else {
@@ -34,6 +36,7 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
             setLoading(true)
             const response = await tryFindPartner('/' + navigationDuck.user.claveSocio);
 
+            console.log(response.data)
             const userUpdate = {
                 ...navigationDuck.user,
                 ...response.data
