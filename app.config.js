@@ -30,13 +30,13 @@ const commonConfig = {
 };
 
 const ios = {
-    buildNumber: "6",
+    buildNumber: "7",
     supportsTablet: false,
     bundleIdentifier: "com.hiumanlab.clublahacienda"
 };
 
 const android = {
-    versionCode: 6,
+    versionCode: 7,
     adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundImage: "./assets/adaptive-icon-bg.png"
