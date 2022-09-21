@@ -7,5 +7,7 @@ export const URLTypes = {
     FORGOT_PASSWORD: '/v1/auth/forgot-password',
     QR_CODE: '/v1/users/1/qr-code',
     TRY_FIND_PARTNER: '/v1/users/app/partners',
-    VALIDATE_PARTNER: '/v1/users'
+    VALIDATE_PARTNER: '/v1/users',
+    GET_GUESTS: '/v1/access-control/guests',
+    GENERATE_GUEST_QR: '/v1/users/2/guest/qr-code'
 };

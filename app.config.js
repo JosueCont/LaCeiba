@@ -30,7 +30,7 @@ const commonConfig = {
 };
 
 const ios = {
-    buildNumber: "7",
+    buildNumber: "8",
     supportsTablet: false,
     bundleIdentifier: "com.hiumanlab.clublahacienda"
 };
