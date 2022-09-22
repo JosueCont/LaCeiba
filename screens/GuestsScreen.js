@@ -1,16 +1,19 @@
 import React, {useEffect, useState} from "react";
-import {ScrollView, View} from "native-base";
+import {Input, ScrollView, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import GuestItem from "./GuestItem";
 import {RefreshControl, TouchableOpacity} from "react-native";
 import {getGuests, validatePartner} from "../api/Requests";
 import LayoutV5 from "./Layouts/LayoutV5";
 import {connect} from "react-redux";
+import _ from 'lodash';
 
 const GuestsScreen = ({navigation, appDuck}) => {
 
     const [loading, setLoading] = useState(null);
     const [guests, setQuests] = useState([]);
+    const [guestsFiltered, setQuestsFiltered] = useState([]);
+
 
     useEffect(() => {
         getQuestsFunction()
@@ -21,6 +24,7 @@ const GuestsScreen = ({navigation, appDuck}) => {
             setLoading(true)
             const response = await getGuests('')
             setQuests(response.data)
+            setQuestsFiltered(response.data)
             console.log(response)
         } catch (e) {
             console.log(e)
@@ -45,6 +49,13 @@ const GuestsScreen = ({navigation, appDuck}) => {
 
     }
 
+    const search = async (value) => {
+        let filtered = _.filter(guests, function (item) {
+            return item.nombre.includes(value) || item.apellidoPaterno.includes(value) || item.apellidoMaterno.includes(value)
+        });
+        setQuestsFiltered(filtered)
+    }
+
 
     return (
         <LayoutV5>
@@ -57,8 +68,15 @@ const GuestsScreen = ({navigation, appDuck}) => {
                 {/*        <Text color={Colors.green}>Invitado exclusivo para restaurantes</Text>*/}
                 {/*    </View>*/}
                 {/*</View>*/}
-                <View flex={1} mt={10}>
+                <View flex={1}>
+                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Invitados</Text>
+
+                    <View mx={10}>
+                        <Input placeholder={'Buscar'} onChangeText={(v) => search(v)}/>
+                    </View>
+
                     <ScrollView
+                        mt={5}
                         _contentContainerStyle={{flexGrow: 1}}
                         ScrollEnabled={true}
                         refreshControl={
@@ -71,7 +89,7 @@ const GuestsScreen = ({navigation, appDuck}) => {
 
                         <View mx={8}>
                             {
-                                guests.map((item) => {
+                                guestsFiltered.map((item) => {
                                     return (
                                         <TouchableOpacity onPress={() => verifyStatus(item)}>
                                             <GuestItem mb={4} item={item}/>
