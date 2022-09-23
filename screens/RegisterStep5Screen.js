@@ -27,9 +27,9 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
         validationSchema: Yup.object({
             password: Yup
                 .string()
-                .matches(/\w*[a-z]\w*/, "la contraseña debe contener al menos una minúscula")
-                .matches(/\w*[A-Z]\w*/, "la contraseña debe contener al menos una mayúscula")
-                .matches(/\d/, "la contraseña debe contener al menos un número")
+                .matches(/\w*[a-z]\w*/, "La contraseña debe contener al menos una minúscula")
+                .matches(/\w*[A-Z]\w*/, "La contraseña debe contener al menos una mayúscula")
+                .matches(/\d/, "La contraseña debe contener al menos un número")
                 .min(8, ({min}) => `La contraseña debe ser de al menos ${8} caracteres.`)
                 .max(12, ({max}) => `La contraseña debe contener como máximo ${12} caracteres.`)
                 .required("La contraseña es obligatoria"),

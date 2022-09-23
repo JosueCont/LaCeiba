@@ -52,7 +52,7 @@ const DrawerConfig = () => {
             screenOptions={({navigation, route}) => ({
                 drawerPosition: 'right',
                 headerLeft: () => {
-                    if (route.name.includes('HomeScreenx')) {
+                    if (route.name.includes('HomeScreen')) {
                         <View/>
                     } else {
                         return (

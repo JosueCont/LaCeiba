@@ -1,7 +1,6 @@
 import React from "react";
 import {Button, Image, View} from "native-base";
 import imgLogo from '../assets/imgLogo.png';
-import Constants from 'expo-constants';
 import Layout from "./Layouts/Layout";
 
 const StartScreen = ({navigation}) => {
@@ -15,12 +14,6 @@ const StartScreen = ({navigation}) => {
                 <View mx={20} mt={20}>
                     <Button mb={2} onPress={() => navigation.navigate('LoginScreen')}>Iniciar sesión</Button>
                     <Button mb={2} onPress={() => navigation.navigate('RegisterScreen')}>Registrar</Button>
-                    {
-                        Constants.manifest.extra.debug === true &&
-                        <Button onPress={() => navigation.navigate('ComponentsScreen')}>Componentes</Button>
-
-                    }
-
                 </View>
 
             </View>

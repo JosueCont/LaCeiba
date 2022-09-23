@@ -20,7 +20,7 @@ import {TouchableOpacity} from "react-native";
 import {loggedOutAction} from "../redux/ducks/appDuck";
 import iconGroupPermanent from '../assets/iconGroupPermanent.png';
 
-const CustomDrawerContent = ({navigation, loggedOutAction}) => {
+const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
 
     return (
         <DrawerContentScrollView
@@ -31,7 +31,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction}) => {
 
             <View my={10} alignItems={'center'} justifyContent={'center'}>
                 <Image source={face} width={100} height={100} borderRadius={60} resizeMode={'stretch'}></Image>
-                <Text fontSize={'md'} mt={5}>Juan Couoh</Text>
+                <Text fontSize={'md'} mt={5} textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>
             </View>
             <View flex={1}>
                 <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
@@ -179,7 +179,9 @@ const CustomDrawerContent = ({navigation, loggedOutAction}) => {
 }
 
 const mapState = (state) => {
-    return {}
+    return {
+        appDuck: state.appDuck
+    }
 }
 
 export default connect(mapState, {loggedOutAction})(CustomDrawerContent);

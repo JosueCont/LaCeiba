@@ -12,7 +12,7 @@ const ModalInfo = ({
                        setVisible,
                        title = '',
                        text = 'Texto informativo',
-                       textButton = 'Continuar',
+                       textButton = 'Entendido',
                        close = true,
                        iconType = 'check'
                    }) => {
