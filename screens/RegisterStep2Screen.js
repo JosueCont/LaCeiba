@@ -92,7 +92,7 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
                 setVisible={(v) => {
                     tryFindPartnerFunction();
                 }}
-                text={`Tus datos son incorrectos, contacta a administracion para actualizar tus datos y poder continuar con tu registro. \n\n contacto@clublahacienda.com`}
+                text={`Tus datos son incorrectos, contacta a administración para actualizar tus datos y poder continuar con tu registro. \n\n contacto@clublahacienda.com`}
                 textButton={'Intentar de nuevo'}
                 iconType={'exclamation'}
                 title={'Aviso'}

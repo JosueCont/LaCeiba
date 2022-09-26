@@ -44,7 +44,7 @@ const GuestsScreen = ({navigation, appDuck}) => {
             }
         } catch (ex) {
             console.log(ex)
-            alert(ex)
+            alert(ex.data.message)
         }
 
     }

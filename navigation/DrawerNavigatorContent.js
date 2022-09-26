@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {DrawerContentScrollView,} from "@react-navigation/drawer";
 import {connect} from "react-redux";
 import {Image, Text, View} from "native-base";
@@ -19,8 +19,10 @@ import face from '../assets/face.png';
 import {TouchableOpacity} from "react-native";
 import {loggedOutAction} from "../redux/ducks/appDuck";
 import iconGroupPermanent from '../assets/iconGroupPermanent.png';
+import ModalAsk from "../screens/Modals/ModalAsk";
 
 const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
+    const [modalSessionVisible, setModalSessionVisible] = useState(null);
 
     return (
         <DrawerContentScrollView
@@ -160,7 +162,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => loggedOutAction()}>
+                <TouchableOpacity onPress={() => setModalSessionVisible(true)}>
                     <View flexDirection={'row'} mb={4}>
                         <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
                             <Image source={iconLogout} style={{width: 20, height: 20}}></Image>
@@ -172,6 +174,21 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                 </TouchableOpacity>
 
             </View>
+
+            <ModalAsk
+                visible={modalSessionVisible}
+                iconType={'exclamation'}
+                textButton={'Sí'}
+                text={'¿Deseas cerrar sesión?'}
+                setVisible={(v) => {
+                    if (v === true) {
+                        loggedOutAction()
+                    } else {
+                        setModalSessionVisible(false)
+                    }
+
+                }}
+            />
         </DrawerContentScrollView>
 
 

@@ -16,10 +16,10 @@ const TransactionItem = ({navigation, mb = 2, yellow = false}) => {
             <View borderWidth={1} height={'60%'} alignSelf={'center'} mr={3} borderColor={yellow ? 'white' : Colors.yellow}/>
             <View flex={1} justifyContent={'center'} flexDirection={'row'}>
                 <View flex={1} justifyContent={'center'} alignItems={'center'}>
-                    <Image source={iconGroupSmall} style={{width: 25, height: 25}}></Image>
+                    <Image source={iconGroupSmall} style={{width: 20, height: 20}}></Image>
                 </View>
                 <View flex={1} justifyContent={'center'} alignItems={'center'}>
-                    <Image source={iconBallReady} style={{width: 25, height: 25}}></Image>
+                    <Image source={iconBallReady} style={{width: 20, height: 20}}></Image>
                 </View>
             </View>
             <View flex={1} justifyContent={'center'} pr={5}>

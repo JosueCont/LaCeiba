@@ -138,6 +138,7 @@ const HomeScreen = ({navigation, appDuck}) => {
                 </View>
 
             </View>
+
         </LayoutV4>
 
     )
