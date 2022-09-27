@@ -99,7 +99,8 @@ const DrawerConfig = () => {
                         <Icon as={MaterialIcons} color={'white'} name={'menu'} size={'md'}></Icon>
                     </TouchableOpacity>
                 ),
-                swipeEnabled: false
+                swipeEnabled: false,
+                headerShadowVisible: false
             })}
             drawerContent={(props) => <CustomDrawerContent  {...props} />}>
             <Drawer.Screen name={'HomeScreen'} component={HomeScreen} options={{title: ''}}/>
