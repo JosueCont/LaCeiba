@@ -39,7 +39,7 @@ const GuestGeneratePassScreen = ({navigation, route}) => {
         try {
             const data = {
                 "idInvitado": route.params.guest.idInvitado,
-                "guestName": Constants.manifest.extra.debug === true ? Constants.manifest.extra.debugEmail : route.params.guest.nombre + ' ' + route.params.guest.apellidoPaterno + ' ' + route.params.guest.apellidoMaterno,
+                "guestName": route.params.guest.nombre + ' ' + route.params.guest.apellidoPaterno + ' ' + route.params.guest.apellidoMaterno,
                 "guestEmail": Constants.manifest.extra.debug === true ? Constants.manifest.extra.debugEmail : route.params.guest.mail,
                 "expirationDate": date
             }
