@@ -23,6 +23,7 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
 
     const validateMovil = async () => {
         console.log(movil, 24)
+
         if (movil.length === 10) {
             navigation.navigate('RegisterStep3Screen')
         } else {
