@@ -9,6 +9,7 @@ import ModalInfo from "./Modals/ModalInfo";
 const RecoverPasswordScreen = () => {
     const [modalRequestSentVisible, setModalRequestSentVisible] = useState(null)
     const [modalErrorVisible, setModalErrorVisible] = useState(null)
+    const [modalErrorText, setModalErrorText] = useState(null)
 
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
         initialValues: {
@@ -32,6 +33,11 @@ const RecoverPasswordScreen = () => {
 
         } catch (ex) {
             console.log(ex)
+            if (ex.status === 404) {
+                setModalErrorText('Usuario no encontrado.')
+            } else {
+                setModalErrorText('Ocurrio un error, intenta de nuevo más tarde')
+            }
             setModalErrorVisible(true)
         }
     }
@@ -68,7 +74,7 @@ const RecoverPasswordScreen = () => {
                 setVisible={setModalErrorVisible}
                 iconType={'exclamation'}
                 textButton={'Entendido'}
-                text={'Ocurrio un error, intenta de nuevo más tarde'}
+                text={modalErrorText}
             />
         </Layout>
     )
