@@ -55,7 +55,7 @@ const QRScreen = ({navigation, appDuck}) => {
                         Muestra este código en {'\n'}la entrada del club para {'\n'}poder ingresar
                     </Text>
 
-                    <Button mb={4} onPress={() => navigation.navigate('QRSentScreen')}>Descargar</Button>
+                    {/*<Button mb={4} onPress={() => navigation.navigate('QRSentScreen')}>Descargar</Button>*/}
                     <Button onPress={() => navigation.goBack()}>Terminar</Button>
                 </View>
             </ScrollView>

@@ -5,9 +5,11 @@ import LayoutV4 from "./Layouts/LayoutV4";
 import {ImageBackground} from "react-native";
 import bgButton from "../assets/bgButton.png";
 import iconPersonEdit from "../assets/iconPersonEdit.png";
+import {connect} from "react-redux";
 
-const ProfileScreen = ({navigation}) => {
+const ProfileScreen = ({navigation, appDuck}) => {
 
+    console.log(appDuck, 11)
 
     return (
         <LayoutV4>
@@ -23,7 +25,7 @@ const ProfileScreen = ({navigation}) => {
                     Titular:
                 </Text>
                 <Text textAlign={'center'} mb={6} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
-                    Daniel Jiménez
+                    {appDuck.user.firstName} {appDuck.user.lastName}
                 </Text>
                 <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                     Fecha de nacimiento:
@@ -35,7 +37,7 @@ const ProfileScreen = ({navigation}) => {
                     Correo electrónico:
                 </Text>
                 <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
-                    dani89@gmail.com
+                    {appDuck.user.email}
                 </Text>
                 <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                     Teléfono:
@@ -44,12 +46,12 @@ const ProfileScreen = ({navigation}) => {
                     55 123 456 789
                 </Text>
                 <Button onPress={() => navigation.goBack()} mb={10}>Regresar</Button>
-                <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
-                    Datos de facturación
-                </Text>
-                <Text textAlign={'center'} mb={6} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
-                    Día de corte: 7 de agosto de 2022
-                </Text>
+                {/*<Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>*/}
+                {/*    Datos de facturación*/}
+                {/*</Text>*/}
+                {/*<Text textAlign={'center'} mb={6} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>*/}
+                {/*    Día de corte: 7 de agosto de 2022*/}
+                {/*</Text>*/}
 
 
             </View>
@@ -59,4 +61,10 @@ const ProfileScreen = ({navigation}) => {
 }
 
 
-export default ProfileScreen;
+const mapState = (state) => {
+    return {
+        appDuck: state.appDuck
+    }
+}
+
+export default connect(mapState)(ProfileScreen);
