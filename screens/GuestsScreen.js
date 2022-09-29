@@ -51,7 +51,7 @@ const GuestsScreen = ({navigation, appDuck}) => {
 
     const search = async (value) => {
         let filtered = _.filter(guests, function (item) {
-            return item.nombre.includes(value) || item.apellidoPaterno.includes(value) || item.apellidoMaterno.includes(value)
+            return item.nombre.toLowerCase().includes(value.toLowerCase()) || item.apellidoPaterno.toLowerCase().includes(value.toLowerCase()) || item.apellidoMaterno.toLowerCase().includes(value.toLowerCase())
         });
         setQuestsFiltered(filtered)
     }

@@ -34,6 +34,7 @@ const GuestGeneratePassScreen = ({navigation, route}) => {
     const [modalVisible, setModalVisible] = useState(null);
     const [modalText, setModalText] = useState(null);
     const [date, setDate] = useState(null);
+    const [markedDate, setMarkedDate] = useState(null);
 
     const generateQuestQRFunction = async () => {
         try {
@@ -71,11 +72,13 @@ const GuestGeneratePassScreen = ({navigation, route}) => {
                 <Text textAlign={'center'} mb={6} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'} adjustsFontSizeToFit numberOfLines={2}>Seleccione la fecha que desea {'\n'}asignar el acceso a este invitado</Text>
                 <View mb={6}>
                     <Calendar
-                        initialDate={new Date()}
                         minDate={new Date()}
                         onDayPress={day => {
                             console.log('selected day', day);
                             setDate(day.dateString)
+                            let selected = {};
+                            selected[day.dateString] = {selected: true, marked: true}
+                            setMarkedDate(selected)
                         }}
                         onDayLongPress={day => {
                             console.log('selected day', day);
@@ -84,12 +87,14 @@ const GuestGeneratePassScreen = ({navigation, route}) => {
                         onMonthChange={month => {
                             console.log('month changed', month);
                         }}
+
                         hideExtraDays={false}
                         firstDay={1}
                         onPressArrowLeft={subtractMonth => subtractMonth()}
                         onPressArrowRight={addMonth => addMonth()}
                         disableAllTouchEventsForDisabledDays={true}
                         enableSwipeMonths={true}
+                        markedDates={markedDate}
                         theme={{
                             'stylesheet.calendar.header': {
                                 monthText: {
@@ -111,7 +116,9 @@ const GuestGeneratePassScreen = ({navigation, route}) => {
                             dayTextColor: Colors.green,
                             textDayFontSize: 14,
                             arrowColor: Colors.yellow,
-                            width: '100%'
+                            width: '100%',
+                            selectedDayBackgroundColor: Colors.green,
+                            selectedDayTextColor: '#ffffff',
                         }}
                     />
                 </View>
