@@ -54,6 +54,7 @@ const RegisterScreen = ({navigation, setAttribute}) => {
             navigation.navigate('RegisterStep2Screen')
 
         } catch (e) {
+            console.log(e)
             if (e.status === 404) {
                 setModalErrorVisible(true)
             } else if (e.status === 400) {
