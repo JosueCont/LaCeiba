@@ -35,6 +35,7 @@ const LoginScreen = ({loggedAction, navigation}) => {
             data['refresh'] = true;
             const response = await signIn(data)
 
+            console.log(response)
 
             await AsyncStorage.setItem('@user', JSON.stringify(response.data))
             await loggedAction(response.data)
