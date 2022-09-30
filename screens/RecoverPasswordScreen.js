@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import {forgotPassword} from "../api/Requests";
 import ModalInfo from "./Modals/ModalInfo";
 
-const RecoverPasswordScreen = () => {
+const RecoverPasswordScreen = ({navigation}) => {
     const [modalRequestSentVisible, setModalRequestSentVisible] = useState(null)
     const [modalErrorVisible, setModalErrorVisible] = useState(null)
     const [modalErrorText, setModalErrorText] = useState(null)
@@ -64,7 +64,10 @@ const RecoverPasswordScreen = () => {
             </View>
             <ModalInfo
                 visible={modalRequestSentVisible}
-                setVisible={setModalRequestSentVisible}
+                setVisible={() => {
+                    setModalRequestSentVisible(false)
+                    navigation.goBack()
+                }}
                 title={'Solicitud enviada'}
                 text={'Hemos enviado un email con las instrucciones para recuperar tu contraseña'}
             />
