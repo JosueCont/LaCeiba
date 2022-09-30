@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import {setAttribute} from "../redux/ducks/navigationDuck";
 import {ScrollView} from "react-native";
 import ModalInfo from "./Modals/ModalInfo";
+import _ from 'lodash';
 
 const RegisterScreen = ({navigation, setAttribute}) => {
     const [modalErrorVisible, setModalErrorVisible] = useState(null);
@@ -46,8 +47,8 @@ const RegisterScreen = ({navigation, setAttribute}) => {
 
             const userUpdate = {
                 ...response.data,
-                firstName: values.namePartner,
-                lastName: values.lastNamePartner
+                firstName: _.startCase(values.namePartner),
+                lastName: _.startCase(values.lastNamePartner)
             }
 
             setAttribute('user', userUpdate)
