@@ -20,7 +20,7 @@ const commonConfig = {
         debug: true,
         production: false,
         URL: "https://api.hacienda.hiumanlab.com",
-        URL_DEV: "https://api.hacienda.hiumanlab.com",
+        URL_DEV: "https://qa.api.hacienda.hiumanlab.com",
         eas: {
             projectId: "c16e312d-b8ac-495f-b1bc-39e309569e13"
         },
@@ -30,13 +30,13 @@ const commonConfig = {
 };
 
 const ios = {
-    buildNumber: "14",
+    buildNumber: "15",
     supportsTablet: false,
     bundleIdentifier: "com.hiumanlab.clublahacienda"
 };
 
 const android = {
-    versionCode: 13,
+    versionCode: 14,
     adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundImage: "./assets/adaptive-icon-bg.png"

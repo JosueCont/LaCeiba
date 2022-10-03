@@ -62,7 +62,7 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                 setModalUserExists(true)
 
             } else {
-                alert(e.toString())
+                alert(e.status)
             }
         }
     }
