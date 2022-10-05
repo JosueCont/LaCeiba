@@ -6,6 +6,7 @@ import {Colors} from "../Colors";
 import iconHome from '../assets/iconHome.png';
 import iconProfile from '../assets/iconProfile.png';
 import iconGuestsSmall from '../assets/iconGuestsSmall.png';
+import iconHelp from '../assets/iconHelp.png';
 import iconLogout from '../assets/iconLogout.png';
 import face from '../assets/face.png';
 import {TouchableOpacity} from "react-native";
@@ -142,16 +143,16 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                 {/*        </View>*/}
                 {/*    </View>*/}
                 {/*</TouchableOpacity>*/}
-                {/*<TouchableOpacity onPress={() => navigation.navigate('HelpScreen')}>*/}
-                {/*    <View flexDirection={'row'} mb={4}>*/}
-                {/*        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>*/}
-                {/*            <Image source={iconHelp} style={{width: 20, height: 20}}></Image>*/}
-                {/*        </View>*/}
-                {/*        <View flex={1} justifyContent={'center'}>*/}
-                {/*            <Text fontSize={'md'}>Ayuda</Text>*/}
-                {/*        </View>*/}
-                {/*    </View>*/}
-                {/*</TouchableOpacity>*/}
+                <TouchableOpacity onPress={() => navigation.navigate('HelpScreen')}>
+                    <View flexDirection={'row'} mb={4}>
+                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                            <Image source={iconHelp} style={{width: 20, height: 20}}></Image>
+                        </View>
+                        <View flex={1} justifyContent={'center'}>
+                            <Text fontSize={'md'}>Ayuda</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => setModalSessionVisible(true)}>
                     <View flexDirection={'row'} mb={4}>

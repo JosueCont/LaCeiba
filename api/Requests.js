@@ -11,3 +11,4 @@ export const forgotPassword = async (params) => await request(URLTypes.FORGOT_PA
 export const validatePartner = async (params) => await request(URLTypes.VALIDATE_PARTNER, params, 'get');
 export const getGuests = async (params) => await request(URLTypes.GET_GUESTS, params, 'get');
 export const generateGuestsQR = async (params) => await request(URLTypes.GENERATE_GUEST_QR, params, 'post');
+export const getCategories = async (params) => await request(URLTypes.GET_CATEGORIES, params, 'get');

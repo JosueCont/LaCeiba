@@ -27,10 +27,23 @@ const RegisterScreen = ({navigation, setAttribute}) => {
         },
         validateOnChange: false,
         validationSchema: Yup.object({
-            numberAction: Yup.string().required("El número de acción es obligatorio"),
-            namePartner: Yup.string().required("El nombre del socio es obligatorio"),
-            lastNamePartner: Yup.string().required("El apellido del socio es obligatorio"),
-            relationship: Yup.string().required("El parentesco es obligatorio"),
+
+            numberAction: Yup
+                .string()
+                // .matches(/^(\S+$)/g, 'Este campo no puede contener solo espacios en blanco.')
+                .required("El número de acción es obligatorio"),
+            namePartner: Yup
+                .string()
+                // .matches(/^(\S+$)/g, 'Este campo no puede contener solo espacios en blanco.')
+                .required("El nombre del socio es obligatorio"),
+            lastNamePartner: Yup
+                .string()
+                //.matches(/^(\S+$)/g, 'Este campo no puede contener solo espacios en blanco.')
+                .required("El apellido del socio es obligatorio"),
+            relationship: Yup
+                .string()
+                //.matches(/^(\S+$)/g, 'Este campo no puede contener solo espacios en blanco.')
+                .required("El parentesco es obligatorio"),
         })
     });
 
