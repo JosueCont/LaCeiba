@@ -7,6 +7,7 @@ import {registerSendConfirmPhone} from "../api/Requests";
 import {connect} from "react-redux";
 import {CountriesArray} from "../CountriesArray";
 import Constants from "expo-constants";
+import _ from "lodash";
 
 const RegisterStep3Screen = ({navigation, navigationDuck}) => {
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
@@ -39,7 +40,12 @@ const RegisterStep3Screen = ({navigation, navigationDuck}) => {
                 })
         } catch (e) {
             console.log(e)
-            alert(e)
+            if (_.has(e, 'status')) {
+                alert(e.data.message)
+            } else {
+                alert(JSON.stringify(e))
+            }
+
         }
     }
 

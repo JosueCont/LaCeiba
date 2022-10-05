@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, FormControl, Input, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 import {useFormik} from "formik";
@@ -7,9 +7,15 @@ import {registerConfirmPhone, registerSendConfirmPhone} from "../api/Requests";
 import ModalResendSMS from "./Modals/ModalResendSMS";
 import Constants from "expo-constants";
 import {connect} from "react-redux";
+import {useIsFocused} from "@react-navigation/native";
 
 const RegisterStep4Screen = ({navigation, route, navigationDuck}) => {
     const [modalResendSMSVisible, setModalResendSMSVisible] = useState(null);
+    const [resendEnable, setResendEnable] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(null);
+
+    const isFocused = useIsFocused();
+
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
         initialValues: {
             code: '',
@@ -24,6 +30,7 @@ const RegisterStep4Screen = ({navigation, route, navigationDuck}) => {
             code: Yup.number().integer().required("Código de verificación es obligatorio"),
         })
     });
+
 
 
     const registerConfirmPhoneFuncion = async (values) => {
@@ -54,18 +61,48 @@ const RegisterStep4Screen = ({navigation, route, navigationDuck}) => {
 
     const registerSendConfirmPhoneFunctionV2 = async () => {
         try {
+
             const data = {
                 phone: Constants.manifest.extra.debug === true ? '+' + route.params.countryCode + Constants.manifest.extra.debugPhone : '+' + values.countryCode + navigationDuck.user.celular
             }
 
             console.log(data)
             const response = await registerSendConfirmPhone(data);
+            setResendEnable(false)
+            setTimeLeft(30)
             console.log(response.data)
         } catch (e) {
             console.log(e)
-            alert(e)
+            alert(JSON.stringify(e))
         }
     }
+
+
+    const resentEnableFunction = () => {
+        setTimeout(() => {
+            setResendEnable(true)
+        }, 30000)
+    }
+
+
+    useEffect(() => {
+        if (timeLeft === 0) {
+            setTimeLeft(0)
+            setResendEnable(true)
+        }
+        if (!timeLeft) return;
+        const intervalId = setInterval(() => {
+
+            setTimeLeft(timeLeft - 1);
+        }, 1000);
+        return () => clearInterval(intervalId);
+    }, [timeLeft]);
+
+    useEffect(() => {
+        if (isFocused) {
+            setTimeLeft(30)
+        }
+    }, [isFocused])
 
 
     return (
@@ -87,6 +124,7 @@ const RegisterStep4Screen = ({navigation, route, navigationDuck}) => {
                             {errors.code}
                         </FormControl.ErrorMessage>
                     </FormControl>
+                    <Button mb={2} onPress={() => registerSendConfirmPhoneFunctionV2()} isDisabled={!resendEnable}><Text fontSize={12}>Reenviar SMS {timeLeft !== 0 && `(${timeLeft})`}</Text></Button>
 
                     <Button onPress={() => handleSubmit()}>Continuar</Button>
                 </View>
