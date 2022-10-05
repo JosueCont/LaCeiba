@@ -36,6 +36,10 @@ const GuestGeneratePassScreen = ({navigation, route}) => {
     const [date, setDate] = useState(null);
     const [markedDate, setMarkedDate] = useState(null);
 
+    const today = new Date()
+    const todayPlus7 = new Date()
+    todayPlus7.setDate(new Date().getDate() + 7)
+
     const generateQuestQRFunction = async () => {
         try {
             const data = {
@@ -60,6 +64,7 @@ const GuestGeneratePassScreen = ({navigation, route}) => {
         }
     }
 
+
     return (
         <LayoutV4 white={true}>
             <View flex={1} mx={10} mt={10}>
@@ -72,7 +77,8 @@ const GuestGeneratePassScreen = ({navigation, route}) => {
                 <Text textAlign={'center'} mb={6} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'} adjustsFontSizeToFit numberOfLines={2}>Seleccione la fecha que desea {'\n'}asignar el acceso a este invitado</Text>
                 <View mb={6}>
                     <Calendar
-                        minDate={new Date()}
+                        minDate={today}
+                        maxDate={todayPlus7}
                         onDayPress={day => {
                             console.log('selected day', day);
                             setDate(day.dateString)

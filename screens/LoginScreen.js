@@ -23,7 +23,7 @@ const LoginScreen = ({loggedAction, navigation}) => {
         onSubmit: (formValue) => {
             loginFunction(formValue)
         },
-        validateOnChange: false,
+        validateOnChange: true,
         validationSchema: Yup.object({
             email: Yup.string().email("El email no es correcto").required("El email es obligatorio"),
             password: Yup.string().required("La contraseña es obligatoria"),

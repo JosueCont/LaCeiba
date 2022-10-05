@@ -19,7 +19,7 @@ const RegisterStep4Screen = ({navigation, route, navigationDuck}) => {
             registerConfirmPhoneFuncion(formValue)
 
         },
-        validateOnChange: false,
+        validateOnChange: true,
         validationSchema: Yup.object({
             code: Yup.number().integer().required("Código de verificación es obligatorio"),
         })

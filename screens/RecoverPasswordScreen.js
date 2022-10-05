@@ -19,7 +19,7 @@ const RecoverPasswordScreen = ({navigation}) => {
             console.log(formValue)
             forgotPasswordFunction(formValue)
         },
-        validateOnChange: false,
+        validateOnChange: true,
         validationSchema: Yup.object({
             email: Yup.string().email("El email no es correcto").required("El correo electrónico es obligatorio"),
         })

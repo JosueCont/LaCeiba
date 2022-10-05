@@ -23,7 +23,7 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
         onSubmit: (formValue) => {
             registerPartnerFuncion(formValue)
         },
-        validateOnChange: false,
+        validateOnChange: true,
         validationSchema: Yup.object({
             password: Yup
                 .string()

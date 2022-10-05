@@ -17,7 +17,7 @@ const RegisterStep3Screen = ({navigation, navigationDuck}) => {
             registerSendConfirmPhoneFunction(formValue)
 
         },
-        validateOnChange: false,
+        validateOnChange: true,
         validationSchema: Yup.object({
             countryCode: Yup.string().required("El país es obligatorio")
         })
