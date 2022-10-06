@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Button, FormControl, Input, Select, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 import {useFormik} from "formik";
@@ -10,6 +10,7 @@ import Constants from "expo-constants";
 import _ from "lodash";
 
 const RegisterStep3Screen = ({navigation, navigationDuck}) => {
+    const [phoneDebug, setPhoneDebug] = useState(null);
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
         initialValues: {
             countryCode: ''
@@ -27,7 +28,7 @@ const RegisterStep3Screen = ({navigation, navigationDuck}) => {
     const registerSendConfirmPhoneFunction = async (values) => {
         try {
             const data = {
-                phone: Constants.manifest.extra.debug === true ? '+' + values.countryCode + Constants.manifest.extra.debugPhone : '+' + values.countryCode + navigationDuck.user.celular
+                phone: Constants.manifest.extra.debug === true ? '+' + values.countryCode + phoneDebug : '+' + values.countryCode + navigationDuck.user.celular
             }
 
             console.log(data)
@@ -83,6 +84,22 @@ const RegisterStep3Screen = ({navigation, navigationDuck}) => {
                             {errors.countryCode}
                         </FormControl.ErrorMessage>
                     </FormControl>
+
+                    {
+                        Constants.manifest.extra.debug === true &&
+                        <FormControl mb={4}>
+                            <Text textAlign={'center'} mb={2}>Phones</Text>
+                            <Select
+                                onValueChange={(v) => {
+                                    setPhoneDebug(v)
+                                }}
+                                placeholder="Seleccionar">
+                                <Select.Item label={'Lalo'} value={'9991979545'}/>
+                                <Select.Item label={'Lucks'} value={'9995759065'}/>
+                                <Select.Item label={'Isa'} value={'9991744806'}/>
+                            </Select>
+                        </FormControl>
+                    }
 
 
                     <FormControl mb={4}>
