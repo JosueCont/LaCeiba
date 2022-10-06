@@ -18,6 +18,7 @@ const HelpScreen = ({navigation}) => {
         try {
             setLoading(true)
             const response = await getCategories()
+            console.log(response.data)
             setCategories(response.data)
         } catch (e) {
             console.log(e)

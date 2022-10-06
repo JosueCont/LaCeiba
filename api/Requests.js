@@ -10,5 +10,7 @@ export const registerPartner = async (params, config) => await request(URLTypes.
 export const forgotPassword = async (params) => await request(URLTypes.FORGOT_PASSWORD, params, 'post');
 export const validatePartner = async (params) => await request(URLTypes.VALIDATE_PARTNER, params, 'get');
 export const getGuests = async (params) => await request(URLTypes.GET_GUESTS, params, 'get');
-export const generateGuestsQR = async (params) => await request(URLTypes.GENERATE_GUEST_QR, params, 'post');
+export const generateGuestsQR = async (params, queryStringParams = []) => await request(URLTypes.GENERATE_GUEST_QR, params, 'post', null, queryStringParams);
 export const getCategories = async (params) => await request(URLTypes.GET_CATEGORIES, params, 'get');
+export const getCategoriesDetail = async (params) => await request(URLTypes.GET_CATEGORIES_DETAIL, params, 'get');
+export const getCategoryDetail = async (params) => await request(URLTypes.GET_CATEGORY_DETAIL, params, 'get');

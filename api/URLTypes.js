@@ -9,6 +9,8 @@ export const URLTypes = {
     TRY_FIND_PARTNER: '/v1/users/app/partners',
     VALIDATE_PARTNER: '/v1/users',
     GET_GUESTS: '/v1/access-control/guests',
-    GENERATE_GUEST_QR: '/v1/users/2/guest/qr-code',
-    GET_CATEGORIES: '/v1/content-management/categories'
+    GENERATE_GUEST_QR: '/v1/users/{{name}}/guest/qr-code',
+    GET_CATEGORIES: '/v1/content-management/categories',
+    GET_CATEGORIES_DETAIL: '/v1/content-management/categories',
+    GET_CATEGORY_DETAIL: '/v1/content-management/'
 };

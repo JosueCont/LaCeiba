@@ -1,11 +1,39 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Text, View} from "native-base";
 import {Colors} from "../Colors";
 import LayoutV4 from "./Layouts/LayoutV4";
 import DirectoryItem from "./DirectoryItem";
+import {getCategoriesDetail, getCategoryDetail} from "../api/Requests";
+import {useIsFocused} from "@react-navigation/native";
 
-const ManualsScreen = ({navigation}) => {
+const DirectoryScreen = ({navigation}) => {
 
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+        if (isFocused) {
+            getDirectoryFunction()
+            getDirectoryFunctionV2()
+        }
+    }, [isFocused])
+
+    const getDirectoryFunction = async () => {
+        try {
+            const response = await getCategoriesDetail('/14')
+            console.log(response.data)
+        } catch (e) {
+            console.log(e, 20)
+        }
+    }
+
+    const getDirectoryFunctionV2 = async () => {
+        try {
+            const response = await getCategoryDetail('/15')
+            console.log(response.data)
+        } catch (e) {
+            console.log(e, 20)
+        }
+    }
 
     return (
         <LayoutV4>
@@ -26,4 +54,4 @@ const ManualsScreen = ({navigation}) => {
 }
 
 
-export default ManualsScreen;
+export default DirectoryScreen;

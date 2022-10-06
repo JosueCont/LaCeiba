@@ -1,8 +1,10 @@
 import AxiosInstance from "./AxiosInstance";
 
-export const request = async (uri, params = '', method, config = null) => {
+export const request = async (uri, params = '', method, config = null, queryStringParams = []) => {
     if (method === 'post') {
-        return await requestPost(uri, params, config)
+
+        let uriResolved = queryStringParams.length > 0 ? paramsResolve(uri, queryStringParams) : uri;
+        return await requestPost(uriResolved, params, config)
     } else if (method === 'get') {
         return await requestGET(uri, params)
     }
@@ -14,4 +16,9 @@ const requestPost = async (uri, params, config = null) => {
 
 const requestGET = async (uri, params = '') => {
     return await AxiosInstance.get(uri + `${params}`)
+}
+
+
+const paramsResolve = (string, array) => {
+    return string.replace(/\{\{param\}\}/g, (i => _ => array[i++])(0));
 }

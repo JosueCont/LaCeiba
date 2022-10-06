@@ -6,6 +6,7 @@ import {generateGuestsQR} from "../api/Requests";
 import ModalInfo from "./Modals/ModalInfo";
 import {Calendar, LocaleConfig} from "react-native-calendars";
 import Constants from "expo-constants";
+import {connect} from "react-redux";
 
 LocaleConfig.locales['fr'] = {
     monthNames: [
@@ -29,7 +30,7 @@ LocaleConfig.locales['fr'] = {
 };
 LocaleConfig.defaultLocale = 'fr';
 
-const GuestGeneratePassScreen = ({navigation, route}) => {
+const GuestGeneratePassScreen = ({navigation, route, appDuck}) => {
 
     const [modalVisible, setModalVisible] = useState(null);
     const [modalText, setModalText] = useState(null);
@@ -48,7 +49,7 @@ const GuestGeneratePassScreen = ({navigation, route}) => {
                 "guestEmail": Constants.manifest.extra.debug === true ? Constants.manifest.extra.debugEmail : route.params.guest.mail,
                 "expirationDate": date
             }
-            const response = await generateGuestsQR(data)
+            const response = await generateGuestsQR(data, [appDuck.user.id])
             console.log(response.data)
             navigation.navigate('GuestGeneratePassSuccessScreen')
         } catch (ex) {
@@ -139,5 +140,10 @@ const GuestGeneratePassScreen = ({navigation, route}) => {
     )
 }
 
+const mapState = (state) => {
+    return {
+        appDuck: state.appDuck
+    }
+}
 
-export default GuestGeneratePassScreen;
+export default connect(mapState)(GuestGeneratePassScreen)
