@@ -59,7 +59,9 @@ const RecoverPasswordScreen = ({navigation}) => {
                     </FormControl>
 
                     <Text mb={6} textAlign={'center'} fontSize={'xs'}>Te enviaremos un correo para{'\n'}que puedas actualizar tu{'\n'}contraseña</Text>
-                    <Button onPress={() => handleSubmit()}>Continuar</Button>
+                    <Button mb={2} onPress={() => handleSubmit()}>Continuar</Button>
+                    <Button onPress={() => navigation.goBack()}>Cancelar</Button>
+
                 </View>
             </View>
             <ModalInfo

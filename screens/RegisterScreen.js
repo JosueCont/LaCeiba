@@ -146,7 +146,7 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                     </View>
                 </ScrollView>
             </View>
-            <ModalInfo text={'Número de acción o nombre del socio no encontrado o no coinciden, intentalo nuevamente.'} iconType={'exclamation'} textButton={'Entendido'} visible={modalErrorVisible} setVisible={setModalErrorVisible}/>
+            <ModalInfo text={'Número de acción o nombre del socio no encontrado o no coinciden, inténtalo nuevamente.'} iconType={'exclamation'} textButton={'Entendido'} visible={modalErrorVisible} setVisible={setModalErrorVisible}/>
             <ModalInfo text={'El usuario ya se encuentra registrado.'} iconType={'exclamation'} textButton={'Entendido'} visible={modalUserExists} setVisible={setModalUserExists}/>
 
         </Layout>
