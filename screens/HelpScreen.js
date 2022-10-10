@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {Button, Skeleton, Text, View} from "native-base";
+import {Button, ScrollView, Skeleton, Text, View} from "native-base";
 import LayoutV3 from "./Layouts/LayoutV3";
 import {Colors} from "../Colors";
 import {getCategories} from "../api/Requests";
+import {RefreshControl} from "react-native";
 
 const HelpScreen = ({navigation}) => {
 
@@ -31,31 +32,40 @@ const HelpScreen = ({navigation}) => {
     return (
         <LayoutV3>
             <View flex={1} mx={20}>
-                <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>Documentos de ayuda</Text>
 
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            tintColor={Colors.green}
+                            refreshing={loading}
+                            onRefresh={getCategoriesFunction}
+                        />
+                    }
+                    flex={1}>
+                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>Documentos de ayuda</Text>
 
-                {
-                    loading === true ?
-                        <View>
-                            <Skeleton borderRadius={10} mb={6}></Skeleton>
-                            <Skeleton borderRadius={10} mb={6}></Skeleton>
-                            <Skeleton borderRadius={10} mb={6}></Skeleton>
-                            <Skeleton borderRadius={10} mb={6}></Skeleton>
-                        </View> :
-                        <View>
+                    {
+                        loading === true ?
+                            <View>
+                                <Skeleton borderRadius={10} mb={6}></Skeleton>
+                                <Skeleton borderRadius={10} mb={6}></Skeleton>
+                                <Skeleton borderRadius={10} mb={6}></Skeleton>
+                                <Skeleton borderRadius={10} mb={6}></Skeleton>
+                            </View> :
+                            <View>
                             {
                                 categories.map((item) => {
+                                    console.log(item)
                                     return (
-                                        <Button onPress={() => navigation.navigate('DirectoryScreen')} mb={6}>{item.title}</Button>
+                                        <Button onPress={() => navigation.navigate('HelpContentScreen', {id: item.id, title: item.title, description: item.description})} mb={6}>{item.title}</Button>
 
                                     )
                                 })
                             }
-                        </View>
-                }
-
+                            </View>
+                    }
+                </ScrollView>
             </View>
-
         </LayoutV3>
     )
 }

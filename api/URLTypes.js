@@ -12,5 +12,5 @@ export const URLTypes = {
     GENERATE_GUEST_QR: '/v1/users/{{name}}/guest/qr-code',
     GET_CATEGORIES: '/v1/content-management/categories',
     GET_CATEGORIES_DETAIL: '/v1/content-management/categories',
-    GET_CATEGORY_DETAIL: '/v1/content-management/'
+    GET_CATEGORY_DETAIL: '/v1/content-management'
 };
