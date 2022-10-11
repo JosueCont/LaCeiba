@@ -133,7 +133,9 @@ export const theme = extendTheme({
         titleLight: 'BrandonLight',
         titleBrandonBldBold: 'BrandonBld',
         titleComfortaaBold: 'ComfortaaBold',
-        titleConfortaaRegular: 'ComfortaaRegular'
-
+        titleConfortaaRegular: 'ComfortaaRegular',
+        titleComfortaaSemiBold: 'ComfortaaSemiBold',
+        titleBrandonBldBoldIt: 'BrandonBldIt',
+        titleComfortaaVariable: 'ComfortaaVariable'
     },
 });

@@ -55,7 +55,7 @@ const HelpContentScreen = ({navigation, route}) => {
                     showsVerticalScrollIndicator={false}
                 >
                     <Text textAlign={'center'} mt={10} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>{route.params.title}</Text>
-                    <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>{route.params.description}</Text>
+                    <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>{route.params.description}</Text>
 
                     {
                         loading === true ?
@@ -67,20 +67,25 @@ const HelpContentScreen = ({navigation, route}) => {
                             </View> :
                             contents.map((item) => {
                                 console.log(item)
-                                if (item.contentType === 'IMAGE' || item.contentType === 'PDF' || item.contentType === 'HTML') {
+                                if (item.contentType === 'IMAGE' || item.contentType === 'PDF') {
                                     return (
-                                        <ManualItem mb={4} navigation={navigation} title={item.title} url={item.file}></ManualItem>
+                                        <ManualItem mb={4} navigation={navigation} title={item.title} url={item.fileUrl} type={item.contentType}></ManualItem>
                                     )
                                 } else if (item.contentType === 'VIDEO') {
                                     console.log(item)
                                     return (
-                                        <TutorialItem navigation={navigation} id={item.id} title={item.title} url={item.file}></TutorialItem>
+                                        <TutorialItem navigation={navigation} id={item.id} title={item.title} url={item.fileUrl}></TutorialItem>
                                     )
                                 } else if (item.contentType === 'CONTACT') {
                                     console.log(item)
                                     return (
                                         <DirectoryItem navigation={navigation} mb={4} title={item.title} description={item.description}/>
                                     )
+                                } else if (item.contentType === 'HTML') {
+                                    return (
+                                        <ManualItem mb={4} navigation={navigation} id={item.id} title={item.title} type={item.contentType} html={item.description}></ManualItem>
+                                    )
+
                                 } else {
                                     return (
                                         <Text color={'black'} textAlign={'center'}>{item.contentType} No available</Text>

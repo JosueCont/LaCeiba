@@ -3,10 +3,12 @@ import {Colors} from "../Colors";
 import {Button, Spinner, Text, View} from "native-base";
 import LayoutV3 from "./Layouts/LayoutV3";
 import PdfReader from "rn-pdf-reader-js-improved";
+import {useIsFocused} from "@react-navigation/native";
 
 const PDFAndImageViewer = ({navigation, route}) => {
     const [loading, setLoading] = useState(null);
     const [URL, setURL] = useState(null);
+    const isFocused = useIsFocused();
 
     useEffect(() => {
         setLoading(true)
@@ -15,22 +17,20 @@ const PDFAndImageViewer = ({navigation, route}) => {
             setURL(route.params.url)
             setLoading(false)
         }, 500)
-    }, [route.params.id])
+    }, [route.params.id, isFocused])
 
 
     return (
         <LayoutV3>
             <View flex={1}>
-                <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>Documentos de ayuda</Text>
-
-
-                <Text>{route.params.url}</Text>
+                <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>{route.params.title}</Text>
                 <View flex={1}>
                     {
-                        loading === false &&
+                        (loading === false && isFocused) &&
                         <PdfReader
 
                             style={{height: '100%', width: '100%'}}
+                            webviewStyle={{backgroundColor: '#D0DAD6'}}
                             withPinchZoom={true}
                             source={{
                                 uri: URL,
@@ -39,12 +39,15 @@ const PDFAndImageViewer = ({navigation, route}) => {
                                 startInLoadingState: false,
                                 renderLoading: () => (
                                     <View bgColor={'#ccc'} width={'100%'} height={'100%'} alignItems={'center'}
-                                          justifyContent={'center'}
-                                          style={{backgroundColor: Colors.gray}}>
-                                        <Spinner size={'sm'} key={'abc'} color={Colors.green}/>
+                                          justifyContent={'center'}>
+                                        <Spinner size={'lg'} key={'abc'} color={Colors.green}/>
                                     </View>
                                 ),
                                 cacheEnabled: true
+                            }}
+                            customStyle={{
+                                readerContainer: {backgroundColor: '#D0DAD6'},
+                                readerContainerDocument: {backgroundColor: '#D0DAD6'}
                             }}
 
                         />
