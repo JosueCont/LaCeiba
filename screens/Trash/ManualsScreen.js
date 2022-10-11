@@ -1,8 +1,8 @@
 import React from "react";
 import {Text, View} from "native-base";
-import {Colors} from "../Colors";
-import LayoutV4 from "./Layouts/LayoutV4";
-import ManualItem from "./ManualItem";
+import {Colors} from "../../Colors";
+import LayoutV4 from "../Layouts/LayoutV4";
+import ManualItem from "../HelpContentComponents/ManualItem";
 
 const ManualsScreen = ({navigation}) => {
 

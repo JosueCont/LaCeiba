@@ -34,14 +34,15 @@ import GuestGeneratePassScreen from "../screens/GuestGeneratePassScreen";
 import GuestGeneratePassSuccessScreen from "../screens/GuestGeneratePassSuccessScreen";
 import MemberEditScreen from "../screens/MemberEditScreen";
 import BookingsDetailScreen from "../screens/BookingsDetailScreen";
-import ManualsScreen from "../screens/ManualsScreen";
+import ManualsScreen from "../screens/Trash/ManualsScreen";
 import RegulationsScreen from "../screens/RegulationsScreen";
-import DirectoryScreen from "../screens/DirectoryScreen";
+import DirectoryScreen from "../screens/Trash/DirectoryScreen";
 import TutorialsScreen from "../screens/TutorialsScreen";
 import TermsAndConditionsScreen from "../screens/TermsAndConditionsScreen";
 import ContactScreen from "../screens/ContactScreen";
 import HelpContentScreen from "../screens/HelpContentScreen";
 import VideoPlayer from "../screens/VideoPlayer";
+import PDFAndImageViewer from "../screens/PDFAndImageViewer";
 
 const Drawer = createDrawerNavigator();
 
@@ -142,6 +143,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'ContactScreen'} component={ContactScreen} options={{title: ''}}/>
             <Drawer.Screen name={'HelpContentScreen'} component={HelpContentScreen} options={{title: ''}}/>
             <Drawer.Screen name={'VideoPlayer'} component={VideoPlayer} options={{title: ''}}/>
+            <Drawer.Screen name={'PDFAndImageViewer'} component={PDFAndImageViewer} options={{title: ''}}/>
 
         </Drawer.Navigator>
     );

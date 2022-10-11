@@ -1,9 +1,9 @@
 import React, {useEffect} from "react";
 import {Text, View} from "native-base";
-import {Colors} from "../Colors";
-import LayoutV4 from "./Layouts/LayoutV4";
-import DirectoryItem from "./DirectoryItem";
-import {getCategoriesDetail, getCategoryDetail} from "../api/Requests";
+import {Colors} from "../../Colors";
+import LayoutV4 from "../Layouts/LayoutV4";
+import DirectoryItem from "../HelpContentComponents/DirectoryItem";
+import {getCategoriesDetail, getCategoryDetail} from "../../api/Requests";
 import {useIsFocused} from "@react-navigation/native";
 
 const DirectoryScreen = ({navigation}) => {

@@ -4,7 +4,7 @@ import {Platform} from "react-native";
 
 const LayoutV3 = ({children, overlay = false}) => {
     return (
-        <KeyboardAvoidingView flexGrow={1} behavior={Platform.OS === 'ios' ? 'height' : 'padding'} backgroundColor={'white'}>
+        <KeyboardAvoidingView flexGrow={1} behavior={Platform.OS === 'ios' ? 'height' : 'padding'} backgroundColor={'#D0DAD6'}>
             <View flex={1}>
                 <View style={{flex: 1}}>
                     {

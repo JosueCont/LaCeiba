@@ -1,9 +1,9 @@
 import {Image, Text, View} from "native-base";
 import React from "react";
 import {ImageBackground, TouchableOpacity} from "react-native";
-import {Colors} from "../Colors";
-import bgPlay from '../assets/bgPlay.png'
-import bgTutorial2 from '../assets/bgTutorial2.png';
+import {Colors} from "../../Colors";
+import bgPlay from '../../assets/bgPlay.png'
+import bgTutorial2 from '../../assets/bgTutorial2.png';
 
 
 const TutorialsItem = ({navigation, id = null, title = 'Title', mb = 5, url = null}) => {

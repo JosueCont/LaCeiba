@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {ScrollView, Skeleton, Text, View} from "native-base";
 import {Colors} from "../Colors";
-import DirectoryItem from "./DirectoryItem";
+import DirectoryItem from "./HelpContentComponents/DirectoryItem";
 import {getCategoriesDetail} from "../api/Requests";
-import ManualItem from "./ManualItem";
+import ManualItem from "./HelpContentComponents/ManualItem";
 import {RefreshControl} from "react-native";
 import LayoutV3 from "./Layouts/LayoutV3";
-import TutorialItem from "./TutorialItem";
+import TutorialItem from "./HelpContentComponents/TutorialItem";
 
 const HelpContentScreen = ({navigation, route}) => {
 
