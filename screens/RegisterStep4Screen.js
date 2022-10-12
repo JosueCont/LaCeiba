@@ -63,7 +63,7 @@ const RegisterStep4Screen = ({navigation, route, navigationDuck}) => {
         try {
 
             const data = {
-                phone: Constants.manifest.extra.debug === true ? '+' + route.params.countryCode + Constants.manifest.extra.debugPhone : '+' + values.countryCode + navigationDuck.user.celular
+                phone: Constants.manifest.extra.debug === true ? '+' + route.params.countryCode + route.params.phone : '+' + values.countryCode + navigationDuck.user.celular
             }
 
             console.log(data)
