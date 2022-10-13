@@ -18,7 +18,7 @@ const GuestGeneratePassSuccessScreen = ({navigation}) => {
                     Pase generado correctamente
                 </Text>
 
-                <Button onPress={() => navigation.goBack()}>De acuerdo</Button>
+                <Button onPress={() => navigation.navigate('GuestsScreen')}>De acuerdo</Button>
             </View>
 
         </LayoutV3>
