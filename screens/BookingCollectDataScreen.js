@@ -1,25 +1,83 @@
 import LayoutV4 from "./Layouts/LayoutV4";
-import {Button, Input, Text, View} from "native-base";
+import {Button, Icon, Select, Text, View} from "native-base";
 import {Colors} from "../Colors";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import ModalConfirmBooking from "./Modals/ModalConfirmBooking";
+import {Calendar} from "react-native-calendars";
+import {TouchableOpacity} from "react-native";
+import moment from 'moment';
+import 'moment/locale/es';
+import {MaterialIcons} from "@expo/vector-icons";
+
+moment.locale('es');
 
 const BookingCollectDataScreen = ({navigation}) => {
-    const [modalConfirmBooking, setModalConfirmBooking] = useState(true)
+    const [modalConfirmBooking, setModalConfirmBooking] = useState(null)
+    const [modalVisible, setModalVisible] = useState(null);
+    const [modalText, setModalText] = useState(null);
+    const [date, setDate] = useState(null);
+    const [markedDate, setMarkedDate] = useState(null);
+    const [disabledDays, setDisabledDays] = useState([])
+    const [loading, setLoading] = useState(null);
+    const [showCalendar, setShowCalendar] = useState(null);
+    const [hours, setHours] = useState(null);
+
+
+    const tomorrow = new Date().setDate(new Date().getDate() + 1)
+    const todayPlus7 = new Date()
+    todayPlus7.setDate(new Date().getDate() + 7)
+
+    useEffect(() => {
+        setLoading(true)
+        setTimeout(() => {
+            disabledDay()
+            getHoursFunction()
+            setLoading(false)
+        }, 500)
+    }, [])
+
+    const disabledDay = () => {
+        let arrayDays = {};
+
+        // se agregar el dia actual para poder desabilitarlo
+        arrayDays[moment().format('YYYY-MM-DD')] = {disabled: true};
+        // se agregan dias extraordinarios para desabilitarlos
+        let extraOrdinaryDates = ['2022-10-30', "2022-11-02", "2022-12-12", "2022-12-25"]
+        // se agregan los lunes para desabilitarlos
+        for (let i = 1; i <= 7; i++) {
+            let currentDay = moment().add(i, 'days');
+            if (currentDay.day() === 1 && !extraOrdinaryDates.find(date => date === currentDay.format("YYYY-MM-DD"))) {
+                let date = {};
+                arrayDays[currentDay.format('YYYY-MM-DD')] = {disabled: true};
+
+            }
+        }
+
+        return arrayDays;
+
+    }
+
+    const getHoursFunction = () => {
+        setHours([
+            {label: '7:10 am', value: '7:10'},
+            {label: '7:20 am', value: '7:20'}
+
+        ])
+    }
+
 
     return (
         <LayoutV4>
-            <View flex={1} mx={12}>
+            <View flex={1} mx={12} mt={10}>
 
-                <View mb={6}>
-                    <Text mt={10} textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'sm'}>Tiempo para reservar 3:52</Text>
 
-                </View>
                 <View mb={6}>
                     <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                         Instalación | Servicio
                     </Text>
-                    <Input placeholder={'Campo de golf'} textAlign={'center'}/>
+                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xl'}>
+                        Campo de golf
+                    </Text>
                 </View>
 
 
@@ -27,24 +85,136 @@ const BookingCollectDataScreen = ({navigation}) => {
                     <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                         Fecha
                     </Text>
-                    <Input placeholder={'Miércoles 27 de julio'} textAlign={'center'}/>
+
+                    {
+                        showCalendar === true ?
+                            <Calendar
+                                minDate={tomorrow}
+                                maxDate={todayPlus7}
+                                onDayPress={day => {
+                                    setDate(day.dateString)
+                                    // let selected = {};
+                                    // selected[day.dateString] = {selected: true, marked: true}
+                                    // setMarkedDate(selected)
+                                    setShowCalendar(false)
+                                }}
+                                onDayLongPress={day => {
+                                    console.log('selected day', day);
+                                }}
+                                monthFormat={'MMMM yyyy'}
+                                onMonthChange={month => {
+                                    console.log('month changed', month);
+                                }}
+
+                                hideExtraDays={false}
+
+                                firstDay={1}
+                                onPressArrowLeft={subtractMonth => subtractMonth()}
+                                onPressArrowRight={addMonth => addMonth()}
+                                disableAllTouchEventsForDisabledDays={true}
+                                enableSwipeMonths={true}
+                                markedDates={disabledDay()}
+                                theme={{
+                                    'stylesheet.calendar.header': {
+                                        monthText: {
+                                            color: Colors.green,
+                                            fontWeight: '700',
+                                            fontSize: 20,
+                                        },
+                                        dayHeader: {
+                                            marginTop: 2,
+                                            marginBottom: 7,
+                                            width: 30,
+                                            textAlign: 'center',
+                                            fontSize: 11,
+                                            fontWeight: 'bold',
+                                            color: Colors.green
+                                        },
+                                    },
+                                    todayTextColor: Colors.green,
+                                    dayTextColor: Colors.green,
+                                    textDayFontSize: 14,
+                                    arrowColor: Colors.yellow,
+                                    width: '100%',
+                                    selectedDayBackgroundColor: Colors.green,
+                                    selectedDayTextColor: '#ffffff',
+                                }}
+                            /> :
+                            <TouchableOpacity onPress={() => {
+                                setShowCalendar(!showCalendar)
+                            }}>
+                                <View height={50} bgColor={'#fff'} borderRadius={30} alignItems={'center'} justifyContent={'center'}>
+                                    <Text color={'#000'}>{moment(date).format('dddd, DD MMMM YYYY')}</Text>
+                                </View>
+                            </TouchableOpacity>
+                    }
+
+
                 </View>
 
-                <View mb={6}>
+                <View>
                     <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                         Horario
                     </Text>
-                    <Input placeholder={'De 9:30 am a 11:30 am'} textAlign={'center'}/>
+
+
+                    <Select
+                        onValueChange={(v) => {
+
+                        }}
+                        placeholder="Seleccionar">
+                        {
+                            hours.map((item) => {
+                                return (
+                                    <Select.Item label={item.label} value={item.value}/>
+
+                                )
+                            })
+                        }
+                    </Select>
+
                 </View>
+                <View mb={6} mt={2}>
+                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'sm'}>Tiempo para reservar 3:52</Text>
+                </View>
+
 
                 <View mb={6}>
-                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
-                        Número de personas
+                    <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                        Elige las personas
                     </Text>
-                    <Input placeholder={'4 personas'} textAlign={'center'}/>
+                    <View height={75} bg={'#fff'} mb={2} flexDirection={'row'} borderRadius={10}>
+                        <View width={65} alignItems={'center'} justifyContent={'center'}>
+                            <Icon as={MaterialIcons} name={'check-circle'} size={'2xl'} color={'#50C878'}></Icon>
+                        </View>
+                        <View flex={1} justifyContent={'center'}>
+                            <Text color={'#000'}>Eduardo Couoh</Text>
+                            <Text color={'#000'} fontSize={11}>Socio organizador</Text>
+                        </View>
+
+                    </View>
+                    <View height={75} bg={'#fff'} mb={2} flexDirection={'row'}>
+                        <View width={65} alignItems={'center'} justifyContent={'center'}>
+                            <Icon as={MaterialIcons} name={'check-circle'} size={'2xl'} color={'#50C878'}></Icon>
+                        </View>
+                        <View flex={1} justifyContent={'center'}>
+                            <Text color={'#000'}>Eduardo Couoh</Text>
+                            <Text color={'#000'} fontSize={11}>Socio organizador</Text>
+                        </View>
+
+                    </View>
+                    <TouchableOpacity>
+                        <View height={75} bg={'rgba(255,255, 255,1)'} mb={2} flexDirection={'row'} borderStyle={'dashed'} borderWidth={1.5}>
+                            <View flex={1} justifyContent={'center'} alignItems={'center'}>
+                                <Text fontSize={14} color={'#000'}>Seleccionar persona</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+
                 </View>
 
-                <View flexDirection={'row'} mb={6}>
+
+                {/*  <View flexDirection={'row'} mb={6}>
                     <View flex={1} p={2}>
                         <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                             Socios
@@ -58,10 +228,10 @@ const BookingCollectDataScreen = ({navigation}) => {
                         </Text>
                         <Input placeholder={'2'} textAlign={'center'}/>
                     </View>
-                </View>
+                </View>*/}
 
 
-                <View mb={6}>
+                {/*   <View mb={6}>
                     <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                         ¿Cuenta con servicio de carrito de golf?
                     </Text>
@@ -74,7 +244,7 @@ const BookingCollectDataScreen = ({navigation}) => {
                     </Text>
                     <Input placeholder={'2 bolsas'} textAlign={'center'}/>
                 </View>
-
+*/}
 
                 <Button onPress={() => navigation.navigate('BookingConfirmScreen')}>Reservar</Button>
 
