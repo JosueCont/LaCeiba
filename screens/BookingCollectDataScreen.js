@@ -1,5 +1,5 @@
 import LayoutV4 from "./Layouts/LayoutV4";
-import {Button, Icon, Select, Text, View} from "native-base";
+import {Button, Icon, Select, Skeleton, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import React, {useEffect, useState} from "react";
 import ModalConfirmBooking from "./Modals/ModalConfirmBooking";
@@ -8,6 +8,7 @@ import {TouchableOpacity} from "react-native";
 import moment from 'moment';
 import 'moment/locale/es';
 import {MaterialIcons} from "@expo/vector-icons";
+import {disabledDay} from "../utils";
 
 moment.locale('es');
 
@@ -30,32 +31,12 @@ const BookingCollectDataScreen = ({navigation}) => {
     useEffect(() => {
         setLoading(true)
         setTimeout(() => {
-            disabledDay()
             getHoursFunction()
             setLoading(false)
         }, 500)
     }, [])
 
-    const disabledDay = () => {
-        let arrayDays = {};
 
-        // se agregar el dia actual para poder desabilitarlo
-        arrayDays[moment().format('YYYY-MM-DD')] = {disabled: true};
-        // se agregan dias extraordinarios para desabilitarlos
-        let extraOrdinaryDates = ['2022-10-30', "2022-11-02", "2022-12-12", "2022-12-25"]
-        // se agregan los lunes para desabilitarlos
-        for (let i = 1; i <= 7; i++) {
-            let currentDay = moment().add(i, 'days');
-            if (currentDay.day() === 1 && !extraOrdinaryDates.find(date => date === currentDay.format("YYYY-MM-DD"))) {
-                let date = {};
-                arrayDays[currentDay.format('YYYY-MM-DD')] = {disabled: true};
-
-            }
-        }
-
-        return arrayDays;
-
-    }
 
     const getHoursFunction = () => {
         setHours([
@@ -68,7 +49,7 @@ const BookingCollectDataScreen = ({navigation}) => {
 
     return (
         <LayoutV4>
-            <View flex={1} mx={12} mt={10}>
+            <View flex={1} mx={12} my={10}>
 
 
                 <View mb={6}>
@@ -157,21 +138,26 @@ const BookingCollectDataScreen = ({navigation}) => {
                         Horario
                     </Text>
 
+                    {
+                        loading === true ?
+                            <Skeleton></Skeleton> :
+                            loading === false &&
+                            <Select
+                                onValueChange={(v) => {
 
-                    <Select
-                        onValueChange={(v) => {
+                                }}
+                                placeholder="Seleccionar">
+                                {
+                                    hours.map((item) => {
+                                        return (
+                                            <Select.Item label={item.label} value={item.value}/>
 
-                        }}
-                        placeholder="Seleccionar">
-                        {
-                            hours.map((item) => {
-                                return (
-                                    <Select.Item label={item.label} value={item.value}/>
+                                        )
+                                    })
+                                }
+                            </Select>
+                    }
 
-                                )
-                            })
-                        }
-                    </Select>
 
                 </View>
                 <View mb={6} mt={2}>

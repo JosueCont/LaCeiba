@@ -7,6 +7,7 @@ import generateStore from "./redux/store";
 import {useFonts} from "expo-font";
 import {Colors} from "./Colors";
 import NavigationContainerMain from "./navigation/NavigationContainerMain";
+import {LocaleConfig} from "react-native-calendars";
 
 
 const store = generateStore();
@@ -23,6 +24,29 @@ TextRN.defaultProps.allowFontScaling = false;
 
 TextInput.defaultProps = TextInput.defaultProps || {};
 TextInput.defaultProps.allowFontScaling = false;
+
+
+LocaleConfig.locales['fr'] = {
+    monthNames: [
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Diciembre'
+    ],
+    monthNamesShort: ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
+    dayNames: ['Dimanche', 'Liunes', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+    dayNamesShort: ['Dom.', 'Lun.', 'Mar.', 'Mie.', 'Jue.', 'Vie.', 'Sab.'],
+    today: "Aujourd'hui"
+};
+LocaleConfig.defaultLocale = 'fr';
 
 export default function App() {
 

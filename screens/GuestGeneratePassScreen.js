@@ -1,45 +1,30 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import LayoutV4 from "./Layouts/LayoutV4";
 import {generateGuestsQR} from "../api/Requests";
 import ModalInfo from "./Modals/ModalInfo";
-import {Calendar, LocaleConfig} from "react-native-calendars";
+import {Calendar} from "react-native-calendars";
 import Constants from "expo-constants";
 import {connect} from "react-redux";
+import {disabledDay} from "../utils";
 
-LocaleConfig.locales['fr'] = {
-    monthNames: [
-        'Enero',
-        'Febrero',
-        'Marzo',
-        'Abril',
-        'Mayo',
-        'Junio',
-        'Julio',
-        'Agosto',
-        'Septiembre',
-        'Octubre',
-        'Noviembre',
-        'Diciembre'
-    ],
-    monthNamesShort: ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
-    dayNames: ['Dimanche', 'Liunes', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-    dayNamesShort: ['Dom.', 'Lun.', 'Mar.', 'Mie.', 'Jue.', 'Vie.', 'Sab.'],
-    today: "Aujourd'hui"
-};
-LocaleConfig.defaultLocale = 'fr';
 
 const GuestGeneratePassScreen = ({navigation, route, appDuck}) => {
 
     const [modalVisible, setModalVisible] = useState(null);
     const [modalText, setModalText] = useState(null);
     const [date, setDate] = useState(null);
-    const [markedDate, setMarkedDate] = useState(null);
+    const [markedDates, setMarkedDates] = useState(null);
 
     const today = new Date()
     const todayPlus7 = new Date()
     todayPlus7.setDate(new Date().getDate() + 7)
+
+
+    useEffect(() => {
+        getDisabledDays()
+    }, [route.params.guest.idInvitado])
 
     const generateQuestQRFunction = async () => {
         try {
@@ -65,6 +50,12 @@ const GuestGeneratePassScreen = ({navigation, route, appDuck}) => {
         }
     }
 
+    const getDisabledDays = (day) => {
+        let markedDaysObjs = disabledDay();
+        markedDaysObjs[day] = {selected: true, marked: true}
+        setMarkedDates(markedDaysObjs)
+    }
+
 
     return (
         <LayoutV4 white={true}>
@@ -83,9 +74,7 @@ const GuestGeneratePassScreen = ({navigation, route, appDuck}) => {
                         onDayPress={day => {
                             console.log('selected day', day);
                             setDate(day.dateString)
-                            let selected = {};
-                            selected[day.dateString] = {selected: true, marked: true}
-                            setMarkedDate(selected)
+                            getDisabledDays(day.dateString)
                         }}
                         onDayLongPress={day => {
                             console.log('selected day', day);
@@ -101,7 +90,7 @@ const GuestGeneratePassScreen = ({navigation, route, appDuck}) => {
                         onPressArrowRight={addMonth => addMonth()}
                         disableAllTouchEventsForDisabledDays={true}
                         enableSwipeMonths={true}
-                        markedDates={markedDate}
+                        markedDates={markedDates}
                         theme={{
                             'stylesheet.calendar.header': {
                                 monthText: {
