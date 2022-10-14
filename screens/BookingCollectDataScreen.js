@@ -125,7 +125,7 @@ const BookingCollectDataScreen = ({navigation}) => {
                                 setShowCalendar(!showCalendar)
                             }}>
                                 <View height={50} bgColor={'#fff'} borderRadius={30} alignItems={'center'} justifyContent={'center'}>
-                                    <Text color={'#000'}>{moment(date).format('dddd, DD MMMM YYYY')}</Text>
+                                    <Text color={'#000'}>{date ? moment(date).format('dddd, DD MMMM YYYY') : 'Selecciona una fecha'}</Text>
                                 </View>
                             </TouchableOpacity>
                     }
@@ -189,7 +189,7 @@ const BookingCollectDataScreen = ({navigation}) => {
                         </View>
 
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('BookingCollectDataSearchScreen')}>
                         <View height={75} bg={'rgba(255,255, 255,1)'} mb={2} flexDirection={'row'} borderStyle={'dashed'} borderWidth={1.5}>
                             <View flex={1} justifyContent={'center'} alignItems={'center'}>
                                 <Text fontSize={14} color={'#000'}>Seleccionar persona</Text>

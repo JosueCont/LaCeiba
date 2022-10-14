@@ -44,6 +44,7 @@ import HelpContentScreen from "../screens/HelpContentScreen";
 import VideoPlayer from "../screens/VideoPlayer";
 import PDFAndImageViewer from "../screens/PDFAndImageViewer";
 import HTMLViewer from "../screens/HTMLViewer";
+import BookingCollectDataSearchScreen from "../screens/BookingCollectDataSearchScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -146,6 +147,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'VideoPlayer'} component={VideoPlayer} options={{title: ''}}/>
             <Drawer.Screen name={'PDFAndImageViewer'} component={PDFAndImageViewer} options={{title: ''}}/>
             <Drawer.Screen name={'HTMLViewer'} component={HTMLViewer} options={{title: ''}}/>
+            <Drawer.Screen name={'BookingCollectDataSearchScreen'} component={BookingCollectDataSearchScreen} options={{title: ''}}/>
 
         </Drawer.Navigator>
     );
