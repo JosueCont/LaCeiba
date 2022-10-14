@@ -187,7 +187,9 @@ const BookingCollectDataScreen = ({navigation}) => {
                             <Text color={'#000'}>Eduardo Couoh</Text>
                             <Text color={'#000'} fontSize={11}>Socio organizador</Text>
                         </View>
-
+                        <View width={65} alignItems={'center'} justifyContent={'center'}>
+                            <Icon as={MaterialIcons} name={'delete'} size={'2xl'} color={'red.100'}></Icon>
+                        </View>
                     </View>
                     <TouchableOpacity onPress={() => navigation.navigate('BookingCollectDataSearchScreen')}>
                         <View height={75} bg={'rgba(255,255, 255,1)'} mb={2} flexDirection={'row'} borderStyle={'dashed'} borderWidth={1.5}>
