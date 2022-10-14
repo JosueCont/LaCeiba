@@ -14,8 +14,9 @@ const BookingCollectDataSearchScreen = ({navigation}) => {
 
     useEffect(() => {
         setLoading(true)
+        getPersonsTypeFunction()
+
         setTimeout(() => {
-            getPersonsTypeFunction()
             setLoading(false)
         }, 500)
     }, [])

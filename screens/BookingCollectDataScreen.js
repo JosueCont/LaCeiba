@@ -30,8 +30,8 @@ const BookingCollectDataScreen = ({navigation}) => {
 
     useEffect(() => {
         setLoading(true)
+        getHoursFunction()
         setTimeout(() => {
-            getHoursFunction()
             setLoading(false)
         }, 500)
     }, [])
@@ -39,10 +39,10 @@ const BookingCollectDataScreen = ({navigation}) => {
 
 
     const getHoursFunction = () => {
+
         setHours([
             {label: '7:10 am', value: '7:10'},
             {label: '7:20 am', value: '7:20'}
-
         ])
     }
 
