@@ -5,10 +5,13 @@ import {Colors} from "../Colors";
 import {request} from "../api/Methods";
 import {connect} from "react-redux";
 import {RefreshControl} from "react-native";
+import ModalInfo from "./Modals/ModalInfo";
 
 const QRScreen = ({navigation, appDuck}) => {
     const [refreshing, setRefreshing] = useState(null);
     const [imageQRCode, setImageQRCode] = useState(null);
+    const [modalVisible, setModalVisible] = useState(null);
+    const [modalText, setModalText] = useState(null);
 
     console.log(appDuck)
     useEffect(() => {
@@ -19,8 +22,11 @@ const QRScreen = ({navigation, appDuck}) => {
         try {
             setRefreshing(true)
             const response = await request(`/v1/users/${appDuck.user.id}/qr-code`, '', 'get')
+            console.log(response.data.qrCode);
             setImageQRCode(response.data.qrCode)
         } catch (e) {
+            setModalText(e.data.message);
+            setModalVisible(true);
             console.log(e)
         } finally {
             setRefreshing(false)
@@ -59,6 +65,7 @@ const QRScreen = ({navigation, appDuck}) => {
                     <Button onPress={() => navigation.goBack()}>Terminar</Button>
                 </View>
             </ScrollView>
+            <ModalInfo text={modalText} visible={modalVisible} setVisible={setModalVisible} textButton={'Entendido'} iconType={'exclamation'} close={true}/>
         </LayoutV3>
     )
 }

@@ -28,6 +28,11 @@ const GuestGeneratePassScreen = ({navigation, route, appDuck}) => {
 
     const generateQuestQRFunction = async () => {
         try {
+            if(!date){
+                setModalText('Selecciona una fecha')
+                setModalVisible(true);
+                return;
+            }
             const data = {
                 "idInvitado": route.params.guest.idInvitado,
                 "guestName": route.params.guest.nombre + ' ' + route.params.guest.apellidoPaterno + ' ' + route.params.guest.apellidoMaterno,
@@ -43,7 +48,14 @@ const GuestGeneratePassScreen = ({navigation, route, appDuck}) => {
                 setModalText('El invitado tiene 3 invitaciones este mes')
                 setModalVisible(true);
             } else {
-                setModalText(ex.data.message)
+                switch (ex.data.message) {
+                    case 'Partner does not have access':
+                        setModalText('El socio tiene un adeudo pendiente')
+                        break;                
+                    default:
+                        setModalText(ex.data.message)
+                        break;
+                }
                 setModalVisible(true);
             }
 
