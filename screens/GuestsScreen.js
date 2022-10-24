@@ -25,7 +25,7 @@ const GuestsScreen = ({navigation, appDuck}) => {
             const response = await getGuests('')
             setQuests(response.data)
             setQuestsFiltered(response.data)
-            console.log(response)
+            console.log(response.data)
         } catch (e) {
             console.log(e)
             alert(e.data.message)

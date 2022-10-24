@@ -6,7 +6,8 @@ export const request = async (uri, params = '', method, config = null, queryStri
         let uriResolved = queryStringParams.length > 0 ? paramsResolve(uri, queryStringParams) : uri;
         return await requestPost(uriResolved, params, config)
     } else if (method === 'get') {
-        return await requestGET(uri, params)
+        let uriResolved = queryStringParams.length > 0 ? paramsResolve(uri, queryStringParams) : uri;
+        return await requestGET(uriResolved, params)
     }
 }
 

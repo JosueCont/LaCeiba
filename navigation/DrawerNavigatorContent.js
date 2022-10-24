@@ -6,6 +6,7 @@ import {Colors} from "../Colors";
 import iconHome from '../assets/iconHome.png';
 import iconProfile from '../assets/iconProfile.png';
 import iconGuestsSmall from '../assets/iconGuestsSmall.png';
+import iconReservationsmall from '../assets/iconReservationsmall.png';
 import iconHelp from '../assets/iconHelp.png';
 import iconLogout from '../assets/iconLogout.png';
 import face from '../assets/face.png';
@@ -49,27 +50,27 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                         </View>
                     </View>
                 </TouchableOpacity>
-                {/*<TouchableOpacity onPress={() => navigation.navigate('MembersScreen')}>*/}
-                {/*    <View flexDirection={'row'} mb={4}>*/}
-                {/*        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>*/}
-                {/*            <Image source={iconMembers} style={{width: 20, height: 20}}></Image>*/}
-                {/*        </View>*/}
-                {/*        <View flex={1} justifyContent={'center'}>*/}
-                {/*            <Text fontSize={'md'}>Miembros adicionales</Text>*/}
-                {/*        </View>*/}
-                {/*    </View>*/}
-                {/*</TouchableOpacity>*/}
-                {/*<TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen')}>*/}
+                {/* <TouchableOpacity onPress={() => navigation.navigate('MembersScreen')}>
+                   <View flexDirection={'row'} mb={4}>
+                       <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                           <Image source={iconMembers} style={{width: 20, height: 20}}></Image>
+                       </View>
+                       <View flex={1} justifyContent={'center'}>
+                           <Text fontSize={'md'}>Miembros adicionales</Text>
+                       </View>
+                   </View>
+                </TouchableOpacity> */}
+                <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen')}>
 
-                {/*    <View flexDirection={'row'} mb={4}>*/}
-                {/*        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>*/}
-                {/*            <Image source={iconReservationsmall} style={{width: 20, height: 20}}></Image>*/}
-                {/*        </View>*/}
-                {/*        <View flex={1} justifyContent={'center'}>*/}
-                {/*            <Text fontSize={'md'}>Mis reservaciones</Text>*/}
-                {/*        </View>*/}
-                {/*    </View>*/}
-                {/*</TouchableOpacity>*/}
+                   <View flexDirection={'row'} mb={4}>
+                       <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                           <Image source={iconReservationsmall} style={{width: 20, height: 20}}></Image>
+                       </View>
+                       <View flex={1} justifyContent={'center'}>
+                           <Text fontSize={'md'}>Mis reservaciones</Text>
+                       </View>
+                   </View>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('GuestsScreen')}>
 
                     <View flexDirection={'row'} mb={4}>

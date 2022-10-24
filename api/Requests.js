@@ -3,6 +3,7 @@ import {URLTypes} from "./URLTypes";
 
 export const signIn = async (params) => await request(URLTypes.SIGN_IN, params, 'post');
 export const findPartner = async (params) => await request(URLTypes.FIND_PARTNER, params, 'get');
+export const findPartnerQuery = async (params) => await request(URLTypes.GET_ALL_PARTNERS, params, 'get');
 export const tryFindPartner = async (params) => await request(URLTypes.TRY_FIND_PARTNER, params, 'get');
 export const registerConfirmPhone = async (params) => await request(URLTypes.REGISTER_CONFIRM_PHONE, params, 'post');
 export const registerSendConfirmPhone = async (params) => await request(URLTypes.REGISTER_SEND_CONFIRM_PHONE, params, 'post');
@@ -14,3 +15,6 @@ export const generateGuestsQR = async (params, queryStringParams = []) => await 
 export const getCategories = async (params) => await request(URLTypes.GET_CATEGORIES, params, 'get');
 export const getCategoriesDetail = async (params) => await request(URLTypes.GET_CATEGORIES_DETAIL, params, 'get');
 export const getCategoryDetail = async (params) => await request(URLTypes.GET_CATEGORY_DETAIL, params, 'get');
+export const getAllServices = async (params) => await request(URLTypes.GET_ALL_SERVICES, params, 'get');
+export const getIntervalsTime = async (params, queryStringParams = []) => await request(URLTypes.GET_INTERVALS, params, 'get', null, queryStringParams);
+export const bookService = async (params, queryStringParams = []) => await request(URLTypes.BOOK_SERVICE, params, 'post', null, queryStringParams);

@@ -45,6 +45,7 @@ import VideoPlayer from "../screens/VideoPlayer";
 import PDFAndImageViewer from "../screens/PDFAndImageViewer";
 import HTMLViewer from "../screens/HTMLViewer";
 import BookingCollectDataSearchScreen from "../screens/BookingCollectDataSearchScreen";
+import BookingConfirmScreenSuccess from "../screens/BookingConfirmScreenSuccess";
 
 const Drawer = createDrawerNavigator();
 
@@ -131,6 +132,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'BookingCollectDataScreen'} component={BookingCollectDataScreen} options={{title: ''}}/>
             <Drawer.Screen name={'BookingScreen'} component={BookingScreen} options={{title: ''}}/>
             <Drawer.Screen name={'BookingConfirmScreen'} component={BookingConfirmScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'BookingConfirmScreenSuccess'} component={BookingConfirmScreenSuccess} options={{title: ''}}/>
             <Drawer.Screen name={'GuestsScreen'} component={GuestsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'MembershipsScreen'} component={MembershipsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'GuestGeneratePassScreen'} component={GuestGeneratePassScreen} options={{title: ''}}/>

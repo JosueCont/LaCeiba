@@ -19,11 +19,11 @@ const BookingsScreen = ({navigation}) => {
                     <BookinsItem mb={4}/>
                 </TouchableOpacity>
 
+                {/* <BookinsItem mb={4}/>
                 <BookinsItem mb={4}/>
                 <BookinsItem mb={4}/>
                 <BookinsItem mb={4}/>
-                <BookinsItem mb={4}/>
-                <BookinsItem mb={4}/>
+                <BookinsItem mb={4}/> */}
 
             </View>
 
