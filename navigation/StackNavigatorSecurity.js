@@ -10,6 +10,7 @@ import RegisterStep4Screen from "../screens/RegisterStep4Screen";
 import LoginNonPaymentScreen from "../screens/LoginNonPaymentScreen";
 import RegisterStep5Screen from "../screens/RegisterStep5Screen";
 import RegisterStep2Screen from "../screens/RegisterStep2Screen";
+import AskForPushNotificationsScreen from "../screens/Permissions/AskForPushNotificationsScreen";
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ const StackNavigatorSecurity = () => {
             <Stack.Screen name="LoginNonPaymentScreen" component={LoginNonPaymentScreen} options={{headerShown: false}}/>
             <Stack.Screen name="RecoverPasswordScreen" component={RecoverPasswordScreen} options={{headerShown: false}}/>
             <Stack.Screen name="ComponentsScreen" component={ComponentsScreen} options={{headerShown: false}}/>
+            <Stack.Screen name="AskForPushNotificationsScreen" component={AskForPushNotificationsScreen} options={{headerShown: false}}/>
 
         </Stack.Navigator>
     );

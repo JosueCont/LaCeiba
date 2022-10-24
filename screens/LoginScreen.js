@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, FormControl, Icon, Image, Input, Text, View} from "native-base";
 import imgLogo from '../assets/imgLogo.png';
 import Layout from "./Layouts/Layout";
@@ -11,8 +11,10 @@ import * as Yup from 'yup'
 import {TouchableOpacity} from "react-native";
 import ModalInfo from "./Modals/ModalInfo";
 import {MaterialIcons} from "@expo/vector-icons";
+import * as Notifications from 'expo-notifications';
+import {setAttribute} from "../redux/ducks/navigationDuck";
 
-const LoginScreen = ({loggedAction, navigation}) => {
+const LoginScreen = ({loggedAction, navigation, setAttribute}) => {
     const [modalInfoVisible, setModalInfoVisible] = useState(null);
     const [showPasssword, setShowPassword] = useState(null)
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
@@ -30,6 +32,11 @@ const LoginScreen = ({loggedAction, navigation}) => {
         })
     });
 
+
+    useEffect(() => {
+        getPushToken()
+    }, [])
+
     const loginFunction = async (data) => {
         try {
             data['refresh'] = true;
@@ -45,6 +52,12 @@ const LoginScreen = ({loggedAction, navigation}) => {
             setModalInfoVisible(true)
         }
 
+    }
+
+
+    const getPushToken = async () => {
+        const token = await Notifications.getExpoPushTokenAsync();
+        setAttribute('pushToken', token.data)
     }
 
 
@@ -110,4 +123,4 @@ const LoginScreen = ({loggedAction, navigation}) => {
 const mapState = (state) => {
     return {}
 }
-export default connect(mapState, {loggedAction})(LoginScreen);
+export default connect(mapState, {loggedAction, setAttribute})(LoginScreen);
