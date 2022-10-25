@@ -19,11 +19,9 @@ const VideoPlayer = ({navigation, route}) => {
     }, [route.params.id])
 
     const getEmbedCode = (videoURL) => {
-        console.log('holaaa')
-        let type = videoURL.includes('youtube.com') ? 'youtube' : 'vimeo';
-        let video_id = videoURL.split('v=');
-        video_id = video_id[1]
-
+        let type = videoURL.includes('youtu') ? 'youtube' : 'vimeo';
+        let video_id = videoURL.substring(videoURL.lastIndexOf('/') + 1)
+        console.log(video_id)
 
         setSource({
             html: type === 'vimeo' ?
