@@ -2,8 +2,6 @@ import LayoutV4 from "./Layouts/LayoutV4";
 import {Button, FormControl, Icon, Select, Skeleton, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import React, {useEffect, useState} from "react";
-import { useFocusEffect } from '@react-navigation/native';
-import ModalConfirmBooking from "./Modals/ModalConfirmBooking";
 import {connect} from "react-redux";
 import {Calendar} from "react-native-calendars";
 import {TouchableOpacity} from "react-native";
@@ -12,9 +10,9 @@ import 'moment/locale/es';
 import {MaterialIcons} from "@expo/vector-icons";
 import {disabledDay} from "../utils";
 import ModalBookingConfirmation from "./Modals/ModalBookingConfirmation";
-import { useFormik } from "formik";
+import {useFormik} from "formik";
 import * as Yup from 'yup';
-import { bookService, getIntervalsTime } from "../api/Requests";
+import {bookService, getIntervalsTime} from "../api/Requests";
 
 moment.locale('es');
 
@@ -48,11 +46,11 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
             date: Yup
                 .string()
-                .matches(/^(\S+$)/g, 'Este campo no puede contener solo espacios en blanco.')
+                .trim()
                 .required("La fecha es obligatoria"),
             hourSelected: Yup
                 .string()
-                .matches(/^(\S+$)/g, 'Este campo no puede contener solo espacios en blanco.')
+                .trim()
                 .required("La hora es obligatoria"),
             peopleArray: Yup
                 .array()
