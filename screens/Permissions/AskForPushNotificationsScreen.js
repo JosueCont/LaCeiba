@@ -30,7 +30,7 @@ const AskForPushNotificationsScreen = ({navigation}) => {
                 </Text>
 
 
-                <Button onPress={() => askPermission()}>Permitir</Button>
+                <Button onPress={() => askPermission()} mb={2}>Permitir</Button>
                 <Button onPress={() => navigation.goBack()}>Regresar</Button>
             </View>
 
