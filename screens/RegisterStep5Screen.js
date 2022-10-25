@@ -58,7 +58,7 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
                 confirm: values.passwordConfirm,
                 claveSocio: navigationDuck.user.claveSocio,
                 countryCode: '+' + route.params.countryCode,
-                phone: navigationDuck.user.celular,
+                phone: navigationDuck.user.celular
             }
 
             const headers = {
@@ -88,7 +88,8 @@ const RegisterStep5Screen = ({navigation, loggedAction, navigationDuck, route}) 
             const data = {
                 email: dataValues.email,
                 password: dataValues.password,
-                refresh: true
+                refresh: true,
+                pushToken: navigationDuck.pushToken
             }
             const response = await signIn(data)
             await AsyncStorage.setItem('@user', JSON.stringify(response.data))

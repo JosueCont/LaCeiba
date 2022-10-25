@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, FormControl, Input, Select, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 import {findPartner} from "../api/Requests";
@@ -9,6 +9,7 @@ import {setAttribute} from "../redux/ducks/navigationDuck";
 import {ScrollView} from "react-native";
 import ModalInfo from "./Modals/ModalInfo";
 import _ from 'lodash';
+import * as Notifications from "expo-notifications";
 
 const RegisterScreen = ({navigation, setAttribute}) => {
     const [modalErrorVisible, setModalErrorVisible] = useState(null);
@@ -47,6 +48,10 @@ const RegisterScreen = ({navigation, setAttribute}) => {
         })
     });
 
+    useEffect(() => {
+        getPushToken()
+    }, [])
+
     const registerPartnerFuncion = async (values) => {
 
         try {
@@ -78,6 +83,12 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                 alert(e.status)
             }
         }
+    }
+
+    const getPushToken = async () => {
+        const token = await Notifications.getExpoPushTokenAsync();
+        console.log(token)
+        setAttribute('pushToken', token.data)
     }
 
 

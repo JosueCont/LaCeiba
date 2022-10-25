@@ -13,8 +13,9 @@ import ModalInfo from "./Modals/ModalInfo";
 import {MaterialIcons} from "@expo/vector-icons";
 import * as Notifications from 'expo-notifications';
 import {setAttribute} from "../redux/ducks/navigationDuck";
+import _ from "lodash";
 
-const LoginScreen = ({loggedAction, navigation, setAttribute}) => {
+const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) => {
     const [modalInfoVisible, setModalInfoVisible] = useState(null);
     const [showPasssword, setShowPassword] = useState(null)
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
@@ -40,6 +41,9 @@ const LoginScreen = ({loggedAction, navigation, setAttribute}) => {
     const loginFunction = async (data) => {
         try {
             data['refresh'] = true;
+            if (_.has(navigationDuck, 'pushToken')) {
+                data['pushToken'] = navigationDuck.pushToken;
+            }
             const response = await signIn(data)
 
             console.log(response)
@@ -121,6 +125,8 @@ const LoginScreen = ({loggedAction, navigation, setAttribute}) => {
 
 
 const mapState = (state) => {
-    return {}
+    return {
+        navigationDuck: state.navigationDuck
+    }
 }
 export default connect(mapState, {loggedAction, setAttribute})(LoginScreen);

@@ -19,8 +19,6 @@ const NavigatorContainerMain = () => {
         }, 100)
     }, [status]);
 
-    console.log(status)
-
 
     return (
         <NavigationContainer>

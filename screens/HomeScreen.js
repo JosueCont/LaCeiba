@@ -13,9 +13,12 @@ import SliderCustom from "../components/SliderCustom/SliderCustom";
 import LayoutV4 from "./Layouts/LayoutV4";
 import {validatePartner} from "../api/Requests";
 import {connect} from "react-redux";
+import ModalInfo from "./Modals/ModalInfo";
 
 const HomeScreen = ({navigation, appDuck}) => {
-    const [sliderPosition, setSliderPosition] = useState(0)
+    const [sliderPosition, setSliderPosition] = useState(0);
+    const [text, setText] = useState(null);
+    const [modalInfoVisible, setModalInfoVisible] = useState(null);
 
 
     const validatePartnerFunction = async () => {
@@ -31,7 +34,13 @@ const HomeScreen = ({navigation, appDuck}) => {
 
         } catch (ex) {
             console.log(ex)
-            alert(ex.data.message)
+            if (ex.data.message === 'Partner does not have access') {
+                setText('El socio no tiene acceso.')
+            } else {
+                setText(ex.data.message)
+            }
+            setModalInfoVisible(true)
+
         }
 
     }
@@ -138,7 +147,7 @@ const HomeScreen = ({navigation, appDuck}) => {
                 </View>
 
             </View>
-
+            <ModalInfo visible={modalInfoVisible} setVisible={setModalInfoVisible} iconType={'exclamation'} text={text}></ModalInfo>
         </LayoutV4>
 
     )
