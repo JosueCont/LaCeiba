@@ -50,10 +50,10 @@ const ModalConfirmRejectBook = ({visible, setVisible, title, type, onAccept, dat
                         <>
                             <Text style={styles.modalText} mb={3} fontSize={'xl'} fontFamily={'titleConfortaaBold'}>Fecha y hora</Text>
                             <Text style={styles.modalText} mb={2} fontSize={'lg'} fontFamily={'titleConfortaaRegular'}>{data.date} </Text>
-                            <Text style={styles.modalText} mb={6} fontSize={'lg'} fontFamily={'titleConfortaaRegular'}>{data.hour} am </Text>
+                            <Text style={styles.modalText} mb={6} fontSize={'lg'} fontFamily={'titleConfortaaRegular'}>{data.hour} </Text>
 
                             <Text style={styles.modalText} mb={3} fontSize={'xl'} fontFamily={'titleConfortaaBold'}>Número de personas</Text>
-                            <Text style={styles.modalText} mb={6} fontSize={'lg'} fontFamily={'titleConfortaaRegular'}>{data.people.length + 1} personas </Text>
+                            <Text style={styles.modalText} mb={6} fontSize={'lg'} fontFamily={'titleConfortaaRegular'}>{data.numPeople} personas </Text>
                         </> :
                         <>
                             <Text style={styles.modalText} mb={6} fontSize={'lg'} fontFamily={'titleConfortaaRegular'}>¿Está seguro que desea rechazar la reservación?</Text>

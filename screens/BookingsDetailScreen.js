@@ -4,11 +4,12 @@ import {Colors} from "../Colors";
 import {Image as ImageRN} from "react-native";
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import ModalConfirmRejectBook from './Modals/ModalConfirmRejectBook';
+import moment from "moment";
 import { useEffect } from 'react';
 
 const BookingDetailScreen = ({route, navigation}) => {
     const [sliderPosition, setSliderPosition] = useState(0)
-    const {service, state} = route?.params;
+    const {service, state, invitation, booking} = route?.params;
     const [openModal, setOpenModal] = useState(false);
     const [actionBook, setActionBook] = useState(null);
     
@@ -47,34 +48,54 @@ const BookingDetailScreen = ({route, navigation}) => {
                     <View mx={10} mb={6} alignItems={'center'} >
                         <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>FECHA Y HORA</Text>
                         <Text color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
-                            Miércoles 27 de julio a las
+                            {moment(invitation?.booking?.dueDate,"YYYY-MM-DD").format("DD-MM-YYYY")}
 
                         </Text>
                         <Text color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
-                            9:30 am
+                            {moment(invitation?.booking?.dueTime,"HH:mm").format("hh:mm a")}
                         </Text>
-                        <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>SOCIOS</Text>
-                        <Text color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
-                            Alejandrino Dzul
-                        </Text>
-                        <Text color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
-                            Eduardo Couoh
-                        </Text>
-                        <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>INVITADOS</Text>
-                        
-                        <Text color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
-                            Isabel Olais
-                        </Text>
+                        {
+                            booking.invitations.filter((currentBooking)=> currentBooking.user != null).length > 0 &&
+                            <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>SOCIOS</Text>
+                        }
+                        {
+                            booking.invitations.map((currentBooking, index)=>{
+                                
+                                return(
+                                    currentBooking.user &&
+                                    <Text color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
+                                        {currentBooking?.user?.firstName}
+                                    </Text>
+                                    
+                                );
+                            })
+                        }
+                        {
+                            booking.invitations.filter((currentBooking)=> currentBooking.user == null).length > 0 &&
+                            <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>INVITADOS</Text>
+                        }
+                        {
+                            booking.invitations.map((currentBooking, index)=>{
+                                
+                                return(
+                                    currentBooking.guestName &&
+                                    <Text color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
+                                        {currentBooking?.guestName}
+                                    </Text>
+                                    
+                                );
+                            })
+                        }
                     </View>
                     {
-                        state == 'p' && 
+                        invitation?.status == 'PENDING' && 
                         <>
                             <Button onPress={() => {setActionBook("Confirm"); setOpenModal(true);}} mb={4}>Confirmar</Button>
                             <Button onPress={() => {setActionBook("Reject"); setOpenModal(true);}} mb={4}>Rechazar</Button>
                         </>                        
                     }
                     {
-                        state == 'c' && 
+                        invitation.status == 'CONFIRMED' && 
                         <>
                             <Button onPress={() => navigation.navigate("QRScreen")} mb={4}>Código QR</Button>
                         </>
@@ -90,7 +111,7 @@ const BookingDetailScreen = ({route, navigation}) => {
                 setVisible={setOpenModal}
                 type={actionBook}
                 title={actionBook == "Confirm" ? "Confirmación de la reservación" : "Rechazar reservación"}
-                data={{date: '12/02/2022', hour: '10:20', people: [{name: 'Eduardo Couoh'}]}} 
+                data={{date: moment(invitation?.booking?.dueDate,"YYYY-MM-DD").format("DD-MM-YYYY"), hour: moment(invitation?.booking?.dueTime,"HH:mm").format("hh:mm a"), numPeople: booking?.invitations?.length }} 
                 onAccept={actionBook == "Confirm" ? AcceptBooking : RejectBooking}>
                 
             </ModalConfirmRejectBook>
