@@ -13,7 +13,7 @@ import ModalBookingConfirmation from "./Modals/ModalBookingConfirmation";
 import ModalInfo from "./Modals/ModalInfo";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
-import {bookService, getIntervalsTime, cacheBookHour} from "../api/Requests";
+import {bookService, cacheBookHour, getIntervalsTime} from "../api/Requests";
 
 moment.locale('es');
 
@@ -34,16 +34,17 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const [minutesLeft, setMinutesLeft] = useState(null);
     const [secondsLeft, setSecondsLeft] = useState(null);
 
-    const {touched, handleSubmit, errors, setFieldValue, setErrors, resetForm} = useFormik({
+    const {touched, handleSubmit, errors, setFieldValue, resetForm} = useFormik({
         initialValues: {
             date: '',
             hourSelected: '',
             peopleArray: []
         },
         onSubmit: (formValue) => {
+            console.log(44)
             sendConfirmationBooking(formValue)
         },
-        validateOnChange: true,
+        validateOnChange: false,
         validationSchema: Yup.object({
 
             date: Yup
@@ -181,7 +182,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         setDate(null);
         setHourSelected(null);
         setPeople([]);
-        setErrors({});
         setTimeLeft(null);
         setMinutesLeft(null);
         setSecondsLeft(null);
