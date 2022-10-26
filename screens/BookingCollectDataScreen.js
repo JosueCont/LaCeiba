@@ -10,14 +10,16 @@ import 'moment/locale/es';
 import {MaterialIcons} from "@expo/vector-icons";
 import {disabledDay} from "../utils";
 import ModalBookingConfirmation from "./Modals/ModalBookingConfirmation";
+import ModalInfo from "./Modals/ModalInfo";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
-import {bookService, getIntervalsTime} from "../api/Requests";
+import {bookService, getIntervalsTime, cacheBookHour} from "../api/Requests";
 
 moment.locale('es');
 
 const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const [modalConfirmBooking, setModalConfirmBooking] = useState(null)
+    const [modalInfo, setModalInfo] = useState(null);
     const [modalVisible, setModalVisible] = useState(null);
     const [modalText, setModalText] = useState(null);
     const [date, setDate] = useState(null);
@@ -66,13 +68,17 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     todayPlus7.setDate(new Date().getDate() + 7)
 
     useEffect(() => {
-        if (timeLeft === 0) {
-            setMinutesLeft('0');
+        if (timeLeft == 0) {
+            setMinutesLeft('00');
             setSecondsLeft('00');
             //setDate(null);
             setHourSelected(null);
         }
-        if (!timeLeft) return;
+        if (!timeLeft){ 
+            setMinutesLeft(null);
+            setSecondsLeft(null);
+            return
+        };
         const intervalId = setInterval(() => {
 
             setTimeLeft(timeLeft - 1);
@@ -122,6 +128,25 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         setHours(response.data);
     }
 
+    const validateHour = async (hour) =>{
+        try {
+            const params = {
+                dueDate: date,
+                dueTime: hour
+            }
+            const response = await cacheBookHour(params, [appDuck.user.id, route?.params?.service?.areas[0]?.id])
+            if(response) {
+                setFieldValue("hourSelected", hour);
+                setTimeLeft(route?.params?.service?.timeToConfirm * 60);
+            }
+        } catch (e) {
+            setModalInfo(true);
+            setHourSelected(null);
+            setTimeLeft(null);
+        }
+        
+    }
+
     const confirmBooking = async () => {
         try {
             //CALL ENDPOINT
@@ -167,9 +192,10 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     }
 
     const convertToMinutes= (time)=>{
-        const minutes =  Math.floor(time  / 60);
+        let minutes = time>= 60 ?  Math.floor(time  / 60) : 0;
+        minutes = String(minutes).padStart(2, "0");
         let seconds = time  - minutes * 60;
-        seconds = seconds == 0 ? '00' : seconds;
+        seconds = String(seconds).padStart(2, "0");
         setMinutesLeft(minutes);
         setSecondsLeft(seconds);
     }
@@ -285,8 +311,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                     onOpen={()=>{getHoursFunction(date)}}
                                     onValueChange={(v) => {
                                         setHourSelected(v);
-                                        setFieldValue("hourSelected", v);
-                                        setTimeLeft(route?.params?.service?.timeToConfirm * 60);
+                                        validateHour(v);                                        
                                     }}
                                     placeholder="Seleccionar">
                                     {
@@ -412,6 +437,13 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 onConfirm={confirmBooking}>
 
             </ModalBookingConfirmation>
+            <ModalInfo
+                setVisible={setModalInfo}
+                visible={modalInfo}
+                title="Hora seleccionada"
+                text="Este horario ya ha sido apartado. Intenta seleccionar otro."
+                textButton="Aceptar">
+            </ModalInfo>
             {/* <ModalConfirmBooking
                 visible={modalConfirmBooking}
                 setVisible={setModalConfirmBooking}

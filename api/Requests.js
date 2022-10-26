@@ -17,4 +17,5 @@ export const getCategoriesDetail = async (params) => await request(URLTypes.GET_
 export const getCategoryDetail = async (params) => await request(URLTypes.GET_CATEGORY_DETAIL, params, 'get');
 export const getAllServices = async (params) => await request(URLTypes.GET_ALL_SERVICES, params, 'get');
 export const getIntervalsTime = async (params, queryStringParams = []) => await request(URLTypes.GET_INTERVALS, params, 'get', null, queryStringParams);
+export const cacheBookHour = async (params, queryStringParams = []) => await request(URLTypes.CACHE_BOOKING, params, 'post', null, queryStringParams);
 export const bookService = async (params, queryStringParams = []) => await request(URLTypes.BOOK_SERVICE, params, 'post', null, queryStringParams);

@@ -6,7 +6,7 @@ import {AntDesign} from "@expo/vector-icons";
 import {Colors} from "../../Colors";
 import {LinearGradient} from "expo-linear-gradient";
 
-const ModalBookingConfirmation = ({visible, setVisible, date, hour, people, onConfirm}) => {
+const ModalConfirmRejectBook = ({visible, setVisible, title, type, onAccept, data }) => {
     const [heightGradient, setHeightGradient] = useState(null);
 
 
@@ -44,17 +44,24 @@ const ModalBookingConfirmation = ({visible, setVisible, date, hour, people, onCo
                         <Icon as={AntDesign} name={'questioncircleo'} color={Colors.yellow} size={'2xl'}/>
                     </View>
                     <View>
-                        <Text style={styles.modalText} mb={6} fontSize={'lg'} fontFamily={'titleConfortaaRegular'}>Confirmación de reservación</Text>
-                        <Text style={styles.modalText} mb={6} fontSize={'2xl'} fontFamily={'titleConfortaaBold'}>Fecha y hora</Text>
-                        <Text style={styles.modalText} mb={6} fontSize={'2xl'} fontFamily={'titleConfortaaBold'}>{date} </Text>
-                        <Text style={styles.modalText} mb={6} fontSize={'2xl'} fontFamily={'titleConfortaaBold'}>{hour} </Text>
+                        <Text style={styles.modalText} mb={6} fontSize={'2xl'} fontFamily={'titleConfortaaBold'}>{title}</Text>
 
-                        <Text style={styles.modalText} mb={6} fontSize={'lg'} fontFamily={'titleConfortaaRegular'}>Número de personas</Text>
-                        <Text style={styles.modalText} mb={6} fontSize={'2xl'} fontFamily={'titleConfortaaBold'}>{people.length + 1} personas </Text>
+                        {type == "Confirm" ?
+                        <>
+                            <Text style={styles.modalText} mb={3} fontSize={'xl'} fontFamily={'titleConfortaaBold'}>Fecha y hora</Text>
+                            <Text style={styles.modalText} mb={2} fontSize={'lg'} fontFamily={'titleConfortaaRegular'}>{data.date} </Text>
+                            <Text style={styles.modalText} mb={6} fontSize={'lg'} fontFamily={'titleConfortaaRegular'}>{data.hour} am </Text>
+
+                            <Text style={styles.modalText} mb={3} fontSize={'xl'} fontFamily={'titleConfortaaBold'}>Número de personas</Text>
+                            <Text style={styles.modalText} mb={6} fontSize={'lg'} fontFamily={'titleConfortaaRegular'}>{data.people.length + 1} personas </Text>
+                        </> :
+                        <>
+                            <Text style={styles.modalText} mb={6} fontSize={'lg'} fontFamily={'titleConfortaaRegular'}>¿Está seguro que desea rechazar la reservación?</Text>
+                        </> }
 
                         <View flexDirection={'row'}>
                             <View flex={6} p={2}>
-                                <Button mb={6} colorScheme={'green'} onPress={() => {onConfirm(); setVisible(false)}}>Confirmar</Button>
+                                <Button mb={2} colorScheme={'green'} onPress={() => {onAccept();}}>{type == 'Confirm' ? 'Confirmar' : "Rechazar"}</Button>
                                 <Button mb={2} colorScheme={'green'} onPress={() => setVisible(false)}>Regresar</Button>    
                             </View>
                         </View>
@@ -63,9 +70,8 @@ const ModalBookingConfirmation = ({visible, setVisible, date, hour, people, onCo
                 </View>
             </View>
         </Modal>
-
     );
 };
 
 
-export default ModalBookingConfirmation;
+export default ModalConfirmRejectBook;

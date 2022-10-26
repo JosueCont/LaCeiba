@@ -6,5 +6,6 @@ export const Colors = {
     greenV5: '#1C8B42',
     yellow: '#FFB718',
     gray: '#4C5A61',
-    greenLight: '#D0DAD6'
+    greenLight: '#D0DAD6',
+    red:  '#ff0000',
 }

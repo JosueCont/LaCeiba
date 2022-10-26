@@ -16,5 +16,6 @@ export const URLTypes = {
     GET_CATEGORY_DETAIL: '/v1/content-management',
     GET_ALL_SERVICES: '/v1/bookings/services',//?isGolf=true
     GET_INTERVALS: '/v1/bookings/areas/{{param}}/intervals',
-    BOOK_SERVICE: '/v1/bookings/users/{{param}}'
+    BOOK_SERVICE: '/v1/bookings/users/{{param}}',
+    CACHE_BOOKING: '/v1/bookings/users/{{param}}/areas/{{param}}/reserved'
 };
