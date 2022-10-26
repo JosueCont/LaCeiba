@@ -4,6 +4,8 @@ import {Button, Spinner, Text, View} from "native-base";
 import LayoutV3 from "./Layouts/LayoutV3";
 import PdfReader from "rn-pdf-reader-js-improved";
 import {useIsFocused} from "@react-navigation/native";
+import ImageZoom from "react-native-image-pan-zoom";
+import {Dimensions, Image} from "react-native";
 
 const PDFAndImageViewer = ({navigation, route}) => {
     const [loading, setLoading] = useState(null);
@@ -26,14 +28,14 @@ const PDFAndImageViewer = ({navigation, route}) => {
                 <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>{route.params.title}</Text>
                 <View flex={1}>
                     {
-                        (loading === false && isFocused) &&
+                        (loading === false && isFocused && URL.includes('pdf')) &&
                         <PdfReader
 
                             style={{height: '100%', width: '100%'}}
                             webviewStyle={{backgroundColor: '#D0DAD6'}}
                             withPinchZoom={true}
                             source={{
-                                uri: URL,
+                                uri: URL
                             }}
                             webviewProps={{
                                 startInLoadingState: false,
@@ -43,7 +45,7 @@ const PDFAndImageViewer = ({navigation, route}) => {
                                         <Spinner size={'lg'} key={'abc'} color={Colors.green}/>
                                     </View>
                                 ),
-                                cacheEnabled: true
+                                cacheEnabled: false
                             }}
                             customStyle={{
                                 readerContainer: {backgroundColor: '#D0DAD6'},
@@ -53,6 +55,31 @@ const PDFAndImageViewer = ({navigation, route}) => {
                         />
                     }
 
+                    {
+                        (loading === false && isFocused && !URL.includes('pdf')) &&
+                        <View flex={1} bgColor={'#fff'}>
+                            <ImageZoom
+                                cropWidth={Dimensions.get('window').width}
+                                cropHeight={Dimensions.get('window').height}
+                                imageWidth={Dimensions.get('window').width}
+                                imageHeight={Dimensions.get('window').height}
+                            >
+                                <Image
+                                    onLoadEnd={() => {
+                                        console.log('....')
+                                        setLoading(false)
+                                    }}
+                                    onError={() => {
+                                        setLoading(false)
+                                    }}
+                                    style={{width: '100%', height: Dimensions.get('window').height / 1.5, resizeMode: 'stretch'}}
+                                    source={{uri: URL}}
+                                    alt="img"
+                                />
+                            </ImageZoom>
+                        </View>
+
+                    }
 
                 </View>
                 <View py={10} px={5}>

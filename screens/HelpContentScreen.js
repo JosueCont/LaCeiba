@@ -68,6 +68,7 @@ const HelpContentScreen = ({navigation, route}) => {
                             contents.map((item) => {
                                 console.log(item)
                                 if (item.contentType === 'IMAGE' || item.contentType === 'PDF') {
+                                    console.log(item)
                                     return (
                                         <ManualItem mb={4} navigation={navigation} title={item.title} url={item.fileUrl} type={item.contentType}></ManualItem>
                                     )
