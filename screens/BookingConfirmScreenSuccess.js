@@ -1,7 +1,8 @@
 import LayoutV4 from "./Layouts/LayoutV4";
-import {Button, Image, Text, View} from "native-base";
+import {Button, Image, Text, View, Icon} from "native-base";
 import React from "react";
 import {Colors} from "../Colors";
+import {AntDesign} from "@expo/vector-icons";
 import {ImageBackground} from "react-native";
 import bgButton from "../assets/bgButton.png";
 import iconPersonSmall from "../assets/iconPersonSmall.png";
@@ -14,18 +15,20 @@ const BookingConfirmScreenSuccess = ({route, navigation}) => {
 
                 <View flex={1}>
                     <View alignItems={'center'} mb={10}>
-                        <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                        {/* <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                             <Image source={iconPersonSmall} width={'50%'} resizeMode={'contain'}/>
-                        </ImageBackground>
+                        </ImageBackground> */}
+                        <Icon as={AntDesign} name={'checkcircleo'} color={Colors.yellow} size={'6xl'}/>
                     </View>
 
                     <Text mb={5} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'xl'}>EL CAMPO DE GOLF HA SIDO RESERVADO CON ÉXITO</Text>
                     
 
                     <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>FECHA Y HORA</Text>
-                    <Text mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>{route?.params?.date} a las</Text>
                     <Text mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
-                        {route?.params?.hour}
+                        {moment(route?.params?.date,"YYYY-MM-DD").format("DD-MM-YYYY")} a las</Text>
+                    <Text mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                        {moment(route?.params?.hour,"HH:mm").format("hh:mm a")}
                     </Text>
                     {
                         route?.params?.people.some(person => person.data.type == 'p') &&

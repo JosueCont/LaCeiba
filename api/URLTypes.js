@@ -17,5 +17,7 @@ export const URLTypes = {
     GET_ALL_SERVICES: '/v1/bookings/services',//?isGolf=true
     GET_INTERVALS: '/v1/bookings/areas/{{param}}/intervals',
     BOOK_SERVICE: '/v1/bookings/users/{{param}}',
-    CACHE_BOOKING: '/v1/bookings/users/{{param}}/areas/{{param}}/reserved'
+    CACHE_BOOKING: '/v1/bookings/users/{{param}}/areas/{{param}}/reserved',
+    GET_ALL_BOOKINGS: '/v1/bookings',//?page=1&limit=10,
+    GET_ALL_INVITATIONS: '/v1/bookings/invitations',//?userId=16
 };
