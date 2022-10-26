@@ -19,15 +19,15 @@ const VideoPlayer = ({navigation, route}) => {
     }, [route.params.id])
 
     const getEmbedCode = (videoURL) => {
-        console.log('holaaa')
+        console.log(videoURL)
         let type = videoURL.includes('youtube.com') ? 'youtube' : 'vimeo';
-        let video_id = videoURL.split('v=');
-        video_id = video_id[1]
+        let video_id = type === 'youtube' ? videoURL.split('v=')[1] : videoURL.substring(videoURL.lastIndexOf('/') + 1)
 
+        console.log(video_id)
 
         setSource({
             html: type === 'vimeo' ?
-                `<meta name="viewport" content="width=device-width, initial-scale=1"><div style="width: 100%: height:100%:"><iframe src="https://player.vimeo.com/video/${video_id.replace('/', '?h=')}&title=0&byline=0&transparent=1&controls=1&responsive=true" style="background-color: ${Colors.blue};position:absolute;top:0;left:0;width:100%;height:100%;"  frameborder="0" allow="autoplay; fullscreen; picture-in-picture" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>` :
+                `<meta name="viewport" content="width=device-width, initial-scale=1"><div style="width: 100%: height:100%:"><iframe src="https://player.vimeo.com/video/${video_id}?title=0&byline=0&transparent=1&controls=1&responsive=true" style="background-color: ${Colors.blue};position:absolute;top:0;left:0;width:100%;height:100%;"  frameborder="0" allow="autoplay; fullscreen; picture-in-picture" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>` :
                 `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${video_id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
         })
     }
