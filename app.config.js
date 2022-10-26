@@ -18,7 +18,7 @@ const commonConfig = {
     },
     extra: {
         debug: true,
-        production: false,
+        production: true,
         URL: "https://api.hacienda.hiumanlab.com",
         URL_DEV: "https://qa.api.hacienda.hiumanlab.com",
         eas: {
