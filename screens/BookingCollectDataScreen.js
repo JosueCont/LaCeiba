@@ -211,7 +211,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                         Instalación | Servicio
                     </Text>
                     <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xl'}>
-                        Campo de golf
+                        {route?.params?.service?.name}
                     </Text>
                 </View>
 

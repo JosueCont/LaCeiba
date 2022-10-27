@@ -152,9 +152,9 @@ const BookingCollectDataSearchScreen = ({route, navigation}) => {
                                 {
                                     people.map((item) => {
                                         return (
-                                            typeSelected == 'g' ? <Select.Item  label={item.nombre + " " + item.apellidoPaterno} value={item.idInvitado}  />
+                                            (typeSelected == 'g') ? (!route.params.currentPeople.find(person=>person.data.person.idInvitado == item.idInvitado) && <Select.Item  label={item.nombre + " " + item.apellidoPaterno} value={item.idInvitado}  />)
                                             : 
-                                            item.estatus == "Y" && <Select.Item label={item.nombreSocio} value={item.id}  />
+                                            (item.estatus == "Y" && !route.params.currentPeople.find(person=>person.data.person.id == item.id))&& <Select.Item label={item.nombreSocio} value={item.id}  />
                                         )
                                     })
                                 }

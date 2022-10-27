@@ -31,7 +31,7 @@ const BookingScreen = ({navigation}) => {
                                 <ImageBackground source={golfImage} style={{height: 180}}>
                                     <View flex={1}>
                                         <View flex={1} p={4}>
-                                            <Text fontFamily={'titleConfortaaRegular'} fontSize={'lg'}>Campo de golf</Text>
+                                            <Text fontFamily={'titleConfortaaRegular'} fontSize={'lg'}>{service?.name} </Text>
                                         </View>
                                         <View flex={1} flexDirection={'row'}>
                                             <View flex={1}>
