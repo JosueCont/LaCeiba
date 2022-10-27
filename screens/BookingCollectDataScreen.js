@@ -364,7 +364,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                     </View>
                                     <TouchableOpacity onPress={()=> {removePerson(index)}}>
                                         <View flex={1} width={65} alignItems={'center'} justifyContent={'center'}>
-                                            <Icon as={MaterialIcons} name={'delete'} size={'2xl'} color={'red.100'}></Icon>
+                                            <Icon as={MaterialIcons} name={'delete'} size={'2xl'} color={'red.500'}></Icon>
                                         </View>
                                     </TouchableOpacity>
                                 </View>
