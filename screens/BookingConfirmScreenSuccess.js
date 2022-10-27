@@ -4,9 +4,10 @@ import React from "react";
 import {Colors} from "../Colors";
 import {AntDesign} from "@expo/vector-icons";
 import moment from "moment";
+import {connect} from "react-redux";
 
 
-const BookingConfirmScreenSuccess = ({route, navigation}) => {
+const BookingConfirmScreenSuccess = ({route, navigation, appDuck}) => {
     return (
         <LayoutV4 white={true}>
             <View flex={1} mx={8} pt={10}>
@@ -28,18 +29,16 @@ const BookingConfirmScreenSuccess = ({route, navigation}) => {
                     <Text mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                         {moment(route?.params?.hour,"HH:mm").format("hh:mm a")}
                     </Text>
-                    {
-                        route?.params?.people.some(person => person.data.type == 'p') &&
-                        <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>SOCIOS</Text>
-                    }
+                    <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>SOCIOS</Text>
+                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>{appDuck.user.firstName.toString().toUpperCase()}</Text>
                     {
                         route?.params?.people.map((person, index)=>{
                             return(
-                                person.data.type == 'p' && <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>{person.name}</Text>
+                                person.data.type == 'p' && <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>{person.name.toUpperCase()}</Text>
                             )
                         })
                     }
-                   
+                        
 
                     {
                         route?.params.people.some(person => person.data.type == 'g') &&
@@ -49,7 +48,7 @@ const BookingConfirmScreenSuccess = ({route, navigation}) => {
                     {
                         route?.params?.people.map((person, index)=>{
                             return(
-                                person.data.type == 'g' && <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>{person.name}</Text>
+                                person.data.type == 'g' && <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>{person.name.toUpperCase()}</Text>
                             )
                         })
                     }
@@ -64,4 +63,11 @@ const BookingConfirmScreenSuccess = ({route, navigation}) => {
     )
 }
 
-export default BookingConfirmScreenSuccess;
+const mapState = (state) => {
+    return {
+        appDuck: state.appDuck
+    }
+}
+
+
+export default connect(mapState)(BookingConfirmScreenSuccess);

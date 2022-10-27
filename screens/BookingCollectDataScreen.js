@@ -151,7 +151,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const confirmBooking = async () => {
         try {
             //CALL ENDPOINT
-            const params = {
+            let params = {
                 dueDate: date,
                 dueTime: hourSelected,
                 areaId: route?.params?.service?.areas[0]?.id,
@@ -159,9 +159,9 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             }
             for (const person of people) {
                 const guest = {
-                    guestId: person.data.person.id,
+                    guestId: person.data.type == 'g' ? parseInt(person.data.person.idInvitado) : person.data.person.id,
                     guestName: person.name,
-                    guestEmail: person.data.person.email
+                    guestEmail: person.data.type == 'g' ? person.data.person.mail : person.data.person.email
                 }
                 params.guests.push(guest);
             }

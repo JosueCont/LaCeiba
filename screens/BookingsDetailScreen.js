@@ -63,7 +63,7 @@ const BookingDetailScreen = ({route, navigation}) => {
                                 
                                 return(
                                     currentBooking.user &&
-                                    <Text color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
+                                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
                                         {currentBooking?.user?.firstName}
                                     </Text>
                                     
@@ -79,7 +79,7 @@ const BookingDetailScreen = ({route, navigation}) => {
                                 
                                 return(
                                     currentBooking.guestName &&
-                                    <Text color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
+                                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
                                         {currentBooking?.guestName}
                                     </Text>
                                     
