@@ -1,11 +1,9 @@
 import LayoutV4 from "./Layouts/LayoutV4";
-import {Button, Image, Text, View, Icon} from "native-base";
+import {Button, Icon, Text, View} from "native-base";
 import React from "react";
 import {Colors} from "../Colors";
 import {AntDesign} from "@expo/vector-icons";
-import {ImageBackground} from "react-native";
-import bgButton from "../assets/bgButton.png";
-import iconPersonSmall from "../assets/iconPersonSmall.png";
+import moment from "moment";
 
 
 const BookingConfirmScreenSuccess = ({route, navigation}) => {
