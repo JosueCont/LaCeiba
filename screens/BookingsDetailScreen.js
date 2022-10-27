@@ -64,7 +64,7 @@ const BookingDetailScreen = ({route, navigation}) => {
                                 return(
                                     currentBooking.user &&
                                     <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
-                                        {currentBooking?.user?.firstName}
+                                        {currentBooking?.user?.firstName.toUpperCase()} {currentBooking?.user?.lastName.toUpperCase()}
                                     </Text>
                                     
                                 );

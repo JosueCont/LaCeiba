@@ -30,7 +30,7 @@ const BookingConfirmScreenSuccess = ({route, navigation, appDuck}) => {
                         {moment(route?.params?.hour,"HH:mm").format("hh:mm a")}
                     </Text>
                     <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>SOCIOS</Text>
-                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>{appDuck.user.firstName.toString().toUpperCase()}</Text>
+                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>{appDuck.user.firstName.toString().toUpperCase()} {appDuck.user.lastName.toString().toUpperCase()}</Text>
                     {
                         route?.params?.people.map((person, index)=>{
                             return(
