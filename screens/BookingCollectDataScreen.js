@@ -44,7 +44,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             console.log(44)
             sendConfirmationBooking(formValue)
         },
-        validateOnChange: false,
+        validateOnChange: true,
         validationSchema: Yup.object({
 
             date: Yup
@@ -58,10 +58,12 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             peopleArray: Yup
                 .array()
                 //.required('Los invitados son obligatorios')
-                .min(route?.params?.service?.areas[0]?.minPeople-1 , `Seleccione al menos ${ route?.params?.service?.areas[0]?.minPeople-1 } personas`)
+                .min(route?.params?.service?.areas[0]?.minPeople - 1, `Seleccione al menos ${route?.params?.service?.areas[0]?.minPeople - 1} personas`)
 
         })
     });
+
+    console.log(errors)
 
     const tomorrow = new Date().setDate(new Date().getDate() + 1)
     const today = new Date().setDate(new Date().getDate())
@@ -75,11 +77,12 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             //setDate(null);
             setHourSelected(null);
         }
-        if (!timeLeft){ 
+        if (!timeLeft) {
             setMinutesLeft(null);
             setSecondsLeft(null);
             return
-        };
+        }
+        ;
         const intervalId = setInterval(() => {
 
             setTimeLeft(timeLeft - 1);
@@ -94,31 +97,31 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             setLoading(false)
         }, 500)
     }, [])
-    
-    useEffect(()=>{
-        setFieldValue("peopleArray", people);
-    }, [people])
 
-    useEffect(()=>{
-        if(route?.params?.clean){
+
+    useEffect(() => {
+        if (route?.params?.clean) {
             cleanData();
         }
     }, [route?.params])
 
-    
 
-    const addPerson = (data) =>{
+    const addPerson = (data) => {
         const person = {
             data: data,
             name: data.type == 'p' ? data.person.nombreSocio : data.person.nombre + ' ' + data.person.apellidoPaterno,
             type: data.type == 'p' ? "SOCIO" : "INVITADO"
         }
-        setPeople(prevPeople => [...prevPeople, person]);
-        
+        let arrayPeopleTemp = [...people, person]
+        setFieldValue("peopleArray", arrayPeopleTemp);
+        setPeople(arrayPeopleTemp);
+
     }
 
-    const removePerson = (index) =>{
-        setPeople(prevPeople => prevPeople.filter((_, i)=> i != index ));
+    const removePerson = (index) => {
+        let arrayPeopleTemp = people.filter((_, i) => i != index)
+        setFieldValue("peopleArray", arrayPeopleTemp);
+        setPeople(arrayPeopleTemp);
     }
 
 
@@ -129,14 +132,14 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         setHours(response.data);
     }
 
-    const validateHour = async (hour) =>{
+    const validateHour = async (hour) => {
         try {
             const params = {
                 dueDate: date,
                 dueTime: hour
             }
             const response = await cacheBookHour(params, [appDuck.user.id, route?.params?.service?.areas[0]?.id])
-            if(response) {
+            if (response) {
                 setFieldValue("hourSelected", hour);
                 setTimeLeft(route?.params?.service?.timeToConfirm * 60);
             }
@@ -145,7 +148,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             setHourSelected(null);
             setTimeLeft(null);
         }
-        
+
     }
 
     const confirmBooking = async () => {
@@ -166,7 +169,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 params.guests.push(guest);
             }
             const response = await bookService(params, [appDuck.user.id]);
-            if(!response.data?.message){
+            if (!response.data?.message) {
                 setModalConfirmBooking(false);
                 navigation.navigate('BookingConfirmScreenSuccess', {people: people, date: date, hour: hourSelected})
                 resetForm();
@@ -191,10 +194,10 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         setModalConfirmBooking(true)
     }
 
-    const convertToMinutes= (time)=>{
-        let minutes = time>= 60 ?  Math.floor(time  / 60) : 0;
+    const convertToMinutes = (time) => {
+        let minutes = time >= 60 ? Math.floor(time / 60) : 0;
         minutes = String(minutes).padStart(2, "0");
-        let seconds = time  - minutes * 60;
+        let seconds = time - minutes * 60;
         seconds = String(seconds).padStart(2, "0");
         setMinutesLeft(minutes);
         setSecondsLeft(seconds);
@@ -207,10 +210,10 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
 
                 <View mb={6}>
-                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
                         Instalación | Servicio
                     </Text>
-                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xl'}>
+                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>
                         {route?.params?.service?.name}
                     </Text>
                 </View>
@@ -278,19 +281,19 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                     selectedDayTextColor: '#ffffff',
                                 }}
                             />
-                             :
+                            :
                             <TouchableOpacity onPress={() => {
                                 setShowCalendar(!showCalendar)
                             }}>
-                            <FormControl isInvalid={errors.date}>
-                                <View height={50} bgColor={'#fff'} borderRadius={30} alignItems={'center'} justifyContent={'center'}>
-                                    <Text color={'#000'}>{date ? moment(date).format('dddd, DD MMMM YYYY') : 'Selecciona una fecha'}</Text>
-                                </View>
-                                <FormControl.ErrorMessage alignSelf={'center'} >
-                                    {errors.date}
-                                </FormControl.ErrorMessage>
-                            </FormControl>
-                                
+                                <FormControl isInvalid={errors.date}>
+                                    <View height={50} bgColor={'#fff'} borderRadius={30} alignItems={'center'} justifyContent={'center'}>
+                                        <Text color={'#000'}>{date ? moment(date).format('dddd, DD MMMM YYYY') : 'Selecciona una fecha'}</Text>
+                                    </View>
+                                    <FormControl.ErrorMessage alignSelf={'center'}>
+                                        {errors.date}
+                                    </FormControl.ErrorMessage>
+                                </FormControl>
+
                             </TouchableOpacity>
                     }
                 </View>
@@ -304,14 +307,16 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                         loading === true ?
                             <Skeleton></Skeleton> :
                             loading === false &&
-                            <FormControl isInvalid={errors.hourSelected} >
+                            <FormControl isInvalid={errors.hourSelected}>
                                 <Select
-                                    isDisabled={date==null}
+                                    isDisabled={date == null}
                                     selectedValue={hourSelected ? hourSelected : ''}
-                                    onOpen={()=>{getHoursFunction(date)}}
+                                    onOpen={() => {
+                                        getHoursFunction(date)
+                                    }}
                                     onValueChange={(v) => {
                                         setHourSelected(v);
-                                        validateHour(v);                                        
+                                        validateHour(v);
                                     }}
                                     placeholder="Seleccionar">
                                     {
@@ -326,13 +331,13 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                     {errors.hourSelected}
                                 </FormControl.ErrorMessage>
                             </FormControl>
-                            
+
                     }
 
 
                 </View>
                 {minutesLeft && <View mt={2}>
-                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'sm'}>Tiempo para reservar  {minutesLeft}:{secondsLeft} </Text>
+                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'sm'}>Tiempo para reservar {minutesLeft}:{secondsLeft} </Text>
                 </View>}
 
 
@@ -350,44 +355,45 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                         </View>
 
                     </View>
-                    <View mb={6}>
-                    {
-                        people.map((person, index)=>{  
-                            return(
-                                <View height={75} bg={'#fff'} mb={2} flexDirection={'row'}>
-                                    <View width={65} alignItems={'center'} justifyContent={'center'}>
-                                        <Icon as={MaterialIcons} name={'check-circle'} size={'2xl'} color={'#50C878'}></Icon>
-                                    </View>
-                                    <View flex={1} justifyContent={'center'}>
-                                        <Text fontSize={12} color={'#000'}>{person.name} </Text>
-                                        <Text color={'#000'} fontSize={10}>{person.type} </Text>
-                                    </View>
-                                    <TouchableOpacity onPress={()=> {removePerson(index)}}>
-                                        <View flex={1} width={65} alignItems={'center'} justifyContent={'center'}>
-                                            <Icon as={MaterialIcons} name={'delete'} size={'2xl'} color={'red.500'}></Icon>
+                    <View>
+                        {
+                            people.map((person, index) => {
+                                return (
+                                    <View height={75} bg={'#fff'} mb={2} flexDirection={'row'}>
+                                        <View width={65} alignItems={'center'} justifyContent={'center'}>
+                                            <Icon as={MaterialIcons} name={'check-circle'} size={'2xl'} color={'#50C878'}></Icon>
                                         </View>
-                                    </TouchableOpacity>
-                                </View>
-                            )
-                        })
-                    }
+                                        <View flex={1} justifyContent={'center'}>
+                                            <Text fontSize={12} color={'#000'}>{person.name} </Text>
+                                            <Text color={'#000'} fontSize={10}>{person.type} </Text>
+                                        </View>
+                                        <TouchableOpacity onPress={() => {
+                                            removePerson(index)
+                                        }}>
+                                            <View flex={1} width={65} alignItems={'center'} justifyContent={'center'}>
+                                                <Icon as={MaterialIcons} name={'delete'} size={'2xl'} color={'red.500'}></Icon>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+                                )
+                            })
+                        }
                     </View>
-                    
-                   
-                    
-                    {people.length < route?.params?.service?.areas[0]?.maxPeople-1 &&
-                    <FormControl isInvalid={errors.peopleArray} >
-                        <TouchableOpacity onPress={() => navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people})}>
-                            <View height={75} bg={'rgba(255,255, 255,1)'} mb={2} flexDirection={'row'} borderStyle={'dashed'} borderWidth={1.5}>
-                                <View flex={1} justifyContent={'center'} alignItems={'center'}>
-                                    <Text fontSize={14} color={'#000'}>Seleccionar persona</Text>
+
+
+                    {people.length < route?.params?.service?.areas[0]?.maxPeople - 1 &&
+                        <FormControl isInvalid={errors.peopleArray}>
+                            <TouchableOpacity onPress={() => navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people})}>
+                                <View height={75} bg={'rgba(255,255, 255,1)'} mb={2} flexDirection={'row'} borderStyle={'dashed'} borderWidth={1.5}>
+                                    <View flex={1} justifyContent={'center'} alignItems={'center'}>
+                                        <Text fontSize={14} color={'#000'}>Seleccionar persona</Text>
+                                    </View>
                                 </View>
-                            </View>
-                        </TouchableOpacity>
-                        <FormControl.ErrorMessage alignSelf={'center'}>
-                            {errors.peopleArray}
-                        </FormControl.ErrorMessage>
-                    </FormControl>
+                            </TouchableOpacity>
+                            <FormControl.ErrorMessage alignSelf={'center'}>
+                                {errors.peopleArray}
+                            </FormControl.ErrorMessage>
+                        </FormControl>
                     }
 
                 </View>

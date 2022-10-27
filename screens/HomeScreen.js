@@ -21,13 +21,13 @@ const HomeScreen = ({navigation, appDuck}) => {
     const [modalInfoVisible, setModalInfoVisible] = useState(null);
 
 
-    const validatePartnerFunction = async () => {
+    const validatePartnerFunction = async (screen) => {
         try {
             const response = await validatePartner(`/${appDuck.user.id}/partners/validate`)
 
             console.log(response.data)
             if (response.data.status === 'true') {
-                navigation.navigate('QRInstructionsScreen')
+                navigation.navigate(screen)
             } else {
                 navigation.navigate('QRNonPaymentScreen')
             }
@@ -64,7 +64,7 @@ const HomeScreen = ({navigation, appDuck}) => {
                 <View flex={1} pt={10}>
                     <View mb={4} flexDirection={'row'}>
                         <View flex={1}>
-                            <TouchableOpacity onPress={() => validatePartnerFunction()}>
+                            <TouchableOpacity onPress={() => validatePartnerFunction('QRInstructionsScreen')}>
                                 <View alignItems={'center'} mb={2}>
                                     {/*<View borderRadius={60} height={120} width={120} bgColor={'#ccc'}></View>*/}
                                     <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
@@ -77,7 +77,7 @@ const HomeScreen = ({navigation, appDuck}) => {
                             </TouchableOpacity>
                         </View>
                         <View flex={1}>
-                            <TouchableOpacity onPress={() => navigation.navigate('BookingScreen')}>
+                            <TouchableOpacity onPress={() => validatePartnerFunction('BookingScreen')}>
                                 <View alignItems={'center'} mb={2}>
                                     <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                         <Image source={iconReserve} style={{width: 45, resizeMode: 'contain'}}/>
