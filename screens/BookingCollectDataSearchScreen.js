@@ -1,5 +1,5 @@
 import LayoutV4 from "./Layouts/LayoutV4";
-import {Button, Input, Select, Skeleton, Text, View} from "native-base";
+import {Button, FormControl, Input, Select, Skeleton, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import React, {useEffect, useState} from "react";
 import {useFocusEffect} from '@react-navigation/native';
@@ -17,7 +17,7 @@ const BookingCollectDataSearchScreen = ({route, navigation}) => {
     const [personSelected, setPersonSelected] = useState(null);
     const [people, setPeople] = useState([]);
     const [textFilter, setTextFilter] = useState('');
-
+    const [personNotValidText, setPersonNotValidText] = useState(null);
     useEffect(() => {
         setLoading(true)
         getPersonsTypeFunction()
@@ -87,7 +87,7 @@ const BookingCollectDataSearchScreen = ({route, navigation}) => {
             const response = await validatePartner(`/${id}/partners/validate`)
 
             console.log(response.data, 89)
-            if (response.data.status === 'true') {
+            if (response.data.status === true) {
                 return true;
             } else {
                 return false;
@@ -160,48 +160,54 @@ const BookingCollectDataSearchScreen = ({route, navigation}) => {
                             }}/>
                         </View>
                     }
-                    {
-                        loading === true ?
-                            <Skeleton mb={4}></Skeleton> :
-                            (loading === false && typeSelected) &&
-                            <Select
-                                mb={4}
-                                isDisabled={textFilter.length <= 0}
-                                defaultValue={''}
-                                onOpen={search}
-                                onValueChange={async (v) => {
-                                    people.map(async (item) => {
-                                        if (typeSelected == 'g') {
-                                            if (item.idInvitado == v) {
-                                                setPersonSelected(item)
-                                            }
-                                        } else if (typeSelected == 'p') {
-                                            if (item.id == v) {
-                                                console.log(item, 185)
-                                                let validate = await validatePartnerFunction(item.user.id);
-                                                if (validate === true) {
-                                                    setPersonSelected(item);
-                                                } else {
-                                                    console.log('Esta persona no puede ser invitada en esta reservación. Por favor, contacte a administración.')
+                    <FormControl isInvalid={personNotValidText} mb={4}>
+                        {
+                            loading === true ?
+                                <Skeleton mb={4}></Skeleton> :
+                                (loading === false && typeSelected) &&
+                                <Select
+                                    mb={4}
+                                    isDisabled={textFilter.length <= 0}
+                                    defaultValue={''}
+                                    onOpen={search}
+                                    onValueChange={async (v) => {
+                                        people.map(async (item) => {
+                                            if (typeSelected == 'g') {
+                                                if (item.idInvitado == v) {
+                                                    setPersonSelected(item)
+                                                    setPersonNotValidText('');
+                                                }
+                                            } else if (typeSelected == 'p') {
+                                                if (item.id == v) {
+                                                    console.log(item, 185)
+                                                    let validate = await validatePartnerFunction(item.user.id);
+                                                    if (validate === true) {
+                                                        setPersonSelected(item);
+                                                        setPersonNotValidText('');
+                                                    } else {
+                                                        setPersonNotValidText(`Esta persona no puede ser invitada en esta reservación. ${'\n'}Por favor, contacte a administración.`)
+                                                    }
                                                 }
                                             }
-                                        }
-                                    })
+                                        })
 
-                                }}
-                                placeholder="Seleccionar">
-                                {
-                                    people.map((item) => {
-                                        return (
-                                            (typeSelected == 'g') ? (!route.params.currentPeople.find(person => person.data.person.idInvitado == item.idInvitado) && <Select.Item label={item.nombre + " " + item.apellidoPaterno} value={item.idInvitado}/>)
-                                                :
-                                                (item.estatus == "Y" && !route.params.currentPeople.find(person => person.data.person.id == item.id)) && <Select.Item label={item.nombreSocio} value={item.id}/>
-                                        )
-                                    })
-                                }
-                            </Select>
-                    }
+                                    }}
+                                    placeholder="Seleccionar">
+                                    {
+                                        people.map((item) => {
+                                            return (
+                                                (typeSelected == 'g') ? (!route.params.currentPeople.find(person => person.data.person.idInvitado == item.idInvitado) && <Select.Item label={item.nombre + " " + item.apellidoPaterno} value={item.idInvitado}/>)
+                                                    :
+                                                    (item.estatus == "Y" && !route.params.currentPeople.find(person => person.data.person.id == item.id)) && <Select.Item label={item.nombreSocio} value={item.id}/>
+                                            )
+                                        })
+                                    }
+                                </Select>
+                        }
 
+
+                        <Text textAlign={'center'} color={'red.500'}>{personNotValidText}</Text>
+                    </FormControl>
 
                 </View>
 
