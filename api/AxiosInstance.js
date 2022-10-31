@@ -2,7 +2,10 @@ import axios from "axios";
 import Constants from 'expo-constants';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import jwtDecode from "jwt-decode";
+import generateStore from "../redux/store";
+import {loggedAction} from "../redux/ducks/appDuck";
 
+const store = generateStore();
 
 const axiosInstance = axios.create({
     baseURL: Constants.manifest.extra.production ? Constants.manifest.extra.URL : Constants.manifest.extra.URL_DEV,
@@ -22,8 +25,12 @@ axiosInstance.interceptors.request.use(async (request) => {
             let decodedToken = jwtDecode(token.access_token);
             console.log(decodedToken)
             let dateNow = new Date();
-            if (decodedToken.ist > Date.now()) {
-                console.log('expired:', true)
+
+            if (Date.now() <= decodedToken.exp * 1000) {
+                request.headers.Authorization = `Bearer ${token.access_token}`;
+                console.log('No ha expirado.')
+            } else {
+
                 isExpired = true
                 try {
                     let baseURL = Constants.manifest.extra.production ? Constants.manifest.extra.URL : Constants.manifest.extra.URL_DEV;
@@ -31,18 +38,19 @@ axiosInstance.interceptors.request.use(async (request) => {
                         refresh_token: token.refresh_token
                     })
 
+                    await AsyncStorage.setItem('@user', JSON.stringify(response.data))
+                    const {dispatch} = store; // direct access to redux store.
+                    dispatch(loggedAction(response.data))
+
+                    console.log(response, 35)
 
                     request.headers.Authorization = `Bearer ${response.data.access_token}`;
 
+                    console.log('Expiro pero se actualizo.')
 
                 } catch (e) {
                     console.log(e, 43)
                 }
-
-            } else {
-                console.log('expired:', false)
-                request.headers.Authorization = `Bearer ${token.access_token}`;
-
             }
         }
 
