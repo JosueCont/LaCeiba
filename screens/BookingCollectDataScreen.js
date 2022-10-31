@@ -58,7 +58,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             peopleArray: Yup
                 .array()
                 //.required('Los invitados son obligatorios')
-                .min(route?.params?.service?.areas[0]?.minPeople - 1, `Seleccione al menos ${route?.params?.service?.areas[0]?.minPeople - 1} personas`)
+                .min(route?.params?.service?.areas[0]?.minPeople - 1, `Seleccione al menos ${route?.params?.service?.areas[0]?.minPeople - 1} persona(s)`)
 
         })
     });

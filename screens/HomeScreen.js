@@ -26,7 +26,7 @@ const HomeScreen = ({navigation, appDuck}) => {
             const response = await validatePartner(`/${appDuck.user.id}/partners/validate`)
 
             console.log(response.data)
-            if (response.data.status === 'true') {
+            if (response.data.status === true) {
                 navigation.navigate(screen)
             } else {
                 navigation.navigate('QRNonPaymentScreen')

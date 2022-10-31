@@ -37,7 +37,7 @@ const GuestsScreen = ({navigation, appDuck}) => {
     const verifyStatus = async (item) => {
         try {
             const response = await validatePartner(`/${appDuck.user.id}/partners/validate`)
-            if (response.data.status === 'true') {
+            if (response.data.status === true) {
                 navigation.navigate('GuestGeneratePassScreen', {guest: item})
             } else {
                 navigation.navigate('QRNonPaymentScreen')

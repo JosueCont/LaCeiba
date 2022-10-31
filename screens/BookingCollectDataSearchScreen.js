@@ -5,7 +5,7 @@ import React, {useEffect, useState} from "react";
 import {useFocusEffect} from '@react-navigation/native';
 import moment from 'moment';
 import 'moment/locale/es';
-import {findPartnerQuery, getGuests} from "../api/Requests";
+import {findPartnerQuery, getGuests, validatePartner} from "../api/Requests";
 
 moment.locale('es');
 
@@ -41,6 +41,7 @@ const BookingCollectDataSearchScreen = ({route, navigation}) => {
     const getGuestsFunction = async () => {
         try {
             const response = await getGuests('')
+            console.log(response.data)
             setPeople(response.data);
         } catch (e) {
             console.log(e)
@@ -50,8 +51,9 @@ const BookingCollectDataSearchScreen = ({route, navigation}) => {
 
     const getPartnersFunction = async () => {
         try {
-            const queryString = `?q=${textFilter}&&limit=5`;
+            const queryString = `?q=${textFilter}&&limit=5&userId=not_null`;
             const response = await findPartnerQuery(queryString);
+            console.log(response.data)
             setPeople(response.data.items);
         } catch (e) {
             console.log(e);
@@ -79,6 +81,30 @@ const BookingCollectDataSearchScreen = ({route, navigation}) => {
         }
     }
 
+
+    const validatePartnerFunction = async (id) => {
+        try {
+            const response = await validatePartner(`/${id}/partners/validate`)
+
+            console.log(response.data, 89)
+            if (response.data.status === 'true') {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (ex) {
+
+            console.log(ex)
+            if (ex.data.message === 'Partner does not have access') {
+                alert('El socio no tiene acceso.')
+            } else {
+                alert(ex.data.message)
+            }
+            return false;
+        }
+
+    }
 
     return (
         <LayoutV4>
@@ -143,18 +169,25 @@ const BookingCollectDataSearchScreen = ({route, navigation}) => {
                                 isDisabled={textFilter.length <= 0}
                                 defaultValue={''}
                                 onOpen={search}
-                                onValueChange={(v) => {
-                                    people.map((item) => {
+                                onValueChange={async (v) => {
+                                    people.map(async (item) => {
                                         if (typeSelected == 'g') {
                                             if (item.idInvitado == v) {
                                                 setPersonSelected(item)
                                             }
                                         } else if (typeSelected == 'p') {
                                             if (item.id == v) {
-                                                setPersonSelected(item);
+                                                console.log(item, 185)
+                                                let validate = await validatePartnerFunction(item.user.id);
+                                                if (validate === true) {
+                                                    setPersonSelected(item);
+                                                } else {
+                                                    console.log('Esta persona no puede ser invitada en esta reservación. Por favor, contacte a administración.')
+                                                }
                                             }
                                         }
                                     })
+
                                 }}
                                 placeholder="Seleccionar">
                                 {
@@ -175,7 +208,9 @@ const BookingCollectDataSearchScreen = ({route, navigation}) => {
                 <Button isDisabled={!personSelected || !textFilter} onPress={() => {
                     navigation.goBack();
                     route?.params?.onAddPerson({type: typeSelected, person: personSelected})
-                }}>Agregar</Button>
+                }}>
+                    Agregar
+                </Button>
 
             </View>
 

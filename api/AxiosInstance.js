@@ -13,6 +13,7 @@ const axiosInstance = axios.create({
 });
 axiosInstance.interceptors.request.use(async (request) => {
     try {
+        console.log(request.url)
         const token = JSON.parse(await AsyncStorage.getItem('@user'));
 
         console.log(token, 18)
