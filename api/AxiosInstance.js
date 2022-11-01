@@ -3,7 +3,7 @@ import Constants from 'expo-constants';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import jwtDecode from "jwt-decode";
 import generateStore from "../redux/store";
-import {loggedAction} from "../redux/ducks/appDuck";
+import {loggedAction, loggedOutAction} from "../redux/ducks/appDuck";
 
 const store = generateStore();
 
@@ -18,12 +18,9 @@ axiosInstance.interceptors.request.use(async (request) => {
     try {
         console.log(request.url)
         const token = JSON.parse(await AsyncStorage.getItem('@user'));
-
-        console.log(token, 18)
         if (token) {
             let isExpired = false;
             let decodedToken = jwtDecode(token.access_token);
-            console.log(decodedToken)
             let dateNow = new Date();
 
             if (Date.now() <= decodedToken.exp * 1000) {
@@ -32,6 +29,8 @@ axiosInstance.interceptors.request.use(async (request) => {
             } else {
 
                 isExpired = true
+                const {dispatch} = store; // direct access to redux store.
+
                 try {
                     let baseURL = Constants.manifest.extra.production ? Constants.manifest.extra.URL : Constants.manifest.extra.URL_DEV;
                     const response = await axios.post(`${baseURL}/v1/auth/refresh`, {
@@ -39,17 +38,12 @@ axiosInstance.interceptors.request.use(async (request) => {
                     })
 
                     await AsyncStorage.setItem('@user', JSON.stringify(response.data))
-                    const {dispatch} = store; // direct access to redux store.
                     dispatch(loggedAction(response.data))
-
-                    console.log(response, 35)
-
                     request.headers.Authorization = `Bearer ${response.data.access_token}`;
-
                     console.log('Expiro pero se actualizo.')
-
                 } catch (e) {
-                    console.log(e, 43)
+                    console.log(e.response, 43)
+                    dispatch(loggedOutAction())
                 }
             }
         }
