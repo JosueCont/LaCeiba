@@ -19,5 +19,6 @@ export const URLTypes = {
     BOOK_SERVICE: '/v1/bookings/users/{{param}}',
     CACHE_BOOKING: '/v1/bookings/users/{{param}}/areas/{{param}}/reserved',
     GET_ALL_BOOKINGS: '/v1/bookings',//?page=1&limit=10,
-    GET_ALL_INVITATIONS: '/v1/bookings/invitations',//?userId=16
+    GET_ALL_INVITATIONS: '/v1/bookings/invitations',
+    GET_PROFILE: '/v1/users'
 };

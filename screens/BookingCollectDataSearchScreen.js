@@ -242,6 +242,10 @@ const BookingCollectDataSearchScreen = ({route, navigation}) => {
 
                 </View>
 
+                {
+                    (textFilter !== '' && peopleSearch.length === 0) &&
+                    <Text textAlign={'center'} color={'red.500'} mb={2}>Sin resultados</Text>
+                }
                 <Button isDisabled={((_.has(personSelected, 'valid') ? personSelected.valid === false : true) || !textFilter)} onPress={() => {
                     navigation.goBack();
                     route?.params?.onAddPerson({type: typeSelected, person: personSelected})

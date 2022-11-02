@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Button, Image, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import LayoutV4 from "./Layouts/LayoutV4";
@@ -6,10 +6,27 @@ import {ImageBackground} from "react-native";
 import bgButton from "../assets/bgButton.png";
 import iconPersonEdit from "../assets/iconPersonEdit.png";
 import {connect} from "react-redux";
+import {getProfile} from "../api/Requests";
+import {useIsFocused} from "@react-navigation/native";
 
 const ProfileScreen = ({navigation, appDuck}) => {
 
-    console.log(appDuck, 11)
+    const isFocused = useIsFocused();
+    useEffect(() => {
+        if (isFocused) {
+            getProfileFunction()
+
+        }
+    }, [isFocused])
+
+    const getProfileFunction = async () => {
+        try {
+            const response = await getProfile('/' + appDuck.user.id)
+            console.log(response.data)
+        } catch (e) {
+            console.log(e)
+        }
+    }
 
     return (
         <LayoutV4>
