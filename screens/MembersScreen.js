@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {ScrollView, Text, View} from "native-base";
+import React, {useEffect, useState} from "react";
+import {ScrollView, Skeleton, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import MemberItem from "./MemberItem";
 import {RefreshControl, TouchableOpacity} from "react-native";
@@ -9,12 +9,17 @@ import {connect} from "react-redux";
 
 const MembersScreen = ({navigation, appDuck}) => {
     const [loading, setLoading] = useState(null);
+    const [data, setData] = useState(null);
 
-    console.log(appDuck)
+    useEffect(() => {
+        getMembersFunction()
+    }, [])
+
     const getMembersFunction = async () => {
         try {
             setLoading(true)
-            const response = await getAdditionalMembers('/')
+            const response = await getAdditionalMembers('/' + appDuck.user.partner.accion)
+            setData(response.data)
         } catch (e) {
             console.log(e)
         } finally {
@@ -37,15 +42,19 @@ const MembersScreen = ({navigation, appDuck}) => {
                     <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Miembros adicionales</Text>
 
 
-                    <TouchableOpacity onPress={() => navigation.navigate('MemberEditScreen')}>
-                        <MemberItem mb={4}/>
-                    </TouchableOpacity>
-
-                    <MemberItem mb={4}/>
-                    <MemberItem mb={4}/>
-                    <MemberItem mb={4}/>
-                    <MemberItem mb={4}/>
-                    <MemberItem mb={4}/>
+                    {
+                        loading === true ?
+                            <Skeleton height={90} borderRadius={50}></Skeleton> :
+                            loading === false &&
+                            data.map((item) => {
+                                console.log(item)
+                                return (
+                                    <TouchableOpacity onPress={() => navigation.navigate('MemberEditScreen')}>
+                                        <MemberItem name={item.nombreSocio} mb={4}/>
+                                    </TouchableOpacity>
+                                )
+                            })
+                    }
                 </ScrollView>
 
             </View>
