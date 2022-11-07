@@ -23,3 +23,4 @@ export const getAllBookings = async (params) => await request(URLTypes.GET_ALL_B
 export const getAllInvitations = async (params) => await request(URLTypes.GET_ALL_INVITATIONS, params, 'get');
 export const getProfile = async (params, queryStringParams = []) => await request(URLTypes.GET_PROFILE, params, 'get', null, queryStringParams);
 export const getAdditionalMembers = async (params) => await request(URLTypes.GET_ADDITIONAL_MEMBERS, params, 'get');
+export const getPoints = async (params, queryStringParams = []) => await request(URLTypes.GET_POINTS, params, 'get', null, queryStringParams);

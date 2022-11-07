@@ -5,13 +5,14 @@ import React, {useEffect, useState} from "react";
 import {useFocusEffect} from '@react-navigation/native';
 import moment from 'moment';
 import 'moment/locale/es';
-import {findPartnerQuery, getGuests, validatePartner} from "../api/Requests";
+import {findPartnerQuery, getGuests, getPoints, validatePartner} from "../api/Requests";
 import _ from "lodash";
 import {TouchableOpacity} from "react-native";
+import {connect} from "react-redux";
 
 moment.locale('es');
 
-const BookingCollectDataSearchScreen = ({route, navigation}) => {
+const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
     const [loading, setLoading] = useState(null);
     const [personType, setPersonType] = useState(null);
 
@@ -21,8 +22,8 @@ const BookingCollectDataSearchScreen = ({route, navigation}) => {
     const [textFilter, setTextFilter] = useState('');
     const [personNotValidText, setPersonNotValidText] = useState(null);
     const [peopleSearch, setPeopleSearch] = useState([]);
+    const [points, setPoints] = useState(null);
 
-    console.log(route.params.currentPeople, 25)
     useEffect(() => {
         setLoading(true)
         getPersonsTypeFunction()
@@ -46,6 +47,7 @@ const BookingCollectDataSearchScreen = ({route, navigation}) => {
     useEffect(() => {
         if (typeSelected == 'g') {
             getGuestsFunction();
+            getPointsFunction()
         } else if (typeSelected == 'p') {
             getPartnersFunction();
         }
@@ -128,6 +130,19 @@ const BookingCollectDataSearchScreen = ({route, navigation}) => {
     }, 100);
 
 
+    const getPointsFunction = async () => {
+        try {
+            setLoading(true)
+            const response = await getPoints('', [appDuck.user.id]);
+            let pointsTotal = response.data.points - route.params.points;
+            setPoints(pointsTotal)
+        } catch (ex) {
+            console.log(ex)
+        } finally {
+            setLoading(false)
+        }
+    }
+
     return (
         <LayoutV4>
             <View flex={1} mx={12} my={10}>
@@ -146,7 +161,7 @@ const BookingCollectDataSearchScreen = ({route, navigation}) => {
 
                     {
                         loading === true ?
-                            <Skeleton mb={4}></Skeleton> :
+                            <Skeleton mb={10} borderRadius={30}/> :
                             loading === false &&
                             <Select
                                 mb={4}
@@ -169,6 +184,13 @@ const BookingCollectDataSearchScreen = ({route, navigation}) => {
                                 }
                             </Select>
                     }
+                    {
+                        (typeSelected === 'g' && points < 3) &&
+                        <Text textAlign={'center'} color={'red.500'} fontSize={'xs'} mb={4}>
+                            Actualmente cuentas con {points} puntos.{'\n'}Para agregar un invitado se requieren 3 puntos.
+                        </Text>
+                    }
+
 
                     {
                         typeSelected &&
@@ -246,7 +268,8 @@ const BookingCollectDataSearchScreen = ({route, navigation}) => {
                     (textFilter !== '' && peopleSearch.length === 0) &&
                     <Text textAlign={'center'} color={'red.500'} mb={2}>Sin resultados</Text>
                 }
-                <Button isDisabled={((_.has(personSelected, 'valid') ? personSelected.valid === false : true) || !textFilter)} onPress={() => {
+
+                <Button isDisabled={((_.has(personSelected, 'valid') ? personSelected.valid === false : true) || !textFilter || (typeSelected === 'g' && points < 3))} onPress={() => {
                     navigation.goBack();
                     route?.params?.onAddPerson({type: typeSelected, person: personSelected})
                 }}>
@@ -259,4 +282,10 @@ const BookingCollectDataSearchScreen = ({route, navigation}) => {
     )
 }
 
-export default BookingCollectDataSearchScreen;
+const mapState = (state) => {
+    return {
+        appDuck: state.appDuck
+    }
+}
+
+export default connect(mapState)(BookingCollectDataSearchScreen);

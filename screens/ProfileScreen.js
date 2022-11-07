@@ -5,7 +5,7 @@ import {ImageBackground, RefreshControl} from "react-native";
 import bgButton from "../assets/bgButton.png";
 import iconPersonEdit from "../assets/iconPersonEdit.png";
 import {connect} from "react-redux";
-import {getProfile} from "../api/Requests";
+import {getPoints, getProfile} from "../api/Requests";
 import {useIsFocused} from "@react-navigation/native";
 import _ from "lodash";
 import LayoutV3 from "./Layouts/LayoutV3";
@@ -16,10 +16,11 @@ const ProfileScreen = ({navigation, appDuck}) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(null);
     const isFocused = useIsFocused();
+    const [points, setPoints] = useState(null)
     useEffect(() => {
         if (isFocused) {
             getProfileFunction()
-
+            getPointsFunction()
         }
     }, [isFocused])
 
@@ -31,6 +32,18 @@ const ProfileScreen = ({navigation, appDuck}) => {
             setData(response.data)
         } catch (e) {
             console.log(e)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const getPointsFunction = async () => {
+        try {
+            setLoading(true)
+            const response = await getPoints('', [appDuck.user.id]);
+            setPoints(response.data.points)
+        } catch (ex) {
+            console.log(ex)
         } finally {
             setLoading(false)
         }
@@ -96,12 +109,25 @@ const ProfileScreen = ({navigation, appDuck}) => {
                     </Text>
                     {
                         loading === true ?
-                            <Skeleton height={50} mb={10}></Skeleton> :
+                            <Skeleton height={50} mb={5}></Skeleton> :
                             loading === false &&
-                            <Text textAlign={'center'} mb={10} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                            <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
                                 {data.celular}
                             </Text>
                     }
+
+                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                        Puntos disponibles:
+                    </Text>
+                    {
+                        loading === true ?
+                            <Skeleton height={50} mb={10}></Skeleton> :
+                            loading === false &&
+                            <Text textAlign={'center'} mb={10} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                                {points}
+                            </Text>
+                    }
+
 
                     <Button onPress={() => navigation.goBack()} mb={10}>Regresar</Button>
                     {/*<Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>*/}

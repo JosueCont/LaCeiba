@@ -1,13 +1,9 @@
 import LayoutV4 from "./Layouts/LayoutV4";
 import {Button, Text, View} from "native-base";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {ImageBackground} from "react-native";
 import golfImage from '../assets/booking/golfImage.png'
-import tenisImage from '../assets/booking/tenisImage.png'
-import poolImage from '../assets/booking/poolImage.png'
-import padelImage from '../assets/booking/padelImage.png'
-import { useEffect, useState } from "react";
-import { getAllServices } from "../api/Requests";
+import {getAllServices} from "../api/Requests";
 
 const BookingScreen = ({navigation}) => {
     const [services, setServices] = useState([]);
@@ -18,7 +14,7 @@ const BookingScreen = ({navigation}) => {
     
     const getServices = async ()=>{
         const response = await getAllServices('');
-        setServices(response.data);
+        setServices(response.data.items);
     }
 
     return (

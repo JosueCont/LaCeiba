@@ -14,6 +14,7 @@ import ModalInfo from "./Modals/ModalInfo";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
 import {bookService, cacheBookHour, getIntervalsTime} from "../api/Requests";
+import _ from "lodash";
 
 moment.locale('es');
 
@@ -62,8 +63,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
         })
     });
-
-    console.log(errors)
 
     const tomorrow = new Date().setDate(new Date().getDate() + 1)
     const today = new Date().setDate(new Date().getDate())
@@ -123,7 +122,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         setFieldValue("peopleArray", arrayPeopleTemp);
         setPeople(arrayPeopleTemp);
     }
-
 
     const getHoursFunction = async (dateString) => {
         const queryString = `?date=${dateString}`;
@@ -204,11 +202,10 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     }
 
 
+
     return (
         <LayoutV4>
             <View flex={1} mx={12} my={10}>
-
-
                 <View mb={6}>
                     <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
                         Instalación | Servicio
@@ -217,8 +214,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                         {route?.params?.service?.name}
                     </Text>
                 </View>
-
-
                 <View mb={6}>
                     <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                         Fecha
@@ -302,10 +297,9 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                     <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                         Horario
                     </Text>
-
                     {
                         loading === true ?
-                            <Skeleton></Skeleton> :
+                            <Skeleton height={45} borderRadius={30}></Skeleton> :
                             loading === false &&
                             <FormControl isInvalid={errors.hourSelected}>
                                 <Select
@@ -331,16 +325,15 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                     {errors.hourSelected}
                                 </FormControl.ErrorMessage>
                             </FormControl>
-
                     }
-
-
                 </View>
-                {minutesLeft && <View mt={2}>
-                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'sm'}>Tiempo para reservar {minutesLeft}:{secondsLeft} </Text>
-                </View>}
+                {
 
-
+                    minutesLeft &&
+                    <View mt={2}>
+                        <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'sm'}>Tiempo para reservar {minutesLeft}:{secondsLeft} </Text>
+                    </View>
+                }
                 <View my={6} mb={6}>
                     <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                         Elige las personas
@@ -353,7 +346,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                             <Text color={'#000'}>{appDuck.user.firstName} {appDuck.user.lastName}</Text>
                             <Text color={'#000'} fontSize={11}>Socio organizador</Text>
                         </View>
-
                     </View>
                     <View>
                         {
@@ -383,7 +375,16 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
                     {people.length < route?.params?.service?.areas[0]?.maxPeople - 1 &&
                         <FormControl isInvalid={errors.peopleArray}>
-                            <TouchableOpacity onPress={() => navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people})}>
+                            <TouchableOpacity onPress={() => {
+                                console.log(people)
+                                let invitados = _.filter(people, function (o) {
+                                    if (o.type === 'INVITADO') return o
+                                }).length;
+                                let points = invitados * 3;
+                                console.log(points)
+
+                                navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points: points})
+                            }}>
                                 <View height={75} bg={'rgba(255,255, 255,1)'} mb={2} flexDirection={'row'} borderStyle={'dashed'} borderWidth={1.5}>
                                     <View flex={1} justifyContent={'center'} alignItems={'center'}>
                                         <Text fontSize={14} color={'#000'}>Seleccionar persona</Text>
