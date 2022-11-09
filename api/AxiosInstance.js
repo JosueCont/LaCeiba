@@ -18,6 +18,7 @@ axiosInstance.interceptors.request.use(async (request) => {
     try {
         console.log(request.url)
         const token = JSON.parse(await AsyncStorage.getItem('@user'));
+        console.log(token)
         if (token) {
             let isExpired = false;
             let decodedToken = jwtDecode(token.access_token);
@@ -55,7 +56,6 @@ axiosInstance.interceptors.request.use(async (request) => {
 
     return request;
 }, (error) => {
-    //console.log(error.response, 'interceptors.request.error')
     return Promise.reject(error.response)
 })
 

@@ -17,37 +17,30 @@ const ProfileScreen = ({navigation, appDuck}) => {
     const [loading, setLoading] = useState(null);
     const isFocused = useIsFocused();
     const [points, setPoints] = useState(null)
+
     useEffect(() => {
         if (isFocused) {
             getProfileFunction()
-            getPointsFunction()
         }
     }, [isFocused])
+
 
     const getProfileFunction = async () => {
         try {
             setLoading(true)
             const response = await getProfile('', [appDuck.user.id])
-            console.log(response.data)
+
+            const response2 = await getPoints('', [appDuck.user.id]);
+            setPoints(response2.data.points)
             setData(response.data)
-        } catch (e) {
-            console.log(e)
-        } finally {
             setLoading(false)
+
+        } catch (e) {
+            console.log(e.status)
+        } finally {
         }
     }
 
-    const getPointsFunction = async () => {
-        try {
-            setLoading(true)
-            const response = await getPoints('', [appDuck.user.id]);
-            setPoints(response.data.points)
-        } catch (ex) {
-            console.log(ex)
-        } finally {
-            setLoading(false)
-        }
-    }
 
     return (
         <LayoutV3>

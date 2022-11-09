@@ -106,6 +106,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
 
     const addPerson = (data) => {
+
+        console.log(people)
         const person = {
             data: data,
             name: data.type == 'p' ? data.person.nombreSocio : data.person.nombre + ' ' + data.person.apellidoPaterno,
@@ -156,16 +158,26 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 dueDate: date,
                 dueTime: hourSelected,
                 areaId: route?.params?.service?.areas[0]?.id,
-                guests: []
+                guests: [],
+                users: []
             }
-            for (const person of people) {
+
+            let guests = _.filter(people, {'type': 'INVITADO'});
+            for (const person of guests) {
                 const guest = {
-                    guestId: person.data.type == 'g' ? parseInt(person.data.person.idInvitado) : person.data.person.id,
+                    guestId: parseInt(person.data.person.idInvitado),
                     guestName: person.name,
-                    guestEmail: person.data.type == 'g' ? person.data.person.mail : person.data.person.email
+                    guestEmail: person.data.person.mail
                 }
                 params.guests.push(guest);
             }
+
+            let partners = _.filter(people, {'type': 'SOCIO'})
+            for (const person2 of partners) {
+                params.users.push(person2.data.person.user.id);
+            }
+
+            console.log(params)
             const response = await bookService(params, [appDuck.user.id]);
             if (!response.data?.message) {
                 setModalConfirmBooking(false);
