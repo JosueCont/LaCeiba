@@ -8,6 +8,9 @@ export const request = async (uri, params = '', method, config = null, queryStri
     } else if (method === 'get') {
         let uriResolved = queryStringParams.length > 0 ? paramsResolve(uri, queryStringParams) : uri;
         return await requestGET(uriResolved, params)
+    } else if (method === 'put') {
+        let uriResolved = queryStringParams.length > 0 ? paramsResolve(uri, queryStringParams) : uri;
+        return await requestPUT(uriResolved, params)
     }
 }
 
@@ -17,6 +20,10 @@ const requestPost = async (uri, params, config = null) => {
 
 const requestGET = async (uri, params = '') => {
     return await AxiosInstance.get(uri + `${params}`)
+}
+
+const requestPUT = async (uri, params = '') => {
+    return await AxiosInstance.put(uri, params)
 }
 
 

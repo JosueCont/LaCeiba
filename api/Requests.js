@@ -24,3 +24,4 @@ export const getAllInvitations = async (params) => await request(URLTypes.GET_AL
 export const getProfile = async (params, queryStringParams = []) => await request(URLTypes.GET_PROFILE, params, 'get', null, queryStringParams);
 export const getAdditionalMembers = async (params) => await request(URLTypes.GET_ADDITIONAL_MEMBERS, params, 'get');
 export const getPoints = async (params, queryStringParams = []) => await request(URLTypes.GET_POINTS, params, 'get', null, queryStringParams);
+export const setReservationStatus = async (params, queryStringParams = []) => await request(URLTypes.SET_RESERVATION_STATUS, params, 'put', null, queryStringParams);
