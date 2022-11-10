@@ -6,16 +6,20 @@ import {RefreshControl, TouchableOpacity} from "react-native";
 import {connect} from "react-redux";
 import {getAllBookings, getAllInvitations} from "../api/Requests";
 import LayoutV3 from "./Layouts/LayoutV3";
+import {useIsFocused} from "@react-navigation/native";
 
 const BookingsScreen = ({navigation, appDuck}) => {
 
     const [invitations, setInvitations] = useState([]);
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(null);
+    const isFocused = useIsFocused();
 
     useEffect(() => {
-        getData()
-    }, []);
+        if (isFocused) {
+            getData()
+        }
+    }, [isFocused]);
 
     const getBookings = async () => {
         const queryString = `?limit=${100}`;
@@ -72,27 +76,7 @@ const BookingsScreen = ({navigation, appDuck}) => {
                         })
                     }
                 </ScrollView>
-
-                {/* <TouchableOpacity onPress={() => navigation.navigate('BookingsDetailScreen', {service : 'Campo de golf', state : "r"})}>
-                    <BookinsItem mb={4} data={{service : 'Campo de golf', state : "r"}}/>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => navigation.navigate('BookingsDetailScreen',  {service : 'Campo de golf', state : "c"})}>
-                    <BookinsItem mb={4} data={{service : 'Campo golf', state : "c"}}/>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => navigation.navigate('BookingsDetailScreen',  {service : 'Campo de golf', state : "p"})}>
-                    <BookinsItem mb={4} data={{service : 'Campo golf', state : "p"}} />
-                </TouchableOpacity> */}
-
-                {/* <BookinsItem mb={4}/>
-                <BookinsItem mb={4}/>
-                <BookinsItem mb={4}/>
-                <BookinsItem mb={4}/>
-                <BookinsItem mb={4}/> */}
-
             </View>
-
         </LayoutV3>
     )
 }

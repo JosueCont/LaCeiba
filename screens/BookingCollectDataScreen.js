@@ -34,6 +34,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const [timeLeft, setTimeLeft] = useState(null);
     const [minutesLeft, setMinutesLeft] = useState(null);
     const [secondsLeft, setSecondsLeft] = useState(null);
+    const [sending, setSending] = useState(null);
 
     const {touched, handleSubmit, errors, setFieldValue, resetForm} = useFormik({
         initialValues: {
@@ -139,6 +140,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 dueTime: hour
             }
             const response = await cacheBookHour(params, [appDuck.user.id, route?.params?.service?.areas[0]?.id])
+            console.log(response.data)
             if (response) {
                 setFieldValue("hourSelected", hour);
                 setTimeLeft(route?.params?.service?.timeToConfirm * 60);
@@ -153,6 +155,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
     const confirmBooking = async () => {
         try {
+            setSending(true)
             //CALL ENDPOINT
             let params = {
                 dueDate: date,
@@ -178,14 +181,18 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             }
 
             console.log(params)
+
             const response = await bookService(params, [appDuck.user.id]);
             if (!response.data?.message) {
                 setModalConfirmBooking(false);
                 navigation.navigate('BookingConfirmScreenSuccess', {people: people, date: date, hour: hourSelected})
                 resetForm();
                 cleanData();
+                setSending(false)
             }
         } catch (e) {
+            alert(JSON.stringify(e))
+            setSending(false)
             console.log(e);
         }
     }
@@ -444,7 +451,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 </View>
 */}
 
-                <Button onPress={() => /*navigation.navigate('BookingConfirmScreen')*/ handleSubmit()}>Reservar</Button>
+                <Button onPress={() => handleSubmit()} isLoading={sending}>Reservar</Button>
 
             </View>
             <ModalBookingConfirmation

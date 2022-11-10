@@ -23,7 +23,7 @@ const BookinsItem = ({navigation, mb = 2, data, dataInvitation, dataBooking, app
             <View flex={1} justifyContent={'center'}>
                 <Text color={Colors.green} fontSize={'12'} bold={true} width={'90%'}>{service}</Text>
                 <Text color={Colors.green} fontSize={'10'} width={'90%'}>
-                    {moment(dataInvitation?.booking?.dueDate, "YYYY-MM-DD").format("DD-MM-YYYY")}
+                    {moment(dataInvitation?.booking?.dueDate, "YYYY-MM-DD").format("DD/MM/YYYY")}
                 </Text>
                 <Text color={Colors.green} fontSize={'10'} width={'90%'}>
                     {moment(dataInvitation?.booking?.dueTime, "HH:mm").format("hh:mm a")}
@@ -37,8 +37,10 @@ const BookinsItem = ({navigation, mb = 2, data, dataInvitation, dataBooking, app
 
             </View>
             <View borderWidth={1} height={'60%'} alignSelf={'center'} borderColor={Colors.yellow}/>
-            <View flex={1} justifyContent={'center'} alignItems={'center'}>
-                <Button bgColor={dataInvitation.status == "PENDING" ? Colors.yellow : dataInvitation.status == "CONFIRMED" ? Colors.green : Colors.red} width={'88'} height={'10'} size={"xs"} >{ dataInvitation.status == 'PENDING' ? "Pendiente" : dataInvitation.status == 'CONFIRMED' ? "Confirmado" : "Rechazado"}</Button>
+            <View flex={1} justifyContent={'center'} alignItems={'center'} pr={2}>
+                <Button bgColor={dataInvitation.status == "PENDING" ? Colors.yellow : dataInvitation.status == "CONFIRMED" ? Colors.green : Colors.red} size={"xs"}>
+                    {dataInvitation.status == 'PENDING' ? "Pendiente" : dataInvitation.status == 'CONFIRMED' ? "Confirmado" : "Rechazado"}
+                </Button>
             </View>
         </View>
     )
