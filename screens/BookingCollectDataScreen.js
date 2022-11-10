@@ -172,7 +172,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 dueTime: hourSelected,
                 areaId: route?.params?.service?.areas[0]?.id,
                 guests: [],
-                users: []
+                users: [],
+                additionals: groupValues
             }
 
             let guests = _.filter(people, {'type': 'INVITADO'});
@@ -448,7 +449,10 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                             loading === true ?
                                 <Skeleton height={45} borderRadius={30}></Skeleton> :
                                 loading === false &&
-                                <Checkbox.Group onChange={setGroupValues} value={groupValues}
+                                <Checkbox.Group onChange={(v) => {
+                                    console.log(v, 453)
+                                    setGroupValues(v)
+                                }}
                                                 _checkbox={{
                                                     bgColor: 'white',
                                                     borderWidth: 0.5,
@@ -466,7 +470,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                     {
                                         additionals.map((item) => {
                                             return (
-                                                <Checkbox value={item.claveServicio} my={2} _text={{color: '#000'}}>
+                                                <Checkbox value={item} my={2} _text={{color: '#000'}}>
                                                     {_.upperFirst(item.descServicio.toLowerCase())}
                                                 </Checkbox>
                                             )
