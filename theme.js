@@ -63,7 +63,31 @@ export const theme = extendTheme({
                 },
             }
 
-        }
+        },
+        Checkbox: {
+            baseStyle: {
+                fontFamily: 'ComfortaaRegular',
+                _text: {
+                    color: '#000',
+                    ml: 2,
+                },
+                bg: 'muted.50',
+                borderRadius: 30,
+                color: '#ccc',
+
+
+            },
+            defaultProps: {
+                size: 'sm'
+            },
+            sizes: {
+                xl: {fontSize: '64px'},
+                lg: {fontSize: '32px'},
+                md: {fontSize: '14px'},
+                sm: {fontSize: '12px'},
+            },
+
+        },
     },
     fontConfig: {
         Roboto: {

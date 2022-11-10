@@ -1,5 +1,5 @@
 import LayoutV4 from "./Layouts/LayoutV4";
-import {Button, FormControl, Icon, Select, Skeleton, Text, View} from "native-base";
+import {Button, Checkbox, FormControl, Icon, Select, Skeleton, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
@@ -13,8 +13,9 @@ import ModalBookingConfirmation from "./Modals/ModalBookingConfirmation";
 import ModalInfo from "./Modals/ModalInfo";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
-import {bookService, cacheBookHour, getIntervalsTime} from "../api/Requests";
+import {bookService, cacheBookHour, getAdditionals, getIntervalsTime} from "../api/Requests";
 import _ from "lodash";
+import {useIsFocused} from "@react-navigation/native";
 
 moment.locale('es');
 
@@ -35,6 +36,14 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const [minutesLeft, setMinutesLeft] = useState(null);
     const [secondsLeft, setSecondsLeft] = useState(null);
     const [sending, setSending] = useState(null);
+    const [additionals, setAdditionals] = useState([]);
+    const [groupValues, setGroupValues] = useState([]);
+
+    const isFocused = useIsFocused();
+    const tomorrow = new Date().setDate(new Date().getDate() + 1)
+    const today = new Date().setDate(new Date().getDate())
+    const todayPlus7 = new Date()
+    todayPlus7.setDate(new Date().getDate() + 7)
 
     const {touched, handleSubmit, errors, setFieldValue, resetForm} = useFormik({
         initialValues: {
@@ -48,7 +57,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         },
         validateOnChange: true,
         validationSchema: Yup.object({
-
             date: Yup
                 .string()
                 .trim()
@@ -65,10 +73,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         })
     });
 
-    const tomorrow = new Date().setDate(new Date().getDate() + 1)
-    const today = new Date().setDate(new Date().getDate())
-    const todayPlus7 = new Date()
-    todayPlus7.setDate(new Date().getDate() + 7)
 
     useEffect(() => {
         if (timeLeft == 0) {
@@ -103,7 +107,13 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         if (route?.params?.clean) {
             cleanData();
         }
-    }, [route?.params])
+    }, [route?.params]);
+
+    useEffect(() => {
+        if (isFocused) {
+            getAdditionalsFunction()
+        }
+    }, [isFocused])
 
 
     const addPerson = (data) => {
@@ -220,7 +230,17 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         setSecondsLeft(seconds);
     }
 
-
+    const getAdditionalsFunction = async () => {
+        try {
+            setLoading(true)
+            const response = await getAdditionals('', [appDuck.user.id]);
+            setAdditionals(response.data)
+            setLoading(false)
+        } catch (e) {
+            alert(JSON.stringify(e))
+            console.log(e)
+        }
+    }
 
     return (
         <LayoutV4>
@@ -307,12 +327,11 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                         {errors.date}
                                     </FormControl.ErrorMessage>
                                 </FormControl>
-
                             </TouchableOpacity>
                     }
                 </View>
 
-                <View>
+                <View mb={6}>
                     <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                         Horario
                     </Text>
@@ -353,7 +372,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                         <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'sm'}>Tiempo para reservar {minutesLeft}:{secondsLeft} </Text>
                     </View>
                 }
-                <View my={6} mb={6}>
+                <View mb={6}>
                     <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                         Elige las personas
                     </Text>
@@ -419,37 +438,46 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 </View>
 
 
-                {/*  <View flexDirection={'row'} mb={6}>
-                    <View flex={1} p={2}>
-                        <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
-                            Socios
+                {
+                    additionals.length > 0 &&
+                    <View mb={10} pl={2}>
+                        <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                            Adicionales
                         </Text>
-                        <Input placeholder={'2'} textAlign={'center'}/>
+                        {
+                            loading === true ?
+                                <Skeleton height={45} borderRadius={30}></Skeleton> :
+                                loading === false &&
+                                <Checkbox.Group onChange={setGroupValues} value={groupValues}
+                                                _checkbox={{
+                                                    bgColor: 'white',
+                                                    borderWidth: 0.5,
+                                                    _checked: {
+                                                        bgColor: Colors.green,
+                                                        borderColor: Colors.green
+                                                    },
+                                                    _icon: {
+                                                        color: '#fff'
+                                                    }
+                                                }}
+
+                                >
+
+                                    {
+                                        additionals.map((item) => {
+                                            return (
+                                                <Checkbox value={item.claveServicio} my={2} _text={{color: '#000'}}>
+                                                    {_.upperFirst(item.descServicio.toLowerCase())}
+                                                </Checkbox>
+                                            )
+                                        })
+                                    }
+                                </Checkbox.Group>
+                        }
+
                     </View>
+                }
 
-                    <View flex={1} p={2}>
-                        <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
-                            Invitados
-                        </Text>
-                        <Input placeholder={'2'} textAlign={'center'}/>
-                    </View>
-                </View>*/}
-
-
-                {/*   <View mb={6}>
-                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
-                        ¿Cuenta con servicio de carrito de golf?
-                    </Text>
-                    <Input placeholder={'2 Carritos de golf'} textAlign={'center'}/>
-                </View>
-
-                <View mb={6}>
-                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
-                        ¿Cuenta con servicio de bolsa de golf?
-                    </Text>
-                    <Input placeholder={'2 bolsas'} textAlign={'center'}/>
-                </View>
-*/}
 
                 <Button onPress={() => handleSubmit()} isLoading={sending}>Reservar</Button>
 
