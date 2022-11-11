@@ -332,7 +332,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                     }
                 </View>
 
-                <View mb={6}>
+                <View mb={4}>
                     <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                         Horario
                     </Text>
@@ -369,7 +369,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 {
 
                     minutesLeft &&
-                    <View mt={2}>
+                    <View mb={2}>
                         <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'sm'}>Tiempo para reservar {minutesLeft}:{secondsLeft} </Text>
                     </View>
                 }
@@ -449,23 +449,22 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                             loading === true ?
                                 <Skeleton height={45} borderRadius={30}></Skeleton> :
                                 loading === false &&
-                                <Checkbox.Group onChange={(v) => {
-                                    console.log(v, 453)
-                                    setGroupValues(v)
-                                }}
-                                                _checkbox={{
-                                                    bgColor: 'white',
-                                                    borderWidth: 0.5,
-                                                    _checked: {
-                                                        bgColor: Colors.green,
-                                                        borderColor: Colors.green
-                                                    },
-                                                    _icon: {
-                                                        color: '#fff'
-                                                    }
-                                                }}
-
-                                >
+                                <Checkbox.Group
+                                    onChange={(v) => {
+                                        console.log(v, 453)
+                                        setGroupValues(v)
+                                    }}
+                                    _checkbox={{
+                                        bgColor: 'white',
+                                        borderWidth: 0.5,
+                                        _checked: {
+                                            bgColor: Colors.green,
+                                            borderColor: Colors.green
+                                        },
+                                        _icon: {
+                                            color: '#fff'
+                                        }
+                                    }}>
 
                                     {
                                         additionals.map((item) => {
