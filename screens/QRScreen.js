@@ -6,6 +6,7 @@ import {request} from "../api/Methods";
 import {connect} from "react-redux";
 import {RefreshControl} from "react-native";
 import ModalInfo from "./Modals/ModalInfo";
+import imgLogo from '../assets/imgLogo.png'
 
 const QRScreen = ({navigation, appDuck}) => {
     const [refreshing, setRefreshing] = useState(null);
@@ -22,6 +23,7 @@ const QRScreen = ({navigation, appDuck}) => {
         try {
             setRefreshing(true)
             const response = await request(`/v1/users/${appDuck.user.id}/qr-code`, '', 'get')
+            console.log(response.data)
             console.log(response.data.qrCode);
             setImageQRCode(response.data.qrCode)
         } catch (e) {
@@ -45,24 +47,51 @@ const QRScreen = ({navigation, appDuck}) => {
                         onRefresh={generateQRCodeFunction}
                     />
                 }
-                flex={1}>
-                <View mx={20} mt={20}>
+            >
+                <View mx={16} mt={10}>
 
-                    <View alignItems={'center'} mb={10}>
-                        {
-                            refreshing === true ?
-                                <Skeleton width={230} height={230}/>
-                                :
-                                <Image source={{uri: imageQRCode}} width={230} height={230}/>
-                        }
+                    <View height={450} borderColor={Colors.green} borderWidth={0.5} borderRadius={20} overflow={'hidden'} mb={10}>
+                        <View flex={0.7} bgColor={Colors.green}>
+                            <View flex={1} justifyContent={'center'} alignItems={'center'}>
+                                <Image source={imgLogo} width={100} height={100}></Image>
+                            </View>
+                            <View bgColor={Colors.greenV4} height={50} justifyContent={'center'}>
+                                <Text textAlign={'center'}>{appDuck.user.fullName}</Text>
+                            </View>
+
+                        </View>
+                        <View flex={1} bgColor={'white'} borderBottomRadius={20}>
+                            <View flex={1} alignItems={'center'} justifyContent={'center'}>
+                                {
+                                    refreshing === true ?
+                                        <Skeleton width={150} height={150}/>
+                                        :
+                                        <Image source={{uri: imageQRCode}} width={150} height={150}/>
+                                }
+                            </View>
+                            <View flexDir={'row'} p={2}>
+                                <View flex={1}>
+                                    <Text color={Colors.green} textAlign={'center'} fontFamily={'titleComfortaaBold'}>No. de acción</Text>
+                                    <Text color={Colors.green} textAlign={'center'} fontSize={'xs'}>{appDuck.user.partner.accion}</Text>
+                                </View>
+                                <View flex={1}>
+                                    <Text color={Colors.green} textAlign={'center'} fontFamily={'titleComfortaaBold'}>Tipo de acción</Text>
+                                    <Text color={Colors.green} textAlign={'center'} fontSize={'xs'}>Cotitular</Text>
+                                </View>
+                            </View>
+                        </View>
                     </View>
 
-                    <Text color={Colors.green} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={10}>
-                        Muestra este código en {'\n'}la entrada del club para {'\n'}poder ingresar
-                    </Text>
 
-                    {/*<Button mb={4} onPress={() => navigation.navigate('QRSentScreen')}>Descargar</Button>*/}
-                    <Button onPress={() => navigation.goBack()}>Terminar</Button>
+                    <View>
+                        <Text color={Colors.green} fontSize={'md'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={6}>
+                            Muestra este código en {'\n'}la entrada del club para {'\n'}poder ingresar
+                        </Text>
+
+                        {/*<Button mb={4} onPress={() => navigation.navigate('QRSentScreen')}>Descargar</Button>*/}
+                        <Button onPress={() => navigation.goBack()}>Terminar</Button>
+                    </View>
+
                 </View>
             </ScrollView>
             <ModalInfo text={modalText} visible={modalVisible} setVisible={setModalVisible} textButton={'Entendido'} iconType={'exclamation'} close={true}/>
