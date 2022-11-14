@@ -76,7 +76,7 @@ const QRScreen = ({navigation, appDuck}) => {
                                 </View>
                                 <View flex={1}>
                                     <Text color={Colors.green} textAlign={'center'} fontFamily={'titleComfortaaBold'}>Tipo de acción</Text>
-                                    <Text color={Colors.green} textAlign={'center'} fontSize={'xs'}>Cotitular</Text>
+                                    <Text color={Colors.green} textAlign={'center'} fontSize={'xs'}>{appDuck.user.partner.parentesco}</Text>
                                 </View>
                             </View>
                         </View>
