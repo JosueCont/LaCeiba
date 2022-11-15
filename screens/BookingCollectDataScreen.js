@@ -13,7 +13,7 @@ import ModalBookingConfirmation from "./Modals/ModalBookingConfirmation";
 import ModalInfo from "./Modals/ModalInfo";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
-import {bookService, cacheBookHour, getAdditionals, getIntervalsTime} from "../api/Requests";
+import {bookService, cacheBookHour, getAdditionals, getIntervalsTime, unBlockHour} from "../api/Requests";
 import _ from "lodash";
 import {useIsFocused} from "@react-navigation/native";
 
@@ -38,6 +38,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const [sending, setSending] = useState(null);
     const [additionals, setAdditionals] = useState([]);
     const [groupValues, setGroupValues] = useState([]);
+    const [pointsDay, setPointsDay] = useState(null);
 
     const isFocused = useIsFocused();
     const tomorrow = new Date().setDate(new Date().getDate() + 1)
@@ -118,12 +119,12 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
     const addPerson = (data) => {
 
-        console.log(people)
         const person = {
             data: data,
             name: data.type == 'p' ? data.person.nombreSocio : data.person.nombre + ' ' + data.person.apellidoPaterno,
             type: data.type == 'p' ? "SOCIO" : "INVITADO"
         }
+
         let arrayPeopleTemp = [...people, person]
         setFieldValue("peopleArray", arrayPeopleTemp);
         setPeople(arrayPeopleTemp);
@@ -165,6 +166,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
     const confirmBooking = async () => {
         try {
+
             setSending(true)
             //CALL ENDPOINT
             let params = {
@@ -235,6 +237,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         try {
             setLoading(true)
             const response = await getAdditionals('', [appDuck.user.id]);
+
+            console.log(response.data)
             setAdditionals(response.data)
             setLoading(false)
         } catch (e) {
@@ -242,6 +246,22 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             console.log(e)
         }
     }
+
+
+    const unBlockHourx2 = async () => {
+        //${API_URL}/bookings/users/${userId}/areas/${serviceAreaId}/reserved?dueDate=${date}&dueTime=${hour}
+    }
+
+    const unBlockHourFunction = async (hour) => {
+        try {
+            const response = await unBlockHour(`?dueDate=${date}&dueTime=${hour}`, [appDuck.user.id, route?.params?.service?.areas[0]?.id])
+            console.log(response.data)
+        } catch (e) {
+            console.log(alert(JSON.stringify(e)))
+        }
+
+    }
+
 
     return (
         <LayoutV4>
@@ -265,7 +285,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                 minDate={route?.params?.service?.bookNextDay ? tomorrow : today}
                                 maxDate={todayPlus7}
                                 onDayPress={day => {
-                                    console.log(day);
+                                    let pointsDayValue = _.find(route?.params?.service?.areas[0].calendarDays, {day: moment(day.dateString).locale('en').format('dddd')}).points;
+                                    setPointsDay(pointsDayValue)
                                     setDate(day.dateString)
                                     setFieldValue("date", day.dateString)
                                     // let selected = {};
@@ -348,8 +369,12 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                         getHoursFunction(date)
                                     }}
                                     onValueChange={(v) => {
+                                        if (hourSelected) {
+                                            unBlockHourFunction(v)
+                                        }
                                         setHourSelected(v);
                                         validateHour(v);
+
                                     }}
                                     placeholder="Seleccionar">
                                     {
@@ -419,7 +444,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                 let invitados = _.filter(people, function (o) {
                                     if (o.type === 'INVITADO') return o
                                 }).length;
-                                let points = invitados * 3;
+                                let points = invitados * pointsDay;
                                 console.log(points)
 
                                 navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points: points})

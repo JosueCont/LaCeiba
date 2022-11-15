@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Button, Image, ScrollView, Skeleton, Text, View} from "native-base";
+import React, {useEffect, useRef, useState} from "react";
+import {Button, Image, ScrollView, Skeleton, Text, useToast, View} from "native-base";
 import LayoutV3 from "./Layouts/LayoutV3";
 import {Colors} from "../Colors";
 import {request} from "../api/Methods";
@@ -7,14 +7,36 @@ import {connect} from "react-redux";
 import {RefreshControl} from "react-native";
 import ModalInfo from "./Modals/ModalInfo";
 import imgLogo from '../assets/imgLogo.png'
+import ViewShot, {captureRef} from 'react-native-view-shot';
+import * as MediaLibrary from 'expo-media-library';
+import {useIsFocused} from "@react-navigation/native";
 
 const QRScreen = ({navigation, appDuck}) => {
     const [refreshing, setRefreshing] = useState(null);
     const [imageQRCode, setImageQRCode] = useState(null);
     const [modalVisible, setModalVisible] = useState(null);
     const [modalText, setModalText] = useState(null);
+    const isFocused = useIsFocused();
+    const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
+    const toast = useToast();
+
+    const imgRef = useRef();
 
     console.log(appDuck)
+
+    useEffect(() => {
+        if (isFocused) {
+            validatePermission()
+        }
+    }, [isFocused])
+
+    const validatePermission = async () => {
+        console.log(permissionResponse)
+        if (permissionResponse.granted === false) {
+            navigation.navigate('AskForMediaLibraryScreen', {screenOk: 'QRScreen', screenReject: 'QRInstructionsScreen'})
+        }
+    }
+
     useEffect(() => {
         generateQRCodeFunction()
     }, [])
@@ -36,6 +58,22 @@ const QRScreen = ({navigation, appDuck}) => {
 
     }
 
+    const captureScreenFunction = () => {
+        captureRef(imgRef, {
+            format: "jpg",
+            quality: 1,
+        }).then(
+            async (uri) => {
+                await MediaLibrary.saveToLibraryAsync(uri)
+                toast.show({
+                    description: "Imagen guardada en tu galería."
+                })
+            }
+            ,
+            (error) => console.error("Oops, snapshot failed", error)
+        );
+    }
+
     return (
         <LayoutV3>
 
@@ -50,37 +88,40 @@ const QRScreen = ({navigation, appDuck}) => {
             >
                 <View mx={16} mt={10}>
 
-                    <View height={450} borderColor={Colors.green} borderWidth={0.5} borderRadius={20} overflow={'hidden'} mb={10}>
-                        <View flex={0.7} bgColor={Colors.green}>
-                            <View flex={1} justifyContent={'center'} alignItems={'center'}>
-                                <Image source={imgLogo} width={100} height={100}></Image>
-                            </View>
-                            <View bgColor={Colors.greenV4} height={50} justifyContent={'center'}>
-                                <Text textAlign={'center'}>{appDuck.user.fullName}</Text>
-                            </View>
+                    <ViewShot ref={imgRef}>
 
-                        </View>
-                        <View flex={1} bgColor={'white'} borderBottomRadius={20}>
-                            <View flex={1} alignItems={'center'} justifyContent={'center'}>
-                                {
-                                    refreshing === true ?
-                                        <Skeleton width={150} height={150}/>
-                                        :
-                                        <Image source={{uri: imageQRCode}} width={150} height={150}/>
-                                }
-                            </View>
-                            <View flexDir={'row'} p={2}>
-                                <View flex={1}>
-                                    <Text color={Colors.green} textAlign={'center'} fontFamily={'titleComfortaaBold'}>No. de acción</Text>
-                                    <Text color={Colors.green} textAlign={'center'} fontSize={'xs'}>{appDuck.user.partner.accion}</Text>
+                        <View height={450} borderColor={Colors.green} borderWidth={0.5} borderRadius={20} overflow={'hidden'} mb={10}>
+                            <View flex={0.7} bgColor={Colors.green}>
+                                <View flex={1} justifyContent={'center'} alignItems={'center'}>
+                                    <Image source={imgLogo} width={100} height={100}></Image>
                                 </View>
-                                <View flex={1}>
-                                    <Text color={Colors.green} textAlign={'center'} fontFamily={'titleComfortaaBold'}>Tipo de acción</Text>
-                                    <Text color={Colors.green} textAlign={'center'} fontSize={'xs'}>{appDuck.user.partner.parentesco}</Text>
+                                <View bgColor={Colors.greenV4} height={50} justifyContent={'center'}>
+                                    <Text textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>
+                                </View>
+
+                            </View>
+                            <View flex={1} bgColor={'white'} borderBottomRadius={20}>
+                                <View flex={1} alignItems={'center'} justifyContent={'center'}>
+                                    {
+                                        refreshing === true ?
+                                            <Skeleton width={150} height={150}/>
+                                            :
+                                            <Image source={{uri: imageQRCode}} width={150} height={150}/>
+                                    }
+                                </View>
+                                <View flexDir={'row'} p={3}>
+                                    <View flex={1}>
+                                        <Text color={Colors.green} textAlign={'center'} fontSize={'xs'}>No. de acción</Text>
+                                        <Text color={Colors.green} textAlign={'center'} fontSize={'md'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.accion}</Text>
+                                    </View>
+                                    <View flex={1}>
+                                        <Text color={Colors.green} textAlign={'center'} fontSize={'xs'}>Tipo de acción</Text>
+                                        <Text color={Colors.green} textAlign={'center'} fontSize={'md'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.parentesco}</Text>
+                                    </View>
                                 </View>
                             </View>
                         </View>
-                    </View>
+                    </ViewShot>
 
 
                     <View>
@@ -88,7 +129,7 @@ const QRScreen = ({navigation, appDuck}) => {
                             Muestra este código en {'\n'}la entrada del club para {'\n'}poder ingresar
                         </Text>
 
-                        {/*<Button mb={4} onPress={() => navigation.navigate('QRSentScreen')}>Descargar</Button>*/}
+                        <Button mb={2} onPress={() => captureScreenFunction()}>Descargar</Button>
                         <Button onPress={() => navigation.goBack()}>Terminar</Button>
                     </View>
 

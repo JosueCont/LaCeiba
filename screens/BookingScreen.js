@@ -1,50 +1,70 @@
-import LayoutV4 from "./Layouts/LayoutV4";
-import {Button, Text, View} from "native-base";
+import {Button, ScrollView, Text, View} from "native-base";
 import React, {useEffect, useState} from "react";
-import {ImageBackground} from "react-native";
+import {ImageBackground, RefreshControl} from "react-native";
 import golfImage from '../assets/booking/golfImage.png'
 import {getAllServices} from "../api/Requests";
+import LayoutV3 from "./Layouts/LayoutV3";
+import {Colors} from "../Colors";
 
 const BookingScreen = ({navigation}) => {
     const [services, setServices] = useState([]);
-    
+    const [loading, setLoading] = useState(null);
+
     useEffect(() => {
         getServices();
     }, [])
-    
-    const getServices = async ()=>{
-        const response = await getAllServices('');
-        setServices(response.data.items);
+
+    const getServices = async () => {
+        try {
+            setLoading(true);
+            const response = await getAllServices('');
+            setServices(response.data.items);
+            setLoading(false);
+        } catch (e) {
+            alert(JSON.stringify(e))
+
+        }
+
     }
 
     return (
-        <LayoutV4>
+        <LayoutV3>
             <View flex={1} mx={8}>
-                {
-                    services.map((service, index)=>{
-                        return(
-                            <View mt={10} mb={5}>
-                                <ImageBackground source={golfImage} style={{height: 180}}>
-                                    <View flex={1}>
-                                        <View flex={1} p={4}>
-                                            <Text fontFamily={'titleConfortaaRegular'} fontSize={'lg'}>{service?.name} </Text>
-                                        </View>
-                                        <View flex={1} flexDirection={'row'}>
-                                            <View flex={1}>
+                <ScrollView
+                    mt={6}
+                    refreshControl={
+                        <RefreshControl
+                            tintColor={Colors.green}
+                            refreshing={loading}
+                            onRefresh={getServices}
+                        />
+                    }
+                    flexGrow={1}>
+                    {
+                        services.map((service, index) => {
+                            return (
+                                <View mb={5}>
+                                    <ImageBackground source={golfImage} style={{height: 180}}>
+                                        <View flex={1}>
+                                            <View flex={1} p={4}>
+                                                <Text fontFamily={'titleConfortaaRegular'} fontSize={'lg'}>{service?.name} </Text>
+                                            </View>
+                                            <View flex={1} flexDirection={'row'}>
+                                                <View flex={1}>
+
+                                                </View>
+                                                <View flex={1} justifyContent={'flex-end'} p={2}>
+                                                    <Button onPress={() => navigation.navigate('BookingCollectDataScreen', {clean: true, service: service})}>Reservar</Button>
+                                                </View>
 
                                             </View>
-                                            <View flex={1} justifyContent={'flex-end'} p={2}>
-                                                <Button onPress={() => navigation.navigate('BookingCollectDataScreen', {clean: true, service: service})}>Reservar</Button>
-                                            </View>
-
                                         </View>
-                                    </View>
-                                </ImageBackground>
-                            </View>
-                        )
-                    })
-                }
-                {/* <View mt={10} mb={5}>
+                                    </ImageBackground>
+                                </View>
+                            )
+                        })
+                    }
+                    {/* <View mt={10} mb={5}>
                     <ImageBackground source={golfImage} style={{height: 180}}>
                         <View flex={1}>
                             <View flex={1} p={4}>
@@ -120,9 +140,10 @@ const BookingScreen = ({navigation}) => {
                         </View>
                     </ImageBackground>
                 </View> */}
+                </ScrollView>
             </View>
 
-        </LayoutV4>
+        </LayoutV3>
     )
 }
 

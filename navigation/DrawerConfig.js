@@ -46,6 +46,7 @@ import PDFAndImageViewer from "../screens/PDFAndImageViewer";
 import HTMLViewer from "../screens/HTMLViewer";
 import BookingCollectDataSearchScreen from "../screens/BookingCollectDataSearchScreen";
 import BookingConfirmScreenSuccess from "../screens/BookingConfirmScreenSuccess";
+import AskForMediaLibraryScreen from "../screens/Permissions/AskForMediaLibraryScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -150,6 +151,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'PDFAndImageViewer'} component={PDFAndImageViewer} options={{title: ''}}/>
             <Drawer.Screen name={'HTMLViewer'} component={HTMLViewer} options={{title: ''}}/>
             <Drawer.Screen name={'BookingCollectDataSearchScreen'} component={BookingCollectDataSearchScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'AskForMediaLibraryScreen'} component={AskForMediaLibraryScreen} options={{headerShown: false}}/>
 
         </Drawer.Navigator>
     );
