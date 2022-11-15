@@ -39,12 +39,15 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const [additionals, setAdditionals] = useState([]);
     const [groupValues, setGroupValues] = useState([]);
     const [pointsDay, setPointsDay] = useState(null);
+    const [areaId, setAreaId] = useState(null);
+    const [area, setArea] = useState(null);
 
     const isFocused = useIsFocused();
     const tomorrow = new Date().setDate(new Date().getDate() + 1)
     const today = new Date().setDate(new Date().getDate())
     const todayPlus7 = new Date()
     todayPlus7.setDate(new Date().getDate() + 7)
+
 
     const {touched, handleSubmit, errors, setFieldValue, resetForm} = useFormik({
         initialValues: {
@@ -69,7 +72,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             peopleArray: Yup
                 .array()
                 //.required('Los invitados son obligatorios')
-                .min(route?.params?.service?.areas[0]?.minPeople - 1, `Seleccione al menos ${route?.params?.service?.areas[0]?.minPeople - 1} persona(s)`)
+                .min(area?.minPeople - 1, `Seleccione al menos ${area?.minPeople - 1} persona(s)`)
 
         })
     });
@@ -150,7 +153,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 dueDate: date,
                 dueTime: hour
             }
-            const response = await cacheBookHour(params, [appDuck.user.id, route?.params?.service?.areas[0]?.id])
+            const response = await cacheBookHour(params, [appDuck.user.id, area?.id])
             console.log(response.data)
             if (response) {
                 setFieldValue("hourSelected", hour);
@@ -172,7 +175,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             let params = {
                 dueDate: date,
                 dueTime: hourSelected,
-                areaId: route?.params?.service?.areas[0]?.id,
+                areaId: area?.id,
                 guests: [],
                 users: [],
                 additionals: groupValues
@@ -248,13 +251,9 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     }
 
 
-    const unBlockHourx2 = async () => {
-        //${API_URL}/bookings/users/${userId}/areas/${serviceAreaId}/reserved?dueDate=${date}&dueTime=${hour}
-    }
-
     const unBlockHourFunction = async (hour) => {
         try {
-            const response = await unBlockHour(`?dueDate=${date}&dueTime=${hour}`, [appDuck.user.id, route?.params?.service?.areas[0]?.id])
+            const response = await unBlockHour(`?dueDate=${date}&dueTime=${hour}`, [appDuck.user.id, area?.id])
             console.log(response.data)
         } catch (e) {
             console.log(alert(JSON.stringify(e)))
@@ -274,6 +273,41 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                         {route?.params?.service?.name}
                     </Text>
                 </View>
+
+                <View mb={4}>
+                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                        Áreas
+                    </Text>
+                    {
+                        loading === true ?
+                            <Skeleton height={45} borderRadius={30}></Skeleton> :
+                            loading === false &&
+                            <FormControl isInvalid={errors.hourSelected}>
+                                <Select
+                                    onOpen={() => {
+
+                                    }}
+                                    selectedValue={areaId}
+                                    onValueChange={(v) => {
+                                        setAreaId(v)
+                                        let areaFilter = _.find(route?.params?.service?.areas, {id: v});
+                                        setArea(areaFilter)
+                                    }}
+                                    placeholder="Seleccionar">
+                                    {
+                                        route?.params?.service?.areas.map((item) => {
+                                            return (
+                                                <Select.Item label={item.name} value={item.id}/>
+                                            )
+                                        })
+                                    }
+                                </Select>
+                                <FormControl.ErrorMessage alignSelf={'center'}>
+                                    {errors.hourSelected}
+                                </FormControl.ErrorMessage>
+                            </FormControl>
+                    }
+                </View>
                 <View mb={6}>
                     <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                         Fecha
@@ -285,7 +319,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                 minDate={route?.params?.service?.bookNextDay ? tomorrow : today}
                                 maxDate={todayPlus7}
                                 onDayPress={day => {
-                                    let pointsDayValue = _.find(route?.params?.service?.areas[0].calendarDays, {day: moment(day.dateString).locale('en').format('dddd')}).points;
+                                    let pointsDayValue = _.find(area?.calendarDays, {day: moment(day.dateString).locale('en').format('dddd')}).points;
                                     setPointsDay(pointsDayValue)
                                     setDate(day.dateString)
                                     setFieldValue("date", day.dateString)
@@ -437,7 +471,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                     </View>
 
 
-                    {people.length < route?.params?.service?.areas[0]?.maxPeople - 1 &&
+                    {people.length < area?.maxPeople - 1 &&
                         <FormControl isInvalid={errors.peopleArray}>
                             <TouchableOpacity onPress={() => {
                                 console.log(people)

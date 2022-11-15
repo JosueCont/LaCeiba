@@ -60,7 +60,7 @@ const QRScreen = ({navigation, appDuck}) => {
 
     const captureScreenFunction = () => {
         captureRef(imgRef, {
-            format: "jpg",
+            format: "png",
             quality: 1,
         }).then(
             async (uri) => {
