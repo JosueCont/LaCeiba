@@ -50,7 +50,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     todayPlus7.setDate(new Date().getDate() + 7)
 
 
-
     const {touched, handleSubmit, errors, setFieldValue, resetForm} = useFormik({
         initialValues: {
             date: '',
@@ -88,7 +87,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         if (timeLeft == 0) {
             setMinutesLeft('00');
             setSecondsLeft('00');
-            //setDate(null);
             setHourSelected(null);
         }
         if (!timeLeft) {
@@ -96,34 +94,23 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             setSecondsLeft(null);
             return
         }
-        ;
-        const intervalId = setInterval(() => {
 
+        const intervalId = setInterval(() => {
             setTimeLeft(timeLeft - 1);
             convertToMinutes(timeLeft);
         }, 1000);
         return () => clearInterval(intervalId);
     }, [timeLeft]);
 
-    useEffect(() => {
-        setLoading(true)
-        setTimeout(() => {
-            setLoading(false)
-        }, 500)
-    }, [])
-
 
     useEffect(() => {
         cleanData();
-
-    }, [route?.params?.service?.id]);
-
-    useEffect(() => {
-        if (isFocused) {
-            getAdditionalsFunction()
-            getPointsFunction()
+        getAdditionalsFunction()
+        getPointsFunction()
+        if (route?.params?.service?.areas.length === 1) {
+            areaSelect(route?.params?.service?.areas[0].id)
         }
-    }, [isFocused])
+    }, [route?.params?.service?.id])
 
 
     const addPerson = (data) => {
@@ -305,6 +292,17 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         return (invitados.length * pointsDay ? pointsDay : 0).toString();
     }
 
+    const areaSelect = (v) => {
+        setAreaId(v)
+        let areaFilter = _.find(route?.params?.service?.areas, {id: v});
+        if (date) {
+            let pointsDayValue = _.find(areaFilter?.calendarDays, {day: moment(date).locale('en').format('dddd')}).points;
+            setPointsDay(pointsDayValue)
+            recalculePoints(pointsDayValue)
+        }
+        setArea(areaFilter)
+    }
+
 
     return (
         <LayoutV4>
@@ -318,48 +316,43 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                     </Text>
                 </View>
 
-                <View mb={4}>
-                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
-                        Áreas
-                    </Text>
-                    {
-                        loading === true ?
-                            <Skeleton height={45} borderRadius={30}></Skeleton> :
-                            loading === false &&
-                            <FormControl isInvalid={errors.areaSelected}>
-                                <Select
-                                    onOpen={() => {
+                {
+                    route?.params?.service?.areas.length > 1 &&
+                    <View mb={4}>
+                        <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                            Áreas
+                        </Text>
+                        {
+                            loading === true ?
+                                <Skeleton height={45} borderRadius={30}></Skeleton> :
+                                loading === false &&
+                                <FormControl isInvalid={errors.areaSelected}>
+                                    <Select
+                                        onOpen={() => {
 
-                                    }}
-                                    selectedValue={areaId}
-                                    onValueChange={(v) => {
-                                        setAreaId(v)
+                                        }}
+                                        selectedValue={areaId}
+                                        onValueChange={(v) => {
+                                            areaSelect(v)
 
-                                        let areaFilter = _.find(route?.params?.service?.areas, {id: v});
-
-                                        if (date) {
-                                            let pointsDayValue = _.find(areaFilter?.calendarDays, {day: moment(date).locale('en').format('dddd')}).points;
-                                            setPointsDay(pointsDayValue)
-                                            recalculePoints(pointsDayValue)
+                                        }}
+                                        placeholder="Seleccionar">
+                                        {
+                                            route?.params?.service?.areas.map((item) => {
+                                                return (
+                                                    <Select.Item label={item.name} value={item.id}/>
+                                                )
+                                            })
                                         }
-                                        setArea(areaFilter)
+                                    </Select>
+                                    <FormControl.ErrorMessage alignSelf={'center'}>
+                                        {errors.areaSelected}
+                                    </FormControl.ErrorMessage>
+                                </FormControl>
+                        }
+                    </View>
+                }
 
-                                    }}
-                                    placeholder="Seleccionar">
-                                    {
-                                        route?.params?.service?.areas.map((item) => {
-                                            return (
-                                                <Select.Item label={item.name} value={item.id}/>
-                                            )
-                                        })
-                                    }
-                                </Select>
-                                <FormControl.ErrorMessage alignSelf={'center'}>
-                                    {errors.areaSelected}
-                                </FormControl.ErrorMessage>
-                            </FormControl>
-                    }
-                </View>
                 <View mb={6}>
                     <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                         Fecha
