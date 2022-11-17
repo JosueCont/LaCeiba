@@ -50,6 +50,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     todayPlus7.setDate(new Date().getDate() + 7)
 
 
+
     const {touched, handleSubmit, errors, setFieldValue, resetForm} = useFormik({
         initialValues: {
             date: '',
@@ -113,10 +114,9 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
 
     useEffect(() => {
-        if (route?.params?.clean) {
-            cleanData();
-        }
-    }, [route?.params]);
+        cleanData();
+
+    }, [route?.params?.service?.id]);
 
     useEffect(() => {
         if (isFocused) {
@@ -226,6 +226,9 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         setTimeLeft(null);
         setMinutesLeft(null);
         setSecondsLeft(null);
+        setPointsDay(null)
+        setAreaId(null);
+        setArea(null);
     }
 
     const sendConfirmationBooking = async (values) => {
@@ -296,6 +299,13 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     }
 
 
+    const getGuestPoints = () => {
+        let invitados = _.filter(people, {'type': 'INVITADO'});
+        console.log(invitados)
+        return (invitados.length * pointsDay ? pointsDay : 0).toString();
+    }
+
+
     return (
         <LayoutV4>
             <View flex={1} mx={12} my={10}>
@@ -326,11 +336,10 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                         setAreaId(v)
 
                                         let areaFilter = _.find(route?.params?.service?.areas, {id: v});
-                                        console.log(areaFilter, 329)
-                                        console.log(date, 330)
 
                                         if (date) {
                                             let pointsDayValue = _.find(areaFilter?.calendarDays, {day: moment(date).locale('en').format('dddd')}).points;
+                                            setPointsDay(pointsDayValue)
                                             recalculePoints(pointsDayValue)
                                         }
                                         setArea(areaFilter)
@@ -362,13 +371,16 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                 minDate={route?.params?.service?.bookNextDay ? tomorrow : today}
                                 maxDate={todayPlus7}
                                 onDayPress={day => {
-                                    let pointsDayValue = _.find(area?.calendarDays, {day: moment(day.dateString).locale('en').format('dddd')}).points;
-                                    setPointsDay(pointsDayValue)
+                                    console.log(area)
+                                    if (area) {
+                                        let pointsDayValue = _.find(area?.calendarDays, {day: moment(day.dateString).locale('en').format('dddd')}).points;
+                                        setPointsDay(pointsDayValue)
+                                        recalculePoints(pointsDayValue)
+
+                                    }
                                     setDate(day.dateString)
                                     setFieldValue("date", day.dateString)
                                     setShowCalendar(false)
-                                    console.log(pointsDayValue)
-                                    recalculePoints(pointsDayValue)
                                 }}
                                 onDayLongPress={day => {
                                     console.log('selected day', day);
@@ -477,6 +489,12 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                     <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                         Elige las personas
                     </Text>
+                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'xs'}>
+                        Puntos disponibles {points}
+                    </Text>
+                    <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'xs'}>
+                        Puntos en uso {_.filter(people, {'type': 'INVITADO'}).length * pointsDay}
+                    </Text>
                     <View height={75} bg={'#fff'} mb={2} flexDirection={'row'} borderRadius={10}>
                         <View width={65} alignItems={'center'} justifyContent={'center'}>
                             <Icon as={MaterialIcons} name={'check-circle'} size={'2xl'} color={'#50C878'}></Icon>
@@ -513,7 +531,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
 
                     {
-                        (pointsDay !== null && (people.length < area?.maxPeople - 1)) &&
+                        (pointsDay && (people.length < area?.maxPeople - 1)) &&
                         <FormControl isInvalid={errors.peopleArray}>
                             <TouchableOpacity onPress={() => {
                                 let invitados = _.filter(people, function (o) {
