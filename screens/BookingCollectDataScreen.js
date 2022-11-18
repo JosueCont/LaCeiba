@@ -103,10 +103,12 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     }, [timeLeft]);
 
 
+
     useEffect(() => {
         cleanData();
         getAdditionalsFunction()
         getPointsFunction()
+        console.log(route?.params?.service?.areas.length, 109)
         if (route?.params?.service?.areas.length === 1) {
             areaSelect(route?.params?.service?.areas[0].id)
         }
@@ -145,13 +147,13 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 dueDate: date,
                 dueTime: hour
             }
-            const response = await cacheBookHour(params, [appDuck.user.id, area?.id])
-            console.log(response.data)
+            const response = await cacheBookHour(params, [appDuck.user.id, areaId])
             if (response) {
                 setFieldValue("hourSelected", hour);
                 setTimeLeft(route?.params?.service?.timeToConfirm * 60);
             }
         } catch (e) {
+            alert(JSON.stringify(e))
             setModalInfo(true);
             setHourSelected(null);
             setTimeLeft(null);
@@ -167,7 +169,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             let params = {
                 dueDate: date,
                 dueTime: hourSelected,
-                areaId: area?.id,
+                areaId: areaId,
                 guests: [],
                 users: [],
                 additionals: groupValues
@@ -248,7 +250,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
     const unBlockHourFunction = async (hour) => {
         try {
-            const response = await unBlockHour(`?dueDate=${date}&dueTime=${hour}`, [appDuck.user.id, area?.id])
+            const response = await unBlockHour(`?dueDate=${date}&dueTime=${hour}`, [appDuck.user.id, areaId])
             console.log(response.data)
         } catch (e) {
             console.log(alert(JSON.stringify(e)))
@@ -278,10 +280,11 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             const response = await getPoints('', [appDuck.user.id]);
             let pointsTotal = response.data.points;
             setPoints(pointsTotal)
+            setLoading(false)
+
         } catch (ex) {
             console.log(ex)
         } finally {
-            setLoading(false)
         }
     }
 
@@ -293,14 +296,22 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     }
 
     const areaSelect = (v) => {
-        setAreaId(v)
-        let areaFilter = _.find(route?.params?.service?.areas, {id: v});
-        if (date) {
-            let pointsDayValue = _.find(areaFilter?.calendarDays, {day: moment(date).locale('en').format('dddd')}).points;
-            setPointsDay(pointsDayValue)
-            recalculePoints(pointsDayValue)
+        try {
+            setAreaId(v)
+            console.log(route?.params?.service?.areas, v, 302)
+            let areaFilter = _.find(route?.params?.service?.areas, {'id': v});
+            console.log(areaFilter, date)
+            if (date) {
+                let pointsDayValue = _.find(areaFilter?.calendarDays, {'day': moment(date).locale('en').format('dddd')}).points;
+                setPointsDay(pointsDayValue)
+                recalculePoints(pointsDayValue)
+            }
+
+            setArea(areaFilter)
+        } catch (e) {
+            console.log(e)
         }
-        setArea(areaFilter)
+
     }
 
 
