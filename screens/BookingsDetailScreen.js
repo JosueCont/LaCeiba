@@ -5,7 +5,7 @@ import {Image as ImageRN} from "react-native";
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import ModalConfirmRejectBook from './Modals/ModalConfirmRejectBook';
 import moment from "moment";
-import {getAdditionals, setReservationStatus} from "../api/Requests";
+import {cancelBooking, getAdditionals, setReservationStatus} from "../api/Requests";
 import {connect} from "react-redux";
 import {useIsFocused} from "@react-navigation/native";
 import _ from "lodash";
@@ -76,6 +76,16 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
         } catch (e) {
             alert(JSON.stringify(e))
             console.log(e)
+        }
+    }
+
+    const cancelFunction = async () => {
+        try {
+
+            const response = await cancelBooking('', [route.params.booking.id])
+            console.log(response.data)
+        } catch (e) {
+            alert(JSON.stringify(e))
         }
     }
 
@@ -202,22 +212,27 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                     }
                     {
                         invitation?.status == 'PENDING' &&
-                        <>
+                        <View>
                             <Button onPress={() => {
                                 setActionBook("Confirm");
                                 setOpenModal(true);
                             }} mb={4}>Confirmar</Button>
-                            <Button onPress={() => {
+                            <Button colorScheme={'red'} onPress={() => {
                                 setActionBook("Reject");
                                 setOpenModal(true);
                             }} mb={4}>Rechazar</Button>
-                        </>
+                        </View>
                     }
                     {
                         invitation.status == 'CONFIRMED' &&
-                        <>
+                        <View>
                             <Button onPress={() => navigation.navigate("QRScreen")} mb={4}>Código QR</Button>
-                        </>
+                            {
+                                route.params.booking.hostedId === appDuck.user.id &&
+                                <Button colorScheme={'red'} onPress={() => cancelFunction()} mb={4}>Cancelar</Button>
+                            }
+
+                        </View>
                     }
                     <Button onPress={() => navigation.goBack()} mb={'20'}>Regresar</Button>
 

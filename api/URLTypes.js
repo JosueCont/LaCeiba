@@ -24,5 +24,6 @@ export const URLTypes = {
     GET_ADDITIONAL_MEMBERS: '/v1/users/partners/action',
     GET_POINTS: '/v1/users/{{param}}/partners/points',
     SET_RESERVATION_STATUS: '/v1/bookings/invitations/{{param}}',
-    GET_ADDITIONALS: '/v1/users/{{param}}/partners/additionals'
+    GET_ADDITIONALS: '/v1/users/{{param}}/partners/additionals',
+    CANCEL_BOOKING: '/v1/bookings/{{param}}/cancel'
 };
