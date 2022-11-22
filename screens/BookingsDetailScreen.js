@@ -18,36 +18,39 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
     const [loading, setLoading] = useState(null);
     const [additionals, setAdditionals] = useState([]);
     const [groupValues, setGroupValues] = useState([]);
+    const [dayDiff, setDayDiff] = useState(null);
+
 
     const isFocused = useIsFocused();
 
     useEffect(() => {
         if (isFocused) {
+            setDayDiff(moment(invitation?.booking?.dueDate).diff(moment(), 'days'))
+
             if (invitation?.status === 'PENDING') {
                 getAdditionalsFunction()
             } else {
                 console.log(invitation?.additionals)
                 setAdditionals(invitation?.additionals)
             }
-
-
         }
     }, [isFocused])
 
 
     const AcceptBooking = async () => {
-        //await api
         try {
             setOpenModal(false);
             let data = {
                 status: 'CONFIRMED',
-                additionals: groupValues
             };
+            if (groupValues.length > 0) {
+                data['additionals'] = groupValues
+            }
             const response = await setReservationStatus(data, [route.params.invitation.id])
             console.log(response.data)
             navigation.goBack();
         } catch (e) {
-            console.log(e)
+            console.log(JSON.stringify(e))
         }
 
     }
@@ -81,10 +84,10 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
 
     const cancelFunction = async () => {
         try {
-
             const response = await cancelBooking('', [route.params.booking.id])
             console.log(response.data)
         } catch (e) {
+            console.log(JSON.stringify(e))
             alert(JSON.stringify(e))
         }
     }
@@ -216,7 +219,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                             <Button onPress={() => {
                                 setActionBook("Confirm");
                                 setOpenModal(true);
-                            }} mb={4}>Confirmar</Button>
+                            }} mb={4}>Confirmar </Button>
                             <Button colorScheme={'red'} onPress={() => {
                                 setActionBook("Reject");
                                 setOpenModal(true);
@@ -228,7 +231,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                         <View>
                             <Button onPress={() => navigation.navigate("QRScreen")} mb={4}>Código QR</Button>
                             {
-                                route.params.booking.hostedId === appDuck.user.id &&
+                                dayDiff > 0 && route.params.booking.hostedId === appDuck.user.id && !route.params.booking.deletedAt &&
                                 <Button colorScheme={'red'} onPress={() => cancelFunction()} mb={4}>Cancelar</Button>
                             }
 

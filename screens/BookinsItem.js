@@ -12,6 +12,7 @@ const BookinsItem = ({navigation, mb = 2, data, dataInvitation, dataBooking, app
 
     const {service, state} = data;
 
+
     return (
         <View flexDirection={'row'} height={100} bgColor={'#fff'} borderRadius={50} mb={mb}>
             <View flex={1} justifyContent={'center'} alignItems={'center'}>
@@ -38,9 +39,16 @@ const BookinsItem = ({navigation, mb = 2, data, dataInvitation, dataBooking, app
             </View>
             <View borderWidth={1} height={'60%'} alignSelf={'center'} borderColor={Colors.yellow}/>
             <View flex={1} justifyContent={'center'} alignItems={'center'} pr={2}>
-                <Button bgColor={dataInvitation.status == "PENDING" ? Colors.yellow : dataInvitation.status == "CONFIRMED" ? Colors.green : Colors.red} size={"xs"}>
-                    {dataInvitation.status == 'PENDING' ? "Pendiente" : dataInvitation.status == 'CONFIRMED' ? "Confirmado" : "Rechazado"}
-                </Button>
+                {
+                    dataBooking.deletedAt ?
+                        <Button bgColor={Colors.red} size={"xs"}>
+                            Cancelado
+                        </Button> :
+                        <Button bgColor={dataInvitation.status == "PENDING" ? Colors.yellow : dataInvitation.status == "CONFIRMED" ? Colors.green : Colors.orange} size={"xs"}>
+                            {dataInvitation.status == 'PENDING' ? "Pendiente" : dataInvitation.status == 'CONFIRMED' ? "Confirmado" : "Rechazado"}
+                        </Button>
+                }
+
             </View>
         </View>
     )
