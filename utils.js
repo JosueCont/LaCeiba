@@ -1,6 +1,7 @@
 import React from "react";
 import {Alert, Linking, Platform} from "react-native";
 import moment from "moment/moment";
+import _ from "lodash";
 
 
 export const wait = (timeout) => {
@@ -51,4 +52,34 @@ export const disabledDay = (extraOrdinaryDates = []) => {
     }
     return arrayDays;
 
+}
+
+
+export const errorCapture = async (e) => {
+    let status = 0;
+    let value = '';
+    let object = {};
+    let data = {};
+    let url = ''
+    console.log(e.response, 60)
+    console.log(_.has(e, 'data'), 62)
+    if (_.has(e, 'data')) {
+        console.log(e)
+        status = e?.status;
+        value = e?.data.message;
+        object = e?.data;
+        data = e?.config.data;
+        url = e?.request._url;
+    } else {
+        status = 0;
+        value = e;
+        object = e;
+    }
+    return {
+        status,
+        value,
+        object,
+        data,
+        url
+    }
 }

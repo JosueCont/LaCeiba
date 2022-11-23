@@ -8,7 +8,7 @@ import {TouchableOpacity} from "react-native";
 import moment from 'moment';
 import 'moment/locale/es';
 import {MaterialIcons} from "@expo/vector-icons";
-import {disabledDay} from "../utils";
+import {disabledDay, errorCapture} from "../utils";
 import ModalBookingConfirmation from "./Modals/ModalBookingConfirmation";
 import ModalInfo from "./Modals/ModalInfo";
 import {useFormik} from "formik";
@@ -153,7 +153,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 setTimeLeft(route?.params?.service?.timeToConfirm * 60);
             }
         } catch (e) {
-            alert(JSON.stringify(e))
+            let v = await errorCapture(e);
+            console.log(v)
             setModalInfo(true);
             setHourSelected(null);
             setTimeLeft(null);
@@ -170,26 +171,35 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 dueDate: date,
                 dueTime: hourSelected,
                 areaId: areaId,
-                guests: [],
-                users: [],
                 additionals: groupValues
             }
+            console.log(params)
 
             let guests = _.filter(people, {'type': 'INVITADO'});
+            let guestsArray = [];
             for (const person of guests) {
                 const guest = {
                     guestId: parseInt(person.data.person.idInvitado),
                     guestName: person.name,
                     guestEmail: person.data.person.mail
                 }
-                params.guests.push(guest);
+                guestsArray.push(guest);
             }
+            if (guestsArray.length > 0) {
+                params['guests'] = guestsArray;
+            }
+
 
             let partners = _.filter(people, {'type': 'SOCIO'})
+            let peopleArray = [];
             for (const person2 of partners) {
-                params.users.push(person2.data.person.user.id);
+
+                peopleArray.push(person2.data.person.user.id)
             }
 
+            if (peopleArray.length > 0) {
+                params['users'] = peopleArray;
+            }
             console.log(params)
 
             const response = await bookService(params, [appDuck.user.id]);
@@ -251,9 +261,10 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const unBlockHourFunction = async (hour) => {
         try {
             const response = await unBlockHour(`?dueDate=${date}&dueTime=${hour}`, [appDuck.user.id, areaId])
-            console.log(response.data)
+            return response.data;
         } catch (e) {
-            console.log(alert(JSON.stringify(e)))
+            let v = await errorCapture(e);
+            console.log(v)
         }
     }
 
@@ -459,12 +470,17 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                     onOpen={() => {
                                         getHoursFunction(date)
                                     }}
-                                    onValueChange={(v) => {
+                                    onValueChange={async (v) => {
                                         if (hourSelected) {
                                             unBlockHourFunction(v)
+                                        } else {
+                                            let val = await unBlockHourFunction(v)
+                                            if (val) {
+                                                setHourSelected(v);
+                                                validateHour(v);
+                                            }
                                         }
-                                        setHourSelected(v);
-                                        validateHour(v);
+
 
                                     }}
                                     placeholder="Seleccionar">

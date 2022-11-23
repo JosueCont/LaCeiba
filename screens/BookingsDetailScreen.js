@@ -4,11 +4,14 @@ import {Colors} from "../Colors";
 import {Image as ImageRN} from "react-native";
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import ModalConfirmRejectBook from './Modals/ModalConfirmRejectBook';
-import moment from "moment";
+import moment from 'moment-timezone'
 import {cancelBooking, getAdditionals, setReservationStatus} from "../api/Requests";
 import {connect} from "react-redux";
 import {useIsFocused} from "@react-navigation/native";
 import _ from "lodash";
+import ModalAsk from "./Modals/ModalAsk";
+
+moment.tz.setDefault("America/Mexico_City");
 
 const BookingDetailScreen = ({route, navigation, appDuck}) => {
     const [sliderPosition, setSliderPosition] = useState(0)
@@ -19,12 +22,14 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
     const [additionals, setAdditionals] = useState([]);
     const [groupValues, setGroupValues] = useState([]);
     const [dayDiff, setDayDiff] = useState(null);
+    const [modalCancelVisible, setModalCancelVisible] = useState(null);
 
 
     const isFocused = useIsFocused();
 
     useEffect(() => {
         if (isFocused) {
+
             setDayDiff(moment(invitation?.booking?.dueDate).diff(moment(), 'days'))
 
             if (invitation?.status === 'PENDING') {
@@ -200,7 +205,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                     {
                         (invitation?.status === 'CONFIRMED' && additionals.length > 0) &&
                         <View mb={6}>
-                            <Text mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>ADICIONALES</Text>
+                            <Text mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>SERVICIOS ADICIONALES</Text>
                             {
                                 additionals.map((item) => {
                                     return (
@@ -219,7 +224,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                             <Button onPress={() => {
                                 setActionBook("Confirm");
                                 setOpenModal(true);
-                            }} mb={4}>Confirmar </Button>
+                            }} mb={4}>Confirmar</Button>
                             <Button colorScheme={'red'} onPress={() => {
                                 setActionBook("Reject");
                                 setOpenModal(true);
@@ -232,7 +237,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                             <Button onPress={() => navigation.navigate("QRScreen")} mb={4}>Código QR</Button>
                             {
                                 dayDiff > 0 && route.params.booking.hostedId === appDuck.user.id && !route.params.booking.deletedAt &&
-                                <Button colorScheme={'red'} onPress={() => cancelFunction()} mb={4}>Cancelar</Button>
+                                <Button colorScheme={'red'} onPress={() => setModalCancelVisible(true)} mb={4}>Cancelar</Button>
                             }
 
                         </View>
@@ -252,6 +257,19 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                 onAccept={actionBook == "Confirm" ? AcceptBooking : RejectBooking}>
 
             </ModalConfirmRejectBook>
+            <ModalAsk
+                setVisible={setModalCancelVisible}
+                visible={modalCancelVisible}
+                text={'¿Deseas cancelar esta reservación?'}
+                title={'Cancelar reservación'}
+                textButton={'Sī'}
+                textNoButton={'No'}
+                iconType={'exclamation'}
+                close={true}
+                action={() => {
+                    cancelFunction()
+                    setModalCancelVisible(false)
+                }}/>
         </View>
 
     )
