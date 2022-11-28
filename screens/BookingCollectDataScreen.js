@@ -103,7 +103,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     }, [timeLeft]);
 
 
-
     useEffect(() => {
         cleanData();
         getAdditionalsFunction()
@@ -137,7 +136,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
     const getHoursFunction = async (dateString) => {
         const queryString = `?date=${dateString}`;
-        const response = await getIntervalsTime(queryString, [1]);
+        const response = await getIntervalsTime(queryString, [areaId]);
+        console.log(response.data, 141)
         setHours(response.data);
     }
 
@@ -171,8 +171,12 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 dueDate: date,
                 dueTime: hourSelected,
                 areaId: areaId,
-                additionals: groupValues
             }
+
+            if (groupValues.length > 0) {
+                params['additionals'] = groupValues
+            }
+
             console.log(params)
 
             let guests = _.filter(people, {'type': 'INVITADO'});
@@ -187,6 +191,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             }
             if (guestsArray.length > 0) {
                 params['guests'] = guestsArray;
+                //params['points'] = 3; //harcodeado
             }
 
 
@@ -211,7 +216,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 setSending(false)
             }
         } catch (e) {
-            alert(JSON.stringify(e))
+            errorCapture(e)
             setSending(false)
             console.log(e);
         }
@@ -261,6 +266,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const unBlockHourFunction = async (hour) => {
         try {
             const response = await unBlockHour(`?dueDate=${date}&dueTime=${hour}`, [appDuck.user.id, areaId])
+            console.log(response.data)
             return response.data;
         } catch (e) {
             let v = await errorCapture(e);
@@ -289,7 +295,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         try {
             setLoading(true)
             const response = await getPoints('', [appDuck.user.id]);
-            let pointsTotal = response.data.points;
+            let pointsTotal = response.data.totalPoints;
             setPoints(pointsTotal)
             setLoading(false)
 
@@ -324,6 +330,10 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         }
 
     }
+
+    useEffect(() => {
+        console.log(route?.params?.service)
+    }, [])
 
 
     return (
@@ -473,14 +483,10 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                     onValueChange={async (v) => {
                                         if (hourSelected) {
                                             unBlockHourFunction(v)
-                                        } else {
-                                            let val = await unBlockHourFunction(v)
-                                            if (val) {
-                                                setHourSelected(v);
-                                                validateHour(v);
-                                            }
                                         }
 
+                                        setHourSelected(v);
+                                        validateHour(v);
 
                                     }}
                                     placeholder="Seleccionar">
@@ -507,13 +513,31 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 }
                 <View mb={6}>
                     <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                        Puntos
+                    </Text>
+                    <View flexDir={'row'} mb={3}>
+                        <View flex={1}>
+                            <Text textAlign={'center'} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>
+                                {points}
+                            </Text>
+                            <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'xs'}>
+                                Disponibles
+                            </Text>
+                        </View>
+                        <View flex={1}>
+                            <Text textAlign={'center'} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>
+                                {_.filter(people, {'type': 'INVITADO'}).length * pointsDay}
+                            </Text>
+                            <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'xs'}>
+                                A utilizar
+                            </Text>
+                        </View>
+
+                    </View>
+
+
+                    <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                         Elige las personas
-                    </Text>
-                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'xs'}>
-                        Puntos disponibles {points}
-                    </Text>
-                    <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'xs'}>
-                        Puntos en uso {_.filter(people, {'type': 'INVITADO'}).length * pointsDay}
                     </Text>
                     <View height={75} bg={'#fff'} mb={2} flexDirection={'row'} borderRadius={10}>
                         <View width={65} alignItems={'center'} justifyContent={'center'}>

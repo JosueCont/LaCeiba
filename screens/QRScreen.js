@@ -11,7 +11,7 @@ import ViewShot, {captureRef} from 'react-native-view-shot';
 import * as MediaLibrary from 'expo-media-library';
 import {useIsFocused} from "@react-navigation/native";
 
-const QRScreen = ({navigation, appDuck}) => {
+const QRScreen = ({navigation, appDuck, route}) => {
     const [refreshing, setRefreshing] = useState(null);
     const [imageQRCode, setImageQRCode] = useState(null);
     const [modalVisible, setModalVisible] = useState(null);
@@ -90,37 +90,53 @@ const QRScreen = ({navigation, appDuck}) => {
 
                     <ViewShot ref={imgRef}>
 
-                        <View height={450} borderColor={Colors.green} borderWidth={0.5} borderRadius={20} overflow={'hidden'} mb={10}>
-                            <View flex={0.7} bgColor={Colors.green}>
-                                <View flex={1} justifyContent={'center'} alignItems={'center'}>
-                                    <Image source={imgLogo} width={100} height={100}></Image>
+                        {
+                            route.params?.card === true ?
+                                <View height={450} borderColor={Colors.green} borderWidth={0.5} borderRadius={20} overflow={'hidden'} mb={10}>
+                                    <View flex={0.7} bgColor={Colors.green}>
+                                        <View flex={1} justifyContent={'center'} alignItems={'center'}>
+                                            <Image source={imgLogo} width={100} height={100}></Image>
+                                        </View>
+                                        <View bgColor={Colors.greenV4} height={50} justifyContent={'center'}>
+                                            <Text textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>
+                                        </View>
+
+                                    </View>
+                                    <View flex={1} bgColor={'white'} borderBottomRadius={20}>
+                                        <View flex={1} alignItems={'center'} justifyContent={'center'}>
+                                            {
+                                                refreshing === true ?
+                                                    <Skeleton width={150} height={150}/>
+                                                    :
+                                                    <Image source={{uri: imageQRCode}} width={150} height={150}/>
+                                            }
+                                        </View>
+                                        <View flexDir={'row'} p={3}>
+                                            <View flex={1}>
+                                                <Text color={Colors.green} textAlign={'center'} fontSize={'xs'}>No. de acción</Text>
+                                                <Text color={Colors.green} textAlign={'center'} fontSize={'md'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.accion}</Text>
+                                            </View>
+                                            <View flex={1}>
+                                                <Text color={Colors.green} textAlign={'center'} fontSize={'xs'}>Tipo de acción</Text>
+                                                <Text color={Colors.green} textAlign={'center'} fontSize={'md'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.parentesco}</Text>
+                                            </View>
+                                        </View>
+                                    </View>
                                 </View>
-                                <View bgColor={Colors.greenV4} height={50} justifyContent={'center'}>
-                                    <Text textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>
+                                :
+                                <View height={400} borderColor={Colors.green} borderRadius={20} overflow={'hidden'} mb={10}>
+                                    <View flex={1} alignItems={'center'} justifyContent={'center'}>
+                                        {
+                                            refreshing === true ?
+                                                <Skeleton width={150} height={150}/>
+                                                :
+                                                <Image source={{uri: imageQRCode}} width={150} height={150}/>
+                                        }
+                                    </View>
                                 </View>
 
-                            </View>
-                            <View flex={1} bgColor={'white'} borderBottomRadius={20}>
-                                <View flex={1} alignItems={'center'} justifyContent={'center'}>
-                                    {
-                                        refreshing === true ?
-                                            <Skeleton width={150} height={150}/>
-                                            :
-                                            <Image source={{uri: imageQRCode}} width={150} height={150}/>
-                                    }
-                                </View>
-                                <View flexDir={'row'} p={3}>
-                                    <View flex={1}>
-                                        <Text color={Colors.green} textAlign={'center'} fontSize={'xs'}>No. de acción</Text>
-                                        <Text color={Colors.green} textAlign={'center'} fontSize={'md'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.accion}</Text>
-                                    </View>
-                                    <View flex={1}>
-                                        <Text color={Colors.green} textAlign={'center'} fontSize={'xs'}>Tipo de acción</Text>
-                                        <Text color={Colors.green} textAlign={'center'} fontSize={'md'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.parentesco}</Text>
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
+                        }
+
                     </ViewShot>
 
 
@@ -129,7 +145,11 @@ const QRScreen = ({navigation, appDuck}) => {
                             Muestra este código en {'\n'}la entrada del club para {'\n'}poder ingresar
                         </Text>
 
-                        <Button mb={2} onPress={() => captureScreenFunction()}>Descargar</Button>
+                        {
+                            route.params?.card === true &&
+                            <Button mb={2} onPress={() => captureScreenFunction()}>Descargar</Button>
+                        }
+
                         <Button onPress={() => navigation.goBack()}>Terminar</Button>
                     </View>
 

@@ -16,7 +16,7 @@ const QRInstructionsScreen = ({navigation}) => {
                     <Text fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={10}>
                         Aquí puedes consultar{'\n'}tu código para ingresar{'\n'}al club
                     </Text>
-                    <Button mb={4} onPress={() => navigation.navigate('QRScreen')}>Código QR</Button>
+                    <Button mb={4} onPress={() => navigation.navigate('QRScreen', {card: true})}>Código QR</Button>
                     <Button onPress={() => navigation.goBack()}>Regresar</Button>
                 </View>
             </View>

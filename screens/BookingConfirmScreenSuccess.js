@@ -20,7 +20,7 @@ const BookingConfirmScreenSuccess = ({route, navigation, appDuck}) => {
                         <Icon as={AntDesign} name={'checkcircleo'} color={Colors.yellow} size={'6xl'}/>
                     </View>
 
-                    <Text mb={5} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'xl'}>EL CAMPO DE GOLF HA SIDO RESERVADO CON ÉXITO</Text>
+                    <Text mb={5} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'xl'}>LA RESERVACIÓN HA SIDO GENERADA CON ÉXITO</Text>
                     
 
                     <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>FECHA Y HORA</Text>

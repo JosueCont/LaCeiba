@@ -111,7 +111,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
             </View>
             <View flex={1} mx={10}>
                 <ScrollView flexGrow={1} pt={10} showsVerticalScrollIndicator={false}>
-                    <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={18} textAlign={'center'}>CAMPO DE GOLF</Text>
+                    <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={18} textAlign={'center'}>{route.params.booking?.area?.service?.name}</Text>
                     <View borderWidth={1} borderColor={Colors.yellow} my={4}/>
 
                     <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={18} textAlign={'center'}>ID DE RESERVACIÓN: {route.params.booking.id}</Text>
@@ -237,7 +237,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                             <Button onPress={() => navigation.navigate("QRScreen")} mb={4}>Código QR</Button>
                             {
                                 dayDiff > 0 && route.params.booking.hostedId === appDuck.user.id && !route.params.booking.deletedAt &&
-                                <Button colorScheme={'red'} onPress={() => setModalCancelVisible(true)} mb={4}>Cancelar</Button>
+                                <Button colorScheme={'red'} onPress={() => setModalCancelVisible(true)} mb={4}>Cancelar reservación</Button>
                             }
 
                         </View>

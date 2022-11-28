@@ -7,17 +7,17 @@ import {Colors} from "../../Colors";
 import {LinearGradient} from "expo-linear-gradient";
 
 
-const ModalInfo = ({
-                       visible,
-                       setVisible,
-                       title = '',
-                       text = 'Texto informativo',
-                       textButton = 'Entendido',
-                       close = true,
-                       iconType = 'check',
-                       textNoButton = 'No',
-                       action
-                   }) => {
+const ModalAsk = ({
+                      visible,
+                      setVisible,
+                      title = '',
+                      text = 'Texto informativo',
+                      textButton = 'Entendido',
+                      close = true,
+                      iconType = 'check',
+                      textNoButton = 'No',
+                      action
+                  }) => {
 
     const [heightGradient, setHeightGradient] = useState(null);
     return (
@@ -98,4 +98,4 @@ const ModalInfo = ({
 };
 
 
-export default ModalInfo;
+export default ModalAsk;

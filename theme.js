@@ -88,6 +88,11 @@ export const theme = extendTheme({
             },
 
         },
+        Image: {
+            defaultProps: {
+                alt: 'images'
+            },
+        }
     },
     fontConfig: {
         Roboto: {

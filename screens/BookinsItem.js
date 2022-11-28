@@ -22,7 +22,7 @@ const BookinsItem = ({navigation, mb = 2, data, dataInvitation, dataBooking, app
             </View>
 
             <View flex={1} justifyContent={'center'}>
-                <Text color={Colors.green} fontSize={'12'} bold={true} width={'90%'}>{service}</Text>
+                <Text color={Colors.green} fontSize={'12'} bold={true} width={'90%'}>{dataInvitation?.booking?.area.service.name}</Text>
                 <Text color={Colors.green} fontSize={'10'} width={'90%'}>
                     {moment(dataInvitation?.booking?.dueDate, "YYYY-MM-DD").format("DD/MM/YYYY")}
                 </Text>

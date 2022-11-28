@@ -66,9 +66,10 @@ const BookingsScreen = ({navigation, appDuck}) => {
 
                     {
                         invitations.map((invitation, index) => {
+                            console.log(invitation)
                             return (
                                 <TouchableOpacity onPress={() => navigation.navigate('BookingsDetailScreen', {service: 'Campo de golf', state: "r", invitation: invitation, booking: bookings.find((booking) => booking.id == invitation?.booking?.id)})}>
-                                    <BookinsItem mb={4} dataInvitation={invitation} dataBooking={bookings.find((booking) => booking.id == invitation?.booking?.id)} data={{service: 'Campo de golf', state: invitation.status}}/>
+                                    <BookinsItem mb={4} dataInvitation={invitation} dataBooking={bookings.find((booking) => booking.id == invitation?.booking?.id)} data={{state: invitation.status}}/>
                                 </TouchableOpacity>
                             );
                         })
