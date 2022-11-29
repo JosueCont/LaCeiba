@@ -174,13 +174,9 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                 iconType={'exclamation'}
                 textButton={'Sí'}
                 text={'¿Deseas cerrar sesión?'}
-                setVisible={(v) => {
-                    if (v === true) {
-                        loggedOutAction()
-                    } else {
-                        setModalSessionVisible(false)
-                    }
-
+                action={() => {
+                    loggedOutAction()
+                    setModalSessionVisible(false)
                 }}
             />
         </DrawerContentScrollView>

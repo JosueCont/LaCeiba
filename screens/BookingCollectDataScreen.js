@@ -1,5 +1,4 @@
-import LayoutV4 from "./Layouts/LayoutV4";
-import {Button, Checkbox, FormControl, Icon, Select, Skeleton, Text, View} from "native-base";
+import {Button, Checkbox, FormControl, Icon, ScrollView, Select, Skeleton, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
@@ -16,6 +15,7 @@ import * as Yup from 'yup';
 import {bookService, cacheBookHour, getAdditionals, getIntervalsTime, getPoints, unBlockHour} from "../api/Requests";
 import _ from "lodash";
 import {useIsFocused} from "@react-navigation/native";
+import LayoutV3 from "./Layouts/LayoutV3";
 
 moment.locale('es');
 
@@ -58,7 +58,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             areaSelected: 0
         },
         onSubmit: (formValue) => {
-            console.log(44)
             sendConfirmationBooking(formValue)
         },
         validateOnChange: true,
@@ -104,13 +103,17 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
 
     useEffect(() => {
-        cleanData();
-        getAdditionalsFunction()
-        getPointsFunction()
-        console.log(route?.params?.service?.areas.length, 109)
-        if (route?.params?.service?.areas.length === 1) {
-            areaSelect(route?.params?.service?.areas[0].id)
+        if (isFocused) {
+            getAdditionalsFunction()
+            getPointsFunction()
+            if (route?.params?.service?.areas.length === 1) {
+                areaSelect(route?.params?.service?.areas[0].id)
+            }
         }
+    }, [isFocused])
+
+    useEffect(() => {
+        cleanData();
     }, [route?.params?.service?.id])
 
 
@@ -137,7 +140,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const getHoursFunction = async (dateString) => {
         const queryString = `?date=${dateString}`;
         const response = await getIntervalsTime(queryString, [areaId]);
-        console.log(response.data, 141)
         setHours(response.data);
     }
 
@@ -155,6 +157,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         } catch (e) {
             let v = await errorCapture(e);
             console.log(v)
+            alert(v.value)
             setModalInfo(true);
             setHourSelected(null);
             setTimeLeft(null);
@@ -164,9 +167,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
     const confirmBooking = async () => {
         try {
-
             setSending(true)
-            //CALL ENDPOINT
             let params = {
                 dueDate: date,
                 dueTime: hourSelected,
@@ -177,35 +178,31 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 params['additionals'] = groupValues
             }
 
-            console.log(params)
-
             let guests = _.filter(people, {'type': 'INVITADO'});
             let guestsArray = [];
             for (const person of guests) {
                 const guest = {
                     guestId: parseInt(person.data.person.idInvitado),
                     guestName: person.name,
-                    guestEmail: person.data.person.mail
+                    guestEmail: person.data.person.mail,
+                    points: pointsDay
                 }
                 guestsArray.push(guest);
             }
             if (guestsArray.length > 0) {
                 params['guests'] = guestsArray;
-                //params['points'] = 3; //harcodeado
             }
 
 
             let partners = _.filter(people, {'type': 'SOCIO'})
             let peopleArray = [];
             for (const person2 of partners) {
-
                 peopleArray.push(person2.data.person.user.id)
             }
 
             if (peopleArray.length > 0) {
                 params['users'] = peopleArray;
             }
-            console.log(params)
 
             const response = await bookService(params, [appDuck.user.id]);
             if (!response.data?.message) {
@@ -216,9 +213,9 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 setSending(false)
             }
         } catch (e) {
-            errorCapture(e)
+            let v = await errorCapture(e);
+            alert(v.value)
             setSending(false)
-            console.log(e);
         }
     }
 
@@ -252,13 +249,11 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         try {
             setLoading(true)
             const response = await getAdditionals('', [appDuck.user.id]);
-
-            console.log(response.data)
             setAdditionals(response.data)
             setLoading(false)
         } catch (e) {
-            alert(JSON.stringify(e))
-            console.log(e)
+            let v = await errorCapture(e);
+            alert(v.value)
         }
     }
 
@@ -266,11 +261,10 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const unBlockHourFunction = async (hour) => {
         try {
             const response = await unBlockHour(`?dueDate=${date}&dueTime=${hour}`, [appDuck.user.id, areaId])
-            console.log(response.data)
             return response.data;
         } catch (e) {
             let v = await errorCapture(e);
-            console.log(v)
+            alert(v.value)
         }
     }
 
@@ -299,34 +293,26 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             setPoints(pointsTotal)
             setLoading(false)
 
-        } catch (ex) {
-            console.log(ex)
-        } finally {
+        } catch (e) {
+            let v = await errorCapture(e);
+            alert(v.value)
         }
     }
 
 
-    const getGuestPoints = () => {
-        let invitados = _.filter(people, {'type': 'INVITADO'});
-        console.log(invitados)
-        return (invitados.length * pointsDay ? pointsDay : 0).toString();
-    }
-
-    const areaSelect = (v) => {
+    const areaSelect = async (v) => {
         try {
             setAreaId(v)
-            console.log(route?.params?.service?.areas, v, 302)
             let areaFilter = _.find(route?.params?.service?.areas, {'id': v});
-            console.log(areaFilter, date)
             if (date) {
                 let pointsDayValue = _.find(areaFilter?.calendarDays, {'day': moment(date).locale('en').format('dddd')}).points;
                 setPointsDay(pointsDayValue)
                 recalculePoints(pointsDayValue)
             }
-
             setArea(areaFilter)
         } catch (e) {
-            console.log(e)
+            let v = await errorCapture(e);
+            alert(v.value)
         }
 
     }
@@ -337,311 +323,323 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
 
     return (
-        <LayoutV4>
+        <LayoutV3>
             <View flex={1} mx={12} my={10}>
-                <View mb={6}>
-                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
-                        Instalación | Servicio
-                    </Text>
-                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>
-                        {route?.params?.service?.name}
-                    </Text>
-                </View>
+                <View flex={1}>
+                    <ScrollView flexGrow={1} showsVerticalScrollIndicator={false}>
+                        <View mb={6}>
+                            <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                                Instalación | Servicio
+                            </Text>
+                            <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>
+                                {route?.params?.service?.name}
+                            </Text>
+                        </View>
 
-                {
-                    route?.params?.service?.areas.length > 1 &&
-                    <View mb={4}>
-                        <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
-                            Áreas
-                        </Text>
                         {
-                            loading === true ?
-                                <Skeleton height={45} borderRadius={30}></Skeleton> :
-                                loading === false &&
-                                <FormControl isInvalid={errors.areaSelected}>
-                                    <Select
-                                        onOpen={() => {
+                            route?.params?.service?.areas.length > 1 &&
+                            <View mb={4}>
+                                <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                    Área
+                                </Text>
+                                {
+                                    loading === true ?
+                                        <Skeleton height={45} borderRadius={30}></Skeleton> :
+                                        loading === false &&
+                                        <FormControl isInvalid={errors.areaSelected}>
+                                            <Select
+                                                onOpen={() => {
 
-                                        }}
-                                        selectedValue={areaId}
-                                        onValueChange={(v) => {
-                                            areaSelect(v)
+                                                }}
+                                                selectedValue={areaId}
+                                                onValueChange={(v) => {
+                                                    areaSelect(v)
 
-                                        }}
-                                        placeholder="Seleccionar">
-                                        {
-                                            route?.params?.service?.areas.map((item) => {
-                                                return (
-                                                    <Select.Item label={item.name} value={item.id}/>
-                                                )
-                                            })
-                                        }
-                                    </Select>
-                                    <FormControl.ErrorMessage alignSelf={'center'}>
-                                        {errors.areaSelected}
-                                    </FormControl.ErrorMessage>
-                                </FormControl>
+                                                }}
+                                                placeholder="Seleccionar">
+                                                {
+                                                    _.sortBy(route?.params?.service?.areas, ['name'], ['asc']).map((item) => {
+                                                        return (
+                                                            <Select.Item label={item.name} value={item.id}/>
+                                                        )
+                                                    })
+                                                }
+                                            </Select>
+                                            <FormControl.ErrorMessage alignSelf={'center'}>
+                                                {errors.areaSelected}
+                                            </FormControl.ErrorMessage>
+                                        </FormControl>
+                                }
+                            </View>
                         }
-                    </View>
-                }
 
-                <View mb={6}>
-                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
-                        Fecha
-                    </Text>
-
-                    {
-                        showCalendar === true ?
-                            <Calendar
-                                minDate={route?.params?.service?.bookNextDay ? tomorrow : today}
-                                maxDate={todayPlus7}
-                                onDayPress={day => {
-                                    console.log(area)
-                                    if (area) {
-                                        let pointsDayValue = _.find(area?.calendarDays, {day: moment(day.dateString).locale('en').format('dddd')}).points;
-                                        setPointsDay(pointsDayValue)
-                                        recalculePoints(pointsDayValue)
-
-                                    }
-                                    setDate(day.dateString)
-                                    setFieldValue("date", day.dateString)
-                                    setShowCalendar(false)
-                                }}
-                                onDayLongPress={day => {
-                                    console.log('selected day', day);
-                                }}
-                                monthFormat={'MMMM yyyy'}
-                                onMonthChange={month => {
-                                    console.log('month changed', month);
-                                }}
-
-                                hideExtraDays={false}
-
-                                firstDay={1}
-                                onPressArrowLeft={subtractMonth => subtractMonth()}
-                                onPressArrowRight={addMonth => addMonth()}
-                                disableAllTouchEventsForDisabledDays={true}
-                                enableSwipeMonths={true}
-                                markedDates={disabledDay()}
-                                theme={{
-                                    'stylesheet.calendar.header': {
-                                        monthText: {
-                                            color: Colors.green,
-                                            fontWeight: '700',
-                                            fontSize: 20,
-                                        },
-                                        dayHeader: {
-                                            marginTop: 2,
-                                            marginBottom: 7,
-                                            width: 30,
-                                            textAlign: 'center',
-                                            fontSize: 11,
-                                            fontWeight: 'bold',
-                                            color: Colors.green
-                                        },
-                                    },
-                                    todayTextColor: Colors.green,
-                                    dayTextColor: Colors.green,
-                                    textDayFontSize: 14,
-                                    arrowColor: Colors.yellow,
-                                    width: '100%',
-                                    selectedDayBackgroundColor: Colors.green,
-                                    selectedDayTextColor: '#ffffff',
-                                }}
-                            />
-                            :
-                            <TouchableOpacity onPress={() => {
-                                setShowCalendar(!showCalendar)
-                            }}>
-                                <FormControl isInvalid={errors.date}>
-                                    <View height={50} bgColor={'#fff'} borderRadius={30} alignItems={'center'} justifyContent={'center'}>
-                                        <Text color={'#000'}>{date ? moment(date).format('dddd, DD MMMM YYYY') : 'Selecciona una fecha'}</Text>
-                                    </View>
-                                    <FormControl.ErrorMessage alignSelf={'center'}>
-                                        {errors.date}
-                                    </FormControl.ErrorMessage>
-                                </FormControl>
-                            </TouchableOpacity>
-                    }
-                </View>
-
-                <View mb={4}>
-                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
-                        Horario
-                    </Text>
-                    {
-                        loading === true ?
-                            <Skeleton height={45} borderRadius={30}></Skeleton> :
-                            loading === false &&
-                            <FormControl isInvalid={errors.hourSelected}>
-                                <Select
-                                    isDisabled={date == null}
-                                    selectedValue={hourSelected ? hourSelected : ''}
-                                    onOpen={() => {
-                                        getHoursFunction(date)
-                                    }}
-                                    onValueChange={async (v) => {
-                                        if (hourSelected) {
-                                            unBlockHourFunction(v)
-                                        }
-
-                                        setHourSelected(v);
-                                        validateHour(v);
-
-                                    }}
-                                    placeholder="Seleccionar">
-                                    {
-                                        hours.map((item) => {
-                                            return (
-                                                <Select.Item label={item} value={item}/>
-                                            )
-                                        })
-                                    }
-                                </Select>
-                                <FormControl.ErrorMessage alignSelf={'center'}>
-                                    {errors.hourSelected}
-                                </FormControl.ErrorMessage>
-                            </FormControl>
-                    }
-                </View>
-                {
-
-                    minutesLeft &&
-                    <View mb={2}>
-                        <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'sm'}>Tiempo para reservar {minutesLeft}:{secondsLeft}</Text>
-                    </View>
-                }
-                <View mb={6}>
-                    <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
-                        Puntos
-                    </Text>
-                    <View flexDir={'row'} mb={3}>
-                        <View flex={1}>
-                            <Text textAlign={'center'} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>
-                                {points}
+                        <View mb={6}>
+                            <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                Fecha
                             </Text>
-                            <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'xs'}>
-                                Disponibles
-                            </Text>
-                        </View>
-                        <View flex={1}>
-                            <Text textAlign={'center'} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>
-                                {_.filter(people, {'type': 'INVITADO'}).length * pointsDay}
-                            </Text>
-                            <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'xs'}>
-                                A utilizar
-                            </Text>
+
+                            {
+                                showCalendar === true ?
+                                    <Calendar
+                                        minDate={route?.params?.service?.bookNextDay ? tomorrow : today}
+                                        maxDate={todayPlus7}
+                                        onDayPress={day => {
+                                            console.log(area)
+                                            if (area) {
+                                                let pointsDayValue = _.find(area?.calendarDays, {day: moment(day.dateString).locale('en').format('dddd')}).points;
+                                                setPointsDay(pointsDayValue)
+                                                recalculePoints(pointsDayValue)
+
+                                            }
+                                            setDate(day.dateString)
+                                            setFieldValue("date", day.dateString)
+                                            setShowCalendar(false)
+                                        }}
+                                        onDayLongPress={day => {
+                                            console.log('selected day', day);
+                                        }}
+                                        monthFormat={'MMMM yyyy'}
+                                        onMonthChange={month => {
+                                            console.log('month changed', month);
+                                        }}
+
+                                        hideExtraDays={false}
+
+                                        firstDay={1}
+                                        onPressArrowLeft={subtractMonth => subtractMonth()}
+                                        onPressArrowRight={addMonth => addMonth()}
+                                        disableAllTouchEventsForDisabledDays={true}
+                                        enableSwipeMonths={true}
+                                        markedDates={disabledDay()}
+                                        theme={{
+                                            'stylesheet.calendar.header': {
+                                                monthText: {
+                                                    color: Colors.green,
+                                                    fontWeight: '700',
+                                                    fontSize: 20,
+                                                },
+                                                dayHeader: {
+                                                    marginTop: 2,
+                                                    marginBottom: 7,
+                                                    width: 30,
+                                                    textAlign: 'center',
+                                                    fontSize: 11,
+                                                    fontWeight: 'bold',
+                                                    color: Colors.green
+                                                },
+                                            },
+                                            todayTextColor: Colors.green,
+                                            dayTextColor: Colors.green,
+                                            textDayFontSize: 14,
+                                            arrowColor: Colors.yellow,
+                                            width: '100%',
+                                            selectedDayBackgroundColor: Colors.green,
+                                            selectedDayTextColor: '#ffffff',
+                                        }}
+                                    />
+                                    :
+                                    <TouchableOpacity onPress={() => {
+                                        setShowCalendar(!showCalendar)
+                                    }}>
+                                        <FormControl isInvalid={errors.date}>
+                                            <View height={50} bgColor={'#fff'} borderRadius={30} alignItems={'center'} justifyContent={'center'}>
+                                                <Text color={'#000'}>{date ? moment(date).format('dddd, DD MMMM YYYY') : 'Selecciona una fecha'}</Text>
+                                            </View>
+                                            <FormControl.ErrorMessage alignSelf={'center'}>
+                                                {errors.date}
+                                            </FormControl.ErrorMessage>
+                                        </FormControl>
+                                    </TouchableOpacity>
+                            }
                         </View>
 
-                    </View>
+                        <View mb={4}>
+                            <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                Horario
+                            </Text>
+                            {
+                                loading === true ?
+                                    <Skeleton height={45} borderRadius={30}></Skeleton> :
+                                    loading === false &&
+                                    <FormControl isInvalid={errors.hourSelected}>
+                                        <Select
+                                            isDisabled={date == null}
+                                            selectedValue={hourSelected ? hourSelected : ''}
+                                            onOpen={() => {
+                                                getHoursFunction(date)
+                                            }}
+                                            onValueChange={async (v) => {
+                                                if (hourSelected) {
+                                                    unBlockHourFunction(v)
+                                                }
 
+                                                setHourSelected(v);
+                                                validateHour(v);
 
-                    <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
-                        Elige las personas
-                    </Text>
-                    <View height={75} bg={'#fff'} mb={2} flexDirection={'row'} borderRadius={10}>
-                        <View width={65} alignItems={'center'} justifyContent={'center'}>
-                            <Icon as={MaterialIcons} name={'check-circle'} size={'2xl'} color={'#50C878'}></Icon>
+                                            }}
+                                            placeholder="Seleccionar">
+                                            {
+                                                hours.map((item) => {
+                                                    return (
+                                                        <Select.Item label={item} value={item}/>
+                                                    )
+                                                })
+                                            }
+                                        </Select>
+                                        <FormControl.ErrorMessage alignSelf={'center'}>
+                                            {errors.hourSelected}
+                                        </FormControl.ErrorMessage>
+                                    </FormControl>
+                            }
                         </View>
-                        <View flex={1} justifyContent={'center'}>
-                            <Text color={'#000'}>{appDuck.user.firstName} {appDuck.user.lastName}</Text>
-                            <Text color={'#000'} fontSize={11}>Socio organizador</Text>
-                        </View>
-                    </View>
-                    <View>
                         {
-                            people.map((person, index) => {
-                                return (
-                                    <View height={75} bg={'#fff'} mb={2} flexDirection={'row'}>
-                                        <View width={65} alignItems={'center'} justifyContent={'center'}>
-                                            <Icon as={MaterialIcons} name={'check-circle'} size={'2xl'} color={'#50C878'}></Icon>
-                                        </View>
-                                        <View flex={1} justifyContent={'center'}>
-                                            <Text fontSize={12} color={'#000'}>{person.name}</Text>
-                                            <Text color={'#000'} fontSize={10}>{person.type}</Text>
-                                        </View>
+                            minutesLeft &&
+                            <View mb={2}>
+                                <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'sm'}>Tiempo para reservar {minutesLeft}:{secondsLeft}</Text>
+                            </View>
+                        }
+
+                        {
+                            area?.maxPeople > 1 &&
+                            <View mb={6}>
+                                <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                    Puntos
+                                </Text>
+                                <View flexDir={'row'} mb={3}>
+                                    <View flex={1}>
+                                        <Text textAlign={'center'} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>
+                                            {points}
+                                        </Text>
+                                        <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'xs'}>
+                                            Disponibles
+                                        </Text>
+                                    </View>
+                                    <View flex={1}>
+                                        <Text textAlign={'center'} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>
+                                            {_.filter(people, {'type': 'INVITADO'}).length * pointsDay}
+                                        </Text>
+                                        <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'xs'}>
+                                            A utilizar
+                                        </Text>
+                                    </View>
+
+                                </View>
+
+
+                                <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                    Elige las personas
+                                </Text>
+
+                                {
+                                    (pointsDay && (people.length < area?.maxPeople - 1) && area?.maxPeople > 1) &&
+                                    <FormControl isInvalid={errors.peopleArray}>
                                         <TouchableOpacity onPress={() => {
-                                            removePerson(index)
+                                            let invitados = _.filter(people, function (o) {
+                                                if (o.type === 'INVITADO') return o
+                                            }).length;
+                                            let points = invitados * pointsDay;
+                                            console.log(points, 561)
+                                            navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points: points, pointsDay: pointsDay})
                                         }}>
-                                            <View flex={1} width={65} alignItems={'center'} justifyContent={'center'}>
-                                                <Icon as={MaterialIcons} name={'delete'} size={'2xl'} color={'red.500'}></Icon>
+                                            <View height={75} bg={'rgba(255,255, 255,1)'} mb={2} flexDirection={'row'} borderStyle={'dashed'} borderWidth={1.5}>
+                                                <View flex={1} justifyContent={'center'} alignItems={'center'}>
+                                                    <Text fontSize={14} color={'#000'}>Seleccionar persona</Text>
+                                                </View>
                                             </View>
                                         </TouchableOpacity>
+                                        <FormControl.ErrorMessage alignSelf={'center'}>
+                                            {errors.peopleArray}
+                                        </FormControl.ErrorMessage>
+                                    </FormControl>
+                                }
+
+
+                                <View height={75} bg={'#fff'} mb={2} flexDirection={'row'} borderRadius={10}>
+                                    <View width={65} alignItems={'center'} justifyContent={'center'}>
+                                        <Icon as={MaterialIcons} name={'check-circle'} size={'2xl'} color={'#50C878'}></Icon>
                                     </View>
-                                )
-                            })
-                        }
-                    </View>
-
-
-                    {
-                        (pointsDay && (people.length < area?.maxPeople - 1)) &&
-                        <FormControl isInvalid={errors.peopleArray}>
-                            <TouchableOpacity onPress={() => {
-                                let invitados = _.filter(people, function (o) {
-                                    if (o.type === 'INVITADO') return o
-                                }).length;
-                                let points = invitados * pointsDay;
-                                navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points: points})
-                            }}>
-                                <View height={75} bg={'rgba(255,255, 255,1)'} mb={2} flexDirection={'row'} borderStyle={'dashed'} borderWidth={1.5}>
-                                    <View flex={1} justifyContent={'center'} alignItems={'center'}>
-                                        <Text fontSize={14} color={'#000'}>Seleccionar persona</Text>
+                                    <View flex={1} justifyContent={'center'}>
+                                        <Text color={'#000'}>{appDuck.user.firstName} {appDuck.user.lastName}</Text>
+                                        <Text color={'#000'} fontSize={11}>Socio organizador</Text>
                                     </View>
                                 </View>
-                            </TouchableOpacity>
-                            <FormControl.ErrorMessage alignSelf={'center'}>
-                                {errors.peopleArray}
-                            </FormControl.ErrorMessage>
-                        </FormControl>
-                    }
-
-                </View>
-
-
-                {
-                    additionals.length > 0 &&
-                    <View mb={10} pl={2}>
-                        <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
-                            Servicios Adicionales
-                        </Text>
-                        {
-                            loading === true ?
-                                <Skeleton height={45} borderRadius={30}></Skeleton> :
-                                loading === false &&
-                                <Checkbox.Group
-                                    onChange={(v) => {
-                                        console.log(v, 453)
-                                        setGroupValues(v)
-                                    }}
-                                    _checkbox={{
-                                        bgColor: 'white',
-                                        borderWidth: 0.5,
-                                        _checked: {
-                                            bgColor: Colors.green,
-                                            borderColor: Colors.green
-                                        },
-                                        _icon: {
-                                            color: '#fff'
-                                        }
-                                    }}>
-
+                                <View>
                                     {
-                                        additionals.map((item) => {
+                                        people.map((person, index) => {
                                             return (
-                                                <Checkbox value={item} my={2} _text={{color: '#000'}}>
-                                                    {_.upperFirst(item.descServicio.toLowerCase())}
-                                                </Checkbox>
+                                                <View height={75} bg={'#fff'} mb={2} flexDirection={'row'}>
+                                                    <View width={65} alignItems={'center'} justifyContent={'center'}>
+                                                        <Icon as={MaterialIcons} name={'check-circle'} size={'2xl'} color={'#50C878'}></Icon>
+                                                    </View>
+                                                    <View flex={1} justifyContent={'center'}>
+                                                        <Text fontSize={12} color={'#000'}>{person.name}</Text>
+                                                        <Text color={'#000'} fontSize={10}>{person.type}</Text>
+                                                    </View>
+                                                    <TouchableOpacity onPress={() => {
+                                                        removePerson(index)
+                                                    }}>
+                                                        <View flex={1} width={65} alignItems={'center'} justifyContent={'center'}>
+                                                            <Icon as={MaterialIcons} name={'delete'} size={'2xl'} color={'red.500'}></Icon>
+                                                        </View>
+                                                    </TouchableOpacity>
+                                                </View>
                                             )
                                         })
                                     }
-                                </Checkbox.Group>
+                                </View>
+
+
+                            </View>
                         }
 
-                    </View>
-                }
 
-                <Button onPress={() => handleSubmit()} isLoading={sending}>Reservar</Button>
+                        {
+                            (route.params?.isGolf && additionals.length > 0) &&
+                            <View mb={10} pl={2}>
+                                <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                    Servicios Adicionales
+                                </Text>
+                                {
+                                    loading === true ?
+                                        <Skeleton height={45} borderRadius={30}></Skeleton> :
+                                        loading === false &&
+                                        <Checkbox.Group
+                                            onChange={(v) => {
+                                                console.log(v, 453)
+                                                setGroupValues(v)
+                                            }}
+                                            _checkbox={{
+                                                bgColor: 'white',
+                                                borderWidth: 0.5,
+                                                _checked: {
+                                                    bgColor: Colors.green,
+                                                    borderColor: Colors.green
+                                                },
+                                                _icon: {
+                                                    color: '#fff'
+                                                }
+                                            }}>
+
+                                            {
+                                                additionals.map((item) => {
+                                                    return (
+                                                        <Checkbox value={item} my={2} _text={{color: '#000'}}>
+                                                            {_.upperFirst(item.descServicio.toLowerCase())}
+                                                        </Checkbox>
+                                                    )
+                                                })
+                                            }
+                                        </Checkbox.Group>
+                                }
+
+                            </View>
+                        }
+                    </ScrollView>
+                </View>
+
+                <View>
+                    <Button onPress={() => handleSubmit()} isLoading={sending}>Reservar</Button>
+                </View>
             </View>
             <ModalBookingConfirmation
                 visible={modalConfirmBooking}
@@ -659,12 +657,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 text="Este horario ya ha sido apartado. Intenta seleccionar otro."
                 textButton="Aceptar">
             </ModalInfo>
-            {/* <ModalConfirmBooking
-                visible={modalConfirmBooking}
-                setVisible={setModalConfirmBooking}
-                text={'Esta reserva descontará 3 green fee y 3 puntos comprometidos'}
-            /> */}
-        </LayoutV4>
+
+        </LayoutV3>
     )
 }
 

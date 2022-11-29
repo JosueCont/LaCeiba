@@ -24,6 +24,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
     const [peopleSearch, setPeopleSearch] = useState([]);
     const [points, setPoints] = useState(null);
 
+    console.log(typeSelected, personNotValidText, 27)
     useEffect(() => {
         setLoading(true)
         getPersonsTypeFunction()
@@ -134,7 +135,8 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
         try {
             setLoading(true)
             const response = await getPoints('', [appDuck.user.id]);
-            let pointsTotal = response.data.points - route.params.points;
+            console.log(response.data, 138)
+            let pointsTotal = response.data.totalPoints - route.params.points;
             setPoints(pointsTotal)
         } catch (ex) {
             console.log(ex)
@@ -147,135 +149,154 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
         <LayoutV4>
             <View flex={1} mx={12} my={10}>
 
-
-                <View mb={6}>
-                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
-                        Seleccione a la persona que desea invitar
-                    </Text>
-                </View>
-
-                <View>
-                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
-                        Tipo de persona
-                    </Text>
-
-                    {
-                        loading === true ?
-                            <Skeleton mb={10} borderRadius={30}/> :
-                            loading === false &&
-                            <Select
-                                mb={4}
-                                defaultValue={""}
-                                selectedValue={typeSelected ? typeSelected : "Seleccionar"}
-                                onValueChange={(v) => {
-                                    setTextFilter('')
-                                    setTypeSelected(v);
-                                    setPersonNotValidText(null);
-
-                                }}
-                                placeholder="Seleccionar">
-                                {
-                                    personType.map((item) => {
-                                        return (
-                                            <Select.Item label={item.label} value={item.value}/>
-
-                                        )
-                                    })
-                                }
-                            </Select>
-                    }
-                    {
-                        (typeSelected === 'g' && points < 3) &&
-                        <Text textAlign={'center'} color={'red.500'} fontSize={'xs'} mb={4}>
-                            Actualmente cuentas con {points} puntos.{'\n'}Para agregar un invitado se requieren 3 puntos.
-                        </Text>
-                    }
+                <View flex={1}>
 
 
-                    {
-                        typeSelected &&
-                        <View mb={4}>
+                    <View flex={1}>
+                        <View mb={6}>
                             <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
-                                Elija a la persona
+                                Seleccione a la persona que desea invitar
                             </Text>
-                            <Input placeholder={'Buscar'} value={textFilter} onChangeText={(v) => {
-                                debounce_fun(v)
-                                setTextFilter(v)
-                                setPersonNotValidText(null);
-                            }}/>
                         </View>
-                    }
-                    {
-                        !(textFilter.length <= 0) && typeSelected &&
-                        <FormControl isInvalid={personNotValidText}>
+
+                        <View>
+                            <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                Tipo de persona
+                            </Text>
 
                             {
-                                !(textFilter.length <= 0) &&
-                                peopleSearch.map((item) => {
-                                    return (
-                                        <TouchableOpacity onPress={() => {
-                                            people.map(async (itemSub) => {
-                                                if (typeSelected == 'g') {
-                                                    if (itemSub.idInvitado == item.idInvitado) {
-                                                        itemSub['idStandard'] = itemSub.idInvitado;
-                                                        itemSub['valid'] = true;
-                                                        setPersonSelected(itemSub);
-                                                        setPersonNotValidText(null);
-                                                    }
-                                                } else if (typeSelected == 'p') {
-                                                    if (itemSub.id == item.id) {
-                                                        let validate = await validatePartnerFunction(itemSub.user.id);
-                                                        if (validate === true) {
-                                                            itemSub['idStandard'] = itemSub.id;
-                                                            itemSub['valid'] = true;
-                                                            setPersonSelected(itemSub);
-                                                            setPersonNotValidText(null);
-                                                        } else {
-                                                            itemSub['idStandard'] = itemSub.id;
-                                                            itemSub['valid'] = false;
-                                                            setPersonSelected(itemSub);
-                                                            setPersonNotValidText(`Esta persona no puede ser invitada en esta reservación. ${'\n'}Por favor, contacte a administración.`)
-                                                        }
-                                                    }
-                                                }
+                                loading === true ?
+                                    <Skeleton mb={10} borderRadius={30}/> :
+                                    loading === false &&
+                                    <Select
+                                        mb={4}
+                                        defaultValue={""}
+                                        selectedValue={typeSelected ? typeSelected : "Seleccionar"}
+                                        onValueChange={(v) => {
+                                            setTextFilter('')
+                                            setTypeSelected(v);
+                                            setPersonNotValidText(null);
+
+                                        }}
+                                        placeholder="Seleccionar">
+                                        {
+                                            personType.map((item) => {
+                                                return (
+                                                    <Select.Item label={item.label} value={item.value}/>
+
+                                                )
                                             })
-                                        }}>
-                                            <View backgroundColor={_.has(personSelected, 'idStandard') ? (_.get(personSelected, 'idStandard') === item.idInvitado || _.get(personSelected, 'idStandard') === item.id) ? Colors.green : Colors.greenV5 : Colors.greenV5} height={50} mb={2} justifyContent={'center'} pl={5} borderRadius={10}>
-                                                {
-                                                    typeSelected == 'g' ?
-                                                        <Text>{item.nombre + " " + item.apellidoPaterno}</Text>
-                                                        :
-                                                        <Text>{item.nombreSocio}</Text>
-                                                }
-                                            </View>
-                                        </TouchableOpacity>
-                                    )
-                                })
-
+                                        }
+                                    </Select>
                             }
                             {
-                                personNotValidText &&
-                                <Text textAlign={'center'} color={'red.500'} mb={2}>{personNotValidText}</Text>
+                                (typeSelected === 'g' && points < route.params?.pointsDay) &&
+                                <Text textAlign={'center'} color={'red.500'} fontSize={'xs'} mb={4}>
+                                    Actualmente cuentas con {points} punto(s).{'\n'}Para agregar un invitado se requieren {route.params?.pointsDay} puntos.
+                                </Text>
                             }
 
-                        </FormControl>
-                    }
+
+                            {
+                                (typeSelected && personNotValidText === null) &&
+                                <View mb={4}>
+                                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                        Elija a la persona
+                                    </Text>
+                                    <Input placeholder={'Buscar'} value={textFilter} onChangeText={(v) => {
+                                        debounce_fun(v)
+                                        setTextFilter(v)
+                                        setPersonNotValidText(null);
+                                    }}/>
+                                </View>
+                            }
+                            {
+                                (!(textFilter.length <= 0) && typeSelected && personNotValidText === null) &&
+                                <FormControl isInvalid={personNotValidText}>
+
+                                    {
+                                        !(textFilter.length <= 0) &&
+                                        peopleSearch.map((item) => {
+                                            return (
+                                                <TouchableOpacity onPress={() => {
+                                                    people.map(async (itemSub) => {
+                                                        if (typeSelected == 'g') {
+                                                            if (itemSub.idInvitado == item.idInvitado) {
+                                                                itemSub['idStandard'] = itemSub.idInvitado;
+                                                                itemSub['valid'] = true;
+                                                                setPersonSelected(itemSub);
+                                                                setPersonNotValidText(null);
+                                                            }
+                                                        } else if (typeSelected == 'p') {
+                                                            if (itemSub.id == item.id) {
+                                                                let validate = await validatePartnerFunction(itemSub.user.id);
+                                                                if (validate === true) {
+                                                                    itemSub['idStandard'] = itemSub.id;
+                                                                    itemSub['valid'] = true;
+                                                                    setPersonSelected(itemSub);
+                                                                    setPersonNotValidText(null);
+                                                                } else {
+                                                                    itemSub['idStandard'] = itemSub.id;
+                                                                    itemSub['valid'] = false;
+                                                                    setPersonSelected(itemSub);
+                                                                    setPersonNotValidText(`Esta persona no puede ser invitada en esta reservación. ${'\n'}Por favor, contacte a administración.`)
+                                                                }
+                                                            }
+                                                        }
+                                                    })
+                                                }}>
+                                                    <View backgroundColor={_.has(personSelected, 'idStandard') ? (_.get(personSelected, 'idStandard') === item.idInvitado || _.get(personSelected, 'idStandard') === item.id) ? Colors.green : Colors.greenV5 : Colors.greenV5} height={50} mb={2} justifyContent={'center'} pl={5} borderRadius={10}>
+                                                        {
+                                                            typeSelected == 'g' ?
+                                                                <Text>{item.nombre + " " + item.apellidoPaterno}</Text>
+                                                                :
+                                                                <Text>{item.nombreSocio}</Text>
+                                                        }
+                                                    </View>
+                                                </TouchableOpacity>
+                                            )
+                                        })
+
+                                    }
+                                    {
+                                        personNotValidText &&
+                                        <Text textAlign={'center'} color={'red.500'} mb={2}>{personNotValidText}</Text>
+                                    }
+
+                                </FormControl>
+                            }
 
 
+                        </View>
+
+                        {
+                            ((textFilter !== '' && peopleSearch.length === 0) && personNotValidText === null) &&
+                            <Text textAlign={'center'} color={'red.500'} mb={2}>Sin resultados</Text>
+                        }
+
+                    </View>
+
+
+                    <View>
+
+
+                        {
+                            personNotValidText === null &&
+                            <Button mb={2} isDisabled={((_.has(personSelected, 'valid') ? personSelected.valid === false : true) || !textFilter || (typeSelected === 'g' && points < route.params?.pointsDay))} onPress={() => {
+                                route?.params?.onAddPerson({type: typeSelected, person: personSelected})
+                                navigation.goBack();
+
+                            }}>
+                                Agregar
+                            </Button>
+                        }
+                        <Button colorScheme={'green'} onPress={() => {
+                            navigation.goBack();
+                        }}>
+                            Regresar
+                        </Button>
+                    </View>
                 </View>
-
-                {
-                    (textFilter !== '' && peopleSearch.length === 0) &&
-                    <Text textAlign={'center'} color={'red.500'} mb={2}>Sin resultados</Text>
-                }
-
-                <Button isDisabled={((_.has(personSelected, 'valid') ? personSelected.valid === false : true) || !textFilter || (typeSelected === 'g' && points < 3))} onPress={() => {
-                    navigation.goBack();
-                    route?.params?.onAddPerson({type: typeSelected, person: personSelected})
-                }}>
-                    Agregar
-                </Button>
-
             </View>
 
         </LayoutV4>

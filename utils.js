@@ -61,10 +61,7 @@ export const errorCapture = async (e) => {
     let object = {};
     let data = {};
     let url = ''
-    console.log(e.response, 60)
-    console.log(_.has(e, 'data'), 62)
     if (_.has(e, 'data')) {
-        console.log(e)
         status = e?.status;
         value = e?.data.message;
         object = e?.data;

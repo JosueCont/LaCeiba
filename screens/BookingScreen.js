@@ -4,20 +4,27 @@ import {ImageBackground, RefreshControl} from "react-native";
 import {getAllServices} from "../api/Requests";
 import LayoutV3 from "./Layouts/LayoutV3";
 import {Colors} from "../Colors";
+import {useIsFocused} from "@react-navigation/native";
+import _ from "lodash";
 
 const BookingScreen = ({navigation}) => {
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(null);
+    const isFocused = useIsFocused();
 
     useEffect(() => {
-        getServices();
-    }, [])
+        if (isFocused) {
+            getServices();
+        }
+    }, [isFocused])
 
     const getServices = async () => {
         try {
             setLoading(true);
             const response = await getAllServices('');
-            setServices(response.data.items);
+            let servicesSort = _.sortBy(response.data.items, ['name'], ['asc']);
+            setServices(servicesSort);
+
             setLoading(false);
         } catch (e) {
             alert(JSON.stringify(e))
@@ -58,7 +65,7 @@ const BookingScreen = ({navigation}) => {
                                         <View width={'100%'} height={180} position={'absolute'}>
                                             <View flex={1}>
                                                 <View flex={1} p={4}>
-                                                    <Text fontFamily={'titleConfortaaRegular'} fontSize={'lg'}>{service?.name} </Text>
+                                                    <Text fontFamily={'titleConfortaaRegular'} fontSize={'lg'}>{service?.name.toUpperCase()} </Text>
                                                 </View>
                                                 <View flex={1} flexDirection={'row'}>
                                                     <View flex={1}>
