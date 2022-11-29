@@ -24,11 +24,11 @@ axiosInstance.interceptors.request.use(async (request) => {
 
             if (Date.now() <= decodedToken.exp * 1000) {
                 request.headers.Authorization = `Bearer ${token.access_token}`;
-                console.log('No ha expirado.')
+                //console.log('No ha expirado.')
             } else {
 
                 isExpired = true
-                const {dispatch} = store; // direct access to redux store.
+                const {dispatch} = store;
 
                 try {
                     let baseURL = Constants.manifest.extra.production ? Constants.manifest.extra.URL : Constants.manifest.extra.URL_DEV;
@@ -39,7 +39,7 @@ axiosInstance.interceptors.request.use(async (request) => {
                     await AsyncStorage.setItem('@user', JSON.stringify(response.data))
                     dispatch(loggedAction(response.data))
                     request.headers.Authorization = `Bearer ${response.data.access_token}`;
-                    console.log('Expiro pero se actualizo.')
+                    //console.log('Expiro pero se actualizo.')
                 } catch (e) {
                     console.log(e.response, 43)
                     dispatch(loggedOutAction())

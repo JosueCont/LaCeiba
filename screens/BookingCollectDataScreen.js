@@ -7,7 +7,7 @@ import {TouchableOpacity} from "react-native";
 import moment from 'moment';
 import 'moment/locale/es';
 import {MaterialIcons} from "@expo/vector-icons";
-import {disabledDay, errorCapture} from "../utils";
+import {errorCapture} from "../utils";
 import ModalBookingConfirmation from "./Modals/ModalBookingConfirmation";
 import ModalInfo from "./Modals/ModalInfo";
 import {useFormik} from "formik";
@@ -104,11 +104,14 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
     useEffect(() => {
         if (isFocused) {
-            getAdditionalsFunction()
-            getPointsFunction()
-            if (route?.params?.service?.areas.length === 1) {
-                areaSelect(route?.params?.service?.areas[0].id)
-            }
+            setTimeout(() => {
+                getAdditionalsFunction()
+                getPointsFunction()
+                if (route?.params?.service?.areas.length === 1) {
+                    areaSelect(route?.params?.service?.areas[0].id)
+                }
+            }, 500)
+
         }
     }, [isFocused])
 
@@ -156,8 +159,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             }
         } catch (e) {
             let v = await errorCapture(e);
-            console.log(v)
-            alert(v.value)
             setModalInfo(true);
             setHourSelected(null);
             setTimeLeft(null);
@@ -261,6 +262,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const unBlockHourFunction = async (hour) => {
         try {
             const response = await unBlockHour(`?dueDate=${date}&dueTime=${hour}`, [appDuck.user.id, areaId])
+            console.log(response.data, 265)
             return response.data;
         } catch (e) {
             let v = await errorCapture(e);
@@ -311,8 +313,33 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             }
             setArea(areaFilter)
         } catch (e) {
+
             let v = await errorCapture(e);
             alert(v.value)
+        }
+
+    }
+
+
+    const disabledDay = () => {
+        try {
+            let areaDays = area.calendarDays;
+
+            let arrayDays = {};
+            if (route?.params?.service.bookNextDay) {
+                arrayDays[moment().format('YYYY-MM-DD')] = {disabled: true};
+            }
+
+            for (let i = 0; i < 7; i++) {
+                let currentDay = moment().add(i, 'days');
+                let dayObject = _.find(areaDays, {day: moment(currentDay).locale('en').format('dddd')});
+                if (dayObject.isActive === false) {
+                    arrayDays[currentDay.format('YYYY-MM-DD')] = {disabled: true};
+                }
+            }
+            return arrayDays;
+        } catch (e) {
+            console.log(e)
         }
 
     }
@@ -329,7 +356,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                     <ScrollView flexGrow={1} showsVerticalScrollIndicator={false}>
                         <View mb={6}>
                             <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
-                                Instalación | Servicio
+                                Reservación de
                             </Text>
                             <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>
                                 {route?.params?.service?.name}
@@ -381,10 +408,10 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                             {
                                 showCalendar === true ?
                                     <Calendar
+
                                         minDate={route?.params?.service?.bookNextDay ? tomorrow : today}
                                         maxDate={todayPlus7}
                                         onDayPress={day => {
-                                            console.log(area)
                                             if (area) {
                                                 let pointsDayValue = _.find(area?.calendarDays, {day: moment(day.dateString).locale('en').format('dddd')}).points;
                                                 setPointsDay(pointsDayValue)
@@ -396,14 +423,14 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                             setShowCalendar(false)
                                         }}
                                         onDayLongPress={day => {
-                                            console.log('selected day', day);
+                                            //console.log('selected day', day);
                                         }}
                                         monthFormat={'MMMM yyyy'}
                                         onMonthChange={month => {
-                                            console.log('month changed', month);
+                                            //console.log('month changed', month);
                                         }}
 
-                                        hideExtraDays={false}
+                                        hideExtraDays={true}
 
                                         firstDay={1}
                                         onPressArrowLeft={subtractMonth => subtractMonth()}
@@ -438,17 +465,19 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                         }}
                                     />
                                     :
-                                    <TouchableOpacity onPress={() => {
-                                        setShowCalendar(!showCalendar)
-                                    }}>
-                                        <FormControl isInvalid={errors.date}>
-                                            <View height={50} bgColor={'#fff'} borderRadius={30} alignItems={'center'} justifyContent={'center'}>
-                                                <Text color={'#000'}>{date ? moment(date).format('dddd, DD MMMM YYYY') : 'Selecciona una fecha'}</Text>
-                                            </View>
-                                            <FormControl.ErrorMessage alignSelf={'center'}>
-                                                {errors.date}
-                                            </FormControl.ErrorMessage>
-                                        </FormControl>
+                                    loading === true ?
+                                        <Skeleton height={45} borderRadius={30}></Skeleton> :
+                                        <TouchableOpacity style={{opacity: areaId ? 1 : 0.5}} disabled={areaId ? false : true} onPress={() => {
+                                            setShowCalendar(!showCalendar)
+                                        }}>
+                                            <FormControl isInvalid={errors.date}>
+                                                <View height={50} bgColor={'#fff'} borderRadius={30} alignItems={'center'} justifyContent={'center'}>
+                                                    <Text color={'#000'}>{date ? moment(date).format('dddd, DD MMMM YYYY') : 'Selecciona una fecha'}</Text>
+                                                </View>
+                                                <FormControl.ErrorMessage alignSelf={'center'}>
+                                                    {errors.date}
+                                                </FormControl.ErrorMessage>
+                                            </FormControl>
                                     </TouchableOpacity>
                             }
                         </View>
@@ -470,11 +499,19 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                             }}
                                             onValueChange={async (v) => {
                                                 if (hourSelected) {
-                                                    unBlockHourFunction(v)
+                                                    let r = await unBlockHourFunction(v)
+                                                    console.log(r, 503)
+                                                    if (r.status) {
+                                                        setHourSelected(v);
+                                                        validateHour(v);
+                                                    } else {
+                                                        alert('No fue posible desbloquear la hora.')
+                                                    }
+                                                } else {
+                                                    setHourSelected(v);
+                                                    validateHour(v);
                                                 }
 
-                                                setHourSelected(v);
-                                                validateHour(v);
 
                                             }}
                                             placeholder="Seleccionar">
@@ -532,16 +569,15 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
                                 {
                                     (pointsDay && (people.length < area?.maxPeople - 1) && area?.maxPeople > 1) &&
-                                    <FormControl isInvalid={errors.peopleArray}>
+                                    <FormControl mb={2} isInvalid={errors.peopleArray}>
                                         <TouchableOpacity onPress={() => {
                                             let invitados = _.filter(people, function (o) {
                                                 if (o.type === 'INVITADO') return o
                                             }).length;
                                             let points = invitados * pointsDay;
-                                            console.log(points, 561)
                                             navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points: points, pointsDay: pointsDay})
                                         }}>
-                                            <View height={75} bg={'rgba(255,255, 255,1)'} mb={2} flexDirection={'row'} borderStyle={'dashed'} borderWidth={1.5}>
+                                            <View height={75} bg={'rgba(255,255, 255,1)'} flexDirection={'row'} borderStyle={'dashed'} borderWidth={1.5}>
                                                 <View flex={1} justifyContent={'center'} alignItems={'center'}>
                                                     <Text fontSize={14} color={'#000'}>Seleccionar persona</Text>
                                                 </View>
@@ -605,7 +641,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                         loading === false &&
                                         <Checkbox.Group
                                             onChange={(v) => {
-                                                console.log(v, 453)
                                                 setGroupValues(v)
                                             }}
                                             _checkbox={{

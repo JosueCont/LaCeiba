@@ -6,6 +6,7 @@ import LayoutV3 from "./Layouts/LayoutV3";
 import {Colors} from "../Colors";
 import {useIsFocused} from "@react-navigation/native";
 import _ from "lodash";
+import {errorCapture} from "../utils";
 
 const BookingScreen = ({navigation}) => {
     const [services, setServices] = useState([]);
@@ -27,7 +28,8 @@ const BookingScreen = ({navigation}) => {
 
             setLoading(false);
         } catch (e) {
-            alert(JSON.stringify(e))
+            let v = await errorCapture(e);
+            alert(v.value)
 
         }
 
@@ -48,7 +50,6 @@ const BookingScreen = ({navigation}) => {
                     flexGrow={1}>
                     {
                         services.map((service, index) => {
-                            console.log(service)
                             return (
                                 <View mb={5}>
                                     <View>

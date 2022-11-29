@@ -1,6 +1,5 @@
 import React from "react";
 import {Alert, Linking, Platform} from "react-native";
-import moment from "moment/moment";
 import _ from "lodash";
 
 
@@ -37,22 +36,22 @@ export const dialCall = async (number) => {
 };
 
 
-export const disabledDay = (extraOrdinaryDates = []) => {
-    let arrayDays = {};
-    // se agregar el dia actual para poder desabilitarlo
-    arrayDays[moment().format('YYYY-MM-DD')] = {disabled: true};
-    // se agregan los lunes para desabilitarlos
-    for (let i = 1; i <= 7; i++) {
-        let currentDay = moment().add(i, 'days');
-        if (currentDay.day() === 1 && !extraOrdinaryDates.find(date => date === currentDay.format("YYYY-MM-DD"))) {
-            let date = {};
-            arrayDays[currentDay.format('YYYY-MM-DD')] = {disabled: true};
-
-        }
-    }
-    return arrayDays;
-
-}
+// export const disabledDay = (extraOrdinaryDates = []) => {
+//     let arrayDays = {};
+//     // se agregar el dia actual para poder desabilitarlo
+//     //arrayDays[moment().format('YYYY-MM-DD')] = {disabled: true};
+//     // se agregan los lunes para desabilitarlos
+//     for (let i = 1; i <= 7; i++) {
+//         let currentDay = moment().add(i, 'days');
+//         //if (currentDay.day() === 1 && !extraOrdinaryDates.find(date => date === currentDay.format("YYYY-MM-DD"))) {
+//         if (extraOrdinaryDates.find(date => date === currentDay.format("YYYY-MM-DD"))) {
+//             arrayDays[currentDay.format('YYYY-MM-DD')] = {disabled: true};
+//         }
+//     }
+//     console.log(extraOrdinaryDates,arrayDays, 52)
+//     return arrayDays;
+//
+// }
 
 
 export const errorCapture = async (e) => {
@@ -72,6 +71,13 @@ export const errorCapture = async (e) => {
         value = e;
         object = e;
     }
+    console.log({
+        status,
+        value,
+        object,
+        data,
+        url
+    })
     return {
         status,
         value,

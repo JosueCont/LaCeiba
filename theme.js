@@ -24,7 +24,7 @@ export const theme = extendTheme({
                 size: 'md'
             },
             defaultProps: {
-                colorScheme: 'green',
+               // colorScheme: 'green',
             },
         },
         Input: {
@@ -135,21 +135,22 @@ export const theme = extendTheme({
     },
     colors: {
         primary: {
-            50: '#E3F2F9',
-            100: '#C5E4F3',
-            200: '#A2D4EC',
-            300: '#7AC1E4',
-            400: '#47A9DA',
-            500: '#0088CC',
-            600: '#007AB8',
-            700: '#006BA1',
-            800: '#005885',
-            900: '#003F5E',
+            50: Colors.green,
+            100: Colors.green,
+            200: Colors.greenV2,
+            300: Colors.greenV3,
+            400: Colors.greenV4,
+            500: Colors.greenV5,
+            600: Colors.greenV2,
+            700: Colors.greenV2,
+            800: Colors.greenV5,
+
         },
         amber: {
             400: '#d97706',
         },
         green: {
+            300: Colors.greenV5,
             600: Colors.greenV2,
             800: Colors.greenV5,
         },

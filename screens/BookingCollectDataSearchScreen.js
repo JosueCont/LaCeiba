@@ -1,5 +1,4 @@
-import LayoutV4 from "./Layouts/LayoutV4";
-import {Button, FormControl, Input, Select, Skeleton, Text, View} from "native-base";
+import {Button, FormControl, Icon, Input, ScrollView, Select, Skeleton, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import React, {useEffect, useState} from "react";
 import {useFocusEffect} from '@react-navigation/native';
@@ -9,6 +8,7 @@ import {findPartnerQuery, getGuests, getPoints, validatePartner} from "../api/Re
 import _ from "lodash";
 import {TouchableOpacity} from "react-native";
 import {connect} from "react-redux";
+import {MaterialIcons} from "@expo/vector-icons";
 
 moment.locale('es');
 
@@ -21,6 +21,8 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
     const [people, setPeople] = useState([]);
     const [textFilter, setTextFilter] = useState('');
     const [personNotValidText, setPersonNotValidText] = useState(null);
+    const [personNotValid, setPersonNotValid] = useState(false);
+
     const [peopleSearch, setPeopleSearch] = useState([]);
     const [points, setPoints] = useState(null);
 
@@ -146,13 +148,14 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
     }
 
     return (
-        <LayoutV4>
+
+        <ScrollView _contentContainerStyle={{flex: 1}}>
             <View flex={1} mx={12} my={10}>
 
                 <View flex={1}>
 
 
-                    <View flex={1}>
+                    <View>
                         <View mb={6}>
                             <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                 Seleccione a la persona que desea invitar
@@ -210,72 +213,86 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                     }}/>
                                 </View>
                             }
+
+
                             {
                                 (!(textFilter.length <= 0) && typeSelected && personNotValidText === null) &&
-                                <FormControl isInvalid={personNotValidText}>
+                                <View my={10}>
+                                    <FormControl isInvalid={personNotValidText}>
 
-                                    {
-                                        !(textFilter.length <= 0) &&
-                                        peopleSearch.map((item) => {
-                                            return (
-                                                <TouchableOpacity onPress={() => {
-                                                    people.map(async (itemSub) => {
-                                                        if (typeSelected == 'g') {
-                                                            if (itemSub.idInvitado == item.idInvitado) {
-                                                                itemSub['idStandard'] = itemSub.idInvitado;
-                                                                itemSub['valid'] = true;
-                                                                setPersonSelected(itemSub);
-                                                                setPersonNotValidText(null);
-                                                            }
-                                                        } else if (typeSelected == 'p') {
-                                                            if (itemSub.id == item.id) {
-                                                                let validate = await validatePartnerFunction(itemSub.user.id);
-                                                                if (validate === true) {
-                                                                    itemSub['idStandard'] = itemSub.id;
+                                        {
+                                            !(textFilter.length <= 0) &&
+                                            peopleSearch.map((item) => {
+                                                let selected = _.has(personSelected, 'idStandard') ? (_.get(personSelected, 'idStandard') === item.idInvitado || _.get(personSelected, 'idStandard') === item.id) ? true : false : false;
+                                                return (
+                                                    <TouchableOpacity style={{borderWidth: 0.5, borderColor: Colors.green, marginBottom: 10, borderRadius: 10, backgroundColor: 'white'}} onPress={() => {
+                                                        people.map(async (itemSub) => {
+                                                            if (typeSelected == 'g') {
+                                                                if (itemSub.idInvitado == item.idInvitado) {
+                                                                    itemSub['idStandard'] = itemSub.idInvitado;
                                                                     itemSub['valid'] = true;
                                                                     setPersonSelected(itemSub);
                                                                     setPersonNotValidText(null);
-                                                                } else {
-                                                                    itemSub['idStandard'] = itemSub.id;
-                                                                    itemSub['valid'] = false;
-                                                                    setPersonSelected(itemSub);
-                                                                    setPersonNotValidText(`Esta persona no puede ser invitada en esta reservación. ${'\n'}Por favor, contacte a administración.`)
+                                                                }
+                                                            } else if (typeSelected == 'p') {
+                                                                if (itemSub.id == item.id) {
+                                                                    let validate = await validatePartnerFunction(itemSub.user.id);
+                                                                    if (validate === true) {
+                                                                        itemSub['idStandard'] = itemSub.id;
+                                                                        itemSub['valid'] = true;
+                                                                        setPersonSelected(itemSub);
+                                                                        setPersonNotValidText(null);
+                                                                    } else {
+                                                                        itemSub['idStandard'] = itemSub.id;
+                                                                        itemSub['valid'] = false;
+                                                                        setPersonSelected(itemSub);
+                                                                        setPersonNotValidText(`Esta persona no puede ser invitada en esta reservación. ${'\n'}Por favor, contacte a administración.`)
+                                                                    }
                                                                 }
                                                             }
-                                                        }
-                                                    })
-                                                }}>
-                                                    <View backgroundColor={_.has(personSelected, 'idStandard') ? (_.get(personSelected, 'idStandard') === item.idInvitado || _.get(personSelected, 'idStandard') === item.id) ? Colors.green : Colors.greenV5 : Colors.greenV5} height={50} mb={2} justifyContent={'center'} pl={5} borderRadius={10}>
-                                                        {
-                                                            typeSelected == 'g' ?
-                                                                <Text>{item.nombre + " " + item.apellidoPaterno}</Text>
-                                                                :
-                                                                <Text>{item.nombreSocio}</Text>
-                                                        }
-                                                    </View>
-                                                </TouchableOpacity>
-                                            )
-                                        })
+                                                        })
+                                                    }}>
+                                                        <View flexDir={'row'}
+                                                            //backgroundColor={_.has(personSelected, 'idStandard') ? (_.get(personSelected, 'idStandard') === item.idInvitado || _.get(personSelected, 'idStandard') === item.id) ? Colors.greenV6 : Colors.greenV5 : Colors.greenV5}
+                                                              height={50} mb={2} justifyContent={'center'} pl={5} borderRadius={10}>
+                                                            <View flex={1} justifyContent={'center'}>
+                                                                {
+                                                                    typeSelected == 'g' ?
+                                                                        <Text color={Colors.green}>{item.nombre + " " + item.apellidoPaterno}</Text>
+                                                                        :
+                                                                        <Text>{item.nombreSocio}</Text>
+                                                                }
+                                                            </View>
+                                                            <View justifyContent={'center'} pr={4}>
+                                                                {
+                                                                    selected &&
+                                                                    <Icon as={MaterialIcons} name={'check-circle'} color={Colors.green} size={'md'}></Icon>
 
-                                    }
-                                    {
-                                        personNotValidText &&
-                                        <Text textAlign={'center'} color={'red.500'} mb={2}>{personNotValidText}</Text>
-                                    }
+                                                                }
+                                                            </View>
 
-                                </FormControl>
+                                                        </View>
+                                                    </TouchableOpacity>
+                                                )
+                                            })
+
+                                        }
+                                        {
+                                            personNotValidText &&
+                                            <Text textAlign={'center'} color={'red.500'} mb={2}>{personNotValidText}</Text>
+                                        }
+
+                                    </FormControl>
+                                </View>
                             }
 
 
+                            {
+                                ((textFilter !== '' && peopleSearch.length === 0) && personNotValidText === null) &&
+                                <Text textAlign={'center'} color={'red.500'} mb={2}>Sin resultados</Text>
+                            }
                         </View>
-
-                        {
-                            ((textFilter !== '' && peopleSearch.length === 0) && personNotValidText === null) &&
-                            <Text textAlign={'center'} color={'red.500'} mb={2}>Sin resultados</Text>
-                        }
-
                     </View>
-
 
                     <View>
 
@@ -285,21 +302,21 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                             <Button mb={2} isDisabled={((_.has(personSelected, 'valid') ? personSelected.valid === false : true) || !textFilter || (typeSelected === 'g' && points < route.params?.pointsDay))} onPress={() => {
                                 route?.params?.onAddPerson({type: typeSelected, person: personSelected})
                                 navigation.goBack();
-
                             }}>
                                 Agregar
                             </Button>
                         }
-                        <Button colorScheme={'green'} onPress={() => {
+                        <Button bg={'primary.500'} _pressed={{bgColor: 'primary.50'}} onPress={() => {
                             navigation.goBack();
                         }}>
                             Regresar
                         </Button>
                     </View>
+
                 </View>
             </View>
 
-        </LayoutV4>
+        </ScrollView>
     )
 }
 
