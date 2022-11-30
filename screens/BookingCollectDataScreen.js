@@ -250,6 +250,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         try {
             setLoading(true)
             const response = await getAdditionals('', [appDuck.user.id]);
+            console.log(response.data)
             setAdditionals(response.data)
             setLoading(false)
         } catch (e) {
@@ -630,7 +631,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
 
                         {
-                            (route.params?.isGolf && additionals.length > 0) &&
+                            (route?.params?.service?.isGolf === true && additionals.length > 0) &&
                             <View mb={10} pl={2}>
                                 <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                     Servicios Adicionales
