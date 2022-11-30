@@ -26,7 +26,7 @@ import HelpScreen from "../screens/HelpScreen";
 import GroupsScreen from "../screens/GroupsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import BookingCollectDataScreen from "../screens/BookingCollectDataScreen";
-import BookingScreen from "../screens/BookingScreen";
+import BookingServicesScreen from "../screens/BookingServicesScreen";
 import BookingConfirmScreen from "../screens/BookingConfirmScreen";
 import GuestsScreen from "../screens/GuestsScreen";
 import MembershipsScreen from "../screens/MembershipsScreen";
@@ -131,7 +131,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'GroupsScreen'} component={GroupsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'ProfileScreen'} component={ProfileScreen} options={{title: ''}}/>
             <Drawer.Screen name={'BookingCollectDataScreen'} component={BookingCollectDataScreen} options={{title: ''}}/>
-            <Drawer.Screen name={'BookingScreen'} component={BookingScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'BookingServicesScreen'} component={BookingServicesScreen} options={{title: ''}}/>
             <Drawer.Screen name={'BookingConfirmScreen'} component={BookingConfirmScreen} options={{title: ''}}/>
             <Drawer.Screen name={'BookingConfirmScreenSuccess'} component={BookingConfirmScreenSuccess} options={{title: ''}}/>
             <Drawer.Screen name={'GuestsScreen'} component={GuestsScreen} options={{title: ''}}/>

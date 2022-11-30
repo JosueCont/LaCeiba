@@ -8,7 +8,7 @@ import {useIsFocused} from "@react-navigation/native";
 import _ from "lodash";
 import {errorCapture} from "../utils";
 
-const BookingScreen = ({navigation}) => {
+const BookingServicesScreen = ({navigation}) => {
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(null);
     const isFocused = useIsFocused();
@@ -91,4 +91,4 @@ const BookingScreen = ({navigation}) => {
     )
 }
 
-export default BookingScreen;
+export default BookingServicesScreen;

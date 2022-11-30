@@ -5,8 +5,6 @@ import bgButton from "../assets/bgButton.png";
 import {Image as ImageRN, ImageBackground, TouchableOpacity} from "react-native";
 import iconAccess from '../assets/iconAccess.png';
 import iconReserve from '../assets/iconReserve.png'
-import iconLocations from '../assets/iconLocations.png'
-import iconServices from '../assets/iconServices.png'
 import iconGuests from '../assets/iconGuests.png'
 import iconMembership from '../assets/iconMembership.png'
 import SliderCustom from "../components/SliderCustom/SliderCustom";
@@ -77,7 +75,7 @@ const HomeScreen = ({navigation, appDuck}) => {
                             </TouchableOpacity>
                         </View>
                         <View flex={1}>
-                            <TouchableOpacity onPress={() => validatePartnerFunction('BookingScreen')}>
+                            <TouchableOpacity onPress={() => validatePartnerFunction('BookingServicesScreen')}>
                                 <View alignItems={'center'} mb={2}>
                                     <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                         <Image source={iconReserve} style={{width: 45, resizeMode: 'contain'}}/>
@@ -89,33 +87,33 @@ const HomeScreen = ({navigation, appDuck}) => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View mb={4} flexDirection={'row'}>
-                        <View flex={1}>
-                            <TouchableOpacity onPress={() => navigation.navigate('InstallationsScreen')}>
-                                <View alignItems={'center'} mb={2}>
-                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                        <Image source={iconLocations} style={{width: 45, resizeMode: 'contain'}}/>
-                                    </ImageBackground>
-                                </View>
-                                <View>
-                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Instalaciones</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                        <View flex={1}>
-                            <TouchableOpacity onPress={() => navigation.navigate('ServicesScreen')}>
+                    {/*<View mb={4} flexDirection={'row'}>*/}
+                    {/*    <View flex={1}>*/}
+                    {/*        <TouchableOpacity onPress={() => navigation.navigate('InstallationsScreen')}>*/}
+                    {/*            <View alignItems={'center'} mb={2}>*/}
+                    {/*                <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>*/}
+                    {/*                    <Image source={iconLocations} style={{width: 45, resizeMode: 'contain'}}/>*/}
+                    {/*                </ImageBackground>*/}
+                    {/*            </View>*/}
+                    {/*            <View>*/}
+                    {/*                <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Instalaciones</Text>*/}
+                    {/*            </View>*/}
+                    {/*        </TouchableOpacity>*/}
+                    {/*    </View>*/}
+                    {/*    <View flex={1}>*/}
+                    {/*        <TouchableOpacity onPress={() => navigation.navigate('ServicesScreen')}>*/}
 
-                                <View alignItems={'center'} mb={2}>
-                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                        <Image source={iconServices} style={{width: 45, resizeMode: 'contain'}}/>
-                                    </ImageBackground>
-                                </View>
-                                <View>
-                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Servicios</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+                    {/*            <View alignItems={'center'} mb={2}>*/}
+                    {/*                <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>*/}
+                    {/*                    <Image source={iconServices} style={{width: 45, resizeMode: 'contain'}}/>*/}
+                    {/*                </ImageBackground>*/}
+                    {/*            </View>*/}
+                    {/*            <View>*/}
+                    {/*                <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Servicios</Text>*/}
+                    {/*            </View>*/}
+                    {/*        </TouchableOpacity>*/}
+                    {/*    </View>*/}
+                    {/*</View>*/}
                     <View mb={4} flexDirection={'row'}>
                         <View flex={1}>
                             <TouchableOpacity onPress={() => navigation.navigate('GuestsScreen')}>
