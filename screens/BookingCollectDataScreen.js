@@ -47,7 +47,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const tomorrow = new Date().setDate(new Date().getDate() + 1)
     const today = new Date().setDate(new Date().getDate())
     const todayPlus7 = new Date()
-    todayPlus7.setDate(new Date().getDate() + 7)
+    todayPlus7.setDate(new Date().getDate() + 6)
 
 
     const {touched, handleSubmit, errors, setFieldValue, resetForm} = useFormik({

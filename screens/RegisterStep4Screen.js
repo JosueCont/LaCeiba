@@ -1,109 +1,106 @@
-import React, {useEffect, useState} from "react";
-import {Button, FormControl, Input, Text, View} from "native-base";
+import React, {useState} from "react";
+import {Button, FormControl, Icon, Input, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import {registerConfirmPhone, registerSendConfirmPhone} from "../api/Requests";
-import ModalResendSMS from "./Modals/ModalResendSMS";
-import Constants from "expo-constants";
+import {registerPartner, signIn} from "../api/Requests";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {connect} from "react-redux";
-import {useIsFocused} from "@react-navigation/native";
+import {loggedAction} from "../redux/ducks/appDuck";
+import ModalInfo from "./Modals/ModalInfo";
+import Constants from "expo-constants";
+import {TouchableOpacity} from "react-native";
+import {MaterialIcons} from "@expo/vector-icons";
+import {errorCapture} from "../utils";
 
-const RegisterStep4Screen = ({navigation, route, navigationDuck}) => {
-    const [modalResendSMSVisible, setModalResendSMSVisible] = useState(null);
-    const [resendEnable, setResendEnable] = useState(null);
-    const [timeLeft, setTimeLeft] = useState(null);
-
-    const isFocused = useIsFocused();
-
+const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) => {
+    const [modalCompletedVisible, setModalCompletedVisible] = useState(null)
+    const [dataValues, setDataValues] = useState(null);
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
         initialValues: {
-            code: '',
+            password: '',
+            passwordConfirm: '',
         },
         onSubmit: (formValue) => {
-            console.log(formValue)
-            registerConfirmPhoneFuncion(formValue)
-
+            registerPartnerFuncion(formValue)
         },
         validateOnChange: true,
         validationSchema: Yup.object({
-            code: Yup.number().integer().required("Código de verificación es obligatorio"),
+            password: Yup
+                .string()
+                .matches(/\w*[a-z]\w*/, "La contraseña debe contener al menos una minúscula")
+                .matches(/\w*[A-Z]\w*/, "La contraseña debe contener al menos una mayúscula")
+                .matches(/\d/, "La contraseña debe contener al menos un número")
+                .min(8, ({min}) => `La contraseña debe ser de al menos ${8} caracteres.`)
+                .max(12, ({max}) => `La contraseña debe contener como máximo ${12} caracteres.`)
+                .required("La contraseña es obligatoria"),
+            passwordConfirm: Yup.string().required("La contraseña es obligatoria").oneOf([Yup.ref('password')], "Las contraseñas tienen que ser iguales."),
         })
-    });
+    })
+    const [showPasssword, setShowPassword] = useState(null)
+    const [showPassswordConfirm, setShowPasswordConfirm] = useState(null)
 
+    console.log(navigationDuck)
 
-
-    const registerConfirmPhoneFuncion = async (values) => {
-        try {
-            const data = {
-                phone: route.params.phone,
-                code: values.code
-            }
-            const response = await registerConfirmPhone(data);
-            console.log(response.data)
-            if (response.data.isValid === true) {
-                navigation.navigate('RegisterStep5Screen',
-                    {
-                        countryCode: route.params.countryCode,
-                        phone: route.params.phone,
-                        access_token: response.data.access_token,
-                    })
-            } else {
-
-                setModalResendSMSVisible(true)
-                console.log(response.data)
-            }
-        } catch (e) {
-            setModalResendSMSVisible(true)
-        }
+    const aliasGenerate = (email) => {
+        return email.split('@')[0] + '+' + getRandomInt(100).toString() + '@' + email.split('@')[1];
     }
 
-
-    const registerSendConfirmPhoneFunctionV2 = async () => {
+    const getRandomInt = (max) => {
+        return Math.floor(Math.random() * max);
+    }
+    const registerPartnerFuncion = async (values) => {
         try {
-
             const data = {
-                phone: Constants.manifest.extra.debug === true ? '+' + route.params.countryCode + route.params.phone : '+' + values.countryCode + navigationDuck.user.celular
+                firstName: navigationDuck.user.firstName,
+                lastName: navigationDuck.user.lastName,
+                email: Constants.manifest.extra.debug === true ? aliasGenerate(Constants.manifest.extra.debugEmail) : navigationDuck.user.email,
+                password: values.password,
+                confirm: values.passwordConfirm,
+                claveSocio: navigationDuck.user.claveSocio,
+                countryCode: '+' + route.params.countryCode,
+                phone: navigationDuck.user.celular
             }
 
-            console.log(data)
-            const response = await registerSendConfirmPhone(data);
-            setResendEnable(false)
-            setTimeLeft(30)
+            const headers = {
+                Accept: "application/json",
+                Authorization: `Bearer ${route.params.access_token}`
+            }
+
+            const response = await registerPartner(data, {headers: headers});
+
             console.log(response.data)
+            if (Constants.manifest.extra.debug === true) {
+                alert(data['email'].toString())
+            }
+
+
+            setDataValues(data)
+            setModalCompletedVisible(true)
         } catch (e) {
             console.log(e)
-            alert(JSON.stringify(e))
+            alert(e.toString())
         }
     }
 
+    const saveData = async () => {
 
-    const resentEnableFunction = () => {
-        setTimeout(() => {
-            setResendEnable(true)
-        }, 30000)
+        try {
+            const data = {
+                email: dataValues.email,
+                password: dataValues.password,
+                refresh: true,
+                pushToken: navigationDuck.pushToken
+            }
+            const response = await signIn(data)
+            await AsyncStorage.setItem('@user', JSON.stringify(response.data))
+            await loggedAction(response.data)
+        } catch (e) {
+            let v = await errorCapture(e);
+            alert(v.value)
+        }
+
     }
-
-
-    useEffect(() => {
-        if (timeLeft === 0) {
-            setTimeLeft(0)
-            setResendEnable(true)
-        }
-        if (!timeLeft) return;
-        const intervalId = setInterval(() => {
-
-            setTimeLeft(timeLeft - 1);
-        }, 1000);
-        return () => clearInterval(intervalId);
-    }, [timeLeft]);
-
-    useEffect(() => {
-        if (isFocused) {
-            setTimeLeft(30)
-        }
-    }, [isFocused])
-
 
     return (
         <Layout overlay={true}>
@@ -111,33 +108,61 @@ const RegisterStep4Screen = ({navigation, route, navigationDuck}) => {
             </View>
             <View flex={1}>
                 <View mx={20} mt={10}>
-                    <Text fontSize={'xl'} textAlign={'center'} fontFamily={'titleLight'} mb={8}>Confirmar código de validación</Text>
-
-                    <FormControl isInvalid={errors.code} mb={4}>
-                        <Text textAlign={'center'} mb={2}>Escriba los 4 dígitos enviados</Text>
+                    <FormControl isInvalid={errors.email} mb={4}>
+                        <Text textAlign={'center'} mb={2}>Correo electrónico</Text>
                         <Input
-                            returnKeyType={'done'}
-                            keyboardType={'number-pad'}
-                            maxLength={4}
-                            onChangeText={(v) => setFieldValue('code', v)}/>
+                            autoCapitalize={'none'}
+                            autoCorrect={false}
+                            keyboardType={'email-address'}
+                            defaultValue={navigationDuck.user.email}
+                            editable={false}
+                        />
                         <FormControl.ErrorMessage>
-                            {errors.code}
+                            {errors.email}
                         </FormControl.ErrorMessage>
                     </FormControl>
-                    <Button mb={2} onPress={() => registerSendConfirmPhoneFunctionV2()} isDisabled={!resendEnable}><Text fontSize={12}>Reenviar SMS {timeLeft !== 0 && `(${timeLeft})`}</Text></Button>
-
+                    <FormControl isInvalid={errors.password} mb={4}>
+                        <Text textAlign={'center'} mb={2}>Contraseña</Text>
+                        <Input
+                            onChangeText={(v) => setFieldValue('password', v)}
+                            type={showPasssword ? "text" : "password"}
+                            InputRightElement={
+                                <TouchableOpacity onPress={() => setShowPassword(!showPasssword)}>
+                                    <Icon as={<MaterialIcons name={showPasssword ? "visibility" : "visibility-off"}/>} size={5} mr="2" color="muted.400"/>
+                                </TouchableOpacity>
+                            }
+                        />
+                        <FormControl.ErrorMessage>
+                            {errors.password}
+                        </FormControl.ErrorMessage>
+                    </FormControl>
+                    <FormControl isInvalid={errors.passwordConfirm} mb={4}>
+                        <Text textAlign={'center'} mb={2}>Repetir contraseña</Text>
+                        <Input
+                            onChangeText={(v) => setFieldValue('passwordConfirm', v)}
+                            type={showPassswordConfirm ? "text" : "password"}
+                            InputRightElement={
+                                <TouchableOpacity onPress={() => setShowPasswordConfirm(!showPassswordConfirm)}>
+                                    <Icon as={<MaterialIcons name={showPassswordConfirm ? "visibility" : "visibility-off"}/>} size={5} mr="2" color="muted.400"/>
+                                </TouchableOpacity>
+                            }
+                        />
+                        <FormControl.ErrorMessage>
+                            {errors.passwordConfirm}
+                        </FormControl.ErrorMessage>
+                    </FormControl>
                     <Button onPress={() => handleSubmit()}>Continuar</Button>
                 </View>
             </View>
-            <ModalResendSMS
-                visible={modalResendSMSVisible}
-                setVisible={(v) => {
-                    registerSendConfirmPhoneFunctionV2()
-                    setModalResendSMSVisible(v)
+            <ModalInfo
+                visible={modalCompletedVisible}
+                setVisible={() => {
+                    saveData();
+                    setModalCompletedVisible(false)
                 }}
-                text={'Verificación fallida'}
-                textButton={'Reenviar SMS'}
-                textButtonCancel={'Cancelar'}
+                text={'Registro\ncompletado'}
+                textButton={'Terminar'}
+                close={false}
             />
         </Layout>
     )
@@ -149,4 +174,4 @@ const mapState = (state) => {
     }
 }
 
-export default connect(mapState)(RegisterStep4Screen)
+export default connect(mapState, {loggedAction})(RegisterStep4Screen);

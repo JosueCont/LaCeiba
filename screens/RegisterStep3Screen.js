@@ -1,57 +1,111 @@
-import React, {useState} from "react";
-import {Button, FormControl, Input, Select, Text, View} from "native-base";
+import React, {useEffect, useState} from "react";
+import {Button, FormControl, Input, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import {registerSendConfirmPhone} from "../api/Requests";
-import {connect} from "react-redux";
-import {CountriesArray} from "../CountriesArray";
+import {registerConfirmEmail, registerSendConfirmEmail} from "../api/Requests";
+import ModalResendSMS from "./Modals/ModalResendSMS";
 import Constants from "expo-constants";
-import _ from "lodash";
+import {connect} from "react-redux";
+import {useIsFocused} from "@react-navigation/native";
+import {errorCapture} from "../utils";
 
-const RegisterStep3Screen = ({navigation, navigationDuck}) => {
-    const [phoneDebug, setPhoneDebug] = useState(null);
+const RegisterStep3Screen = ({navigation, route, navigationDuck}) => {
+    const [modalResendSMSVisible, setModalResendSMSVisible] = useState(null);
+    const [resendEnable, setResendEnable] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(null);
+
+    const isFocused = useIsFocused();
+
+    console.log(route.params)
     const {touched, handleSubmit, errors, setFieldValue} = useFormik({
         initialValues: {
-            countryCode: ''
+            code: '',
         },
         onSubmit: (formValue) => {
-            registerSendConfirmPhoneFunction(formValue)
+            console.log(formValue)
+            registerConfirmPhoneFuncion(formValue)
 
         },
         validateOnChange: true,
         validationSchema: Yup.object({
-            countryCode: Yup.string().required("El país es obligatorio")
+            code: Yup.number().integer().required("Código de verificación es obligatorio"),
         })
     });
 
-    const registerSendConfirmPhoneFunction = async (values) => {
+
+    const registerConfirmPhoneFuncion = async (values) => {
         try {
-            const data = {
-                phone: Constants.manifest.extra.debug === true ? '+' + values.countryCode + phoneDebug : '+' + values.countryCode + navigationDuck.user.celular
-            }
+            // const data = {
+            //     phone: route.params.phone,
+            //     code: values.code
+            // }
 
-            console.log(data)
-            const response = await registerSendConfirmPhone(data);
-            console.log(response.data)
-            navigation.navigate('RegisterStep4Screen',
-                {
-                    countryCode: values.countryCode,
-                    phone: response.data.to
+            let data = {
+                email: "couoheduardo@icloud.com",
+                code: values.code
+            }
+            const response = await registerConfirmEmail(data);
+            if (response.data.isValid === true) {
+
+                navigation.navigate('RegisterStep4Screen', {
+                    access_token: response.data.access_token,
                 })
-        } catch (e) {
-            console.log(e)
-            if (_.has(e, 'status')) {
-                alert(e.data.message)
             } else {
-                alert(JSON.stringify(e))
-            }
+                console.log(60)
 
+                setModalResendSMSVisible(true)
+                console.log(response.data)
+            }
+        } catch (e) {
+            setModalResendSMSVisible(true)
         }
     }
 
 
-    console.log(navigationDuck)
+    const registerSendConfirmPhoneFunctionV2 = async () => {
+        try {
+            let data = {
+                name: navigationDuck.user.firstName + ' ' + navigationDuck.user.lastName,
+                email: Constants.manifest.extra.debug === true ? aliasGenerate(Constants.manifest.extra.debugEmail) : navigationDuck.user.email,
+            }
+            const response = await registerSendConfirmEmail(data);
+            setResendEnable(false)
+            setTimeLeft(30)
+            console.log(response.data)
+        } catch (e) {
+            let v = await errorCapture(e);
+            alert(v.value)
+        }
+    }
+
+
+    const resentEnableFunction = () => {
+        setTimeout(() => {
+            setResendEnable(true)
+        }, 30000)
+    }
+
+
+    useEffect(() => {
+        if (timeLeft === 0) {
+            setTimeLeft(0)
+            setResendEnable(true)
+        }
+        if (!timeLeft) return;
+        const intervalId = setInterval(() => {
+
+            setTimeLeft(timeLeft - 1);
+        }, 1000);
+        return () => clearInterval(intervalId);
+    }, [timeLeft]);
+
+    useEffect(() => {
+        if (isFocused) {
+            setTimeLeft(30)
+        }
+    }, [isFocused])
+
 
     return (
         <Layout overlay={true}>
@@ -59,70 +113,42 @@ const RegisterStep3Screen = ({navigation, navigationDuck}) => {
             </View>
             <View flex={1}>
                 <View mx={20} mt={10}>
+                    <Text fontSize={'xl'} textAlign={'center'} fontFamily={'titleLight'} mb={8}>Confirmar código de validación</Text>
 
-
-                    <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={8}>Verificar número móvil</Text>
-
-
-                    <FormControl isInvalid={errors.countryCode} mb={4}>
-                        <Text textAlign={'center'} mb={2}>Selecciona el país</Text>
-                        <Select
-                            onValueChange={(v) => {
-                                setFieldValue('countryCode', v)
-                            }}
-                            placeholder="Seleccionar">
-                            {
-                                CountriesArray.map((item) => {
-                                    return (
-                                        <Select.Item label={item.nombre} value={item.phone_code}/>
-                                    )
-                                })
-                            }
-                        </Select>
-
+                    <FormControl isInvalid={errors.code} mb={4}>
+                        <Text textAlign={'center'} mb={2}>Escriba los 5 dígitos enviados</Text>
+                        <Input
+                            returnKeyType={'done'}
+                            keyboardType={'number-pad'}
+                            maxLength={5}
+                            onChangeText={(v) => setFieldValue('code', v)}/>
                         <FormControl.ErrorMessage>
-                            {errors.countryCode}
+                            {errors.code}
                         </FormControl.ErrorMessage>
                     </FormControl>
-
-                    {
-                        Constants.manifest.extra.debug === true &&
-                        <FormControl mb={4}>
-                            <Text textAlign={'center'} mb={2}>Phones</Text>
-                            <Select
-                                onValueChange={(v) => {
-                                    setPhoneDebug(v)
-                                }}
-                                placeholder="Seleccionar">
-                                <Select.Item label={'Lalo'} value={'9991979545'}/>
-                                <Select.Item label={'Lucks'} value={'9995759065'}/>
-                                <Select.Item label={'Isa'} value={'9991744806'}/>
-                            </Select>
-                        </FormControl>
-                    }
-
-
-                    <FormControl mb={4}>
-                        <Text textAlign={'center'} mb={2}>Ingresa tu número móvil</Text>
-                        <Input
-                            keyboardType={'phone-pad'}
-                            returnKeyType={'done'}
-                            defaultValue={navigationDuck.user.celular}
-                            maxLength={10}
-                            editable={false}
-                        />
-                    </FormControl>
-
-                    <Text mb={6} textAlign={'center'} fontSize={'xs'}>Recibirás un SMS con el código de confirmación</Text>
-
+                    <Button mb={2} onPress={() => registerSendConfirmPhoneFunctionV2()} isDisabled={!resendEnable}><Text fontSize={12}>Reenviar {timeLeft !== 0 && `(${timeLeft})`}</Text></Button>
 
                     <Button onPress={() => handleSubmit()}>Continuar</Button>
                 </View>
             </View>
+            <ModalResendSMS
+                visible={modalResendSMSVisible}
+                setVisible={setModalResendSMSVisible}
+                text={'Verificación fallida'}
+                textButton={'Reenviar'}
+                textButtonCancel={'Cancelar'}
+                action={(v) => {
+                    if (v === true) {
+                        registerSendConfirmPhoneFunctionV2()
+                        setModalResendSMSVisible(false)
+                    } else {
+                        setModalResendSMSVisible(false)
+                    }
+                }}
+            />
         </Layout>
     )
 }
-
 
 const mapState = (state) => {
     return {

@@ -86,3 +86,7 @@ export const errorCapture = async (e) => {
         url
     }
 }
+
+export const aliasGenerate = (email) => {
+    return email.split('@')[0] + '+' + getRandomInt(100).toString() + '@' + email.split('@')[1];
+}

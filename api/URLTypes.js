@@ -25,5 +25,8 @@ export const URLTypes = {
     GET_POINTS: '/v1/users/{{param}}/partners/points',
     SET_RESERVATION_STATUS: '/v1/bookings/invitations/{{param}}',
     GET_ADDITIONALS: '/v1/users/{{param}}/partners/additionals',
-    CANCEL_BOOKING: '/v1/bookings/{{param}}/cancel'
+    CANCEL_BOOKING: '/v1/bookings/{{param}}/cancel',
+    REGISTER_SEND_CONFIRM_EMAIL: '/v1/auth/partner/send-confirm-email',
+    REGISTER_CONFIRM_EMAIL: '/v1/auth/partner/confirm-email',
+
 };

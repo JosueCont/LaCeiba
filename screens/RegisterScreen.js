@@ -105,7 +105,7 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                             <FormControl isInvalid={errors.numberAction} mb={4}>
                                 <Text textAlign={'center'} mb={2}>Número de acción</Text>
                                 <Input
-                                    maxLength={3}
+                                    maxLength={4}
                                     returnKeyType={'done'}
                                     keyboardType={'number-pad'}
                                     onChangeText={(v) => setFieldValue('numberAction', v)}/>

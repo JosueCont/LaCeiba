@@ -6,7 +6,7 @@ import {AntDesign} from "@expo/vector-icons";
 import {Colors} from "../../Colors";
 import {LinearGradient} from "expo-linear-gradient";
 
-const ModalResendSMS = ({visible, setVisible, text = 'Texto informativo', textButton = 'Reenviar SMS', textButtonCancel = 'Cancelar'}) => {
+const ModalResendSMS = ({visible, setVisible, text = 'Texto informativo', textButton = 'Reenviar SMS', textButtonCancel = 'Cancelar', action}) => {
     const [heightGradient, setHeightGradient] = useState(null);
 
 
@@ -46,8 +46,8 @@ const ModalResendSMS = ({visible, setVisible, text = 'Texto informativo', textBu
                     </View>
                     <View>
                         <Text style={styles.modalText} mb={6} fontSize={'lg'}>{text}</Text>
-                        <Button colorScheme={'green'} onPress={() => setVisible(false)} mb={2}>{textButton}</Button>
-                        <Button colorScheme={'green'} onPress={() => setVisible(false)}>{textButtonCancel}</Button>
+                        <Button colorScheme={'green'} onPress={() => action(true)} mb={2}>{textButton}</Button>
+                        <Button colorScheme={'green'} onPress={() => action(false)}>{textButtonCancel}</Button>
 
                     </View>
                 </View>

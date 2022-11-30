@@ -28,7 +28,6 @@ const BookingsScreen = ({navigation, appDuck}) => {
     }
 
     const getInvitations = async () => {
-        console.log(appDuck.user.id)
         const queryString = `?userId=${appDuck.user.id}&limit=50`;
 
         const response = await getAllInvitations(queryString);
@@ -52,8 +51,8 @@ const BookingsScreen = ({navigation, appDuck}) => {
         <LayoutV3>
             <View flex={1} mx={8}>
 
-                <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Mis reservaciones</Text>
                 <ScrollView
+                    showsVerticalScrollIndicator={false}
                     refreshControl={
                         <RefreshControl
                             tintColor={Colors.green}
@@ -63,6 +62,7 @@ const BookingsScreen = ({navigation, appDuck}) => {
                     }
                     flexGrow={1}>
 
+                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Mis reservaciones</Text>
 
                     {
                         invitations.map((invitation, index) => {
