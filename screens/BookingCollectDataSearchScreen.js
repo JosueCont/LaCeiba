@@ -26,7 +26,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
     const [peopleSearch, setPeopleSearch] = useState([]);
     const [points, setPoints] = useState(null);
 
-    console.log(typeSelected, personNotValidText, 27)
+    console.log(appDuck.user, 27)
     useEffect(() => {
         setLoading(true)
         getPersonsTypeFunction()
@@ -75,6 +75,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
             const queryString = `?q=${textFilter}&&limit=5&userId=not_null`;
             const response = await findPartnerQuery(queryString);
             let ignorePersons = route.params.currentPeople.map((item) => item.type === 'SOCIO' && item.data.person.idStandard);
+            ignorePersons.push(appDuck.user?.partner?.id)
             let data = _.filter(response.data.items, function (o) {
                 return !ignorePersons.includes(o.id) && o.estatus === "Y";
             });
@@ -96,9 +97,6 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
         if (typeSelected == 'g') {
             setPeopleSearch(people.filter((item) => item.nombre.toLowerCase().includes(v.toLowerCase()) || item.apellidoPaterno.toLowerCase().includes(v.toLowerCase()) || item.apellidoMaterno.toLowerCase().includes(v.toLowerCase())))
         } else if (typeSelected == 'p') {
-            console.log(people)
-            console.log(v.toLowerCase())
-
             setPeopleSearch(people.filter((item) => item.nombreSocio.toLowerCase().includes(v.toLowerCase())))
 
         }
@@ -201,7 +199,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
 
                             {
-                                (typeSelected && personNotValidText === null) &&
+                                (typeSelected) &&
                                 <View mb={4}>
                                     <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                         Elija a la persona
@@ -216,12 +214,13 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
 
                             {
-                                (!(textFilter.length <= 0) && typeSelected && personNotValidText === null) &&
-                                <View my={10}>
+                                (textFilter.length > 0 && typeSelected) &&
+                                <View my={10} justifyContent={'center'}>
+
                                     <FormControl isInvalid={personNotValidText}>
 
                                         {
-                                            !(textFilter.length <= 0) &&
+                                            (textFilter.length > 0) &&
                                             peopleSearch.map((item) => {
                                                 let selected = _.has(personSelected, 'idStandard') ? (_.get(personSelected, 'idStandard') === item.idInvitado || _.get(personSelected, 'idStandard') === item.id) ? true : false : false;
                                                 return (
@@ -260,7 +259,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                                                     typeSelected == 'g' ?
                                                                         <Text color={Colors.green}>{item.nombre + " " + item.apellidoPaterno}</Text>
                                                                         :
-                                                                        <Text>{item.nombreSocio}</Text>
+                                                                        <Text color={Colors.green}>{item.nombreSocio}</Text>
                                                                 }
                                                             </View>
                                                             <View justifyContent={'center'} pr={4}>
@@ -277,35 +276,38 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                             })
 
                                         }
-                                        {
-                                            personNotValidText &&
-                                            <Text textAlign={'center'} color={'red.500'} mb={2}>{personNotValidText}</Text>
-                                        }
+
 
                                     </FormControl>
+
+                                    {
+                                        personNotValidText &&
+                                        <Text textAlign={'center'} color={'red.500'} mb={2}>{personNotValidText}</Text>
+
+                                    }
+
+
+                                    {
+                                        ((textFilter !== '' && peopleSearch.length === 0)) &&
+                                        <Text textAlign={'center'} color={'red.500'} mb={2}>Sin resultados</Text>
+                                    }
                                 </View>
                             }
 
 
-                            {
-                                ((textFilter !== '' && peopleSearch.length === 0) && personNotValidText === null) &&
-                                <Text textAlign={'center'} color={'red.500'} mb={2}>Sin resultados</Text>
-                            }
                         </View>
                     </View>
 
                     <View>
 
 
-                        {
-                            personNotValidText === null &&
-                            <Button mb={2} isDisabled={((_.has(personSelected, 'valid') ? personSelected.valid === false : true) || !textFilter || (typeSelected === 'g' && points < route.params?.pointsDay))} onPress={() => {
+                        <Button mb={2} isDisabled={((_.has(personSelected, 'valid') ? personSelected.valid === false : true) || !textFilter || (typeSelected === 'g' && points < route.params?.pointsDay))} onPress={() => {
                                 route?.params?.onAddPerson({type: typeSelected, person: personSelected})
                                 navigation.goBack();
                             }}>
                                 Agregar
                             </Button>
-                        }
+
                         <Button bg={'primary.500'} _pressed={{bgColor: 'primary.50'}} onPress={() => {
                             navigation.goBack();
                         }}>

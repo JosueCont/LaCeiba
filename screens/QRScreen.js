@@ -130,7 +130,7 @@ const QRScreen = ({navigation, appDuck, route}) => {
                                             refreshing === true ?
                                                 <Skeleton width={150} height={150}/>
                                                 :
-                                                <Image source={{uri: imageQRCode}} width={150} height={150}/>
+                                                <Image source={{uri: imageQRCode}} width={250} height={250}/>
                                         }
                                     </View>
                                 </View>
@@ -141,9 +141,15 @@ const QRScreen = ({navigation, appDuck, route}) => {
 
 
                     <View>
-                        <Text color={Colors.green} fontSize={'md'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={6}>
-                            Muestra este código en {'\n'}la entrada del club para {'\n'}poder ingresar
-                        </Text>
+                        {
+                            route.params?.card === true ?
+                                <Text color={Colors.green} fontSize={'md'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={6}>
+                                    Muestra este código en {'\n'}la entrada del club para {'\n'}poder ingresar
+                                </Text> :
+                                <Text color={Colors.green} fontSize={'md'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={6}>
+                                    Muestra este código en {'\n'}la entrada del área que reservó
+                                </Text>
+                        }
 
                         {
                             route.params?.card === true &&
