@@ -47,7 +47,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const tomorrow = new Date().setDate(new Date().getDate() + 1)
     const today = new Date().setDate(new Date().getDate())
     const todayPlus7 = new Date()
-    todayPlus7.setDate(new Date().getDate() + 6)
+    todayPlus7.setDate(new Date().getDate() + 5)
 
 
     const {touched, handleSubmit, errors, setFieldValue, resetForm} = useFormik({
@@ -325,13 +325,14 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const disabledDay = () => {
         try {
             let areaDays = area.calendarDays;
+            console.log(areaDays)
 
             let arrayDays = {};
             if (route?.params?.service.bookNextDay) {
                 arrayDays[moment().format('YYYY-MM-DD')] = {disabled: true};
             }
 
-            for (let i = 0; i < 7; i++) {
+            for (let i = 0; i <= 6; i++) {
                 let currentDay = moment().add(i, 'days');
                 let dayObject = _.find(areaDays, {day: moment(currentDay).locale('en').format('dddd')});
                 if (dayObject.isActive === false) {
