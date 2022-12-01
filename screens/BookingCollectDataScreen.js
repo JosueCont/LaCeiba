@@ -7,7 +7,7 @@ import {TouchableOpacity} from "react-native";
 import moment from 'moment';
 import 'moment/locale/es';
 import {MaterialIcons} from "@expo/vector-icons";
-import {errorCapture} from "../utils";
+import {disabledDay, errorCapture} from "../utils";
 import ModalBookingConfirmation from "./Modals/ModalBookingConfirmation";
 import ModalInfo from "./Modals/ModalInfo";
 import {useFormik} from "formik";
@@ -103,17 +103,16 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
 
     useEffect(() => {
-        if (isFocused) {
-            setTimeout(() => {
-                getAdditionalsFunction()
-                getPointsFunction()
-                if (route?.params?.service?.areas.length === 1) {
-                    areaSelect(route?.params?.service?.areas[0].id)
-                }
-            }, 500)
 
-        }
-    }, [isFocused])
+        setTimeout(() => {
+            getAdditionalsFunction()
+            getPointsFunction()
+            if (route?.params?.service?.areas.length === 1) {
+                areaSelect(route?.params?.service?.areas[0].id)
+            }
+        }, 500)
+
+    }, [route?.params?.service?.id])
 
     useEffect(() => {
         cleanData();
@@ -322,29 +321,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     }
 
 
-    const disabledDay = () => {
-        try {
-            let areaDays = area.calendarDays;
-            console.log(areaDays)
 
-            let arrayDays = {};
-            if (route?.params?.service.bookNextDay) {
-                arrayDays[moment().format('YYYY-MM-DD')] = {disabled: true};
-            }
-
-            for (let i = 0; i <= 6; i++) {
-                let currentDay = moment().add(i, 'days');
-                let dayObject = _.find(areaDays, {day: moment(currentDay).locale('en').format('dddd')});
-                if (dayObject.isActive === false) {
-                    arrayDays[currentDay.format('YYYY-MM-DD')] = {disabled: true};
-                }
-            }
-            return arrayDays;
-        } catch (e) {
-            console.log(e)
-        }
-
-    }
 
     useEffect(() => {
         console.log(route?.params?.service)
@@ -439,7 +416,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                         onPressArrowRight={addMonth => addMonth()}
                                         disableAllTouchEventsForDisabledDays={true}
                                         enableSwipeMonths={true}
-                                        markedDates={disabledDay()}
+                                        markedDates={disabledDay(area.calendarDays, route?.params?.service.bookNextDay)}
                                         theme={{
                                             'stylesheet.calendar.header': {
                                                 monthText: {
@@ -480,7 +457,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                                     {errors.date}
                                                 </FormControl.ErrorMessage>
                                             </FormControl>
-                                    </TouchableOpacity>
+                                        </TouchableOpacity>
                             }
                         </View>
 
@@ -641,32 +618,35 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                     loading === true ?
                                         <Skeleton height={45} borderRadius={30}></Skeleton> :
                                         loading === false &&
-                                        <Checkbox.Group
-                                            onChange={(v) => {
-                                                setGroupValues(v)
-                                            }}
-                                            _checkbox={{
-                                                bgColor: 'white',
-                                                borderWidth: 0.5,
-                                                _checked: {
-                                                    bgColor: Colors.green,
-                                                    borderColor: Colors.green
-                                                },
-                                                _icon: {
-                                                    color: '#fff'
+                                        <View>
+                                            <Checkbox.Group
+                                                onChange={(values) => {
+                                                    console.log(values)
+                                                    setGroupValues(values)
+                                                }}
+                                                value={groupValues}
+                                                _checkbox={{
+                                                    bgColor: 'white',
+                                                    borderWidth: 0.5,
+                                                    _checked: {
+                                                        bgColor: Colors.green,
+                                                        borderColor: Colors.green
+                                                    },
+                                                    _icon: {
+                                                        color: '#fff'
+                                                    }
+                                                }}>
+                                                {
+                                                    additionals.map((item, index) => {
+                                                        return (
+                                                            <Checkbox value={item} my={2} _text={{color: '#000'}}>
+                                                                {_.upperFirst(item.descServicio.toLowerCase())}
+                                                            </Checkbox>
+                                                        )
+                                                    })
                                                 }
-                                            }}>
-
-                                            {
-                                                additionals.map((item) => {
-                                                    return (
-                                                        <Checkbox value={item} my={2} _text={{color: '#000'}}>
-                                                            {_.upperFirst(item.descServicio.toLowerCase())}
-                                                        </Checkbox>
-                                                    )
-                                                })
-                                            }
-                                        </Checkbox.Group>
+                                            </Checkbox.Group>
+                                        </View>
                                 }
 
                             </View>

@@ -7,6 +7,7 @@ import {getGuests, validatePartner} from "../api/Requests";
 import LayoutV5 from "./Layouts/LayoutV5";
 import {connect} from "react-redux";
 import _ from 'lodash';
+import {errorCapture} from "../utils";
 
 const GuestsScreen = ({navigation, appDuck}) => {
 
@@ -43,8 +44,8 @@ const GuestsScreen = ({navigation, appDuck}) => {
                 navigation.navigate('QRNonPaymentScreen')
             }
         } catch (ex) {
-            console.log(ex)
-            alert(ex.data.message)
+            let v = await errorCapture(e);
+            alert(v.value)
         }
 
     }

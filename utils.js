@@ -1,6 +1,7 @@
 import React from "react";
 import {Alert, Linking, Platform} from "react-native";
 import _ from "lodash";
+import moment from "moment/moment";
 
 
 export const wait = (timeout) => {
@@ -52,6 +53,28 @@ export const dialCall = async (number) => {
 //     return arrayDays;
 //
 // }
+
+export const disabledDay = (areaDays, bookNextDay) => {
+    try {
+        let arrayDays = {};
+        if (bookNextDay === true) {
+            arrayDays[moment().format('YYYY-MM-DD')] = {disabled: true};
+        }
+
+        for (let i = 0; i <= 6; i++) {
+            let currentDay = moment().add(i, 'days');
+            let dayObject = _.find(areaDays, {day: moment(currentDay).locale('en').format('dddd')});
+            if (dayObject.isActive === false) {
+                arrayDays[currentDay.format('YYYY-MM-DD')] = {disabled: true};
+            }
+        }
+        return arrayDays;
+    } catch (e) {
+
+        console.log(e)
+    }
+
+}
 
 
 export const errorCapture = async (e) => {

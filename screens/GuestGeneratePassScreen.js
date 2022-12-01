@@ -7,7 +7,6 @@ import ModalInfo from "./Modals/ModalInfo";
 import {Calendar} from "react-native-calendars";
 import Constants from "expo-constants";
 import {connect} from "react-redux";
-import {disabledDay} from "../utils";
 
 
 const GuestGeneratePassScreen = ({navigation, route, appDuck}) => {
@@ -19,7 +18,7 @@ const GuestGeneratePassScreen = ({navigation, route, appDuck}) => {
 
     const today = new Date()
     const todayPlus7 = new Date()
-    todayPlus7.setDate(new Date().getDate() + 7)
+    todayPlus7.setDate(new Date().getDate() + 5)
 
 
     useEffect(() => {
@@ -63,8 +62,10 @@ const GuestGeneratePassScreen = ({navigation, route, appDuck}) => {
     }
 
     const getDisabledDays = (day) => {
-        let markedDaysObjs = disabledDay();
-        markedDaysObjs[day] = {selected: true, marked: true}
+        let markedDaysObjs = []//disabledDay();
+        if (day) {
+            markedDaysObjs[day] = {selected: true, marked: true}
+        }
         setMarkedDates(markedDaysObjs)
     }
 
@@ -96,7 +97,7 @@ const GuestGeneratePassScreen = ({navigation, route, appDuck}) => {
                             console.log('month changed', month);
                         }}
 
-                        hideExtraDays={false}
+                        hideExtraDays={true}
                         firstDay={1}
                         onPressArrowLeft={subtractMonth => subtractMonth()}
                         onPressArrowRight={addMonth => addMonth()}

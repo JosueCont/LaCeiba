@@ -6,7 +6,6 @@ import {Image as ImageRN, ImageBackground, TouchableOpacity} from "react-native"
 import iconAccess from '../assets/iconAccess.png';
 import iconReserve from '../assets/iconReserve.png'
 import iconGuests from '../assets/iconGuests.png'
-import iconMembership from '../assets/iconMembership.png'
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import LayoutV4 from "./Layouts/LayoutV4";
 import {validatePartner} from "../api/Requests";
@@ -129,17 +128,17 @@ const HomeScreen = ({navigation, appDuck}) => {
                             </TouchableOpacity>
                         </View>
                         <View flex={1}>
-                            <TouchableOpacity onPress={() => navigation.navigate('MembershipsScreen')}>
+                            {/*<TouchableOpacity onPress={() => navigation.navigate('MembershipsScreen')}>*/}
 
-                                <View alignItems={'center'} mb={2}>
-                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                        <Image source={iconMembership} style={{width: 45, resizeMode: 'contain'}}/>
-                                    </ImageBackground>
-                                </View>
-                                <View>
-                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Membresía</Text>
-                                </View>
-                            </TouchableOpacity>
+                            {/*    <View alignItems={'center'} mb={2}>*/}
+                            {/*        <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>*/}
+                            {/*            <Image source={iconMembership} style={{width: 45, resizeMode: 'contain'}}/>*/}
+                            {/*        </ImageBackground>*/}
+                            {/*    </View>*/}
+                            {/*    <View>*/}
+                            {/*        <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Membresía</Text>*/}
+                            {/*    </View>*/}
+                            {/*</TouchableOpacity>*/}
                         </View>
                     </View>
                 </View>
