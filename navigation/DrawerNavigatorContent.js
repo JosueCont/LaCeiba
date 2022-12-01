@@ -6,7 +6,6 @@ import {Colors} from "../Colors";
 import iconHome from '../assets/iconHome.png';
 import iconProfile from '../assets/iconProfile.png';
 import iconGuestsSmall from '../assets/iconGuestsSmall.png';
-import iconReservationsmall from '../assets/iconReservationsmall.png';
 import iconHelp from '../assets/iconHelp.png';
 import iconLogout from '../assets/iconLogout.png';
 import iconMembers from '../assets/iconMembers.png'
@@ -14,6 +13,7 @@ import face from '../assets/face.png';
 import {TouchableOpacity} from "react-native";
 import {loggedOutAction} from "../redux/ducks/appDuck";
 import ModalAsk from "../screens/Modals/ModalAsk";
+import iconBooking from "../assets/iconBooking.png";
 
 const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
     const [modalSessionVisible, setModalSessionVisible] = useState(null);
@@ -65,7 +65,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
 
                     <View flexDirection={'row'} mb={4}>
                         <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                            <Image source={iconReservationsmall} style={{width: 20, height: 20}}></Image>
+                            <Image source={iconBooking} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
                             <Text fontSize={'md'}>Mis reservaciones</Text>
