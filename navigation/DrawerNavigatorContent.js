@@ -9,11 +9,11 @@ import iconGuestsSmall from '../assets/iconGuestsSmall.png';
 import iconHelp from '../assets/iconHelp.png';
 import iconLogout from '../assets/iconLogout.png';
 import iconMembers from '../assets/iconMembers.png'
-import face from '../assets/face.png';
 import {TouchableOpacity} from "react-native";
 import {loggedOutAction} from "../redux/ducks/appDuck";
 import ModalAsk from "../screens/Modals/ModalAsk";
 import iconBooking from "../assets/iconBooking.png";
+import imgLogo from "../assets/imgLogo.png";
 
 const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
     const [modalSessionVisible, setModalSessionVisible] = useState(null);
@@ -26,7 +26,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
 
 
             <View my={10} alignItems={'center'} justifyContent={'center'}>
-                <Image source={face} width={100} height={100} borderRadius={60} resizeMode={'stretch'}></Image>
+                <Image source={imgLogo} width={161} height={120} borderRadius={60} resizeMode={'stretch'}></Image>
                 <Text fontSize={'md'} mt={5} textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>
             </View>
             <View flex={1}>

@@ -4,7 +4,8 @@ import {Colors} from "../Colors";
 
 import bgButton from "../assets/bgButton.png";
 import {ImageBackground} from "react-native";
-import iconGolfHit from '../assets/iconsReservations/iconGolfHit.png';
+import iconBooking from '../assets/iconBooking.png';
+
 import moment from "moment";
 import {connect} from "react-redux";
 
@@ -17,7 +18,7 @@ const BookinsItem = ({navigation, mb = 2, data, dataInvitation, dataBooking, app
         <View flexDirection={'row'} height={100} bgColor={'#fff'} borderRadius={50} mb={mb}>
             <View flex={1} justifyContent={'center'} alignItems={'center'}>
                 <ImageBackground source={bgButton} style={{width: 55, height: 55, alignItems: 'center', justifyContent: 'center'}} borderRadius={60}>
-                    <Image source={iconGolfHit}></Image>
+                    <Image source={iconBooking} width={21} height={21}></Image>
                 </ImageBackground>
             </View>
 
