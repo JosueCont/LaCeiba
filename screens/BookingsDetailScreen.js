@@ -10,6 +10,7 @@ import {connect} from "react-redux";
 import {useIsFocused} from "@react-navigation/native";
 import _ from "lodash";
 import ModalAsk from "./Modals/ModalAsk";
+import ModalInfo from "./Modals/ModalInfo";
 
 moment.tz.setDefault("America/Mexico_City");
 
@@ -23,6 +24,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
     const [groupValues, setGroupValues] = useState([]);
     const [dayDiff, setDayDiff] = useState(null);
     const [modalCancelVisible, setModalCancelVisible] = useState(null);
+    const [modalCancelInformationVisible, setModalCancelInformationVisible] = useState(null)
 
 
     const isFocused = useIsFocused();
@@ -30,7 +32,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
     useEffect(() => {
         if (isFocused) {
 
-            setDayDiff(moment(invitation?.booking?.dueDate).diff(moment(), 'days'))
+            setDayDiff(moment().diff(moment(invitation?.booking?.dueDate), 'hours'))
 
             if (invitation?.status === 'PENDING') {
                 getAdditionalsFunction()
@@ -61,7 +63,6 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
     }
 
     const RejectBooking = async () => {
-        //await api
         try {
             setOpenModal(false);
             let data = {
@@ -235,11 +236,24 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                         invitation.status == 'CONFIRMED' &&
                         <View>
                             <Button onPress={() => navigation.navigate("QRScreen")} mb={4}>Código QR</Button>
-                            {
-                                dayDiff > 0 && route.params.booking.hostedId === appDuck.user.id && !route.params.booking.deletedAt &&
-                                <Button colorScheme={'red'} onPress={() => setModalCancelVisible(true)} mb={4}>Cancelar reservación</Button>
-                            }
 
+                            {route.params.booking.hostedId === appDuck.user.id && !route.params.booking.deletedAt &&
+
+                                <Button
+                                    colorScheme={'red'}
+                                    onPress={() => {
+                                        console.log(dayDiff)
+                                        if (dayDiff > 0 && dayDiff <= 24) {
+                                            setModalCancelInformationVisible(true)
+                                        } else {
+                                            setModalCancelVisible(true)
+                                        }
+
+
+                                    }}
+                                    mb={4}>Cancelar reservación</Button>
+
+                            }
                         </View>
                     }
                     <Button onPress={() => navigation.goBack()} mb={'20'}>Regresar</Button>
@@ -270,6 +284,9 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                     cancelFunction()
                     setModalCancelVisible(false)
                 }}/>
+            <ModalInfo setVisible={setModalCancelInformationVisible} visible={modalCancelInformationVisible} close={true} iconType={'exclamation'} textButton={'Entendido'} text={'Por favor comuníquese con administración para realizar la cancelación de esta reservación'}>
+
+            </ModalInfo>
         </View>
 
     )

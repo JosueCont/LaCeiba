@@ -16,9 +16,19 @@ const commonConfig = {
     web: {
         "favicon": "./assets/favicon.png"
     },
+    plugins: [
+        [
+            "expo-media-library",
+            {
+                "photosPermission": "Allow to access your photos.",
+                "savePhotosPermission": "Allow to save photos.",
+                "isAccessMediaLocationEnabled": true
+            }
+        ]
+    ],
     extra: {
         debug: true,
-        production: false,
+        production: true,
         URL: "https://api.hacienda.hiumanlab.com",
         URL_DEV: "https://qa.api.hacienda.hiumanlab.com",
         eas: {
@@ -30,13 +40,13 @@ const commonConfig = {
 };
 
 const ios = {
-    buildNumber: "38",
+    buildNumber: "39",
     supportsTablet: false,
     bundleIdentifier: "com.hiumanlab.clublahacienda"
 };
 
 const android = {
-    versionCode: 37,
+    versionCode: 38,
     adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundImage: "./assets/adaptive-icon-bg.png"

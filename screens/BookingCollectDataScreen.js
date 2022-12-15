@@ -249,8 +249,9 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         try {
             setLoading(true)
             const response = await getAdditionals('', [appDuck.user.id]);
-            console.log(response.data)
+            console.log(response.data, 252)
             setAdditionals(response.data)
+            setGroupValues(response.data)
             setLoading(false)
         } catch (e) {
             let v = await errorCapture(e);
