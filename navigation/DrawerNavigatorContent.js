@@ -14,9 +14,22 @@ import {loggedOutAction} from "../redux/ducks/appDuck";
 import ModalAsk from "../screens/Modals/ModalAsk";
 import iconBooking from "../assets/iconBooking.png";
 import imgLogo from "../assets/imgLogo.png";
+import {logOut} from "../api/Requests";
 
 const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
     const [modalSessionVisible, setModalSessionVisible] = useState(null);
+
+    const loggedOut = async() => {
+
+        const {pushToken} = appDuck.user
+        try {
+            const response = await logOut('', [pushToken])
+            console.log(response.data)
+        } catch (e) {
+            console.log(JSON.stringify(e))
+            // alert(JSON.stringify(e))
+        }    
+    }
 
     return (
         <DrawerContentScrollView
@@ -175,9 +188,11 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                 textButton={'Sí'}
                 text={'¿Deseas cerrar sesión?'}
                 action={() => {
+                    loggedOut()
                     loggedOutAction()
                     setModalSessionVisible(false)
                 }}
+                setVisible={setModalSessionVisible}
             />
         </DrawerContentScrollView>
 
