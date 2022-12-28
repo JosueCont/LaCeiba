@@ -1,10 +1,14 @@
 import React from "react";
-import {Image, Text, View} from "native-base";
+import {Icon, Image, Text, View} from "native-base";
 import {Colors} from "../Colors";
+import {MaterialIcons} from "@expo/vector-icons";
 
 import iconPerson from "../assets/iconPerson.png";
+import iconTrash from '../assets/iconTrash.png'
+import iconEdit from '../assets/iconEdit.png'
+import { TouchableOpacity } from "react-native";
 
-const GuestItem = ({navigation, mb = 2, item}) => {
+const GuestItem = ({navigation, mb = 2, item, onEdit, onDelete}) => {
 
     // "apellidoMaterno": "HERCE",
     //     "apellidoPaterno": "ERNESTO",
@@ -24,15 +28,24 @@ const GuestItem = ({navigation, mb = 2, item}) => {
 
             <View flex={1} flexDirection={'row'}>
                 <View justifyContent={'center'} mr={2}>
-                    <Text color={Colors.green} fontSize={'xs'} justifyItems={'center'}>{item.nombre} {item.apellidoPaterno}</Text>
+                    <Text color={Colors.green} fontSize={'xs'} justifyItems={'center'}>{item?.name}</Text>
                 </View>
-                <View justifyContent={'center'}>
-                    {/*<Icon as={MaterialIcons} name={'circle'} color={Colors.yellow}/>*/}
-                </View>
+                
             </View>
+            <TouchableOpacity style={{justifyContent: 'center', width:'15%', height: '100%'}} onPress={()=>onEdit(item)}>
+                <View flex={0.2} justifyContent={'center'} alignItems={'flex-end'}>
+                        <Image source={iconEdit} style={{width: 25, height: 25}}></Image>
+                </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={{justifyContent: 'center', width:'15%', height: '100%'}} onPress={()=>onDelete(item)}>
+                <View flex={0.5} justifyContent={'center'} alignItems={'center'}>
+                        <Image source={iconTrash} style={{width: 25, height: 25}}></Image>
+                </View>
+            </TouchableOpacity>
+            
         </View>
     )
 }
 
 
-export default GuestItem;
+export default GuestItem; 

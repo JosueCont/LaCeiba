@@ -25,6 +25,7 @@ const BookingsScreen = ({navigation, appDuck}) => {
         const queryString = `?limit=${100}`;
         const response = await getAllBookings(queryString);
         setBookings(response?.data?.items);
+        //console.log(response?.data?.items);
     }
 
     const getInvitations = async () => {

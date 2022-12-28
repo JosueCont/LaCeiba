@@ -47,6 +47,10 @@ import HTMLViewer from "../screens/HTMLViewer";
 import BookingCollectDataSearchScreen from "../screens/BookingCollectDataSearchScreen";
 import BookingConfirmScreenSuccess from "../screens/BookingConfirmScreenSuccess";
 import AskForMediaLibraryScreen from "../screens/Permissions/AskForMediaLibraryScreen";
+import AddUpdateGuest from "../screens/AddUpdateGuest";
+import GuestGeneratePass from "../screens/GuestGeneratePass";
+import FixedGroups from "../screens/FixedGroups";
+import FixedGroupDetail from "../screens/FixedGroupDetail";
 
 const Drawer = createDrawerNavigator();
 
@@ -136,6 +140,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'BookingConfirmScreenSuccess'} component={BookingConfirmScreenSuccess} options={{title: ''}}/>
             <Drawer.Screen name={'GuestsScreen'} component={GuestsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'MembershipsScreen'} component={MembershipsScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'GuestGeneratePass'} component={GuestGeneratePass} options={{title: ''}}/>
             <Drawer.Screen name={'GuestGeneratePassScreen'} component={GuestGeneratePassScreen} options={{title: ''}}/>
             <Drawer.Screen name={'GuestGeneratePassSuccessScreen'} component={GuestGeneratePassSuccessScreen} options={{title: ''}}/>
             <Drawer.Screen name={'MemberEditScreen'} component={MemberEditScreen} options={{title: ''}}/>
@@ -152,7 +157,9 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'HTMLViewer'} component={HTMLViewer} options={{title: ''}}/>
             <Drawer.Screen name={'BookingCollectDataSearchScreen'} component={BookingCollectDataSearchScreen} options={{title: ''}}/>
             <Drawer.Screen name={'AskForMediaLibraryScreen'} component={AskForMediaLibraryScreen} options={{headerShown: false}}/>
-
+            <Drawer.Screen name={'AddUpdateGuest'} component={AddUpdateGuest} options={{title: ''}}/>
+            <Drawer.Screen name={'FixedGroups'} component={FixedGroups} options={{title: ''}}/>
+            <Drawer.Screen name={'FixedGroupDetail'} component={FixedGroupDetail} options={{title: ''}}/>
         </Drawer.Navigator>
     );
 }

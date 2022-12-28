@@ -45,8 +45,8 @@ const BookinsItem = ({navigation, mb = 2, data, dataInvitation, dataBooking, app
                         <Button bgColor={Colors.red} size={"xs"}>
                             Cancelado
                         </Button> :
-                        <Button bgColor={dataInvitation.status == "PENDING" ? Colors.yellow : dataInvitation.status == "CONFIRMED" ? Colors.green : Colors.orange} size={"xs"}>
-                            {dataInvitation.status == 'PENDING' ? "Pendiente" : dataInvitation.status == 'CONFIRMED' ? "Confirmado" : "Rechazado"}
+                        <Button bgColor={dataInvitation.booking?.fixedGroupId ? Colors.black : dataInvitation.status == "PENDING" ? Colors.yellow : dataInvitation.status == "CONFIRMED" ? Colors.green : Colors.orange} size={"xs"}>
+                            {dataInvitation.booking?.fixedGroupId ? "    Fijo    " : dataInvitation.status == 'PENDING' ? "Pendiente" : dataInvitation.status == 'CONFIRMED' ? "Confirmado" : "Rechazado"}
                         </Button>
                 }
 

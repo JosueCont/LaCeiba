@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Image, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import bgButton from "../assets/bgButton.png";
@@ -6,18 +6,31 @@ import {Image as ImageRN, ImageBackground, TouchableOpacity} from "react-native"
 import iconAccess from '../assets/iconAccess.png';
 import iconReserve from '../assets/iconReserve.png'
 import iconGuests from '../assets/iconGuests.png'
-import iconBooking from '../assets/iconBooking.png'
+import iconBooking from '../assets/iconBooking.png';
+import iconFixedGroups from '../assets/iconPersonSmall.png';
 
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import LayoutV4 from "./Layouts/LayoutV4";
-import {validatePartner} from "../api/Requests";
+import {getGFLeader, validatePartner} from "../api/Requests";
 import {connect} from "react-redux";
 import ModalInfo from "./Modals/ModalInfo";
+import { useFocusEffect } from '@react-navigation/native';
 
 const HomeScreen = ({navigation, appDuck}) => {
     const [sliderPosition, setSliderPosition] = useState(0);
     const [text, setText] = useState(null);
     const [modalInfoVisible, setModalInfoVisible] = useState(null);
+    const [fixedGroups, setFixedGroups] = useState(0);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            checkFixedGroups();
+            return () => {
+                setFixedGroups(0);
+              };
+        }, [])
+    );
+
 
 
     const validatePartnerFunction = async (screen) => {
@@ -42,6 +55,16 @@ const HomeScreen = ({navigation, appDuck}) => {
 
         }
 
+    }
+
+    const checkFixedGroups = async () => {
+        try {
+            const response = await getGFLeader('', [appDuck.user.id]);
+            console.log(response.data);
+            setFixedGroups(response?.data?.count);
+        } catch (error) {
+            setFixedGroups(0);
+        }
     }
 
     return (
@@ -128,6 +151,19 @@ const HomeScreen = ({navigation, appDuck}) => {
                                     <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Invitados</Text>
                                 </View>
                             </TouchableOpacity>
+
+                            { fixedGroups > 0 && <View flex={1} mt={4}>
+                                <TouchableOpacity onPress={() => navigation.navigate('FixedGroups', {user: appDuck.user.id})}>
+                                    <View alignItems={'center'} mb={2}>
+                                        <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                            <Image source={iconFixedGroups} style={{width: 45, resizeMode: 'contain'}}/>
+                                        </ImageBackground>
+                                    </View>
+                                    <View>
+                                        <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Grupos fijos</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>}
                         </View>
                         <View flex={1}>
                             <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen')}>
@@ -141,8 +177,29 @@ const HomeScreen = ({navigation, appDuck}) => {
                                     <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Mis reservaciones</Text>
                                 </View>
                             </TouchableOpacity>
+
+                            
                         </View>
+
+                        
                     </View>
+                    
+                    {/* <View mb={4} flexDirection={'row'}>
+                        <View flex={2} alignItems={'center'}>
+                            <TouchableOpacity onPress={() => navigation.navigate('GuestsScreen')}>
+
+                                <View alignItems={'center'} mb={2}>
+                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                        <Image source={iconGuests} style={{width: 45, resizeMode: 'contain'}}/>
+                                    </ImageBackground>
+                                </View>
+                                <View>
+                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Grupos fijos</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </View> */}
+
                 </View>
 
             </View>

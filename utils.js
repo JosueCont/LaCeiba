@@ -12,6 +12,22 @@ export const wait = (timeout) => {
     });
 }
 
+export const dayWeek = {
+    'Monday': {day: 'Lunes', id: 1},
+    'Tuesday': {day: 'Martes', id: 2},
+    'Wednesday': {day: 'Miércoles', id: 3},
+    'Thursday' : {day: 'Jueves', id: 4},
+    'Friday': {day: 'Viernes', id: 5},
+    'Saturday': {day: 'Sábado', id: 6},
+    'Sunday' : {day: 'Domingo', id: 7},
+}
+
+export const formatHour = (timeString) => {
+    const [hourString, minute] = timeString.split(":");
+    const hour = +hourString % 24;
+    return (hour % 12 || 12) + ":" + minute + ' ' +(hour < 12 ? "AM" : "PM");
+}
+
 
 export const dialCall = async (number) => {
     let phoneNumber = '';

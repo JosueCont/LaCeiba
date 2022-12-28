@@ -14,7 +14,8 @@ const ModalInfo = ({
                        text = 'Texto informativo',
                        textButton = 'Entendido',
                        close = true,
-                       iconType = 'check'
+                       iconType = 'check',
+                       action = null,
                    }) => {
 
     const [heightGradient, setHeightGradient] = useState(null);
@@ -78,7 +79,7 @@ const ModalInfo = ({
                                 </View>
                         }
 
-                        <Button colorScheme={'green'} onPress={() => setVisible(false)}>{textButton}</Button>
+                        <Button colorScheme={'green'} onPress={() => {if(action){action();} setVisible(false)}}>{textButton}</Button>
                     </View>
 
                 </View>

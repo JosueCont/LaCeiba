@@ -31,3 +31,14 @@ export const cancelBooking = async (params, queryStringParams = []) => await req
 
 export const registerSendConfirmEmail = async (params) => await request(URLTypes.REGISTER_SEND_CONFIRM_EMAIL, params, 'post');
 export const registerConfirmEmail = async (params) => await request(URLTypes.REGISTER_CONFIRM_EMAIL, params, 'post');
+export const getAllGuests = async (params) => await request(URLTypes.GET_ALL_GUESTS, params, 'get');
+export const createGuest = async (params, queryStringParams = []) => await request(URLTypes.CREATE_GUEST, params, 'post', null, queryStringParams);
+export const editGuest = async (params, queryStringParams = []) => await request(URLTypes.EDIT_GUEST, params, 'put', null, queryStringParams);
+export const deleteGuest = async (params, queryStringParams = []) => await request(URLTypes.DELETE_GUEST, params, 'delete', null, queryStringParams);
+export const getFreeServices = async (params) => await request(URLTypes.GET_FREE_SERVICES, params, 'get');
+export const generatePass = async (params, queryStringParams = []) => await request(URLTypes.GENERATE_PASS, params, 'post', null, queryStringParams);
+
+export const getGFLeader = async (params, queryStringParams = []) => await request(URLTypes.GET_GF_LEADER, params, 'get', null, queryStringParams);
+export const getAllGF = async (params) => await request(URLTypes.GET_ALL_GF, params, 'get');
+export const getGFNextBooking = async (params, queryStringParams = []) => await request(URLTypes.GET_GF_NEXTBOOKING, params, 'get', null, queryStringParams);
+export const createBookingGF = async (params, queryStringParams = []) => await request(URLTypes.CREATE_GF_BOOKING, params, 'post', null, queryStringParams);

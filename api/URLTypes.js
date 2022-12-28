@@ -28,5 +28,14 @@ export const URLTypes = {
     CANCEL_BOOKING: '/v1/bookings/{{param}}/cancel',
     REGISTER_SEND_CONFIRM_EMAIL: '/v1/auth/partner/send-confirm-email',
     REGISTER_CONFIRM_EMAIL: '/v1/auth/partner/confirm-email',
-
+    GET_ALL_GUESTS: '/v1/free-services/users/guests', //?userId=
+    CREATE_GUEST: '/v1/free-services/users/{{param}}/guests',
+    EDIT_GUEST: '/v1/free-services/users/{{param}}/guests/{{param}}',
+    DELETE_GUEST: '/v1/free-services/users/guests/{{param}}',
+    GET_FREE_SERVICES: '/v1/free-services',
+    GENERATE_PASS : '/v1/free-services/users/{{param}}/guests/{{param}}/qr',
+    GET_GF_LEADER : '/v1/fixed-groups/users/{{param}}/leaders',
+    GET_ALL_GF: '/v1/fixed-groups',
+    GET_GF_NEXTBOOKING : '/v1/fixed-groups/users/{{param}}/next-booking',
+    CREATE_GF_BOOKING : '/v1/fixed-groups/{{param}}/users/{{param}}/booking',
 };
