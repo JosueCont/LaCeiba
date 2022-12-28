@@ -31,3 +31,4 @@ export const cancelBooking = async (params, queryStringParams = []) => await req
 
 export const registerSendConfirmEmail = async (params) => await request(URLTypes.REGISTER_SEND_CONFIRM_EMAIL, params, 'post');
 export const registerConfirmEmail = async (params) => await request(URLTypes.REGISTER_CONFIRM_EMAIL, params, 'post');
+export const logOut = async (params, queryStringParams = []) => await request(URLTypes.LOG_OUT, params, 'delete', null, queryStringParams);

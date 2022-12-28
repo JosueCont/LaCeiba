@@ -1,5 +1,6 @@
 export const URLTypes = {
     SIGN_IN: '/v1/auth/login',
+    LOG_OUT: '/v1/auth/logout/{{param}}',
     FIND_PARTNER: '/v1/users/app/partners',
     GET_ALL_PARTNERS: '/v1/users/partners',
     REGISTER_SEND_CONFIRM_PHONE: '/v1/auth/partner/send-confirm-phone',

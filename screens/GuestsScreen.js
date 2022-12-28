@@ -14,7 +14,16 @@ const GuestsScreen = ({navigation, appDuck}) => {
     const [loading, setLoading] = useState(null);
     const [guests, setQuests] = useState([]);
     const [guestsFiltered, setQuestsFiltered] = useState([]);
+    const [valor, setValue] = useState('');
 
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            setQuestsFiltered([])
+            setValue('');
+            getQuestsFunction()
+        });
+        return unsubscribe;
+     }, [navigation]);
 
     useEffect(() => {
         getQuestsFunction()
@@ -51,6 +60,7 @@ const GuestsScreen = ({navigation, appDuck}) => {
     }
 
     const search = async (value) => {
+        setValue(value)
         let filtered = _.filter(guests, function (item) {
             return item.nombre.toLowerCase().includes(value.toLowerCase()) || item.apellidoPaterno.toLowerCase().includes(value.toLowerCase()) || item.apellidoMaterno.toLowerCase().includes(value.toLowerCase())
         });
@@ -73,7 +83,7 @@ const GuestsScreen = ({navigation, appDuck}) => {
                     <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Invitados</Text>
 
                     <View mx={10}>
-                        <Input placeholder={'Buscar'} onChangeText={(v) => search(v)}/>
+                        <Input value={valor} placeholder={'Buscar'} onChangeText={(v) => search(v)}/>
                     </View>
 
                     <ScrollView
