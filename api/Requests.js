@@ -42,3 +42,4 @@ export const getGFLeader = async (params, queryStringParams = []) => await reque
 export const getAllGF = async (params) => await request(URLTypes.GET_ALL_GF, params, 'get');
 export const getGFNextBooking = async (params, queryStringParams = []) => await request(URLTypes.GET_GF_NEXTBOOKING, params, 'get', null, queryStringParams);
 export const createBookingGF = async (params, queryStringParams = []) => await request(URLTypes.CREATE_GF_BOOKING, params, 'post', null, queryStringParams);
+export const logOut = async (params, queryStringParams = []) => await request(URLTypes.LOG_OUT, params, 'delete', null, queryStringParams);

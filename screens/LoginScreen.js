@@ -8,7 +8,7 @@ import {loggedAction} from "../redux/ducks/appDuck";
 import {connect} from "react-redux";
 import {useFormik} from 'formik';
 import * as Yup from 'yup'
-import {TouchableOpacity} from "react-native";
+import {TouchableOpacity, Platform} from "react-native";
 import ModalInfo from "./Modals/ModalInfo";
 import {MaterialIcons} from "@expo/vector-icons";
 import * as Notifications from 'expo-notifications';
@@ -36,15 +36,25 @@ const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) =
 
     useEffect(() => {
         getPushToken()
+
     }, [])
 
     const loginFunction = async (data) => {
         try {
             data['refresh'] = true;
             if (_.has(navigationDuck, 'pushToken')) {
-                data['pushToken'] = navigationDuck.pushToken;
+
+                const deviceData = {
+                    token: navigationDuck.pushToken
+                }
+                const os = Platform.OS=== 'ios' ?  deviceData.os = 'ios' :  deviceData.os = 'android'
+                data['device'] = deviceData;
             }
             const response = await signIn(data)
+            console.log(data)
+
+
+            response.data.user['pushToken'] = navigationDuck.pushToken
 
             console.log(response)
 
@@ -61,7 +71,7 @@ const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) =
 
     const getPushToken = async () => {
         const token = await Notifications.getExpoPushTokenAsync();
-        setAttribute('pushToken', token.data)
+        setAttribute('pushToken', token.data)        
     }
 
 
