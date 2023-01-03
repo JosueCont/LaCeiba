@@ -199,7 +199,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
 
                             {
-                                (typeSelected) &&
+                                (typeSelected ==='p' || points > route.params?.pointsDay ) &&
                                 <View mb={4}>
                                     <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                         Elija a la persona
@@ -299,7 +299,8 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                     </View>
 
                     <View>
-
+                    {
+                    (typeSelected ==='p' || points > route.params?.pointsDay ) &&
 
                         <Button mb={2} isDisabled={((_.has(personSelected, 'valid') ? personSelected.valid === false : true) || !textFilter || (typeSelected === 'g' && points < route.params?.pointsDay))} onPress={() => {
                                 route?.params?.onAddPerson({type: typeSelected, person: personSelected})
@@ -307,7 +308,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                             }}>
                                 Agregar
                             </Button>
-
+                        }
                         <Button bg={'primary.500'} _pressed={{bgColor: 'primary.50'}} onPress={() => {
                             navigation.goBack();
                         }}>
