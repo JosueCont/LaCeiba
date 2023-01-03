@@ -31,7 +31,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
 
     useEffect(() => {
         if (isFocused) {
-
+            
             setDayDiff(moment().diff(moment(invitation?.booking?.dueDate), 'hours'))
 
             if (invitation?.status === 'PENDING') {
@@ -237,7 +237,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                         <View>
                             <Button onPress={() => navigation.navigate("QRScreen")} mb={4}>Código QR</Button>
 
-                            {route.params.booking.hostedId === appDuck.user.id && !route.params.booking.deletedAt &&
+                            {!invitation.booking?.fixedGroupId && route.params.booking.hostedId === appDuck.user.id && !route.params.booking.deletedAt &&
 
                                 <Button
                                     colorScheme={'red'}

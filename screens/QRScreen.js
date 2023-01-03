@@ -70,7 +70,10 @@ const QRScreen = ({navigation, appDuck, route}) => {
                 })
             }
             ,
-            (error) => console.error("Oops, snapshot failed", error)
+            (error) => {toast.show({
+                description: "Ocurrió un error, no se pudo descargar la imagen."
+                });
+                console.error("Oops, snapshot failed", error)}
         );
     }
 

@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import {getAllBookings, getAllInvitations} from "../api/Requests";
 import LayoutV3 from "./Layouts/LayoutV3";
 import {useIsFocused} from "@react-navigation/native";
+import moment from "moment";
 
 const BookingsScreen = ({navigation, appDuck}) => {
 
@@ -40,8 +41,10 @@ const BookingsScreen = ({navigation, appDuck}) => {
             setLoading(true)
             await getBookings();
             await getInvitations();
+            
+            //console.log(moment(date).format('YYYY-MM-DD'));
         } catch (e) {
-
+            console.log(e);
         } finally {
             setLoading(false)
         }
@@ -67,9 +70,13 @@ const BookingsScreen = ({navigation, appDuck}) => {
 
                     {
                         invitations.map((invitation, index) => {
-                            console.log(invitation)
+                            const date = new Date();
+                            const dateToday = moment(date, 'YYYY-MM-DD');
+                            const dateparsed = moment(invitation.booking?.dueDate, 'YYYY-MM-DD');
+                            const diff = dateToday.diff(dateparsed, 'days'); 
                             return (
-                                <TouchableOpacity onPress={() => navigation.navigate('BookingsDetailScreen', {service: 'Campo de golf', state: "r", invitation: invitation, booking: bookings.find((booking) => booking.id == invitation?.booking?.id)})}>
+                                diff <= 0 &&
+                                <TouchableOpacity key={index} onPress={() => navigation.navigate('BookingsDetailScreen', {service: 'Campo de golf', state: "r", invitation: invitation, booking: bookings.find((booking) => booking.id == invitation?.booking?.id)})}>
                                     <BookinsItem mb={4} dataInvitation={invitation} dataBooking={bookings.find((booking) => booking.id == invitation?.booking?.id)} data={{state: invitation.status}}/>
                                 </TouchableOpacity>
                             );

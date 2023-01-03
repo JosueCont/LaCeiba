@@ -59,7 +59,7 @@ const GuestsScreen = ({navigation, appDuck}) => {
             console.log("GUESTS::", allGuests.data);
             setAllGuests(allGuests.data);
             setQuests(response.data)
-            setQuestsFiltered(response.data)
+            setQuestsFiltered(allGuests.data)
             //console.log(response.data)
         } catch (e) {
             console.log(e)
@@ -86,18 +86,19 @@ const GuestsScreen = ({navigation, appDuck}) => {
 
     const search = async (value) => {
         setValue(value)
-        let filtered = _.filter(guests, function (item) {
-            return item.nombre.toLowerCase().includes(value.toLowerCase()) || item.apellidoPaterno.toLowerCase().includes(value.toLowerCase()) || item.apellidoMaterno.toLowerCase().includes(value.toLowerCase())
+        let filtered = _.filter(allGuests, function (item) {
+            return item.name.toLowerCase().includes(value.toLowerCase())
         });
+        console.log(filtered);
         setQuestsFiltered(filtered)
     }
 
     const addGuest = () => {
-        navigation.navigate('AddUpdateGuest', {userId: appDuck.user.id, action: 'add', data: null});
+        navigation.navigate('AddUpdateGuest', {userId: appDuck.user.id, action: 'add', data: null, guests: allGuests});
     }
 
     const editGuest = (user) => {
-        navigation.navigate('AddUpdateGuest', {userId: appDuck.user.id, action: 'edit', data: user});
+        navigation.navigate('AddUpdateGuest', {userId: appDuck.user.id, action: 'edit', data: user, guests: allGuests});
     }
 
     const generatePass = (user) => {
@@ -158,7 +159,7 @@ const GuestsScreen = ({navigation, appDuck}) => {
 
                         <View mx={8}>
                             {
-                                allGuests.map((item) => {
+                                guestsFiltered.map((item) => {
                                     return (
                                         <TouchableOpacity onPress={() => generatePass(item)}>
                                             <GuestItem mb={4} item={item} onEdit={editGuest} onDelete={onDeleteGuest} />

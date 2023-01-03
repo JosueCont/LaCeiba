@@ -51,6 +51,7 @@ import AddUpdateGuest from "../screens/AddUpdateGuest";
 import GuestGeneratePass from "../screens/GuestGeneratePass";
 import FixedGroups from "../screens/FixedGroups";
 import FixedGroupDetail from "../screens/FixedGroupDetail";
+import FixedGroupList from "../screens/FixedGroupList";
 
 const Drawer = createDrawerNavigator();
 
@@ -159,6 +160,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'AskForMediaLibraryScreen'} component={AskForMediaLibraryScreen} options={{headerShown: false}}/>
             <Drawer.Screen name={'AddUpdateGuest'} component={AddUpdateGuest} options={{title: ''}}/>
             <Drawer.Screen name={'FixedGroups'} component={FixedGroups} options={{title: ''}}/>
+            <Drawer.Screen name={'FixedGroupList'} component={FixedGroupList} options={{title: ''}}/>
             <Drawer.Screen name={'FixedGroupDetail'} component={FixedGroupDetail} options={{title: ''}}/>
         </Drawer.Navigator>
     );

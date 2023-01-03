@@ -153,7 +153,7 @@ const HomeScreen = ({navigation, appDuck}) => {
                             </TouchableOpacity>
 
                             { fixedGroups > 0 && <View flex={1} mt={4}>
-                                <TouchableOpacity onPress={() => navigation.navigate('FixedGroups', {user: appDuck.user.id})}>
+                                <TouchableOpacity onPress={() => navigation.navigate('FixedGroupList', {user: appDuck.user.id})}>
                                     <View alignItems={'center'} mb={2}>
                                         <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                             <Image source={iconFixedGroups} style={{width: 45, resizeMode: 'contain'}}/>

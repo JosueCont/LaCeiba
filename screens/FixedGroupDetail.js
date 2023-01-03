@@ -19,31 +19,40 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
     const {schedule, groupData, userId} = route.params;
     const [groupDataConst, setGroupDataConst] = useState(null);
     const [membersInvite, setMembersInvite] = useState([])
+    const [membersInviteLeaders, setMembersInviteLeaders] = useState([]);
     const [membersInviteNames, setMembersInviteNames] = useState([])
     const [modalAskVisible, setModalAskVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(false);
     const [textModal, setTextModal] = useState('Se agendó correctamente el grupo fijo');
     const [dateBooking, setDateBooking] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [errorBooking, setErrorBooking] = useState(false);
     const [init, setInit] = useState(true);
 
-    const toggle = (value, id, name) => {
+    const toggle = (value, id, name, isLeader = false) => {
         if(!value){
             setMembersInvite(membersInvite.filter((item)=> item!=id));
             setMembersInviteNames(membersInviteNames.filter((item)=> item!=name));
+            if(isLeader)
+                setMembersInviteLeaders(membersInviteLeaders.filter((item)=>item!=id));
             return;
         }
-        if(membersInvite.length >= 3) return;
+        if(membersInvite.length >= groupData.area.maxPeople) return;
         setMembersInvite([...membersInvite, id]);
         setMembersInviteNames([...membersInviteNames, name]);
+        if(isLeader)
+            setMembersInviteLeaders([...membersInviteLeaders, id]);
     }
 
     useFocusEffect(
         React.useCallback(() => {
           //getAllFixedGroups();
-          setMembersInvite([]);
+            setMembersInvite([]);
+            setMembersInviteLeaders([]);
             setMembersInviteNames([]);
             setGroupDataConst(groupData);
+            setLoading(false);
+            setErrorBooking(false);
           return () => {
             setGroupDataConst(null);
           };
@@ -81,15 +90,32 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
 
     const confirmBooking = async () => {
         try {
+            let userLeader = null;
+            if(membersInviteLeaders.length != 0){
+                if(membersInviteLeaders.includes(userId)){
+                    userLeader = userId;
+                }else{
+                    userLeader = membersInviteLeaders[0];
+                }
+            }
+            if(!userLeader){
+                userLeader = membersInvite[0];
+            }
+
+            const membersFiltered = membersInvite.filter((item)=>item != userLeader);
+            console.log(membersFiltered);
+            console.log(userLeader);
+            
+
             const body = {
                 dueDate : dateBooking,
                 dueTime : schedule.fromHour,
                 areaId : groupData.area.id,
-                users : membersInvite
+                users : membersFiltered
             }
             console.log(body);
             setLoading(true);
-            const response = await createBookingGF(body, [groupData.id, userId]);
+            const response = await createBookingGF(body, [groupData.id, userLeader]);
             console.log(response?.data);
             if(response.data){
                 setLoading(false);
@@ -98,13 +124,16 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
             }
             
         } catch (error) {
-            console.log(error);
+            console.log(error?.data);
+            setErrorBooking(true);
             setTextModal('Ocurrió un error, intenta de nuevo');
+            setModalInfoVisible(true);
+            setLoading(false);
         }
     }
 
     const membersFormated = () =>{
-        let membersString = `${appDuck.user.firstName}\n`;
+        let membersString = ``;
         membersInviteNames.map((value)=>{
             membersString += (value + '\n')
         })
@@ -112,7 +141,13 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
     }
 
     const goHome = () => {
-        navigation.navigate('HomeScreen');
+        if(!errorBooking){
+            navigation.navigate('HomeScreen');
+        }
+        else{
+            setErrorBooking(false);
+        }
+            
     }
 
     return(
@@ -137,12 +172,12 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                                 <Switch
                                     key={index}
                                     justifyContent={'center'}
-                                    trackColor={{ false: "#767577", true: membersInvite.includes(valueGroup.id) ? Colors.green : '#767577'}}
+                                    trackColor={{ false: "#767577", true: valueGroup.id == userId  || membersInvite.includes(valueGroup.id) ? Colors.green : '#767577'}}
                                     thumbColor={membersInvite.includes(valueGroup.id) ? "#f4f3f4" : "#f4f3f4"}
                                     ios_backgroundColor="#3e3e3e"
-                                    onValueChange={(status)=>{toggle(status, valueGroup.id, valueGroup.firstName); }}
-                                    value={valueGroup.id == userId ? true : membersInvite.length <= 0 ? false : membersInvite.includes(valueGroup.id)}
-                                    disabled={(valueGroup.id == userId) || (membersInvite.length>=groupData.area.maxPeople -1 && !membersInvite.includes(valueGroup.id))}
+                                    onValueChange={(status)=>{toggle(status, valueGroup.id, valueGroup.firstName, true); }}
+                                    value={membersInvite.length <= 0 ? false : membersInvite.includes(valueGroup.id)}
+                                    disabled={(membersInvite.length>=groupData.area.maxPeople && !membersInvite.includes(valueGroup.id))}
                                 />
                             </View>
                             )
@@ -162,7 +197,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                                     ios_backgroundColor="#3e3e3e"
                                     onValueChange={(status)=>{toggle(status, valueGroup.id, valueGroup.firstName); }}
                                     value={membersInvite.length <= 0 ? false : membersInvite.includes(valueGroup.id)}
-                                    disabled={membersInvite.length>=groupData.area.maxPeople -1 && !membersInvite.includes(valueGroup.id)}
+                                    disabled={membersInvite.length>=groupData.area.maxPeople && !membersInvite.includes(valueGroup.id)}
                                 />
                             </View>
                         )

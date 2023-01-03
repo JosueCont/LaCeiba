@@ -5,6 +5,7 @@ import {Colors} from "../Colors";
 import { createGuest, editGuest } from "../api/Requests";
 import { useEffect } from "react";
 import ModalInfo from "./Modals/ModalInfo";
+import { useFocusEffect } from "@react-navigation/native";
 
 const AddUpdateGuest = ({navigation, route}) => {
 
@@ -16,20 +17,43 @@ const AddUpdateGuest = ({navigation, route}) => {
     const [textModal, setTextModal] = useState('Se agregó al usuario correctamente');
     const [success, setSuccess] = useState(false);
 
+    useFocusEffect(
+        React.useCallback(() => {
+            setEditedEmail(false);
+            setEditedName(false);
+        }, [])
+    );
+
+    useEffect(()=>{
+        console.log(editedName);
+    }, [editedName])
+
+
     useEffect(()=>{
         if(route.params.data){
             setNameGuest(route.params?.data?.name);
             setEmailGuest(route.params?.data?.email);
             setModalInfoVisible(false);
+            setEditedEmail(false);
+            setEditedName(false);
         }else{
             setNameGuest(null);
             setEmailGuest(null);
             setModalInfoVisible(false);
+            setEditedEmail(false);
+            setEditedName(false);
         }
     },[route.params])
 
     const addGuest = async () => {
         try {
+            const guestFounded = route?.params?.guests?.find(guest => guest.name == nameGuest);
+            if(guestFounded){
+                setTextModal("Ya existe un invitado con ese nombre");
+                setSuccess(false);
+                setModalInfoVisible(true);
+                return;
+            }
             const bodyString = {
                 name: nameGuest,
                 email: emailGuest
@@ -40,7 +64,16 @@ const AddUpdateGuest = ({navigation, route}) => {
             setSuccess(true);
             setModalInfoVisible(true);
         } catch (error) {
-            setTextModal("Los parámetros son incorrectos, vuelve a intentarlo");
+            console.log(error?.data);
+            switch (error?.data?.message) {
+                case 'Guest name or email already exists for this user':
+                    setTextModal("El nombre o email ya existen en un invitado");
+                    break;
+                default:
+                    setTextModal("Los parámetros son incorrectos, vuelve a intentarlo");
+                    break;
+            }
+            
             setSuccess(false);
             setModalInfoVisible(true);
             
@@ -49,6 +82,13 @@ const AddUpdateGuest = ({navigation, route}) => {
 
     const updateGuest = async () => {
         try {
+            const guestFounded = route?.params?.guests?.find(guest => guest.name == nameGuest);
+            if(guestFounded && editedName){
+                setTextModal("Ya existe un invitado con ese nombre");
+                setSuccess(false);
+                setModalInfoVisible(true);
+                return;
+            }
             const bodyString = {}
             if(editedName){
                 bodyString['name'] = nameGuest;
@@ -65,11 +105,14 @@ const AddUpdateGuest = ({navigation, route}) => {
         } catch (error) {
             console.log("ERR: ", error?.data);
             switch (error?.data?.message) {
+                case 'Guest name or email already exists for this user':
+                    setTextModal("El nombre o email ya existen en un invitado");
+                    break;
                 case 'Guest name is already exists for this user':
-                    setTextModal("El nombre ya existe para este usuario");    
+                    setTextModal("El nombre ya existe en un invitado");    
                     break;
                 case 'Guest email is already exists for this user':
-                    setTextModal("El email ya existe para este usuario");
+                    setTextModal("El email ya existe en un invitado");
                     break;
                 default:
                     setTextModal("Los parámetros son incorrectos, vuelve a intentarlo");

@@ -23,7 +23,7 @@ const GuestItem = ({navigation, mb = 2, item, onEdit, onDelete}) => {
     return (
         <View flexDirection={'row'} height={90} bgColor={'#fff'} borderRadius={50} mb={mb}>
             <View flex={0.5} justifyContent={'center'} alignItems={'center'}>
-                <Image source={iconPerson} style={{width: 55, height: 55}} borderRadius={60}/>
+                {/* <Image source={iconPerson} style={{width: 55, height: 55}} borderRadius={60}/> */}
             </View>
 
             <View flex={1} flexDirection={'row'}>

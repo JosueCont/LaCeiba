@@ -38,7 +38,7 @@ const GuestGeneratePass = ({navigation, route}) => {
         const getFS = async () =>{
             const response = await getFreeServices();
             setFreeServices(response.data);
-            //console.log(response.data);
+            console.log(response.data);
         }
         const result = getFS()
         .catch(console.error);
@@ -189,7 +189,7 @@ const GuestGeneratePass = ({navigation, route}) => {
                             {
                                 freeServices.map((item, index) => {
                                     return (
-                                        <Checkbox mx={3} value={item} _text={{color: '#000'}}>
+                                        item.isActive && <Checkbox mx={3} value={item} _text={{color: '#000'}}>
                                             {item.name}
                                         </Checkbox>
                                     )
