@@ -87,7 +87,7 @@ const FixedGroups = ({appDuck, navigation, route}) => {
                             <View mt={4} ml={10} mr={10} flex={1} justifyContent={'center'} alignItems={'center'}>
                                 <ImageBackground source={bgButton} style={{ width: '100%', height: 70, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}} borderRadius={60}>
                                     <Text fontSize={'md'}> {dayWeek[value.day].day} {formatHour(value.fromHour)} </Text>
-                                    <Text fontSize={'md'}>{!exist ? 'Reservado' : 'Reservar'}</Text>
+                                    <Text fontSize={'md'}>{!exist ? 'Integrantes confirmados' : 'Integrantes por confirmar'}</Text>
                                 </ImageBackground>
                             </View>
                         </TouchableOpacity>)

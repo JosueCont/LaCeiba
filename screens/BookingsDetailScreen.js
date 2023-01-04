@@ -271,17 +271,17 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                 onAccept={actionBook == "Confirm" ? AcceptBooking : RejectBooking}>
 
             </ModalConfirmRejectBook>
-            <ModalAsk
+            <ModalInfo
                 setVisible={setModalCancelVisible}
                 visible={modalCancelVisible}
-                text={'¿Deseas cancelar esta reservación?'}
+                text={'Por favor comuníquese con administración para realizar la cancelación de esta reservación'}
                 title={'Cancelar reservación'}
-                textButton={'Sī'}
-                textNoButton={'No'}
+                textButton={'Aceptar'}
+                //textNoButton={'No'}
                 iconType={'exclamation'}
                 close={true}
                 action={() => {
-                    cancelFunction()
+                    //cancelFunction()
                     setModalCancelVisible(false)
                 }}/>
             <ModalInfo setVisible={setModalCancelInformationVisible} visible={modalCancelInformationVisible} close={true} iconType={'exclamation'} textButton={'Entendido'} text={'Por favor comuníquese con administración para realizar la cancelación de esta reservación'}>

@@ -11,7 +11,7 @@ import iconFixedGroups from '../assets/iconPersonSmall.png';
 
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import LayoutV4 from "./Layouts/LayoutV4";
-import {getGFLeader, validatePartner} from "../api/Requests";
+import {getAllGF, getGFLeader, validatePartner} from "../api/Requests";
 import {connect} from "react-redux";
 import ModalInfo from "./Modals/ModalInfo";
 import { useFocusEffect } from '@react-navigation/native';
@@ -21,9 +21,14 @@ const HomeScreen = ({navigation, appDuck}) => {
     const [text, setText] = useState(null);
     const [modalInfoVisible, setModalInfoVisible] = useState(null);
     const [fixedGroups, setFixedGroups] = useState(0);
+    const [allGroups, setAllGroups] = useState([]);
+    const [groupsFounded, setGroupsFounded] = useState([]);
 
     useFocusEffect(
         React.useCallback(() => {
+            setAllGroups([]);
+            setGroupsFounded([]);
+            getAllFixedGroups();
             checkFixedGroups();
             return () => {
                 setFixedGroups(0);
@@ -55,6 +60,22 @@ const HomeScreen = ({navigation, appDuck}) => {
 
         }
 
+    }
+
+    const getAllFixedGroups = async () => {
+        try {
+            const response = await getAllGF();
+            setAllGroups(response?.data);
+            for (const groupElement of response?.data) {
+                for (const leader of groupElement.leaders) {
+                    if(leader?.id == appDuck.user.id){
+                        setGroupsFounded([...groupsFounded, groupElement]);
+                    }
+                }
+            }
+        } catch (error) {
+            console.log(error?.data);
+        }
     }
 
     const checkFixedGroups = async () => {
@@ -152,8 +173,8 @@ const HomeScreen = ({navigation, appDuck}) => {
                                 </View>
                             </TouchableOpacity>
 
-                            { fixedGroups > 0 && <View flex={1} mt={4}>
-                                <TouchableOpacity onPress={() => navigation.navigate('FixedGroupList', {user: appDuck.user.id})}>
+                            { (fixedGroups > 0 || groupsFounded.length > 0) && <View flex={1} mt={4}>
+                                <TouchableOpacity onPress={() => navigation.navigate('FixedGroupList', {user: appDuck.user.id, groupsFounded: groupsFounded})}>
                                     <View alignItems={'center'} mb={2}>
                                         <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                             <Image source={iconFixedGroups} style={{width: 45, resizeMode: 'contain'}}/>
