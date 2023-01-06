@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Button, Icon, Input, Text, View} from "native-base";
+import {Button, Icon, Input, Text, View,FormControl,WarningOutlineIcon} from "native-base";
 import LayoutV3 from "./Layouts/LayoutV3";
 import {Colors} from "../Colors";
 import { createGuest, editGuest } from "../api/Requests";
@@ -16,6 +16,7 @@ const AddUpdateGuest = ({navigation, route}) => {
     const [modalInfoVisible, setModalInfoVisible] = useState(false);
     const [textModal, setTextModal] = useState('Se agregó al usuario correctamente');
     const [success, setSuccess] = useState(false);
+    const [isInvalidName ,setIsInvalidName] = useState(false);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -23,6 +24,15 @@ const AddUpdateGuest = ({navigation, route}) => {
             setEditedName(false);
         }, [])
     );
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            setIsInvalidName(null)
+            setNameGuest(null)
+            setEmailGuest(null)
+        });
+        return unsubscribe;
+     }, [navigation]);
 
     useEffect(()=>{
         console.log(editedName);
@@ -47,7 +57,14 @@ const AddUpdateGuest = ({navigation, route}) => {
 
     const addGuest = async () => {
         try {
-            const guestFounded = route?.params?.guests?.find(guest => guest.name == nameGuest);
+            let regexName = new RegExp("^[a-zA-ZÀ-ÿ\u00f1\u00d1]{3}(([a-zA-ZÀ-ÿ\u00f1\u00d1\\s])+)?$");
+                if (!regexName.test(nameGuest)) {
+                        setIsInvalidName(true)
+                        setNameGuest(null)
+                        return
+                }
+                setIsInvalidName(false)
+                const guestFounded = route?.params?.guests?.find(guest => guest.name == nameGuest);
             if(guestFounded){
                 setTextModal("Ya existe un invitado con ese nombre");
                 setSuccess(false);
@@ -144,9 +161,14 @@ const AddUpdateGuest = ({navigation, route}) => {
                 <Text color={Colors.green} fontSize={'sm'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={5}>
                     Nombre completo
                 </Text>
-                <Input mb={5} value={nameGuest} onChangeText={(v)=>{setNameGuest(v); setEditedName(true);}}>
+                <Input mb={0} value={nameGuest} onChangeText={(v)=>{setNameGuest(v); setEditedName(true);}}>
                 </Input>
-                <Text color={Colors.green} fontSize={'sm'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={5}>
+                <FormControl isInvalid={isInvalidName}>
+                <FormControl.ErrorMessage fontSize={'xs'} leftIcon={<WarningOutlineIcon size="xs" />}>
+               Ingrese un nombre valido sin espacios y al menos 3 caracteres
+                </FormControl.ErrorMessage>
+                </FormControl>
+                <Text color={Colors.green} fontSize={'sm'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mt={5} mb={5}>
                     Correo electrónico
                 </Text>
                 <Input mb={5} value={emailGuest} onChangeText={(v)=>{setEmailGuest(v); setEditedEmail(true);}}>
