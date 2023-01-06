@@ -9,6 +9,7 @@ import iconGuestsSmall from '../assets/iconGuestsSmall.png';
 import iconHelp from '../assets/iconHelp.png';
 import iconLogout from '../assets/iconLogout.png';
 import iconMembers from '../assets/iconMembers.png'
+import iconNotifications from '../assets/iconNotifications.png';
 import {TouchableOpacity} from "react-native";
 import {loggedOutAction} from "../redux/ducks/appDuck";
 import ModalAsk from "../screens/Modals/ModalAsk";
@@ -148,16 +149,16 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                 {/*        </View>*/}
                 {/*    </View>*/}
                 {/*</TouchableOpacity>*/}
-                {/*<TouchableOpacity onPress={() => navigation.navigate('NotificationsScreen')}>*/}
-                {/*    <View flexDirection={'row'} mb={4}>*/}
-                {/*        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>*/}
-                {/*            <Image source={iconNotifications} style={{width: 20, height: 20}}></Image>*/}
-                {/*        </View>*/}
-                {/*        <View flex={1} justifyContent={'center'}>*/}
-                {/*            <Text fontSize={'md'}>Notificaciones</Text>*/}
-                {/*        </View>*/}
-                {/*    </View>*/}
-                {/*</TouchableOpacity>*/}
+                <TouchableOpacity onPress={() => navigation.navigate('NotificationsScreen')}>
+                    <View flexDirection={'row'} mb={4}>
+                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                            <Image source={iconNotifications} style={{width: 20, height: 20}}></Image>
+                        </View>
+                        <View flex={1} justifyContent={'center'}>
+                            <Text fontSize={'md'}>Notificaciones</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('HelpScreen')}>
                     <View flexDirection={'row'} mb={4}>
                         <View flex={0.3} alignItems={'center'} justifyContent={'center'}>

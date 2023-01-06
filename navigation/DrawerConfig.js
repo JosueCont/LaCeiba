@@ -52,6 +52,7 @@ import GuestGeneratePass from "../screens/GuestGeneratePass";
 import FixedGroups from "../screens/FixedGroups";
 import FixedGroupDetail from "../screens/FixedGroupDetail";
 import FixedGroupList from "../screens/FixedGroupList";
+import NotificationDetail from "../screens/NotificationDetail";
 
 const Drawer = createDrawerNavigator();
 
@@ -121,6 +122,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'QRSentScreen'} component={QRSentScreen} options={{title: ''}}/>
             <Drawer.Screen name={'QRNonPaymentScreen'} component={QRNonPaymentScreen} options={{title: ''}}/>
             <Drawer.Screen name={'NotificationsScreen'} component={NotificationsScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'NotificationDetail'} component={NotificationDetail} options={{title: ''}}/>
             <Drawer.Screen name={'InstallationsScreen'} component={InstallationsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'ServicesScreen'} component={ServicesScreen} options={{title: ''}}/>
             <Drawer.Screen name={'InstallationsDetailScreen'} component={InstallationsDetailScreen} options={{title: ''}}/>

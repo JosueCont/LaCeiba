@@ -11,18 +11,18 @@ const NotificationsScreen = ({navigation}) => {
         <LayoutV4>
             <View flex={1} mx={8}>
 
-                <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Notificaciones</Text>
+                <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Mis notificaciones</Text>
 
 
-                <NotificationItem mb={4}/>
+                <NotificationItem navigation={navigation} mb={4}/>
 
-                <NotificationItem mb={4}/>
-                <NotificationItem mb={4}/>
+                <NotificationItem navigation={navigation} mb={4}/>
+                <NotificationItem navigation={navigation} mb={4}/>
                 <Text textAlign={'center'} mb={4} color={Colors.green} fontSize={'sm'}>Ayer</Text>
 
-                <NotificationItem mb={4}/>
-                <NotificationItem mb={4}/>
-                <NotificationItem mb={4}/>
+                <NotificationItem navigation={navigation} mb={4}/>
+                <NotificationItem navigation={navigation} mb={4}/>
+                <NotificationItem navigation={navigation} mb={4}/>
             </View>
 
         </LayoutV4>
