@@ -2,13 +2,16 @@ import LayoutV4 from "./Layouts/LayoutV4"
 import LayoutV3 from "./Layouts/LayoutV3";
 import bgButton from "../assets/bgButton.png";
 import { ImageBackground, TouchableOpacity } from "react-native";
-import { Button, Image, Text, View } from "native-base";
+import {Button, Image, ScrollView, Text, View} from "native-base";
 import React, { useState, useEffect } from "react";
 import { Colors } from "../Colors";
 import {connect} from "react-redux";
 import { getAllGF, getGFNextBooking } from "../api/Requests";
 import { useFocusEffect } from "@react-navigation/native";
 import { dayWeek, formatHour } from "../utils";
+import pin from "../assets/pin.png";
+import iconBooking from "../assets/iconBooking.png";
+import moment from "moment/moment";
 
 const FixedGroups = ({appDuck, navigation, route}) => {
 
@@ -74,28 +77,47 @@ const FixedGroups = ({appDuck, navigation, route}) => {
 
     return(
         
-        <LayoutV4 white={true} overlay={true}>
-            <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} mt={5} textAlign={'center'} fontSize={'xl'}> Mi grupo fijo </Text>
-            {groupFounded && <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} mt={5} textAlign={'center'} fontSize={'lg'}> {groupFounded?.name} </Text>}
-            {groupFounded && <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} mt={5} textAlign={'center'} fontSize={'md'}> {groupFounded?.area?.service?.name} </Text>}
-            {groupFounded && <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} mt={5} textAlign={'center'} fontSize={'md'}> {groupFounded?.area?.name} </Text>}
+        <LayoutV4 overlay={true}>
+            <View flex={1} mx={8}>
+
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                flexGrow={1}>
+            <View flex={1} mt={10} mb={4} mx={8}>
+                <ImageBackground resizeMode={'contain'} source={bgButton} style={{ width: '100%', height: 67, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}} borderRadius={60}>
+                    <Text fontSize={'lg'}> {groupFounded?.name} </Text>
+                    <Text fontSize={'sm'}> {groupFounded?.area?.service?.name} </Text>
+                </ImageBackground>
+            </View>
+            {/*{groupFounded && <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} mt={5} textAlign={'center'} fontSize={'lg'}> {groupFounded?.area?.service?.name} </Text>}*/}
+            {groupFounded && <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'lg'} mb={8}> {groupFounded?.area?.name} </Text>}
             {
                 groupFounded && group && groupFounded?.schedules?.map((value, index)=>{
                     const exist = group.schedules?.find(element => element.id == value.id);
                     return(
-                        value.isActive && (<TouchableOpacity disabled={!exist} key={index} onPress={() => {navigation.navigate('FixedGroupDetail', {schedule: value, groupData: groupFounded, userId: appDuck.user.id});}}>
+                        value.isActive && (/*<TouchableOpacity disabled={!exist} key={index} onPress={() => {navigation.navigate('FixedGroupDetail', {schedule: value, groupData: groupFounded, userId: appDuck.user.id});}}>
                             <View mt={4} ml={10} mr={10} flex={1} justifyContent={'center'} alignItems={'center'}>
                                 <ImageBackground source={bgButton} style={{ width: '100%', height: 70, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}} borderRadius={60}>
                                     <Text fontSize={'md'}> {dayWeek[value.day].day} {formatHour(value.fromHour)} </Text>
                                     <Text fontSize={'md'}>{!exist ? 'Integrantes confirmados' : 'Integrantes por confirmar'}</Text>
                                 </ImageBackground>
                             </View>
-                        </TouchableOpacity>)
+                        </TouchableOpacity>*/
+                            <TouchableOpacity disabled={!exist} key={index} onPress={() => {navigation.navigate('FixedGroupDetail', {schedule: value, groupData: groupFounded, userId: appDuck.user.id});}}>
+                            <View flexDirection={'row'} bgColor={'#fff'} borderRadius={50} mb={4} paddingX={8} paddingY={2}>
+
+                                <View flex={1} justifyContent={'center'} alignItems={'center'}>
+                                <Text fontSize={'md'} color={Colors.green}> {dayWeek[value.day].day} {formatHour(value.fromHour)} </Text>
+                                <Text fontSize={'md'} color={Colors.green}>{!exist ? 'Integrantes confirmados' : 'Integrantes por confirmar'}</Text>
+                                </View>
+                            </View>
+                            </TouchableOpacity>)
                     )
                     
                 })
             }
-            
+            </ScrollView>
+        </View>
         </LayoutV4>
     )
 }

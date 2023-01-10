@@ -1,12 +1,13 @@
 import LayoutV4 from "./Layouts/LayoutV4"
 import LayoutV3 from "./Layouts/LayoutV3";
 import bgButton from "../assets/bgButton.png";
-import { ImageBackground, TouchableOpacity } from "react-native";
-import { Button, Image, Text, View } from "native-base";
+import {ImageBackground, RefreshControl, TouchableOpacity} from "react-native";
+import {Button, Image, ScrollView, Text, View} from "native-base";
 import React, { useState, useEffect } from "react";
 import { Colors } from "../Colors";
 import {connect} from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
+import iconBooking from "../assets/iconBooking.png";
 
 const FixedGroupList = ({appDuck, navigation, route}) => {
 
@@ -15,23 +16,29 @@ const FixedGroupList = ({appDuck, navigation, route}) => {
     return(
         
         <LayoutV4 white={true} overlay={true}>
-            <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} mt={5} textAlign={'center'} fontSize={'xl'}> Mis grupos fijos </Text>
+            <View flex={1} mx={16}>
+
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    flexGrow={1}>
+                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Grupos fijos</Text>
             {
                 groupsFounded && groupsFounded.map((value, index)=>{
-                    
                     return(
-                       (<TouchableOpacity key={index} onPress={() => {navigation.navigate('FixedGroups', {groupFounded: value, userId: appDuck.user.id});}}>
-                            <View mt={6} ml={10} mr={10} flex={1} justifyContent={'center'} alignItems={'center'}>
-                                <ImageBackground source={bgButton} style={{ width: '100%', height: 50, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}} borderRadius={60}>
-                                    <Text fontSize={'md'}> {value?.name} </Text>
+                        <View flex={1} mb={4}>
+                            <TouchableOpacity key={index} onPress={() => {navigation.navigate('FixedGroups', {groupFounded: value, userId: appDuck.user.id});}}>
+                               <ImageBackground resizeMode={'contain'} source={bgButton} style={{ width: '100%', height: 67, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}} borderRadius={60}>
+                                    <Text fontSize={'lg'}> {value?.name} </Text>
+                                    <Text fontSize={'sm'}> {value?.area?.service?.name} </Text>
                                 </ImageBackground>
-                            </View>
-                        </TouchableOpacity>)
+                            </TouchableOpacity>
+                        </View>
                     )
                     
                 })
             }
-            
+                </ScrollView>
+            </View>
         </LayoutV4>
     )
 }
