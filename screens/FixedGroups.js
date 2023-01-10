@@ -92,17 +92,14 @@ const FixedGroups = ({appDuck, navigation, route}) => {
             {/*{groupFounded && <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} mt={5} textAlign={'center'} fontSize={'lg'}> {groupFounded?.area?.service?.name} </Text>}*/}
             {groupFounded && <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'lg'} mb={8}> {groupFounded?.area?.name} </Text>}
             {
-                groupFounded && group && groupFounded?.schedules?.map((value, index)=>{
+                groupFounded && group && groupFounded?.schedules?.sort((a, b) => {
+                    const nameA = a.day.toUpperCase()
+                    const nameB = b.day.toUpperCase()
+                    return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0
+                }).map((value, index)=>{
                     const exist = group.schedules?.find(element => element.id == value.id);
                     return(
-                        value.isActive && (/*<TouchableOpacity disabled={!exist} key={index} onPress={() => {navigation.navigate('FixedGroupDetail', {schedule: value, groupData: groupFounded, userId: appDuck.user.id});}}>
-                            <View mt={4} ml={10} mr={10} flex={1} justifyContent={'center'} alignItems={'center'}>
-                                <ImageBackground source={bgButton} style={{ width: '100%', height: 70, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}} borderRadius={60}>
-                                    <Text fontSize={'md'}> {dayWeek[value.day].day} {formatHour(value.fromHour)} </Text>
-                                    <Text fontSize={'md'}>{!exist ? 'Integrantes confirmados' : 'Integrantes por confirmar'}</Text>
-                                </ImageBackground>
-                            </View>
-                        </TouchableOpacity>*/
+                        value.isActive && (
                             <TouchableOpacity disabled={!exist} key={index} onPress={() => {navigation.navigate('FixedGroupDetail', {schedule: value, groupData: groupFounded, userId: appDuck.user.id});}}>
                             <View flexDirection={'row'} bgColor={'#fff'} borderRadius={50} mb={4} paddingX={8} paddingY={2}>
 
