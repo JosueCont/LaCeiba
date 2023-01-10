@@ -1,22 +1,35 @@
 import LayoutV4 from "./Layouts/LayoutV4"
 import LayoutV3 from "./Layouts/LayoutV3";
 import bgButton from "../assets/bgButton.png";
-import {ImageBackground, RefreshControl, TouchableOpacity} from "react-native";
+import {Image as ImageRN, ImageBackground, RefreshControl, TouchableOpacity} from "react-native";
 import {Button, Image, ScrollView, Text, View} from "native-base";
 import React, { useState, useEffect } from "react";
 import { Colors } from "../Colors";
 import {connect} from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 import iconBooking from "../assets/iconBooking.png";
+import SliderCustom from "../components/SliderCustom/SliderCustom";
 
 const FixedGroupList = ({appDuck, navigation, route}) => {
 
     const {groupsFounded} = route?.params;
+    const [sliderPosition, setSliderPosition] = useState(0)
 
     return(
         
         <LayoutV4 white={true} overlay={true}>
-            <View flex={1} mx={16}>
+            <View flex={1}>
+                <View bgColor={Colors.green}>
+                    <SliderCustom
+                        height={200}
+                        items={[
+                            {image: ImageRN.resolveAssetSource(require('../assets/bgFixedGroups.png')).uri},
+
+                        ]}
+                        position={sliderPosition}
+                        setPosition={setSliderPosition}/>
+                </View>
+                <View flex={1} mx={10}>
 
                 <ScrollView
                     showsVerticalScrollIndicator={false}
@@ -25,8 +38,8 @@ const FixedGroupList = ({appDuck, navigation, route}) => {
             {
                 groupsFounded && groupsFounded.map((value, index)=>{
                     return(
-                        <View flex={1} mb={4}>
-                            <TouchableOpacity key={index} onPress={() => {navigation.navigate('FixedGroups', {groupFounded: value, userId: appDuck.user.id});}}>
+                        <View key={index} flex={1} mb={4}>
+                            <TouchableOpacity onPress={() => {navigation.navigate('FixedGroups', {groupFounded: value, userId: appDuck.user.id});}}>
                                <ImageBackground resizeMode={'contain'} source={bgButton} style={{ width: '100%', height: 67, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}} borderRadius={60}>
                                     <Text fontSize={'lg'}> {value?.name} </Text>
                                     <Text fontSize={'sm'}> {value?.area?.service?.name} </Text>
@@ -38,6 +51,7 @@ const FixedGroupList = ({appDuck, navigation, route}) => {
                 })
             }
                 </ScrollView>
+                </View>
             </View>
         </LayoutV4>
     )
