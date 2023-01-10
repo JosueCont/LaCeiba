@@ -39,4 +39,6 @@ export const URLTypes = {
     GET_ALL_GF: '/v1/fixed-groups',
     GET_GF_NEXTBOOKING : '/v1/fixed-groups/users/{{param}}/next-booking',
     CREATE_GF_BOOKING : '/v1/fixed-groups/{{param}}/users/{{param}}/booking',
+    GET_ALL_NOTIFICATIONS: '/v1/notifications',
+    GET_ONE_NOTIFICATION: '/v1/notifications/{{param}}',
 };
