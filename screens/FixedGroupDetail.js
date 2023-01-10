@@ -157,8 +157,8 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                 <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} mt={5} textAlign={'center'} fontSize={'lg'}> {groupData.name} </Text>
                 <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} mt={5} textAlign={'center'} fontSize={'lg'}> {groupData.area.service.name} </Text>
                 <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} mt={5} textAlign={'center'} fontSize={'md'}> {groupData.area.name} </Text>
-                <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} mt={5} textAlign={'center'} fontSize={'md'}> {dayWeek[schedule.day].day} {getNextDayOfWeek(dayWeek[schedule.day].id)} </Text>
-                <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} mt={5} textAlign={'center'} fontSize={'md'}> {formatHour(schedule.fromHour)} - {formatHour(schedule.toHour)} </Text>
+                <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} mt={5} textAlign={'center'} fontSize={'md'}> {dayWeek[schedule?.day].day} {getNextDayOfWeek(dayWeek[schedule?.day].id)} </Text>
+                <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} mt={5} textAlign={'center'} fontSize={'md'}> {formatHour(schedule?.fromHour)}</Text>
                 {
                     groupDataConst?.leaders?.map((valueGroup, index)=>{
                         return(

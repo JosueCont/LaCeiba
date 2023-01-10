@@ -92,7 +92,6 @@ const FixedGroups = ({appDuck, navigation, route}) => {
                             </View>
                         </TouchableOpacity>)
                     )
-                    
                 })
             }
             
