@@ -2,18 +2,20 @@ import React from "react";
 import {Select, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import NotificationItem from "./NotificationItem";
-import LayoutV4 from "./Layouts/LayoutV4";
+import LayoutV5 from "./Layouts/LayoutV5";
 import { useFocusEffect } from "@react-navigation/native";
 import { connect } from "react-redux";
 import { getAllNotifications } from "../api/Requests";
 import { useState } from "react";
+import { FlatList } from "react-native";
 
 const NotificationsScreen = ({navigation, appDuck}) => {
 
     const [notifications, setNotifications] = useState([]);
     const [notificationsFiltered, setNotificationsFiltered] = useState([]);
-    const [typesNotifications, setTypesNotifications] = useState([{label: 'Todos', value: 'ALL'}, {label: 'Promoción', value: 'PROMOTION'}, {label: 'Aviso', value: 'ANNOUNCEMENT'}, {label: 'Advertencia', value: 'ADVISEMENT'}]);
+    const [typesNotifications, setTypesNotifications] = useState([{label: 'Todas las notificaciones', value: 'ALL'}, {label: 'Promoción', value: 'PROMOTION'}, {label: 'Recordatorio', value: 'REMINDER'},{label: 'Aviso', value: 'NOTICE'}]);
     const [typeSelected, setTypeSelected] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -24,16 +26,22 @@ const NotificationsScreen = ({navigation, appDuck}) => {
     );
 
     const getNotifications = async () => {
+        setLoading(true)
         try {
             const queryString = `?userId=${appDuck.user.id}`;
             const response = await getAllNotifications(queryString);
-            console.log(response?.data);    
-            setNotifications(response?.data?.items);
-            setNotificationsFiltered(response?.data?.items);
+            const unique = Object.values(
+                response?.data?.items.reduce((acc, obj) => ({ ...acc, [obj.template.title]: obj }), {})
+            ); 
+            setNotifications(unique);
+            setNotificationsFiltered(unique);
             //console.log(appDuck?.user?.id);
         } catch (error) {
             console.log(error?.data);
+        }finally{
+         setLoading(false)
         }
+    
     }
 
     const filterType = (typeSelected) => {
@@ -43,12 +51,17 @@ const NotificationsScreen = ({navigation, appDuck}) => {
         }   
         setNotificationsFiltered(notifications.filter(item => item?.template?.category == typeSelected));
     }
+    
+    const renderItem = (item, index) => {
+        
+        return  <NotificationItem navigation={navigation} mb={4} notification={item.item} />
+    }
 
     return (
-        <LayoutV4>
+        <LayoutV5>
             <View flex={1} mx={8}>
 
-                <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Mis notificaciones</Text>
+                <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Notificaciones</Text>
 
                 <View mb={10}>
                     <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
@@ -72,15 +85,21 @@ const NotificationsScreen = ({navigation, appDuck}) => {
                             })
                         }
                     </Select>
+                    
                 </View>
                 
                 {
                     notificationsFiltered.length > 0 ?
-                    notificationsFiltered.map((item, index)=>{
-                        return(
-                            <NotificationItem navigation={navigation} mb={4} notification={item} />
-                        )
-                    })
+                            
+                             <FlatList
+                                data={notificationsFiltered}
+                                renderItem={renderItem}
+                                keyExtractor={(item) => item.id.toString()}
+                                onRefresh={() => filterType(typeSelected)}
+                                refreshing={loading}
+                            />
+                        
+                    
                     :
                     <View mt={10} flexDirection={'row'} alignContent={'center'} justifyContent={'center'} >
                         <Text color={Colors.green}> No se encontraron notificaciones </Text>
@@ -98,7 +117,7 @@ const NotificationsScreen = ({navigation, appDuck}) => {
                 <NotificationItem navigation={navigation} mb={4}/> */}
             </View>
 
-        </LayoutV4>
+        </LayoutV5>
     )
 }
 

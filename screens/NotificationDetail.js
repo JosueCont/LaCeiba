@@ -10,42 +10,50 @@ import { getOneNotification } from "../api/Requests";
 import { useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import WebView from "react-native-webview";
+import { useEffect } from "react";
 
 const NotificationDetail = ({navigation, route}) => {
 
     const {notification} = route?.params;
     const [notificationDetail, setNotificationDetail] = useState(null);
 
-    useFocusEffect(
-        React.useCallback(() => {
-            setNotificationDetail(null);
-            getNotificationDetail();
-        }, [])
-    );
+    useEffect(()=>{
+            if(notification){
+                setNotificationDetail(null);
+                getNotificationDetail();
+            }}
+    , [notification]);
 
     const getNotificationDetail = async () => {
         try {
-            const response = await getOneNotification('', [notification?.id])
-            console.log(response?.data);
+            const response = await getOneNotification('', [notification])
             setNotificationDetail(response?.data);
         } catch (error) {
             console.log(error);
         }
+    }
+    const typeCategory = (cat) => {
+        const type = {
+          'PROMOTION': 'Promoción',
+          'REMINDER': 'Recordatorio',
+          'NOTICE': 'Aviso'
+        };
+        return type[cat] ?? "Sin categoria";
     }
 
     return (
         <LayoutV4>
             {notificationDetail && <View flex={1} mx={8}>
 
-                <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>{notificationDetail?.template?.title}</Text>
+                <Text textAlign={'center'} mt={10} mb={10} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'3xl'}>{notificationDetail?.template?.title.toUpperCase()}</Text>
                 <View flexDirection={'row'} alignContent={'center'} justifyContent={'center'}>
-                <ImageBackground source={bgButton} style={{width: 105, height: 25, alignItems: 'center', justifyContent: 'center'}} borderRadius={60}>
-                    <Text fontSize={'xs'}>{notificationDetail?.template?.category}</Text>
+                <ImageBackground  style={{width: 175, height: 45, borderRadius:60, alignItems: 'center', justifyContent: 'center', backgroundColor:'#FFB718'}}>
+                    <Text color={'#0A5839'} fontSize={'md'}>{typeCategory(notificationDetail?.template?.category)}</Text>
                 </ImageBackground>
                 </View>
 
                 <View mt={10} flexDirection={'row'} justifyContent={'center'}>
-                    <Text color={Colors.green}>Contenido</Text>
+                    <Text color={Colors.green}>Contenido:</Text>
                 </View>
                 
                 <View mt={5} width={'100%'} height={300} fontSize={'2xl'} borderRadius={50}>
@@ -60,14 +68,16 @@ const NotificationDetail = ({navigation, route}) => {
                     </WebView>
                 </View>
                 
-                <View alignContent={'center'} justifyContent={'center'} mb={10} mt={10} flexDirection={'row'} bgColor={Colors.green} borderRadius={20}>
-                    
-                    {/* <Text textAlign={'center'} ml={10} mr={10} mt={10} mb={10} >{notificationDetail?.template?.content}</Text> */}
-                </View>
+             
 
-                <Button mb={10} onPress={()=>{navigation.goBack();}}>
+                <View mt={10} mb={10} flexDirection={'row'} justifyContent={'center'}>
+                <View>
+                   <Button width={'100%'} style={{borderRadius:60}} padding={3} mt={5} onPress={()=>{navigation.goBack();}}>
                     De acuerdo
-                </Button>
+                </Button>                   
+                </View>
+                </View>
+               
                 
             </View>}
 

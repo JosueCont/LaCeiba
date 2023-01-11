@@ -2,7 +2,8 @@ import React from "react";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import CustomDrawerContent from "./DrawerNavigatorContent";
 import HomeScreen from "../screens/HomeScreen";
-import {Icon, View} from "native-base";
+import {Icon, View,Text, Image} from "native-base";
+import iconNewNotification from '../assets/iconNewNotification.png';
 import {TouchableOpacity} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
 import {Colors} from "../Colors";
@@ -102,6 +103,16 @@ const DrawerConfig = () => {
 
                 },
                 headerRight: () => (
+                <View flexDirection={'row'}>
+                    <TouchableOpacity onPress={() => navigation.navigate('NotificationsScreen')}
+                    style={{
+                        width: 40,
+                        height: '100%',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
+                        <Image source={iconNewNotification} style={{width: 20, height: 20}}></Image>
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.openDrawer()} style={{
                         width: 50,
                         height: '100%',
@@ -111,6 +122,9 @@ const DrawerConfig = () => {
                     }}>
                         <Icon as={MaterialIcons} color={'white'} name={'menu'} size={'md'}></Icon>
                     </TouchableOpacity>
+                </View>
+                
+                   
                 ),
                 swipeEnabled: false,
                 headerShadowVisible: false
