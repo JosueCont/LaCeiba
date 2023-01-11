@@ -1,9 +1,11 @@
-import React from "react";
+import React,  { useEffect, useState }  from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import CustomDrawerContent from "./DrawerNavigatorContent";
 import HomeScreen from "../screens/HomeScreen";
 import {Icon, View,Text, Image} from "native-base";
 import iconNewNotification from '../assets/iconNewNotification.png';
+import iconNotifications from '../assets/iconNotifications.png';
 import {TouchableOpacity} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
 import {Colors} from "../Colors";
@@ -54,10 +56,41 @@ import FixedGroups from "../screens/FixedGroups";
 import FixedGroupDetail from "../screens/FixedGroupDetail";
 import FixedGroupList from "../screens/FixedGroupList";
 import NotificationDetail from "../screens/NotificationDetail";
+import { getAllNotifications } from "../api/Requests";
+import { connect } from "react-redux";
+
 
 const Drawer = createDrawerNavigator();
 
-const DrawerConfig = () => {
+const DrawerConfig = ({idUser, navigation}) => {
+
+    const [notifications, setNotifications] = useState([]);
+    const [readAllNotifications, setReadAllNotifications] = useState(false)
+
+
+    useFocusEffect(
+        React.useCallback(() => {
+            getNotifications()
+        }, [])
+    );
+
+
+
+    const getNotifications = async () => {
+        try {
+            const queryString = `?userId=${idUser}&isRead=false`;
+            const response = await getAllNotifications(queryString);
+            setNotifications(response?.data?.items);
+            if(response.data.items.length > 0){
+                setReadAllNotifications(true)
+            }else{
+                setReadAllNotifications(false)
+            }
+            
+        } catch (error) {
+            console.log(error?.data);
+        }
+    }
 
     return (
         <Drawer.Navigator
@@ -110,8 +143,12 @@ const DrawerConfig = () => {
                         height: '100%',
                         alignItems: 'center',
                         justifyContent: 'center'
-                    }}>
+                    }}>                        
+                       { readAllNotifications ?
                         <Image source={iconNewNotification} style={{width: 20, height: 20}}></Image>
+                        : 
+                        <Image source={iconNotifications} style={{width: 20, height: 20}}></Image>
+                       } 
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.openDrawer()} style={{
                         width: 50,
@@ -182,4 +219,10 @@ const DrawerConfig = () => {
     );
 }
 
-export default DrawerConfig;
+const mapState = (state) => {
+    return {
+        idUser: state.appDuck.user.id
+    }
+}
+
+export default connect (mapState)(DrawerConfig);

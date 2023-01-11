@@ -30,11 +30,8 @@ const NotificationsScreen = ({navigation, appDuck}) => {
         try {
             const queryString = `?userId=${appDuck.user.id}`;
             const response = await getAllNotifications(queryString);
-            const unique = Object.values(
-                response?.data?.items.reduce((acc, obj) => ({ ...acc, [obj.template.title]: obj }), {})
-            ); 
-            setNotifications(unique);
-            setNotificationsFiltered(unique);
+            setNotifications(response?.data?.items);
+            setNotificationsFiltered(response?.data?.items);
             //console.log(appDuck?.user?.id);
         } catch (error) {
             console.log(error?.data);
