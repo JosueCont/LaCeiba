@@ -28,7 +28,7 @@ const FixedGroupList = ({appDuck, navigation, route}) => {
                     <ScrollView
                         showsVerticalScrollIndicator={false}
                         flexGrow={1}>
-                        <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Grupos fijos</Text>
+                        <Text textAlign={'center'} mt={8} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Grupos fijos</Text>
                         {
                             groupsFounded && groupsFounded.map((value, index) => {
                                 return (
