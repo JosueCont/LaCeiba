@@ -7,7 +7,7 @@ import iconAccess from '../assets/iconAccess.png';
 import iconReserve from '../assets/iconReserve.png'
 import iconGuests from '../assets/iconGuests.png'
 import iconBooking from '../assets/iconBooking.png';
-import iconFixedGroups from '../assets/iconPersonSmall.png';
+import iconFixedGroups from '../assets/iconFixedGroups.png';
 
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import LayoutV4 from "./Layouts/LayoutV4";
