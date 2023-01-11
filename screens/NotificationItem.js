@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {Button, Image, Text, View} from "native-base";
 import {Colors} from "../Colors";
 
@@ -6,34 +6,33 @@ import bgButton from "../assets/bgButton.png";
 import {ImageBackground} from "react-native";
 import iconGolfHit from "../assets/iconsReservations/iconGolfHit.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import IconNotificationRead from '../assets/IconNotificationRead.png'
 
-const NotificationItem = ({navigation, mb = 2, notification}) => {
+
+const NotificationItem = ({navigation, mb = 5, notification}) => {
 
 
+      const typeCategory = (cat) => {
+        const type = {
+          'PROMOTION': 'Promoción',
+          'REMINDER': 'Recordatorio',
+          'NOTICE': 'Aviso'
+        };
+        return type[cat] ?? "Sin categoria";
+    }
 
     return (
-        <TouchableOpacity onPress={()=>{navigation.navigate('NotificationDetail', {notification: notification});}}>
-            <View flexDirection={'row'} height={90} bgColor={'#fff'} borderRadius={50} mb={mb}>
-            <View flex={0.5} justifyContent={'center'} alignItems={'center'}>
-                <ImageBackground source={bgButton} style={{width: 55, height: 55, alignItems: 'center', justifyContent: 'center'}} borderRadius={60}>
-                    <Image source={iconGolfHit}></Image>
-                </ImageBackground>
-            </View>
-            <View borderWidth={1} height={'60%'} alignSelf={'center'} mr={3} borderColor={Colors.yellow}/>
-            <View flex={1} justifyContent={'center'}>
-                <Text mb={1} color={Colors.green} fontSize={'md'}>{notification?.template?.title}</Text>
-                <ImageBackground source={bgButton} style={{width: 105, height: 25, alignItems: 'center', justifyContent: 'center'}} borderRadius={60}>
-                    <Text fontSize={'xs'}>{notification?.template?.category}</Text>
-                </ImageBackground>
+        <TouchableOpacity onPress={()=>{navigation.navigate('NotificationDetail', {notification: notification.id});}}>
+            <View flexDirection={'row'} justifyContent={'center'} padding={2} bgColor={'#fff'} borderRadius={50} mb={5}>
+          
+            <View width={'85%'} justifyContent={'center'} alignItems={'center'}>
+                <Text  mb={1} color={Colors.green} fontSize={'md'}>{notification?.template?.title}</Text>
+                <Text  color={Colors.green} fontSize={'xs'}>{typeCategory(notification?.template?.category)}</Text>
                 {/* <Text color={Colors.green} fontSize={'xs'} width={'90%'}>{detail}</Text> */}
             </View>
-            <View flex={0.5} justifyContent={'center'}>
-                
-                {notification?.isRead && <ImageBackground source={bgButton} style={{width: 65, height: 25, alignItems: 'center', justifyContent: 'center'}} borderRadius={60}>
-                    <Text fontSize={'sm'}>Leido</Text>
-                </ImageBackground>}
-                {/* <Text color={Colors.green} fontSize={'xs'} width={'90%'}>{detail}</Text> */}
-            </View>
+            <View width={'10%'}  justifyContent={'center'} alignItems={'center'}>
+                    <Image source={IconNotificationRead}></Image>
+                </View>
         </View>
         </TouchableOpacity>
         
