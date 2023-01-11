@@ -162,10 +162,10 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                     groupDataConst?.leaders?.map((valueGroup, index)=>{
                         return(
                             
-                            (<View key={index} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} bgColor={'#fff'} borderRadius={50} mb={4} paddingX={8} paddingY={3}>
-                                <View flex={1} flexDirection={'column'}>
-                                    <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'}> {valueGroup.firstName} </Text>
-                                    <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'sm'}> Responsable del grupo </Text>
+                            (<View key={index} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} bgColor={'#fff'} borderRadius={50} mb={4} paddingX={6} paddingY={2.5}>
+                                <View flex={1} flexDirection={'column'} pr={1}>
+                                    <Text numberOfLines={1} fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'}> {valueGroup.firstName} </Text>
+                                    <Text numberOfLines={1} fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'sm'}> Responsable del grupo </Text>
                                 </View>
                                 <View flex={.5} borderLeftWidth={2} borderLeftStyle={'solid'} borderLeftColor={'gold'}>
                                 <Switch
@@ -187,10 +187,10 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                 {
                     groupDataConst?.members?.map((valueGroup, index)=>{
                         return(
-                            <View key={index} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} bgColor={'#fff'} borderRadius={50} mb={4} paddingX={8} paddingY={3}>
-                                <View flex={1} flexDirection={'column'}>
-                                    <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'}> {valueGroup.firstName} </Text>
-                                    <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'}> {valueGroup.lastName} </Text>
+                            <View key={index} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} bgColor={'#fff'} borderRadius={50} mb={4} paddingX={6} paddingY={2.5}>
+                                <View flex={1} flexDirection={'column'} pr={1}>
+                                    <Text numberOfLines={1} fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'}> {valueGroup.firstName}</Text>
+                                    <Text numberOfLines={1} fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'}> {valueGroup.lastName}</Text>
                                 </View>
                                 <View flex={.5} borderLeftWidth={2} borderLeftStyle={'solid'} borderLeftColor={'gold'}>
                                 <Switch size={'lg'}

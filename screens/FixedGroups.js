@@ -100,7 +100,7 @@ const FixedGroups = ({appDuck, navigation, route}) => {
                     return(
                         value.isActive && (
                             <TouchableOpacity disabled={!exist} key={index} onPress={() => {navigation.navigate('FixedGroupDetail', {schedule: value, groupData: groupFounded, userId: appDuck.user.id});}}>
-                            <View flexDirection={'row'} bgColor={'#fff'} borderRadius={50} mb={4} paddingX={8} paddingY={2}>
+                            <View flexDirection={'row'} bgColor={'#fff'} borderRadius={50} mb={4} paddingX={6} paddingY={2}>
 
                                 <View flex={1} justifyContent={'center'} alignItems={'center'}>
                                 <Text fontSize={'md'} color={Colors.green}> {dayWeek[value.day].day} {formatHour(value.fromHour)} </Text>
