@@ -78,13 +78,13 @@ const FixedGroups = ({appDuck, navigation, route}) => {
     return(
         
         <LayoutV4 overlay={true}>
-            <View flex={1} mx={8}>
+            <View flex={1} mx={4}>
 
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 flexGrow={1}>
             <View flex={1} mt={8} mb={4} mx={8}>
-                <ImageBackground resizeMode={'contain'} source={bgButton} style={{ width: '100%', height: 67, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}} borderRadius={60}>
+                <ImageBackground resizeMode={'stretch'} source={bgButton} style={{ width: '100%', height: 67, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}} borderRadius={60}>
                     <Text fontSize={'lg'}> {groupFounded?.name} </Text>
                     <Text fontSize={'sm'}> {groupFounded?.area?.service?.name} </Text>
                 </ImageBackground>
@@ -100,7 +100,13 @@ const FixedGroups = ({appDuck, navigation, route}) => {
                     return(
                         value.isActive && (
                             <TouchableOpacity disabled={!exist} key={index} onPress={() => {navigation.navigate('FixedGroupDetail', {schedule: value, groupData: groupFounded, userId: appDuck.user.id});}}>
-                            <View flexDirection={'row'} bgColor={'#fff'} borderRadius={50} mb={4} paddingX={6} paddingY={2}>
+                            <View flexDirection={'row'} bgColor={'#fff'} borderRadius={50} paddingX={6} paddingY={2.5} mb={4} mx={4} style={{
+                                shadowColor: '#000',
+                                shadowOffset: { width: 0, height: (!exist ? 0: 3)},
+                                shadowOpacity: 0.5,
+                                shadowRadius: (!exist ? 0: 2),
+                                elevation:(!exist ? 0: 3)
+                            }}>
 
                                 <View flex={1} justifyContent={'center'} alignItems={'center'}>
                                 <Text fontSize={'md'} color={Colors.green}> {dayWeek[value.day].day} {formatHour(value.fromHour)} </Text>
