@@ -33,7 +33,7 @@ const NotificationItem = ({navigation, mb = 5, notification}) => {
             <View flexDirection={'row'} justifyContent={'center'} padding={2} bgColor={'#fff'} borderRadius={50} mb={5}>
           
             <View justifyContent={'center'} alignItems={'center'}>
-                <Text  mb={1} color={Colors.green} fontSize={'md'}>{notification?.template?.title}</Text>
+                <Text textAlign={'center'}  mb={1} color={Colors.green} fontSize={'md'}>{notification?.template?.title.length<=18? notification?.template?.title : `${notification?.template?.title.slice(0,18)}...`}</Text>
                 <Text  color={Colors.green} fontSize={'xs'}>{typeCategory(notification?.template?.category)}</Text>
                 {/* <Text color={Colors.green} fontSize={'xs'} width={'90%'}>{detail}</Text> */}
             </View>

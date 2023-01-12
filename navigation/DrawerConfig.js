@@ -1,9 +1,11 @@
-import React from "react";
+import React,  { useEffect, useState }  from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import CustomDrawerContent from "./DrawerNavigatorContent";
 import HomeScreen from "../screens/HomeScreen";
 import {Icon, View,Text, Image} from "native-base";
 import iconNewNotification from '../assets/iconNewNotification.png';
+import iconNotifications from '../assets/iconNotifications.png';
 import {TouchableOpacity} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
 import {Colors} from "../Colors";
@@ -54,10 +56,18 @@ import FixedGroups from "../screens/FixedGroups";
 import FixedGroupDetail from "../screens/FixedGroupDetail";
 import FixedGroupList from "../screens/FixedGroupList";
 import NotificationDetail from "../screens/NotificationDetail";
+import { getAllNotifications } from "../api/Requests";
+import { connect } from "react-redux";
+import {useSelector} from "react-redux";
+
+
 
 const Drawer = createDrawerNavigator();
 
 const DrawerConfig = () => {
+    const notificationExist = useSelector(state => {
+        return state.navigationDuck.notificationExist;
+    });
 
     return (
         <Drawer.Navigator
@@ -110,8 +120,16 @@ const DrawerConfig = () => {
                         height: '100%',
                         alignItems: 'center',
                         justifyContent: 'center'
-                    }}>
-                        <Image source={iconNewNotification} style={{width: 20, height: 20}}></Image>
+                    }}> 
+                      
+                       { notificationExist  &&
+                        <Image source={iconNewNotification} style={{width: 20, height: 20}}></Image>   
+                       }
+                       {
+                        !notificationExist &&
+                        <Image source={iconNotifications} style={{width: 20, height: 20}}></Image>
+                       } 
+
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.openDrawer()} style={{
                         width: 50,
@@ -181,5 +199,6 @@ const DrawerConfig = () => {
         </Drawer.Navigator>
     );
 }
+
 
 export default DrawerConfig;
