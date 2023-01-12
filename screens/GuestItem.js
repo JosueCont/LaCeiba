@@ -30,7 +30,8 @@ const GuestItem = ({navigation, mb = 2, item, onEdit, onDelete}) => {
                   elevation:3
         }}>
             <View flex={1} flexDirection={'column'} pr={1}>
-                <Text numberOfLines={2} color={Colors.green} fontSize={'md'} justifyItems={'center'}>{item?.name}</Text>
+                <Text numberOfLines={1} color={Colors.green} fontSize={'16'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>{item?.name}</Text>
+                <Text numberOfLines={1} color={Colors.green} fontSize={'12'} justifyItems={'center'}>{item.email}</Text>
             </View>
             <View flex={.5} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} height={'60%'} alignSelf={'center'} borderLeftWidth={2} borderColor={Colors.yellow}>
                 <TouchableOpacity onPress={()=>onEdit(item)}>
