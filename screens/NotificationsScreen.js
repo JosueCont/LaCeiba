@@ -35,6 +35,7 @@ const NotificationsScreen = ({navigation, appDuck}) => {
             ); 
             setNotifications(unique);
             setNotificationsFiltered(unique);
+            console.log(unique);
             //console.log(appDuck?.user?.id);
         } catch (error) {
             console.log(error?.data);
@@ -53,8 +54,7 @@ const NotificationsScreen = ({navigation, appDuck}) => {
     }
     
     const renderItem = (item, index) => {
-        
-        return  <NotificationItem navigation={navigation} mb={4} notification={item.item} />
+        return  (<NotificationItem navigation={navigation} mb={4} notification={item.item} />)
     }
 
     return (
@@ -95,8 +95,9 @@ const NotificationsScreen = ({navigation, appDuck}) => {
                                 data={notificationsFiltered}
                                 renderItem={renderItem}
                                 keyExtractor={(item) => item.id.toString()}
-                                onRefresh={() => filterType(typeSelected)}
+                                onRefresh={() => getNotifications()}
                                 refreshing={loading}
+                                extraData={true}
                             />
                         
                     

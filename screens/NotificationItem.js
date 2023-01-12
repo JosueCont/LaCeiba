@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {Button, Image, Text, View} from "native-base";
 import {Colors} from "../Colors";
 
@@ -7,12 +7,19 @@ import {ImageBackground} from "react-native";
 import iconGolfHit from "../assets/iconsReservations/iconGolfHit.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import IconNotificationRead from '../assets/IconNotificationRead.png'
+import iconRead from '../assets/iconRead.png';
 
 
 const NotificationItem = ({navigation, mb = 5, notification}) => {
 
+    const [isRead, setIsRead] = useState(false);
 
-      const typeCategory = (cat) => {
+    useEffect(()=>{
+        console.log(notification?.isRead);
+        setIsRead(notification?.isRead);
+    }, [notification?.isRead])
+
+    const typeCategory = (cat) => {
         const type = {
           'PROMOTION': 'Promoción',
           'REMINDER': 'Recordatorio',
@@ -30,9 +37,18 @@ const NotificationItem = ({navigation, mb = 5, notification}) => {
                 <Text  color={Colors.green} fontSize={'xs'}>{typeCategory(notification?.template?.category)}</Text>
                 {/* <Text color={Colors.green} fontSize={'xs'} width={'90%'}>{detail}</Text> */}
             </View>
+            {isRead &&
             <View position={'absolute'} right={'5'} top={'5'} justifyContent={'center'} alignItems={'center'}>
                     <Image source={IconNotificationRead}></Image>
             </View>
+            }
+            {
+                !isRead && 
+                <View position={'absolute'} right={'5'} top={'5'} justifyContent={'center'} alignItems={'center'}>
+                    <Image source={iconRead}></Image>
+                </View>
+            }
+
         </View>
         </TouchableOpacity>
         

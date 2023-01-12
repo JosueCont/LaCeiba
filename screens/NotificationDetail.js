@@ -6,7 +6,7 @@ import LayoutV4 from "./Layouts/LayoutV4";
 
 import bgButton from "../assets/bgButton.png";
 import {ImageBackground} from "react-native";
-import { getOneNotification } from "../api/Requests";
+import { getOneNotification, setNotificationRead } from "../api/Requests";
 import { useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import WebView from "react-native-webview";
@@ -28,6 +28,13 @@ const NotificationDetail = ({navigation, route}) => {
         try {
             const response = await getOneNotification('', [notification])
             setNotificationDetail(response?.data);
+            if(!response?.data?.isRead){
+                const bodyRead = {
+                    isRead: true
+                }
+                const responseRead = await setNotificationRead(bodyRead, [notification])
+                console.log(responseRead?.data);
+            }
         } catch (error) {
             console.log(error);
         }
