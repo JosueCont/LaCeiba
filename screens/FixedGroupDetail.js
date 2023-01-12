@@ -153,7 +153,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
     return(
         
         <LayoutV4 overlay={true}>
-            <View flex={1} mx={8}>
+            <View flex={1} mx={4}>
                 <Text textAlign={'center'} mt={8} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>{groupData.name}</Text>
                 <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'lg'}>{groupData.area.service.name} | {groupData.area.name}</Text>
                 <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'}> {dayWeek[schedule?.day].day} {getNextDayOfWeek(dayWeek[schedule?.day].id)} </Text>
@@ -162,22 +162,28 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                     groupDataConst?.leaders?.map((valueGroup, index)=>{
                         return(
                             
-                            (<View key={index} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} bgColor={'#fff'} borderRadius={50} mb={4} paddingX={6} paddingY={2.5}>
+                            (<View key={index} flexDirection={'row'} height={79} justifyContent={'center'} alignItems={'center'} bgColor={'#fff'} borderRadius={50} paddingX={6} mb={4} mx={4}
+                                   style={{
+                                       shadowColor: '#000',
+                                       shadowOffset: { width: 0, height: 3 },
+                                       shadowOpacity: 0.5,
+                                       shadowRadius: 2,
+                                       elevation:3
+                                   }}>
                                 <View flex={1} flexDirection={'column'} pr={1}>
-                                    <Text numberOfLines={1} fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'}> {valueGroup.firstName} </Text>
+                                    <Text numberOfLines={1} fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'}>{valueGroup.firstName}</Text>
                                     <Text numberOfLines={1} fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'sm'}> Responsable del grupo </Text>
                                 </View>
-                                <View flex={.5} borderLeftWidth={2} borderLeftStyle={'solid'} borderLeftColor={'gold'}>
-                                <Switch
-                                    size={'lg'}
-                                    justifyContent={'center'}
-                                    trackColor={{ false: "#767577", true: valueGroup.id == userId  || membersInvite.includes(valueGroup.id) ? Colors.green : '#767577'}}
-                                    thumbColor={membersInvite.includes(valueGroup.id) ? "#f4f3f4" : "#f4f3f4"}
-                                    ios_backgroundColor="#3e3e3e"
-                                    onValueChange={(status)=>{toggle(status, valueGroup.id, valueGroup.firstName, true); }}
-                                    value={membersInvite.length <= 0 ? false : membersInvite.includes(valueGroup.id)}
-                                    disabled={(membersInvite.length>=groupData.area.maxPeople && !membersInvite.includes(valueGroup.id))}
-                                />
+                                <View flex={.5} borderLeftWidth={2} borderColor={Colors.yellow} height={'60%'} alignSelf={'center'}  justifyContent={'center'} alignItems={'center'}>
+                                    <Switch
+                                        justifyContent={'center'}
+                                        trackColor={{ false: "#767577", true: valueGroup.id == userId  || membersInvite.includes(valueGroup.id) ? Colors.green : '#767577'}}
+                                        thumbColor={membersInvite.includes(valueGroup.id) ? "#f4f3f4" : "#f4f3f4"}
+                                        ios_backgroundColor="#3e3e3e"
+                                        onValueChange={(status)=>{toggle(status, valueGroup.id, valueGroup.firstName, true); }}
+                                        value={membersInvite.length <= 0 ? false : membersInvite.includes(valueGroup.id)}
+                                        disabled={(membersInvite.length>=groupData.area.maxPeople && !membersInvite.includes(valueGroup.id))}
+                                    />
                                 </View>
                             </View>
                             )
@@ -187,13 +193,19 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                 {
                     groupDataConst?.members?.map((valueGroup, index)=>{
                         return(
-                            <View key={index} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} bgColor={'#fff'} borderRadius={50} mb={4} paddingX={6} paddingY={2.5}>
+                            <View key={index} flexDirection={'row'} height={79} justifyContent={'center'} alignItems={'center'} bgColor={'#fff'} borderRadius={50} paddingX={6} mb={4} mx={4}
+                                  style={{
+                                      shadowColor: '#000',
+                                      shadowOffset: { width: 0, height: 3 },
+                                      shadowOpacity: 0.5,
+                                      shadowRadius: 2,
+                                      elevation:3
+                                  }}>
                                 <View flex={1} flexDirection={'column'} pr={1}>
-                                    <Text numberOfLines={1} fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'}> {valueGroup.firstName}</Text>
-                                    <Text numberOfLines={1} fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'}> {valueGroup.lastName}</Text>
+                                    <Text numberOfLines={2} fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'}>{valueGroup.firstName}{'\n'}{valueGroup.lastName}</Text>
                                 </View>
-                                <View flex={.5} borderLeftWidth={2} borderLeftStyle={'solid'} borderLeftColor={'gold'}>
-                                <Switch size={'lg'}
+                                <View flex={.5} borderLeftWidth={2} borderColor={Colors.yellow} height={'60%'} alignSelf={'center'}  justifyContent={'center'} alignItems={'center'}>
+                                <Switch
                                     justifyContent={'center'}
                                     trackColor={{ false: "#767577", true: membersInvite.includes(valueGroup.id) ? Colors.green : "#767577"}}
                                     thumbColor={membersInvite.includes(valueGroup.id) ? "#f4f3f4" : "#f4f3f4"}
@@ -210,7 +222,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                 
 
                 <View flex={1} mb={10} mt={5} px={10}>
-                    <TouchableOpacity onPress={() => {
+                    {/*<TouchableOpacity onPress={() => {
                         if(loading || membersInvite.length<groupData.area.minPeople -1) return false
                         sendBooking()
                     }}>
@@ -226,8 +238,8 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                                 : <Text fontSize={'md'}>Aplicar</Text>
                             }
                         </ImageBackground>
-                    </TouchableOpacity>
-                    {/*<Button size={'lg'} disabled={loading || membersInvite.length<groupData.area.minPeople -1} opacity={loading || membersInvite.length < groupData.area.minPeople -1 ? 0.5 : 1} onPress={sendBooking} mt={5}>{loading ? <Spinner size={'sm'} color={'white'}></Spinner> : 'Aplicar'}</Button>*/}
+                    </TouchableOpacity>*/}
+                    <Button size={'lg'} disabled={loading || membersInvite.length<groupData.area.minPeople -1} opacity={loading || membersInvite.length < groupData.area.minPeople -1 ? 0.5 : 1} onPress={sendBooking} mt={5}>{loading ? <Spinner size={'sm'} color={'white'}></Spinner> : 'Aplicar'}</Button>
                 </View>
 
 

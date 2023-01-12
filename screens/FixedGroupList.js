@@ -24,11 +24,11 @@ const FixedGroupList = ({appDuck, navigation, route}) => {
                         style={{height: 180}}/>
                 </View>
                 <View flex={1} mx={10}>
+                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Grupos fijos</Text>
 
                     <ScrollView
                         showsVerticalScrollIndicator={false}
                         flexGrow={1}>
-                        <Text textAlign={'center'} mt={8} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Grupos fijos</Text>
                         {
                             groupsFounded && groupsFounded.map((value, index) => {
                                 return (
@@ -39,7 +39,7 @@ const FixedGroupList = ({appDuck, navigation, route}) => {
                                                 userId: appDuck.user.id
                                             });
                                         }}>
-                                            <ImageBackground resizeMode={'contain'} source={bgButton} style={{
+                                            <ImageBackground resizeMode={'stretch'} source={bgButton} style={{
                                                 width: '100%',
                                                 height: 67,
                                                 alignItems: 'center',

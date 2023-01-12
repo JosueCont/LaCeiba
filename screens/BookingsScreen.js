@@ -53,7 +53,7 @@ const BookingsScreen = ({navigation, appDuck}) => {
 
     return (
         <LayoutV3>
-            <View flex={1} mx={8}>
+            <View flex={1} mx={4}>
 
                 <ScrollView
                     showsVerticalScrollIndicator={false}
