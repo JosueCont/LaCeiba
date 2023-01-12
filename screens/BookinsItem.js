@@ -16,7 +16,14 @@ const BookinsItem = ({navigation, mb = 2, data, dataInvitation, dataBooking, app
 
 
     return (
-        <View flexDirection={'row'} height={100} bgColor={'#fff'} borderRadius={50} mb={mb}>
+        <View flexDirection={'row'} height={79} bgColor={'#fff'} borderRadius={50} mb={mb} mx={4}
+              style={{
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 3 },
+                  shadowOpacity: 0.5,
+                  shadowRadius: 2,
+                  elevation:3
+              }}>
             <View flex={1} justifyContent={'center'} alignItems={'center'}>
                 <ImageBackground source={bgButton} style={{width: 55, height: 55, alignItems: 'center', justifyContent: 'center'}} borderRadius={60}>
                     <Image source={dataInvitation.booking?.fixedGroupId ? pin : iconBooking} width={21} height={21}></Image>
@@ -24,7 +31,7 @@ const BookinsItem = ({navigation, mb = 2, data, dataInvitation, dataBooking, app
             </View>
 
             <View flex={1} justifyContent={'center'}>
-                <Text color={Colors.green} fontSize={'12'} bold={true} width={'90%'}>{dataInvitation?.booking?.area.service.name}</Text>
+                <Text color={Colors.green} fontSize={'12'} bold={true} width={'90%'} numberOfLines={2}>{dataInvitation?.booking?.area.service.name}</Text>
                 <Text color={Colors.green} fontSize={'10'} width={'90%'}>
                     {moment(dataInvitation?.booking?.dueDate, "YYYY-MM-DD").format("DD/MM/YYYY")}
                 </Text>

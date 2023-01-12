@@ -133,15 +133,14 @@ const GuestsScreen = ({navigation, appDuck}) => {
     return (
         <LayoutV5>
             <View flex={1}>
-                <View mt={5} flexDirection={'row'} justifyContent={'flex-end'} mx={8}>
-                   <View>
-                        <Button onPress={()=>{addGuest();}}> Agregar invitado</Button>
-                   </View>
-                </View>
-                <View flex={1}>
-                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Invitados</Text>
+                <View flex={1}>{/*
+                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Invitados</Text>*/}
 
-                    <View mx={10}>
+                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Invitados</Text>
+                    <View mb={5} flexDirection={'row'} justifyContent={'center'} mx={8}>
+                        <Button onPress={()=>{addGuest();}}>+ Agregar invitado</Button>
+                    </View>
+                    <View mx={10} mb={5}>
                         <Input value={valor} placeholder={'Buscar'} onChangeText={(v) => search(v)}/>
                     </View>
 

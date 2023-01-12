@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Button, Checkbox, Icon, Input, Spinner, Text, View} from "native-base";
+import {Button, Checkbox, Icon, Input, Spinner, Text, View, ScrollView, Box} from "native-base";
 import LayoutV3 from "./Layouts/LayoutV3";
 import {Colors} from "../Colors";
 import { createGuest, generatePass, getFreeServices } from "../api/Requests";
@@ -87,7 +87,11 @@ const GuestGeneratePass = ({navigation, route}) => {
 
     return (
         <LayoutV3>
-            <View flex={1} mx={10} justifyContent={'center'}>
+
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                flexGrow={1}>
+            <View flex={1} mx={10} mt={8} justifyContent={'center'}>
                 <Text color={Colors.green} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={2}>
                     {route?.params?.data?.name}
                 </Text>
@@ -164,14 +168,14 @@ const GuestGeneratePass = ({navigation, route}) => {
                     Área sin restricción
                 </Text>
 
-                <View>
+                <View pr={8}>
                         <Checkbox.Group
                             onChange={(values) => {
                                 console.log(values)
                                 setGroupValues(values)
                             }}
-                            flexDirection={'row'}
-                            alignItems={'center'}
+                            flexDirection={'column'}
+                            alignItems={'flex-start'}
                             justifyContent={'center'}
                             mt={3}
                             value={groupValues}
@@ -189,9 +193,11 @@ const GuestGeneratePass = ({navigation, route}) => {
                             {
                                 freeServices.map((item, index) => {
                                     return (
-                                        item.isActive && <Checkbox mx={3} value={item} _text={{color: '#000'}}>
-                                            {item.name}
-                                        </Checkbox>
+                                        item.isActive &&
+                                            <Checkbox mx={3} mb={2} value={item} _text={{color: '#000'}} >
+                                                <Text color={Colors.green} numberOfLines={2}>{item.name}</Text>
+                                            </Checkbox>
+
                                     )
                                 })
                             }
@@ -205,10 +211,10 @@ const GuestGeneratePass = ({navigation, route}) => {
                     {route?.params?.data?.email}
                 </Text>
             </View>
-            
             <ModalInfo setVisible={setModalInfoVisible} visible={modalInfoVisible} close={true} iconType={'exclamation'} textButton={'Aceptar'} text={textModal}>
 
             </ModalInfo>
+        </ScrollView>
         </LayoutV3>
     )
 }

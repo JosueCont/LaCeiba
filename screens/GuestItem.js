@@ -21,28 +21,29 @@ const GuestItem = ({navigation, mb = 2, item, onEdit, onDelete}) => {
     //     "telefono": "5541526363",
 
     return (
-        <View flexDirection={'row'} height={90} bgColor={'#fff'} borderRadius={50} mb={mb}>
-            <View flex={0.5} justifyContent={'center'} alignItems={'center'}>
-                {/* <Image source={iconPerson} style={{width: 55, height: 55}} borderRadius={60}/> */}
+        <View flexDirection={'row'} height={79} justifyContent={'center'} alignItems={'center'} bgColor={'#fff'} borderRadius={50} paddingX={6} mb={mb}
+              style={{
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 3 },
+                  shadowOpacity: 0.5,
+                  shadowRadius: 2,
+                  elevation:3
+        }}>
+            <View flex={1} flexDirection={'column'} pr={1}>
+                <Text numberOfLines={2} color={Colors.green} fontSize={'md'} justifyItems={'center'}>{item?.name}</Text>
             </View>
-
-            <View flex={1} flexDirection={'row'}>
-                <View justifyContent={'center'} mr={2}>
-                    <Text color={Colors.green} fontSize={'xs'} justifyItems={'center'}>{item?.name}</Text>
-                </View>
-                
+            <View flex={.5} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} height={'60%'} alignSelf={'center'} borderLeftWidth={2} borderColor={Colors.yellow}>
+                <TouchableOpacity onPress={()=>onEdit(item)}>
+                    <View flex={0.2} justifyContent={'center'} alignItems={'flex-end'}>
+                            <Image source={iconEdit} style={{width: 25, height: 25}}></Image>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity  onPress={()=>onDelete(item)}>
+                    <View flex={0.5} justifyContent={'center'} alignItems={'center'}>
+                            <Image source={iconTrash} style={{width: 25, height: 25}}></Image>
+                    </View>
+                </TouchableOpacity>
             </View>
-            <TouchableOpacity style={{justifyContent: 'center', width:'15%', height: '100%'}} onPress={()=>onEdit(item)}>
-                <View flex={0.2} justifyContent={'center'} alignItems={'flex-end'}>
-                        <Image source={iconEdit} style={{width: 25, height: 25}}></Image>
-                </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={{justifyContent: 'center', width:'15%', height: '100%'}} onPress={()=>onDelete(item)}>
-                <View flex={0.5} justifyContent={'center'} alignItems={'center'}>
-                        <Image source={iconTrash} style={{width: 25, height: 25}}></Image>
-                </View>
-            </TouchableOpacity>
-            
         </View>
     )
 }
