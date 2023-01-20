@@ -43,20 +43,22 @@ const GuestGeneratePassScreen = ({navigation, route, appDuck}) => {
             navigation.navigate('GuestGeneratePassSuccessScreen')
         } catch (ex) {
             console.log(ex)
-            if (ex.status === 400) {
-                setModalText('El invitado tiene 3 invitaciones este mes')
-                setModalVisible(true);
-            } else {
-                switch (ex.data.message) {
-                    case 'Partner does not have access':
-                        setModalText('El socio tiene un adeudo pendiente')
-                        break;                
-                    default:
-                        setModalText(ex.data.message)
-                        break;
-                }
-                setModalVisible(true);
-            }
+            setModalText(ex.data.message)
+            setModalVisible(true);
+            // if (ex.status === 400) {
+            //     setModalText('El invitado tiene 3 invitaciones este mes')
+            //     setModalVisible(true);
+            // } else {
+            //     switch (ex.data.message) {
+            //         case 'Partner does not have access':
+            //             setModalText('El socio tiene un adeudo pendiente')
+            //             break;                
+            //         default:
+            //             setModalText(ex.data.message)
+            //             break;
+            //     }
+            //     setModalVisible(true);
+            // }
 
         }
     }

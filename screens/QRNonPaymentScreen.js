@@ -4,9 +4,8 @@ import LayoutV3 from "./Layouts/LayoutV3";
 import {Colors} from "../Colors";
 import {AntDesign} from "@expo/vector-icons";
 
-const QRNonPaymentScreen = ({navigation}) => {
-
-
+const QRNonPaymentScreen = ({navigation, route}) => {
+    
     return (
         <LayoutV3>
             <View flex={1} mx={20} justifyContent={'center'}>
@@ -15,8 +14,12 @@ const QRNonPaymentScreen = ({navigation}) => {
                 </View>
 
                 <Text color={Colors.green} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={10}>
-                    No se puede generar código por adeudo
+                    {route?.params?.message}
                 </Text>
+                <Text color={Colors.green} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={10}>
+                    {route?.params?.responseError?.message}
+                </Text>
+                
                 <Text color={Colors.green} fontSize={'sm'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={10}>
                     Le invitamos a contactar a la administración
                 </Text>

@@ -37,13 +37,13 @@ const NotificationItem = ({navigation, mb = 5, notification}) => {
                 <Text  color={Colors.green} fontSize={'xs'}>{typeCategory(notification?.template?.category)}</Text>
                 {/* <Text color={Colors.green} fontSize={'xs'} width={'90%'}>{detail}</Text> */}
             </View>
-            {isRead &&
+            {!isRead &&
             <View position={'absolute'} right={'5'} top={'5'} justifyContent={'center'} alignItems={'center'}>
                     <Image source={IconNotificationRead}></Image>
             </View>
             }
             {
-                !isRead && 
+                isRead && 
                 <View position={'absolute'} right={'5'} top={'5'} justifyContent={'center'} alignItems={'center'}>
                     <Image source={iconRead}></Image>
                 </View>

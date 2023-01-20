@@ -46,7 +46,7 @@ const HomeScreen = ({navigation, appDuck}) => {
             if (response.data.status === true) {
                 navigation.navigate(screen)
             } else {
-                navigation.navigate('QRNonPaymentScreen')
+                navigation.navigate('QRNonPaymentScreen', {responseError: response.data, message: screen == 'BookingServicesScreen' ? 'No se puede reservar por el siguiente motivo:' : 'No se puede generar el código Qr por el siguiente motivo:'})
             }
 
         } catch (ex) {
