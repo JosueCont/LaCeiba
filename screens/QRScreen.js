@@ -4,7 +4,7 @@ import LayoutV3 from "./Layouts/LayoutV3";
 import {Colors} from "../Colors";
 import {request} from "../api/Methods";
 import {connect} from "react-redux";
-import {RefreshControl} from "react-native";
+import {Linking, RefreshControl} from "react-native";
 import ModalInfo from "./Modals/ModalInfo";
 import imgLogo from '../assets/imgLogo.png'
 import ViewShot, {captureRef} from 'react-native-view-shot';
@@ -75,6 +75,16 @@ const QRScreen = ({navigation, appDuck, route}) => {
                 });
                 console.error("Oops, snapshot failed", error)}
         );
+    }
+    const openURI = async () => {
+        // TODO: cambiar la URL para descargar el pase
+        const url = 'http://10.124.0.67:3000/download'
+        const supported = await Linking.canOpenURL(url); //To check if URL is supported or not.
+        if (supported) {
+            await Linking.openURL(url); // It will open the URL on browser.
+        } else {
+            console.log(`Don't know how to open this URL: ${url}`);
+        }
     }
 
     return (
@@ -153,6 +163,7 @@ const QRScreen = ({navigation, appDuck, route}) => {
                                     Muestra este código en {'\n'}la entrada del área que reservó
                                 </Text>
                         }
+                        <Button onPress={() => openURI()} mb={6}>Wallet</Button>
 
                         {
                             route.params?.card === true &&
