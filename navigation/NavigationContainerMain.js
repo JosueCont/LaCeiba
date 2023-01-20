@@ -10,8 +10,6 @@ import { getAllNotifications } from "../api/Requests";
 import { setAttribute } from '../redux/ducks/navigationDuck';
 
 const NavigatorContainerMain = ({appDuck,setAttribute}) => {
-    const [notifications, setNotifications] = useState([]);
-    const [readAllNotifications, setReadAllNotifications] = useState(false)
     const status = useSelector(state => {
         return state.appDuck.logged;
     });
@@ -22,27 +20,27 @@ const NavigatorContainerMain = ({appDuck,setAttribute}) => {
         setTimeout(() => {
             setLoading(false)
         }, 100)
-    }, [status]);
-
-    useEffect(() => {
         setInterval(()=>{
             getNotifications() 
         },10000)
-    }, []);
+    }, [status]);
 
     const getNotifications = async () => {
-        try {
-            const queryString = `?userId=${appDuck.id}&isRead=false`;
-            const response = await getAllNotifications(queryString);
-            setNotifications(response?.data?.items);
-            if(response.data.items.length > 0){
-                setAttribute('notificationExist', true)
-            }else{
-                setAttribute('notificationExist', false)
+        if(appDuck && appDuck.user && appDuck.user.id){
+            try {
+                const queryString = `?userId=${appDuck.user.id}&isRead=false`;
+                const response = await getAllNotifications(queryString);
+                if(response?.data?.items?.length > 0){
+                    setAttribute('notificationExist', true)
+                }else{
+                    setAttribute('notificationExist', false)
+                }
+                
+            } catch (error) {
+                console.log(error?.data);
             }
-            
-        } catch (error) {
-            console.log(error?.data);
+        }else{
+            console.log('Usuario no existente')
         }
     }
 

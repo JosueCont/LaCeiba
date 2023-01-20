@@ -20,7 +20,10 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
     }, [navigationDuck.user.claveSocio])
 
     const astericks = (w, show = 1) => {
-        return w.substring(0, show) + '*'.repeat(w.length - 1);
+        console.log(w, w.length);
+        if(w.length > 0){
+            return w.substring(0, show) + '*'.repeat(w.length - 1);
+        }
     }
 
     const validateMovil = async () => {

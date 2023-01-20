@@ -4,14 +4,28 @@ import {ImageBackground, RefreshControl} from "react-native";
 import {getAllServices} from "../api/Requests";
 import LayoutV3 from "./Layouts/LayoutV3";
 import {Colors} from "../Colors";
-import {useIsFocused} from "@react-navigation/native";
+import {useFocusEffect, useIsFocused} from "@react-navigation/native";
 import _ from "lodash";
 import {errorCapture} from "../utils";
+import ModalInfo from "./Modals/ModalInfo";
 
 const BookingServicesScreen = ({navigation}) => {
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(null);
+    const [getActiveStatus, setGetActiveStatus] = useState({isActive: true, reason: "Esta es una razón"});
+    const [textModalInfo, setTextModalInfo] = useState("");
+    const [modalInfo, setModalInfo] = useState(null);
     const isFocused = useIsFocused();
+
+    useFocusEffect(
+        React.useCallback(() => {
+          if(!getActiveStatus.isActive){
+            setTextModalInfo(`Su cuenta presenta un bloqueo.\nrazón:\n ${getActiveStatus.reason} `)
+            setModalInfo(true);
+          }
+        }, [])
+    );
+
 
     useEffect(() => {
         if (isFocused) {
@@ -34,6 +48,8 @@ const BookingServicesScreen = ({navigation}) => {
         }
 
     }
+
+    
 
     return (
         <LayoutV3>
@@ -86,6 +102,16 @@ const BookingServicesScreen = ({navigation}) => {
                     }
                 </ScrollView>
             </View>
+
+            <ModalInfo
+                setVisible={setModalInfo}
+                visible={modalInfo}
+                close={false}
+                title="Cuenta inactiva"
+                text={textModalInfo}
+                textButton="Entendido"
+                action={()=>{navigation.goBack();}}>
+            </ModalInfo>
 
         </LayoutV3>
     )

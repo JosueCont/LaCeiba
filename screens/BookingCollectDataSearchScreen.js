@@ -114,12 +114,13 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
         } catch (ex) {
 
-            console.log(ex)
-            if (ex.data.message === 'Partner does not have access') {
-                alert('El socio no tiene acceso.')
-            } else {
-                alert(ex.data.message)
-            }
+            console.log(ex.data);
+            // if (ex.data.message === 'Partner does not have access') {
+            //     alert('El socio no tiene acceso.')
+            // } else {
+                
+            // }
+            alert(ex.data.message)
             return false;
         }
 
