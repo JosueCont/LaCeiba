@@ -4,12 +4,16 @@ import LayoutV3 from "./Layouts/LayoutV3";
 import {Colors} from "../Colors";
 import {request} from "../api/Methods";
 import {connect} from "react-redux";
-import {RefreshControl} from "react-native";
+import {ImageBackground, Linking, RefreshControl} from "react-native";
 import ModalInfo from "./Modals/ModalInfo";
 import imgLogo from '../assets/imgLogo.png'
 import ViewShot, {captureRef} from 'react-native-view-shot';
 import * as MediaLibrary from 'expo-media-library';
 import {useIsFocused} from "@react-navigation/native";
+import googleWallet from '../assets/googleWallet.png';
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { getTokenGoogleWallet } from "../api/Requests";
+import axios from "axios";
 
 const QRScreen = ({navigation, appDuck, route}) => {
     const [refreshing, setRefreshing] = useState(null);
@@ -21,6 +25,8 @@ const QRScreen = ({navigation, appDuck, route}) => {
     const toast = useToast();
 
     const imgRef = useRef();
+
+    
 
     console.log(appDuck)
 
@@ -75,6 +81,27 @@ const QRScreen = ({navigation, appDuck, route}) => {
                 });
                 console.error("Oops, snapshot failed", error)}
         );
+    }
+    
+    //TODO: Uncomment when service is ready
+    const saveToGoogleWallet = async () => {
+        try {
+            console.log('try to open wallet');
+            // const body = {
+            //     userId: appDuck.user.id,
+            //     username: appDuck.user.firstName + " " + appDuck.user.lastName,
+            //     service: appDuck.user.partner.parentesco,
+            //     qr: imageQRCode
+            // }
+            // const response = await  axios.post('http://192.168.1.64:3000/wallet/google/generate-token', body); //getTokenGoogleWallet(body);
+              
+            // console.log(response.data);
+            // if(response?.data?.token){
+            //     Linking.openURL(response?.data?.token);
+            // }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -158,8 +185,12 @@ const QRScreen = ({navigation, appDuck, route}) => {
                             route.params?.card === true &&
                             <Button mb={2} onPress={() => captureScreenFunction()}>Descargar</Button>
                         }
-
-                        <Button onPress={() => navigation.goBack()}>Terminar</Button>
+                        <View flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
+                            <TouchableOpacity onPress={()=>{saveToGoogleWallet();}}>
+                                <Image source={googleWallet}></Image>
+                            </TouchableOpacity>
+                        </View>
+                        <Button mt={5} onPress={() => navigation.goBack()}>Terminar</Button>
                     </View>
 
                 </View>

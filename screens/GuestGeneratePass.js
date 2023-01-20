@@ -31,6 +31,7 @@ const GuestGeneratePass = ({navigation, route}) => {
     useFocusEffect(
         React.useCallback(() => {
           cleanData();
+            getFS();
         }, [])
     );
 
@@ -43,6 +44,12 @@ const GuestGeneratePass = ({navigation, route}) => {
         const result = getFS()
         .catch(console.error);
     }, [])
+
+    const getFS = async () =>{
+        const response = await getFreeServices();
+        setFreeServices(response.data);
+        console.log(response.data);
+    }
 
     const cleanData = ()=>{
         setMarkedDates(null);
@@ -193,7 +200,7 @@ const GuestGeneratePass = ({navigation, route}) => {
                             {
                                 freeServices.map((item, index) => {
                                     return (
-                                        item.isActive &&
+                                        item.isActive == true &&
                                             <Checkbox mx={3} mb={2} value={item} _text={{color: '#000'}} >
                                                 <Text color={Colors.green} numberOfLines={2}>{item.name}</Text>
                                             </Checkbox>

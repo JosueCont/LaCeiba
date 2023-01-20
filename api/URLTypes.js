@@ -41,5 +41,6 @@ export const URLTypes = {
     CREATE_GF_BOOKING : '/v1/fixed-groups/{{param}}/users/{{param}}/booking',
     GET_ALL_NOTIFICATIONS: '/v1/notifications',
     GET_ONE_NOTIFICATION: '/v1/notifications/{{param}}',
-    SET_NOTIFICATION_READ: '/v1/notifications/{{param}}'
+    SET_NOTIFICATION_READ: '/v1/notifications/{{param}}',
+    GET_GOOGLE_WALLET_TOKEN: 'http://localhost:3000/wallet/google/generate-token'
 };
