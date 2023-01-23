@@ -39,8 +39,6 @@ const NavigatorContainerMain = ({appDuck,setAttribute}) => {
             } catch (error) {
                 console.log(error?.data);
             }
-        }else{
-            console.log('Usuario no existente')
         }
     }
 
