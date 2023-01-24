@@ -13,7 +13,7 @@ const ModalAddPoints = ({visible, setVisible, points, textButton = 'Enviar', peo
 
 
     const validate = () => {
-        if(value>0 && value<=10){
+        if(value>0 && value<=20){
             setValidateEmpty(false);
             setValue('')
             action(true)
