@@ -72,7 +72,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
     const getPartnersFunction = async () => {
         try {
-            const queryString = `?q=${textFilter}&&limit=5&userId=not_null`;
+            const queryString = `?q=${textFilter}&limit=5&userId=not_null&isActive=true`;
             const response = await findPartnerQuery(queryString);
             let ignorePersons = route.params.currentPeople.map((item) => item.type === 'SOCIO' && item.data.person.idStandard);
             ignorePersons.push(appDuck.user?.partner?.id)

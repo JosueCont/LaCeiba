@@ -66,7 +66,7 @@ const NotificationDetail = ({navigation, route}) => {
                 <View mt={5} width={'100%'} height={300} fontSize={'2xl'} borderRadius={50}>
                     <WebView 
                         originWhitelist={['*']}
-                        style={{flexDirection: 'row', alignContent: 'center', alignItems: 'center', justifyContent: 'center', fontSize: '610px'}}
+                        style={{flexDirection: 'row', alignContent: 'center', alignItems: 'center', justifyContent: 'center', fontSize: '610px', backgroundColor: 'transparent'}}
                         source={{html: `<html><head><style>
                         body { width: 100%; display: grid; justify-content: center; justify-items: center; font-size: 150%; overflow: scroll; }
                         </style><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body> 
