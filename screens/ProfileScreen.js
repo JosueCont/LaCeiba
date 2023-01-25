@@ -31,7 +31,7 @@ const ProfileScreen = ({navigation, appDuck}) => {
             const response = await getProfile('', [appDuck.user.id])
 
             const response2 = await getPoints('', [appDuck.user.id]);
-            setPoints(response2.data.points)
+            setPoints(response2.data.totalPoints)
             setData(response.data)
             setLoading(false)
 
