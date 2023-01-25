@@ -26,7 +26,7 @@ const QRScreen = ({navigation, appDuck, route}) => {
 
     const imgRef = useRef();
 
-    
+
 
     console.log(appDuck)
 
@@ -82,7 +82,7 @@ const QRScreen = ({navigation, appDuck, route}) => {
                 console.error("Oops, snapshot failed", error)}
         );
     }
-    
+
     //TODO: Uncomment when service is ready
     const saveToGoogleWallet = async () => {
         try {
@@ -94,7 +94,7 @@ const QRScreen = ({navigation, appDuck, route}) => {
             //     qr: imageQRCode
             // }
             // const response = await  axios.post('http://192.168.1.64:3000/wallet/google/generate-token', body); //getTokenGoogleWallet(body);
-              
+
             // console.log(response.data);
             // if(response?.data?.token){
             //     Linking.openURL(response?.data?.token);
@@ -180,16 +180,17 @@ const QRScreen = ({navigation, appDuck, route}) => {
                                     Muestra este código en {'\n'}la entrada del área que reservó
                                 </Text>
                         }
-
+                    {/*    <Button onPress={() => openURI()} mb={6}>Wallet</Button>
+*/}
                         {
                             route.params?.card === true &&
                             <Button mb={2} onPress={() => captureScreenFunction()}>Descargar</Button>
                         }
-                        <View flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
+                      {/*  <View flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
                             <TouchableOpacity onPress={()=>{saveToGoogleWallet();}}>
                                 <Image source={googleWallet}></Image>
                             </TouchableOpacity>
-                        </View>
+                        </View>*/}
                         <Button mt={5} onPress={() => navigation.goBack()}>Terminar</Button>
                     </View>
 

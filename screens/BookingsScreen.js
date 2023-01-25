@@ -66,7 +66,7 @@ const BookingsScreen = ({navigation, appDuck}) => {
                     }
                     flexGrow={1}>
 
-                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Mis reservaciones</Text>
+                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>MIS RESERVACIONES</Text>
 
                     {
                         invitations.map((invitation, index) => {
