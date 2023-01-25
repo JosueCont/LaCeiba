@@ -68,7 +68,7 @@ const NotificationDetail = ({navigation, route}) => {
                         originWhitelist={['*']}
                         style={{flexDirection: 'row', alignContent: 'center', alignItems: 'center', justifyContent: 'center', fontSize: '610px'}}
                         source={{html: `<html><head><style>
-                        body { width: 100%; display: grid; justify-content: center; justify-items: center; font-size: 100%; overflow: auto; padding: 5px }
+                        body { background-color: #D0DAD6; color: #146842; width: 100%; display: grid; justify-content: center; justify-items: center; font-size: 100%; overflow: auto; padding: 5px }
                         </style><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body> 
                         ${notificationDetail?.template?.content} 
                         </body></html>`}}>
