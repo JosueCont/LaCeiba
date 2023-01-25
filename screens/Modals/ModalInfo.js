@@ -14,6 +14,7 @@ const ModalInfo = ({
                        text = 'Texto informativo',
                        textButton = 'Entendido',
                        close = true,
+                       textDescription = '',
                        iconType = 'check',
                        action = null,
                    }) => {
@@ -72,6 +73,10 @@ const ModalInfo = ({
                                 <View>
                                     <Text style={styles.modalText} fontSize={'lg'} mb={6}>{title}</Text>
                                     <Text style={styles.modalText} fontSize={'xs'} mb={6} textAlign={'justify'}>{text}</Text>
+                                    
+                                    { textDescription !== '' &&
+                                        <Text style={styles.modalText} fontSize={'xs'} mb={6} textAlign={'justify'}>{textDescription}</Text>
+                                    }
                                 </View>
                                 :
                                 <View>

@@ -24,7 +24,8 @@ const GuestsScreen = ({navigation, appDuck}) => {
     const [modalInfoVisible, setModalInfoVisible] = useState(false);
     const [textModal, setTextModal] = useState('');
     const [valor, setValue] = useState('');
-
+    const [isValidPartnert, setIsValidPartner] = useState(true);
+    const [reasonInvalid, setReasonInvalid] = useState(null);
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             setQuestsFiltered([])
@@ -43,9 +44,14 @@ const GuestsScreen = ({navigation, appDuck}) => {
           const getGuests = async () =>{
             await getQuestsFunction();
           }
+          const getValid = async () => {
+            await validatePartnerFunction();
+          }
           getGuests();
+          getValid();
           return () => {
             setAllGuests([]);
+            setIsValidPartner(true);
           };
         }, [])
       );
@@ -56,7 +62,6 @@ const GuestsScreen = ({navigation, appDuck}) => {
             const response = await getGuests('')
             const queryString = `?userId=${appDuck.user.id}`
             const allGuests = await getAllGuests(queryString);
-            console.log("GUESTS::", allGuests.data);
             setAllGuests(allGuests.data);
             setQuests(response.data)
             setQuestsFiltered(allGuests.data)
@@ -111,6 +116,26 @@ const GuestsScreen = ({navigation, appDuck}) => {
         setModalAskVisible(true);
     }
 
+    const validatePartnerFunction = async (id) => {
+        try {
+            const response = await validatePartner(`/${appDuck.user.id}/partners/validate`)
+            console.log("DATT:: ", response.data);
+            if (response.data.status === true) {
+                setIsValidPartner(true);
+            } else {
+                setIsValidPartner(false);
+                setReasonInvalid(response.data);
+            }
+
+        } catch (ex) {
+
+            console.log(ex.data);
+            setIsValidPartner(false);
+            setReasonInvalid(ex?.data);
+        }
+
+    }
+
     const deleteGuestAction = async () => {
         try {
             console.log(currentGuest);
@@ -127,6 +152,10 @@ const GuestsScreen = ({navigation, appDuck}) => {
 
     const deletedSuccessfully = () => {
         getQuestsFunction();
+    }
+
+    const invalidPartnetModal = () => {
+        navigation.navigate('QRNonPaymentScreen', {responseError: reasonInvalid, message: 'No se puede generar pase a un invitado por el siguiente motivo:'});
     }
 
 
@@ -160,7 +189,7 @@ const GuestsScreen = ({navigation, appDuck}) => {
                             {
                                 guestsFiltered.map((item) => {
                                     return (
-                                        <TouchableOpacity onPress={() => generatePass(item)}>
+                                        <TouchableOpacity onPress={() => isValidPartnert ? generatePass(item) : invalidPartnetModal()}>
                                             <GuestItem mb={4} item={item} onEdit={editGuest} onDelete={onDeleteGuest} />
                                         </TouchableOpacity>
                                     )

@@ -481,7 +481,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                                 if (hourSelected) {
                                                     let r = await unBlockHourFunction(v)
                                                     console.log(r, 503)
-                                                    if (r.status) {
+                                                    if (r) {
                                                         setHourSelected(v);
                                                         validateHour(v);
                                                     } else {
