@@ -14,14 +14,14 @@ const ManualItem = ({navigation, mb = 2, id, title = 'Title', url = '', type = '
             <View flex={1} justifyContent={'center'} pl={5}>
                 <Text color={Colors.green} fontSize={'xs'}>{title}</Text>
             </View>
-            <View flex={0.4} mx={5} flexDirection={'row'}>
+            <View flex={0.4} mx={5} flexDirection={'row'} justifyContent={'flex-end'} alignSelf={'flex-end'} alignItems={'flex-end'} alignContent={'flex-end'}>
                 {
                     type !== 'HTML' &&
                     <TouchableOpacity style={{flex: 1}} onPress={() => {
                         Linking.openURL(url);
 
                     }}>
-                        <View flex={1} justifyContent={'center'} alignItems={'center'}>
+                        <View flex={1} justifyContent={'center'} alignItems={'flex-end'}>
                             <Image source={iconDownload} style={{width: 30, height: 30}}></Image>
                         </View>
                     </TouchableOpacity>
@@ -37,7 +37,7 @@ const ManualItem = ({navigation, mb = 2, id, title = 'Title', url = '', type = '
 
                     }
                 }}>
-                    <View flex={1} justifyContent={'center'} alignItems={'center'}>
+                    <View flex={1} justifyContent={'center'} alignItems={'flex-end'}>
                         <Image source={iconView} style={{width: 30, height: 30}}></Image>
                     </View>
                 </TouchableOpacity>

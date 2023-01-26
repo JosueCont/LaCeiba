@@ -67,6 +67,9 @@ const HelpContentScreen = ({navigation, route}) => {
                             </View> :
                             contents.map((item) => {
                                 console.log(item)
+                                if(!item.isVisible){
+                                    return;
+                                }
                                 if (item.contentType === 'IMAGE' || item.contentType === 'PDF') {
                                     console.log(item)
                                     return (
