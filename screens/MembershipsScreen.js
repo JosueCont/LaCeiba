@@ -11,7 +11,7 @@ const MembershipsScreen = ({navigation}) => {
                 <Button mt={10} onPress={() => navigation.goBack()} mb={6}>Estatus actual</Button>
                 <Button onPress={() => navigation.goBack()} mb={6}>Fecha de renovación</Button>
                 <Button onPress={() => navigation.goBack()} mb={6}>Historial</Button>
-                {/* <Button onPress={() => navigation.goBack()} mb={6}>Miembros adicionales</Button> */}
+                <Button onPress={() => navigation.goBack()} mb={6}>Miembros adicionales</Button>
                 <Button onPress={() => navigation.goBack()} mb={6}>Beneficios</Button>
                 <Button onPress={() => navigation.goBack()} mb={6}>Green points</Button>
                 <Button onPress={() => navigation.goBack()} mb={6}>Línea de crédito</Button>
