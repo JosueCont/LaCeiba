@@ -82,6 +82,16 @@ const QRScreen = ({navigation, appDuck, route}) => {
                 console.error("Oops, snapshot failed", error)}
         );
     }
+    const openURI = async () => {
+        // TODO: cambiar la URL para descargar el pase
+       /* const url = 'http://10.124.0.67:3000/download'
+        const supported = await Linking.canOpenURL(url); //To check if URL is supported or not.
+        if (supported) {
+            await Linking.openURL(url); // It will open the URL on browser.
+        } else {
+            console.log(`Don't know how to open this URL: ${url}`);
+        }*/
+    }
 
     //TODO: Uncomment when service is ready
     const saveToGoogleWallet = async () => {
@@ -180,17 +190,17 @@ const QRScreen = ({navigation, appDuck, route}) => {
                                     Muestra este código en {'\n'}la entrada del área que reservó
                                 </Text>
                         }
-                    {/*    <Button onPress={() => openURI()} mb={6}>Wallet</Button>
-*/}
+                        <Button onPress={() => openURI()}>Wallet</Button>
+
                         {
                             route.params?.card === true &&
                             <Button mb={2} onPress={() => captureScreenFunction()}>Descargar</Button>
                         }
-                      {/*  <View flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
+                        <View flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
                             <TouchableOpacity onPress={()=>{saveToGoogleWallet();}}>
                                 <Image source={googleWallet}></Image>
                             </TouchableOpacity>
-                        </View>*/}
+                        </View>
                         <Button mt={5} onPress={() => navigation.goBack()}>Terminar</Button>
                     </View>
 
