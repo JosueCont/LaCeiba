@@ -1,8 +1,8 @@
 import React from "react";
-import {Button, Text, View} from "native-base";
+import {Button, Text, View, Spinner} from "native-base";
 import {Colors} from "../Colors";
 import NotificationItem from "./NotificationItem";
-import LayoutV4 from "./Layouts/LayoutV4";
+import LayoutV3 from "./Layouts/LayoutV3";
 
 import bgButton from "../assets/bgButton.png";
 import {ImageBackground} from "react-native";
@@ -15,6 +15,7 @@ import { useEffect } from "react";
 const NotificationDetail = ({navigation, route}) => {
 
     const {notification} = route?.params;
+    const [source, setSource] = useState(null);
     const [notificationDetail, setNotificationDetail] = useState(null);
 
     useEffect(()=>{
@@ -28,6 +29,9 @@ const NotificationDetail = ({navigation, route}) => {
         try {
             const response = await getOneNotification('', [notification])
             setNotificationDetail(response?.data);
+            console.log(response.data)
+            setSource({html: response?.data?.template?.content})
+
             if(!response?.data?.isRead){
                 const bodyRead = {
                     isRead: true
@@ -49,8 +53,8 @@ const NotificationDetail = ({navigation, route}) => {
     }
 
     return (
-        <LayoutV4>
-            {notificationDetail && <View flex={1} mx={8}>
+        <LayoutV3>
+            {notificationDetail && <View flex={1}>
 
                 <Text textAlign={'center'} mt={10} mb={10} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'3xl'}>{notificationDetail?.template?.title.toUpperCase()}</Text>
                 <View flexDirection={'row'} alignContent={'center'} justifyContent={'center'}>
@@ -63,16 +67,34 @@ const NotificationDetail = ({navigation, route}) => {
                     <Text color={Colors.green}>Contenido:</Text>
                 </View>
                 
-                <View mt={5} width={'100%'} height={300} fontSize={'2xl'} borderRadius={50}>
+                <View flex={1}>
                     <WebView
-                        originWhitelist={['*']}
-                        style={{flexDirection: 'row', alignContent: 'center', alignItems: 'center', justifyContent: 'center', fontSize: '610px', backgroundColor: 'transparent'}}
+                        automaticallyAdjustContentInsets={false}
+                        bounces={false}
+                        startInLoadingState={true}
+                        mixedContentMode={'always'}
+                        style={{width: '100%', backgroundColor: 'transparent'}}
+                        allowsFullscreenVideo={true}
+                        javaScriptEnabled={true}
+                        renderLoading={() => (
+                            <View width={'100%'} height={'100%'} alignItems={'center'} justifyContent={'center'}>
+                                <Spinner size={'lg'} key={'abc'} color={Colors.green}/>
+                            </View>
+                        )}
                         source={{html: `<html><head><style>
-                        body { background-color: #D0DAD6; color: #146842; width: 100%; display: grid; justify-content: center; justify-items: center; font-size: 100%; overflow: auto; padding: 5px }
+                        body {color: #146842; text-align:justify; padding: 5px; line-height: 20px;}
                         </style><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body> 
                         ${notificationDetail?.template?.content} 
-                        </body></html>`}}>
+                        </body></html>`}}
+                        scalesPageToFit={true}
+                        originWhitelist={['*']}
+                        allowsInlineMediaPlayback={true}
+                        mediaPlaybackRequiresUserAction={true}
+                        contentMode={'mobile'}
+                        >
                     </WebView>
+
+                
                 </View>
                 
              
@@ -88,7 +110,7 @@ const NotificationDetail = ({navigation, route}) => {
                 
             </View>}
 
-        </LayoutV4>
+        </LayoutV3>
     )
 }
 

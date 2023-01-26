@@ -32,7 +32,7 @@ const HTMLViewer = ({navigation, route}) => {
                         <WebView
                             bounces={false}
                             mixedContentMode={'always'}
-                            style={{width: '100%'}}
+                            style={{width: '100%', backgroundColor: 'transparent'}}
                             allowsFullscreenVideo={true}
                             source={source}
                             javaScriptEnabled={true}

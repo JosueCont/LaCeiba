@@ -120,7 +120,7 @@ const ProfileScreen = ({navigation, appDuck}) => {
                                 {points}
                             </Text>
                     }
-                    <Button onPress={() => navigation.navigate('AddPointsPartnesScreen')} mb={5}>Transferir Puntos</Button>
+                    {/* <Button onPress={() => navigation.navigate('AddPointsPartnesScreen')} mb={5}>Transferir Puntos</Button> */}
                     <Button onPress={() => navigation.goBack()} mb={10}>Regresar</Button>
 
                     {/*<Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>*/}
