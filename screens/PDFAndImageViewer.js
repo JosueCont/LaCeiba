@@ -57,7 +57,7 @@ const PDFAndImageViewer = ({navigation, route}) => {
 
                     {
                         (loading === false && isFocused && !URL.includes('pdf')) &&
-                        <View flex={1} bgColor={'#fff'}>
+                        <View flex={1} bgColor={'transparent'}>
                             <ImageZoom
                                 cropWidth={Dimensions.get('window').width}
                                 cropHeight={Dimensions.get('window').height}
@@ -72,7 +72,7 @@ const PDFAndImageViewer = ({navigation, route}) => {
                                     onError={() => {
                                         setLoading(false)
                                     }}
-                                    style={{width: '100%', height: Dimensions.get('window').height / 1.5, resizeMode: 'stretch'}}
+                                    style={{backgroundColor: 'transparent', width: '100%', height: Dimensions.get('window').height / 1.5, resizeMode: 'contain'}}
                                     source={{uri: URL}}
                                     alt="img"
                                 />
