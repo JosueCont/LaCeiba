@@ -156,7 +156,7 @@ const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
             iconType={'check'}
             title={'Asignación de puntos'}
             textButton={'Aceptar'} text={'Los puntos han sido asginado correctamente'}
-            textDescription={'NOTA: Estos puntos podran ser utilizados en un lapso no mayor a 24 horas'}
+            textDescription={'NOTA: Estos puntos podran ser utilizados en un lapso no mayor a 48 horas'}
             action={(v) => {
                 if (v === true) {
                     setModalInfoVisible(false)

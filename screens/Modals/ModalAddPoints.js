@@ -101,8 +101,8 @@ const ModalAddPoints = ({visible, error=false, setVisible, points, textButton = 
                             setValue(formatNumber)
                              points(parseInt(val))
                         }} keyboardType="numeric" mx="3" placeholder="Puntos a transferir" w="100%" />
-                        <FormControl isInvalid={validateEmpty}  mb={6}>
-                            <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+                        <FormControl isInvalid={validateEmpty} mb={6}>
+                            <FormControl.ErrorMessage _text={{color: "white"}} leftIcon={<WarningOutlineIcon  size="xs" />}>
                                 El valor no puede ser vacio y deber ser mayor a 0 y maximo {pointsUser} puntos
                             </FormControl.ErrorMessage>
                         </FormControl>
