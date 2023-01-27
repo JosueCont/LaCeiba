@@ -59,7 +59,8 @@ const FixedGroupList = ({appDuck, navigation, route}) => {
                                 const maxP = groupTarget.area.maxPeople;
                                 return (
                                     <View key={index} flex={1} mb={4}>
-                                        <TouchableOpacity onPress={() => {
+                                        <TouchableOpacity disabled={!value.isActive} onPress={() => {
+                                            if(!value.isActive) return;
                                             navigation.navigate('FixedGroups', {
                                                 groupFounded: value,
                                                 userId: appDuck.user.id,
@@ -68,6 +69,7 @@ const FixedGroupList = ({appDuck, navigation, route}) => {
                                             });
                                         }}>
                                             <ImageBackground resizeMode={'stretch'} source={bgButton} style={{
+                                                opacity: value.isActive ? 1 : 0.7,
                                                 width: '100%',
                                                 height: 67,
                                                 alignItems: 'center',

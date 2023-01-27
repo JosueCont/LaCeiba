@@ -4,7 +4,7 @@ import LayoutV3 from "./Layouts/LayoutV3";
 import {Colors} from "../Colors";
 import {request} from "../api/Methods";
 import {connect} from "react-redux";
-import {ImageBackground, Linking, RefreshControl} from "react-native";
+import {ImageBackground, Linking, Platform, RefreshControl} from "react-native";
 import ModalInfo from "./Modals/ModalInfo";
 import imgLogo from '../assets/imgLogo.png'
 import ViewShot, {captureRef} from 'react-native-view-shot';
@@ -196,11 +196,12 @@ const QRScreen = ({navigation, appDuck, route}) => {
                             route.params?.card === true &&
                             <Button mb={2} onPress={() => captureScreenFunction()}>Descargar</Button>
                         }
-                        <View flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
+                        { Platform.OS == 'android' && <View flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
                             <TouchableOpacity onPress={()=>{saveToGoogleWallet();}}>
                                 <Image source={googleWallet}></Image>
                             </TouchableOpacity>
                         </View>
+                        }
                         <Button mt={5} onPress={() => navigation.goBack()}>Terminar</Button>
                     </View>
 

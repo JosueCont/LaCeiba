@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { getAllNotifications } from "../api/Requests";
 import { useState } from "react";
 import { FlatList } from "react-native";
+import { useEffect } from "react";
 
 const NotificationsScreen = ({navigation, appDuck}) => {
 
@@ -24,6 +25,10 @@ const NotificationsScreen = ({navigation, appDuck}) => {
             getNotifications();
         }, [])
     );
+
+    useEffect(()=>{
+        setNotificationsFiltered(notificationsFiltered.sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt)));
+    }, [notificationsFiltered])
 
     const getNotifications = async () => {
         setLoading(true)
