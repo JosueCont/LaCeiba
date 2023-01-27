@@ -37,6 +37,7 @@ export const URLTypes = {
     GENERATE_PASS : '/v1/free-services/users/{{param}}/guests/{{param}}/qr',
     GET_GF_LEADER : '/v1/fixed-groups/users/{{param}}/leaders',
     GET_ALL_GF: '/v1/fixed-groups',
+    GET_ONE_GF: '/v1/fixed-groups/{{param}}',
     GET_GF_NEXTBOOKING : '/v1/fixed-groups/users/{{param}}/next-booking',
     CREATE_GF_BOOKING : '/v1/fixed-groups/{{param}}/users/{{param}}/booking',
     GET_ALL_NOTIFICATIONS: '/v1/notifications',

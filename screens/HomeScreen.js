@@ -36,6 +36,10 @@ const HomeScreen = ({navigation, appDuck}) => {
         }, [])
     );
 
+    useEffect(()=>{
+        console.log(groupsFounded);
+    },[groupsFounded]);
+
 
 
     const validatePartnerFunction = async (screen) => {

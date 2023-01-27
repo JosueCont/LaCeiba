@@ -9,10 +9,33 @@ import {connect} from "react-redux";
 import {useFocusEffect} from "@react-navigation/native";
 import iconBooking from "../assets/iconBooking.png";
 import SliderCustom from "../components/SliderCustom/SliderCustom";
+import { getOneGF } from "../api/Requests";
 
 const FixedGroupList = ({appDuck, navigation, route}) => {
 
+    const [groupsFoundedDetail, setGroupsFoundedDetail] = useState([]);
     const {groupsFounded} = route?.params;
+
+    useFocusEffect(
+        React.useCallback(() => {
+            setGroupsFoundedDetail([]);
+            getDetailGroups();
+        }, [])
+    );
+
+    const getDetailGroups = async () => {
+        try {
+            for (const group of groupsFounded) {
+                console.log(group.id);
+                const response = await getOneGF('', [group.id]);
+                console.log(response.data);
+                setGroupsFoundedDetail([...groupsFoundedDetail, response.data]);
+            }    
+        } catch (error) {
+            console.log('error: ', error);
+        }
+        
+    }
 
     return (
 
@@ -30,13 +53,18 @@ const FixedGroupList = ({appDuck, navigation, route}) => {
                         showsVerticalScrollIndicator={false}
                         flexGrow={1}>
                         {
-                            groupsFounded && groupsFounded.map((value, index) => {
+                            groupsFoundedDetail.length>0 && groupsFoundedDetail.map((value, index) => {
+                                const groupTarget = groupsFounded?.find(group => group.id == value.id);
+                                const minP = groupTarget.area.minPeople;
+                                const maxP = groupTarget.area.maxPeople;
                                 return (
                                     <View key={index} flex={1} mb={4}>
                                         <TouchableOpacity onPress={() => {
                                             navigation.navigate('FixedGroups', {
                                                 groupFounded: value,
-                                                userId: appDuck.user.id
+                                                userId: appDuck.user.id,
+                                                minPeople: minP,
+                                                maxPeople: maxP
                                             });
                                         }}>
                                             <ImageBackground resizeMode={'stretch'} source={bgButton} style={{

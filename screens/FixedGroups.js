@@ -15,7 +15,7 @@ import moment from "moment/moment";
 
 const FixedGroups = ({appDuck, navigation, route}) => {
 
-    const {groupFounded} = route?.params;
+    const {groupFounded, minPeople, maxPeople} = route?.params;
     const [group, setGroup] = useState({});
     const [allGroups, setAllGroups] = useState([]);
     //const [groupFounded, setGroupFounded] = useState(null);
@@ -99,7 +99,7 @@ const FixedGroups = ({appDuck, navigation, route}) => {
                     const exist = group.schedules?.find(element => element.id == value.id);
                     return(
                         value.isActive && (
-                            <TouchableOpacity disabled={!exist} key={index} onPress={() => {navigation.navigate('FixedGroupDetail', {schedule: value, groupData: groupFounded, userId: appDuck.user.id});}}>
+                            <TouchableOpacity disabled={!exist} key={index} onPress={() => {navigation.navigate('FixedGroupDetail', {schedule: value, groupData: groupFounded, userId: appDuck.user.id, minPeople: minPeople, maxPeople: maxPeople});}}>
                             <View flexDirection={'row'} bgColor={'#fff'} borderRadius={50} paddingX={6} paddingY={2.5} mb={4} mx={4} style={{
                                 shadowColor: '#000',
                                 shadowOffset: { width: 0, height: (!exist ? 0: 3)},

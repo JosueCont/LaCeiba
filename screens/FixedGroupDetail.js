@@ -16,7 +16,7 @@ import { dayWeek } from "../utils";
 import { formatHour } from "../utils";
 
 const FixedGroupDetail = ({appDuck, navigation, route}) => {
-    const {schedule, groupData, userId} = route.params;
+    const {schedule, groupData, userId, minPeople, maxPeople} = route.params;
     const [groupDataConst, setGroupDataConst] = useState(null);
     const [membersInvite, setMembersInvite] = useState([])
     const [membersInviteLeaders, setMembersInviteLeaders] = useState([]);
@@ -37,7 +37,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                 setMembersInviteLeaders(membersInviteLeaders.filter((item)=>item!=id));
             return;
         }
-        if(membersInvite.length >= groupData.area.maxPeople) return;
+        if(membersInvite.length >= maxPeople) return;
         setMembersInvite([...membersInvite, id]);
         setMembersInviteNames([...membersInviteNames, name]);
         if(isLeader)
@@ -60,9 +60,10 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
     );
 
     useEffect(()=>{
+        console.log(membersInvite, groupData);
         // setMembersInvite([]);
         // setMembersInviteNames([]);
-    }, [])
+    }, [membersInvite]);
 
     useEffect(()=>{
         membersFormated();
@@ -182,7 +183,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                                         ios_backgroundColor="#3e3e3e"
                                         onValueChange={(status)=>{toggle(status, valueGroup.id, valueGroup.firstName, true); }}
                                         value={membersInvite.length <= 0 ? false : membersInvite.includes(valueGroup.id)}
-                                        disabled={(membersInvite.length>=groupData.area.maxPeople && !membersInvite.includes(valueGroup.id))}
+                                        disabled={(membersInvite.length>=maxPeople && !membersInvite.includes(valueGroup.id))}
                                     />
                                 </View>
                             </View>
@@ -212,7 +213,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                                     ios_backgroundColor="#3e3e3e"
                                     onValueChange={(status)=>{toggle(status, valueGroup.id, valueGroup.firstName); }}
                                     value={membersInvite.length <= 0 ? false : membersInvite.includes(valueGroup.id)}
-                                    disabled={membersInvite.length>=groupData.area.maxPeople && !membersInvite.includes(valueGroup.id)}
+                                    disabled={membersInvite.length>=maxPeople && !membersInvite.includes(valueGroup.id)}
                                 />
                                 </View>
                             </View>
@@ -239,7 +240,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                             }
                         </ImageBackground>
                     </TouchableOpacity>*/}
-                    <Button size={'lg'} disabled={loading || membersInvite.length<groupData.area.minPeople -1} opacity={loading || membersInvite.length < groupData.area.minPeople -1 ? 0.5 : 1} onPress={sendBooking} mt={5}>{loading ? <Spinner size={'sm'} color={'white'}></Spinner> : 'Aplicar'}</Button>
+                    <Button size={'lg'} disabled={loading || membersInvite.length<minPeople} opacity={loading || membersInvite.length < minPeople ? 0.5 : 1} onPress={sendBooking} mt={5}>{loading ? <Spinner size={'sm'} color={'white'}></Spinner> : 'Aplicar'}</Button>
                 </View>
 
 

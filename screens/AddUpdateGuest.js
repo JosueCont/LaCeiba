@@ -28,8 +28,8 @@ const AddUpdateGuest = ({navigation, route}) => {
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             setIsInvalidName(null)
-            setNameGuest(null)
-            setEmailGuest(null)
+            // setNameGuest(null)
+            // setEmailGuest(null)
         });
         return unsubscribe;
      }, [navigation]);
@@ -38,8 +38,15 @@ const AddUpdateGuest = ({navigation, route}) => {
         console.log(editedName);
     }, [editedName])
 
+    useEffect(()=>{
+        console.log(nameGuest);
+    }, [nameGuest])
 
     useEffect(()=>{
+        validateParams();
+    },[route.params.data])
+
+    const validateParams = () => {
         if(route.params.data){
             setNameGuest(route.params?.data?.name);
             setEmailGuest(route.params?.data?.email);
@@ -53,7 +60,7 @@ const AddUpdateGuest = ({navigation, route}) => {
             setEditedEmail(false);
             setEditedName(false);
         }
-    },[route.params])
+    }
 
     const addGuest = async () => {
         try {

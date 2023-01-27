@@ -38,6 +38,7 @@ export const deleteGuest = async (params, queryStringParams = []) => await reque
 export const getFreeServices = async (params) => await request(URLTypes.GET_FREE_SERVICES, params, 'get');
 export const generatePass = async (params, queryStringParams = []) => await request(URLTypes.GENERATE_PASS, params, 'post', null, queryStringParams);
 
+export const getOneGF = async (params, queryStringParams = []) => await request(URLTypes.GET_ONE_GF, params, 'get', null, queryStringParams);
 export const getGFLeader = async (params, queryStringParams = []) => await request(URLTypes.GET_GF_LEADER, params, 'get', null, queryStringParams);
 export const getAllGF = async (params) => await request(URLTypes.GET_ALL_GF, params, 'get');
 export const getGFNextBooking = async (params, queryStringParams = []) => await request(URLTypes.GET_GF_NEXTBOOKING, params, 'get', null, queryStringParams);
