@@ -28,6 +28,7 @@ export const setReservationStatus = async (params, queryStringParams = []) => aw
 export const getAdditionals = async (params, queryStringParams = []) => await request(URLTypes.GET_ADDITIONALS, params, 'get', null, queryStringParams);
 export const unBlockHour = async (params, queryStringParams = []) => await request(URLTypes.CACHE_BOOKING, params, 'delete', null, queryStringParams);
 export const cancelBooking = async (params, queryStringParams = []) => await request(URLTypes.CANCEL_BOOKING, params, 'delete', null, queryStringParams);
+export const transferPoints = async (params) => await request(URLTypes.TRASNFER_POINTS, params, 'post');
 
 export const registerSendConfirmEmail = async (params) => await request(URLTypes.REGISTER_SEND_CONFIRM_EMAIL, params, 'post');
 export const registerConfirmEmail = async (params) => await request(URLTypes.REGISTER_CONFIRM_EMAIL, params, 'post');

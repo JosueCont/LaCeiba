@@ -1,24 +1,58 @@
-import React, {useState} from "react";
+import React, {useState,useEffect} from "react";
 import {Alert, Modal, TouchableOpacity} from "react-native";
 import {styles} from './ModalInfoStyleSheet';
 import {Button, Icon, Text, View, Input,FormControl, WarningOutlineIcon} from "native-base";
 import {AntDesign} from "@expo/vector-icons";
 import {Colors} from "../../Colors";
 import {LinearGradient} from "expo-linear-gradient";
+import {getPoints,transferPoints} from "../../api/Requests";
+import {connect} from "react-redux";
 
-const ModalAddPoints = ({visible, setVisible, points, textButton = 'Enviar', people, textButtonCancel = 'Cancelar', action}) => {
+
+
+const ModalAddPoints = ({visible, error=false, setVisible, points, textButton = 'Enviar', people, textButtonCancel = 'Cancelar', action, appDuck}) => {
     const [heightGradient, setHeightGradient] = useState(null);
     const [value, setValue] = useState('')
     const [validateEmpty, setValidateEmpty] = useState(false)
+    const [pointsUser, setPointsUser] = useState(null)
+
+    useEffect(() => {
+            getPointsFunction()
+    }, [people])
+
+    const getPointsFunction = async () => {
+        try {
+            const response = await getPoints('', [appDuck.user.id]);
+            setPointsUser(response.data.totalPoints)
+
+        } catch (e) {
+            console.log(e.status)
+        } finally {
+        }
+    }
 
 
-    const validate = () => {
-        if(value>0 && value<=20){
+
+    const validate = async(people) => {
+    
+        if(value>0 && value<=pointsUser){
             setValidateEmpty(false);
             setValue('')
-            action(true)
+            let params = {
+                "fromId": appDuck.user.id,
+                "toId": people.user.id,
+                "points": parseInt(value)
+              }
+              const response = await transferPoints(params);
+              if(response?.data?.status){
+                action(true)
+              }else{
+                action(false)
+                error(true)
+              }
+              
         }else{
-            setValidateEmpty(true)
+            setValidateEmpty(true)   
         }
     }
 
@@ -59,18 +93,18 @@ const ModalAddPoints = ({visible, setVisible, points, textButton = 'Enviar', peo
                     </TouchableOpacity>
                    
                     <View>
-                        <Text style={styles.modalText} mb={8} fontSize={'sm'}>Puntos disponibles</Text>
-                        <Text style={styles.modalText}  mb={8} fontSize={'lg'} >Asignar puntos a {people?.user?.fullName}</Text>
-                        <Input  mb={2} maxLength={2 } isRequired value={value}  onChangeText={val =>{
+                        <Text style={styles.modalText} mb={8} fontSize={'sm'}>Puntos disponibles: {pointsUser}</Text>
+                        <Text style={styles.modalText} textTransform={'capitalize'}  mb={8} fontSize={'lg'} >Asignar puntos a {people?.nombreSocio}</Text>
+                        <Input  mb={2} maxLength={2} isRequired value={value}  onChangeText={val =>{
                             setValue(val)
                              points(parseInt(val))
                         }} keyboardType="numeric" mx="3" placeholder="Puntos" w="100%" />
                         <FormControl isInvalid={validateEmpty}  mb={6}>
                             <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-                                El valor no puede ser vacio y deber ser mayor a 0 y maximo 20 puntos
+                                El valor no puede ser vacio y deber ser mayor a 0 y maximo {pointsUser} puntos
                             </FormControl.ErrorMessage>
                         </FormControl>
-                        <Button colorScheme={'green'} onPress={() => validate()} mb={4}>{textButton}</Button>
+                        <Button colorScheme={'green'} onPress={() => validate(people)} mb={4}>{textButton}</Button>
                         <Button colorScheme={'green'} onPress={() => {
                             action(false)
                             setValue('')
@@ -85,5 +119,10 @@ const ModalAddPoints = ({visible, setVisible, points, textButton = 'Enviar', peo
     );
 };
 
+const mapState = (state) => {
+    return {
+        appDuck: state.appDuck
+    }
+}
 
-export default ModalAddPoints;
+export default connect(mapState)(ModalAddPoints);
