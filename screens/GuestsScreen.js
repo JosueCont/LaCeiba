@@ -170,7 +170,7 @@ const GuestsScreen = ({navigation, appDuck}) => {
                         <Button onPress={()=>{addGuest();}}>+ Agregar invitado</Button>
                     </View>
                     <View mx={10} mb={5}>
-                        <Input value={valor} placeholder={'Buscar'} onChangeText={(v) => search(v)}/>
+                        <Input value={valor} returnKeyType="search" placeholder={'Buscar'} onChangeText={(v) => search(v)}/>
                     </View>
 
                     <ScrollView
