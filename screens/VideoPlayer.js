@@ -3,6 +3,8 @@ import {WebView} from 'react-native-webview';
 import {Colors} from "../Colors";
 import {Button, Spinner, Text, View} from "native-base";
 import LayoutV3 from "./Layouts/LayoutV3";
+import getVideoId from 'get-video-id';
+
 
 const VideoPlayer = ({navigation, route}) => {
     const [videoURL, setVideoURL] = useState(null);
@@ -20,15 +22,16 @@ const VideoPlayer = ({navigation, route}) => {
 
     const getEmbedCode = (videoURL) => {
         console.log(videoURL)
-        let type = videoURL.includes('youtube.com') ? 'youtube' : 'vimeo';
-        let video_id = type === 'youtube' ? videoURL.split('v=')[1] : videoURL.substring(videoURL.lastIndexOf('/') + 1)
-
-        console.log(video_id)
-
+        let type = videoURL.includes('youtu') ? 'youtube' : 'vimeo';
+        const { id } = getVideoId(videoURL);
+        console.log(id)
         setSource({
             html: type === 'vimeo' ?
-                `<meta name="viewport" content="width=device-width, initial-scale=1"><div style="width: 100%: height:100%:"><iframe src="https://player.vimeo.com/video/${video_id}?title=0&byline=0&transparent=1&controls=1&responsive=true" style="background-color: ${Colors.blue};position:absolute;top:0;left:0;width:100%;height:100%;"  frameborder="0" allow="autoplay; fullscreen; picture-in-picture" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>` :
-                `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${video_id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+                `<meta name="viewport" content="width=device-width, initial-scale=1"><div style="width: 100%: height:100%:"><iframe src="https://player.vimeo.com/video/${id}?title=0&byline=0&transparent=1&controls=1&responsive=true" style="background-color: ${Colors.blue};position:absolute;top:0;left:0;width:100%;height:100%;"  frameborder="0" allow="autoplay; fullscreen; picture-in-picture" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>` :
+                `<div style='height:100%; display:flex; justify-content: center; align-items: center;'>
+                <iframe width="100%" height="600px" src="https://www.youtube.com/embed/${id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                `
         })
     }
 
@@ -44,7 +47,7 @@ const VideoPlayer = ({navigation, route}) => {
                         <WebView
                             bounces={false}
                             mixedContentMode={'always'}
-                            style={{width: '100%'}}
+                            style={{width: '100%', backgroundColor:'transparent'}}
                             allowsFullscreenVideo={true}
                             source={source}
                             javaScriptEnabled={true}

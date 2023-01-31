@@ -14,7 +14,7 @@ import { useFocusEffect } from "@react-navigation/native";
 const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
 
     const [loading, setLoading] = useState(null);
-    const [modalResendSMSVisible, setModalResendSMSVisible] = useState(null);
+    const [modalAddPoints, setModalAddPoints] = useState(null);
     const [allGuests, setAllGuests] = useState([]);
     const [modalAskVisible, setModalAskVisible] = useState(false);
     const [people, setPeople] = useState([]);
@@ -25,7 +25,8 @@ const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
     const [textFilter, setTextFilter] = useState('');
     const [selectedPeople, setSelectedPeople] = useState('')
     const [pointsToAdd, setPointsToAdd] = useState(0)
-    useEffect(() => {
+    const [modalErrorVisible, setModalErrorVisible] = useState(false)
+     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             setValue('');
             getPartnersFunction()
@@ -53,7 +54,7 @@ const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
         try {
             setLoading(true)
             setTextFilter('')
-            const queryString = `?userId=not_null`;
+            const queryString = `?userId=not_null&isActive=true`;
             const response = await findPartnerQuery(queryString);
             setPeople(response.data.items);
             setPeopleSearch(response.data.items);
@@ -67,20 +68,14 @@ const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
         }
     }
 
-    const addPointsToPartner = (people) => {
+    const addPointsToPartner = async(people) => {
         setModalInfoVisible(true)
-          peopleSearch.map((value) => {
-            if(value.id == people.id){
-                value.points+=pointsToAdd
-            }
-        })
-        setPointsToAdd(0)
     }
 
     const search = async (value) => {
         setTextFilter(value)
         let filtered = _.filter(people, function (item) {
-            return item.user.fullName.toLowerCase().includes(value.toLowerCase())
+            return item?.nombreSocio.toLowerCase().includes(value.toLowerCase())
         });
         console.log(filtered);
         setPeopleSearch(filtered)
@@ -97,7 +92,7 @@ const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
                 <View flex={1}>{/*
                     <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Invitados</Text>*/}
 
-                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Buscar socio</Text>
+                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'capitalize'}>Buscar socio</Text>
                    
                     <View mx={10} mb={5}>
                         <Input value={textFilter} textAlign={'center'} placeholder={'Buscar'} onChangeText={(v) =>search(v)}/>
@@ -121,7 +116,7 @@ const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
                                     return (
                                         <TouchableOpacity onPress={() => {
                                             setSelectedPeople(item)
-                                            setModalResendSMSVisible(true)}}>
+                                            setModalAddPoints(true)}}>
                                             <PartnerItem mb={4} item={item}/>
                                         </TouchableOpacity>
 
@@ -137,18 +132,19 @@ const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
                 </View>
             </View>
             <ModalAddPoints
-                visible={modalResendSMSVisible}
-                setVisible={setModalResendSMSVisible}
+                visible={modalAddPoints}
+                setVisible={setModalAddPoints}
                 textButton={'Enviar'}
                 people={selectedPeople}
                 points={setPoints}
+                error={setModalErrorVisible}
                 textButtonCancel={'Cancelar'}
                 action={(v) => {
                     if (v === true) {
                         addPointsToPartner(selectedPeople)
-                        setModalResendSMSVisible(false)
+                        setModalAddPoints(false)
                     } else {
-                        setModalResendSMSVisible(false)
+                        setModalAddPoints(false)
                     }
                 }}
             />
@@ -156,20 +152,32 @@ const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
             <ModalInfo 
             setVisible={setModalInfoVisible} 
             visible={modalInfoVisible}
-            close={true}
+            close={false}
             iconType={'check'}
             title={'Asignación de puntos'}
             textButton={'Aceptar'} text={'Los puntos han sido asginado correctamente'}
-            textDescription={'NOTA: Estos puntos podran ser utilizados en un lapso no mayor a 24 horas'}
+            textDescription={'NOTA: Estos puntos podran ser utilizados en un lapso no mayor a 48 horas'}
             action={(v) => {
                 if (v === true) {
                     setModalInfoVisible(false)
+                    getPartnersFunction()
+
                 } else {
                     setModalInfoVisible(false)
+                    getPartnersFunction()
+
 
                 }
             }}
             />
+
+                <ModalInfo
+                visible={modalErrorVisible}
+                setVisible={setModalErrorVisible}
+                iconType={'exclamation'}
+                textButton={'Entendido'}
+                text={'Ocurrio un error en la asignación de puntos'}
+                />
         </LayoutV5>
     )
 }
