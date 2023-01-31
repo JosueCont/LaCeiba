@@ -194,7 +194,7 @@ const QRScreen = ({navigation, appDuck, route}) => {
 
                         {
                             route.params?.card === true &&
-                            <Button mb={2} onPress={() => captureScreenFunction()}>Descargar</Button>
+                            <Button mb={2} onPress={() => {permissionResponse.granted == true ?  captureScreenFunction() : validatePermission()}}>Descargar</Button>
                         }
                         { Platform.OS == 'android' && <View flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
                             <TouchableOpacity onPress={()=>{saveToGoogleWallet();}}>
