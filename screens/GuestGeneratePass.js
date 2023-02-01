@@ -14,13 +14,9 @@ const GuestGeneratePass = ({navigation, route}) => {
     const [groupValues, setGroupValues] = useState([]);
     const [dateSelected, setDateSelected] = useState(null);
     const [loading, setLoading] = useState(false);
-
-    
     const [modalInfoVisible, setModalInfoVisible] = useState(false);
     const [textModal, setTextModal] = useState('Ocurrió un error, intenta más tarde.');
-
     const [markedDates, setMarkedDates] = useState(null);
-
     const tomorrow = new Date().setDate(new Date().getDate() + 1)
     const today = new Date().setDate(new Date().getDate())
     const todayPlus7 = new Date()
@@ -62,14 +58,10 @@ const GuestGeneratePass = ({navigation, route}) => {
         try {
             if(loading) return;
             setLoading(true);
-            const servicesArray = [];
-            groupValues.map((value, index)=>{
-                servicesArray.push(value?.id);
-            })
-            console.log(servicesArray);
+       
             const bodyString = {
                 expirationDate: dateSelected,
-                freeServices: servicesArray
+                freeServices: groupValues
             }
             const response = await generatePass(bodyString, [route?.params?.data?.user?.id, route?.params?.data?.id]);
             console.log(response?.data);
@@ -177,15 +169,12 @@ const GuestGeneratePass = ({navigation, route}) => {
 
                 <View pr={8}>
                         <Checkbox.Group
-                            onChange={(values) => {
-                                console.log(values)
-                                setGroupValues(values)
-                            }}
+                            onChange={setGroupValues}
                             flexDirection={'column'}
                             alignItems={'flex-start'}
                             justifyContent={'center'}
                             mt={3}
-                            value={groupValues}
+                            value={groupValues}    
                             _checkbox={{
                                 bgColor: 'white',
                                 borderWidth: 0.5,
@@ -200,8 +189,8 @@ const GuestGeneratePass = ({navigation, route}) => {
                             {
                                 freeServices.map((item, index) => {
                                     return (
-                                        item.isActive == true &&
-                                            <Checkbox mx={3} mb={2} value={item} _text={{color: '#000'}} >
+                                        item.isActive === true &&
+                                            <Checkbox mx={3} mb={2} value={item.id} _text={{color: '#000'}} >
                                                 <Text color={Colors.green} numberOfLines={2}>{item.name}</Text>
                                             </Checkbox>
 
@@ -210,7 +199,7 @@ const GuestGeneratePass = ({navigation, route}) => {
                             }
                         </Checkbox.Group>
                     </View>
-                <Button mb={5} mt={5} onPress={() => {generatePassAction();}}>{loading ? <Spinner size={'sm'} color={'white'}></Spinner> : 'Generar pase y enviar'}</Button>
+                <Button mb={5} mt={5} disabled={groupValues.length===0 || dateSelected === null} onPress={() => {generatePassAction();}}>{loading ? <Spinner size={'sm'} color={'white'}></Spinner> : 'Generar pase y enviar'}</Button>
                 <Text color={Colors.green} fontSize={'sm'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={1}>
                     Este pase será enviado a
                 </Text>

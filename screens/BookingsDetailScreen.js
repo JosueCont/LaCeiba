@@ -22,17 +22,17 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
     const [loading, setLoading] = useState(null);
     const [additionals, setAdditionals] = useState([]);
     const [groupValues, setGroupValues] = useState([]);
-    const [dayDiff, setDayDiff] = useState(null);
     const [modalCancelVisible, setModalCancelVisible] = useState(null);
     const [modalCancelInformationVisible, setModalCancelInformationVisible] = useState(null)
-
-
+    const [modalCancelSucess, setModalCancelSucess] = useState(false);
+    const [dueDate, setDueDate] = useState(null)
+    const [dateNow, setDateNow] = useState(null)
     const isFocused = useIsFocused();
 
     useEffect(() => {
         if (isFocused) {
-            
-            setDayDiff(moment().diff(moment(invitation?.booking?.dueDate), 'hours'))
+            setDueDate(invitation?.booking?.dueDate)
+            setDateNow(moment().format('YYYY-MM-DD'))
 
             if (invitation?.status === 'PENDING') {
                 getAdditionalsFunction()
@@ -41,6 +41,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                 setAdditionals(invitation?.additionals)
             }
         }
+        console.log(invitation)
     }, [isFocused])
 
 
@@ -90,8 +91,14 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
 
     const cancelFunction = async () => {
         try {
+            setLoading(true)
+
             const response = await cancelBooking('', [route.params.booking.id])
-            console.log(response.data)
+            if(response.status === 200){
+                setLoading(false)
+                setModalCancelVisible(false)
+                setModalCancelSucess(true)
+            }
         } catch (e) {
             console.log(JSON.stringify(e))
             alert(JSON.stringify(e))
@@ -242,8 +249,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                 <Button
                                     colorScheme={'red'}
                                     onPress={() => {
-                                        console.log(dayDiff)
-                                        if (dayDiff > 0 && dayDiff <= 24) {
+                                        if ( dateNow === dueDate) {
                                             setModalCancelInformationVisible(true)
                                         } else {
                                             setModalCancelVisible(true)
@@ -271,21 +277,26 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                 onAccept={actionBook == "Confirm" ? AcceptBooking : RejectBooking}>
 
             </ModalConfirmRejectBook>
-            <ModalInfo
+            <ModalAsk
                 setVisible={setModalCancelVisible}
                 visible={modalCancelVisible}
-                text={'Por favor comuníquese con administración para realizar la cancelación de esta reservación'}
+                text={'¿Desea cancelar esta reservación?'}
                 title={'Cancelar reservación'}
-                textButton={'Aceptar'}
-                //textNoButton={'No'}
+                textButton={'Sí'}
+                textNoButton={'No'}
                 iconType={'exclamation'}
                 close={true}
                 action={() => {
-                    //cancelFunction()
-                    setModalCancelVisible(false)
+                    cancelFunction()                    // setModalCancelVisible(false)
                 }}/>
             <ModalInfo setVisible={setModalCancelInformationVisible} visible={modalCancelInformationVisible} close={true} iconType={'exclamation'} textButton={'Entendido'} text={'Por favor comuníquese con administración para realizar la cancelación de esta reservación'}>
 
+            </ModalInfo>
+
+            <ModalInfo setVisible={setModalCancelSucess} visible={modalCancelSucess} close={false}  iconType={'check'} textButton={'Entendido'} text={'Reservación cancelada con exito'} action={() => {
+                    setModalCancelSucess(false)
+                    navigation.goBack()
+                }}>
             </ModalInfo>
         </View>
 
