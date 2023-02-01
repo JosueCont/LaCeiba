@@ -106,18 +106,15 @@ const QRScreen = ({navigation, appDuck, route}) => {
     const saveToGoogleWallet = async () => {
         try {
             console.log('try to open wallet');
-            // const body = {
-            //     userId: appDuck.user.id,
-            //     username: appDuck.user.firstName + " " + appDuck.user.lastName,
-            //     service: appDuck.user.partner.parentesco,
-            //     qr: imageQRCode
-            // }
-            // const response = await  axios.post('http://192.168.1.64:3000/wallet/google/generate-token', body); //getTokenGoogleWallet(body);
-
-            // console.log(response.data);
-            // if(response?.data?.token){
-            //     Linking.openURL(response?.data?.token);
-            // }
+            const response = await getTokenGoogleWallet('', [appDuck.user.id]);
+            const fullUrl = response?.data?.data?.url + response?.data?.data?.token;
+            console.log(fullUrl);
+            if(Linking.canOpenURL(fullUrl)){
+                Linking.openURL(fullUrl);
+            }else{
+                setModalText('No se puede agregar la wallet');
+                setModalVisible(true);
+            }
         } catch (error) {
             console.log(error);
         }
