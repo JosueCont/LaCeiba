@@ -11,9 +11,13 @@ import ViewShot, {captureRef} from 'react-native-view-shot';
 import * as MediaLibrary from 'expo-media-library';
 import {useIsFocused} from "@react-navigation/native";
 import googleWallet from '../assets/googleWallet.png';
+import addToAppleWalletBtn from '../assets/esmx_addtoapplewallet.png'
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { getTokenGoogleWallet } from "../api/Requests";
 import axios from "axios";
+import Constants from "expo-constants";
+import bgButton from "../assets/bgButton.png";
+import iconAccess from "../assets/iconAccess.png";
 
 const QRScreen = ({navigation, appDuck, route}) => {
     const [refreshing, setRefreshing] = useState(null);
@@ -82,15 +86,20 @@ const QRScreen = ({navigation, appDuck, route}) => {
                 console.error("Oops, snapshot failed", error)}
         );
     }
-    const openURI = async () => {
-        // TODO: cambiar la URL para descargar el pase
-       /* const url = 'http://10.124.0.67:3000/download'
-        const supported = await Linking.canOpenURL(url); //To check if URL is supported or not.
-        if (supported) {
-            await Linking.openURL(url); // It will open the URL on browser.
-        } else {
-            console.log(`Don't know how to open this URL: ${url}`);
-        }*/
+    const addToAppleWallet = async () => {
+        try {
+            // TODO: cambiar la URL para descargar el pase
+            let baseURL = Constants.manifest.extra.production ? Constants.manifest.extra.URL : Constants.manifest.extra.URL_DEV;
+            const url = `${baseURL}/v1/wallets/users/${appDuck.user.id}/apple`//'http://10.124.0.67:3000/download'
+            const supported = await Linking.canOpenURL(url); //To check if URL is supported or not.
+            if (supported) {
+                await Linking.openURL(url); // It will open the URL on browser.
+            } else {
+                console.log(`Don't know how to open this URL: ${url}`);
+            }
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     //TODO: Uncomment when service is ready
@@ -190,18 +199,25 @@ const QRScreen = ({navigation, appDuck, route}) => {
                                     Muestra este código en {'\n'}la entrada del área que reservó
                                 </Text>
                         }
-                        <Button onPress={() => openURI()}>Wallet</Button>
 
                         {
                             route.params?.card === true &&
-                            <Button mb={2} onPress={() => {permissionResponse.granted == true ?  captureScreenFunction() : validatePermission()}}>Descargar</Button>
+                            <Button onPress={() => {permissionResponse.granted == true ?  captureScreenFunction() : validatePermission()}}>Descargar</Button>
                         }
-                        { Platform.OS == 'android' && <View flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
+                        { Platform.OS == 'android' && <View flexDirection={'column'} justifyContent={'center'} alignItems={'center'} mt={2}>
                             <TouchableOpacity onPress={()=>{saveToGoogleWallet();}}>
                                 <Image source={googleWallet}></Image>
                             </TouchableOpacity>
                         </View>
                         }
+                        { Platform.OS == 'ios' &&
+                            <View flex={1} px={5}>
+                                <TouchableOpacity onPress={() => addToAppleWallet()}>
+                                    <Image source={addToAppleWalletBtn} style={{width: '100%', resizeMode: 'contain'}}/>
+                                </TouchableOpacity>
+                            </View>
+                        }
+
                         <Button mt={5} onPress={() => navigation.goBack()}>Terminar</Button>
                     </View>
 
