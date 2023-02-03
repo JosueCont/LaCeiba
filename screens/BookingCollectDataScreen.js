@@ -42,7 +42,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const [areaId, setAreaId] = useState(null);
     const [area, setArea] = useState(null);
     const [points, setPoints] = useState(null);
-
     const isFocused = useIsFocused();
     const tomorrow = new Date().setDate(new Date().getDate() + 1)
     const today = new Date().setDate(new Date().getDate())
@@ -81,6 +80,13 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         })
     });
 
+    useEffect(() => {
+        if (isFocused) {
+            cleanData()
+            setArea(null)
+            setAreaId(null)
+        }
+    }, [isFocused])
 
     useEffect(() => {
         if (timeLeft == 0) {
@@ -358,7 +364,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                                 onOpen={() => {
 
                                                 }}
-                                                selectedValue={areaId}
                                                 onValueChange={(v) => {
                                                     areaSelect(v)
 
