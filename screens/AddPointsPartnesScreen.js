@@ -56,11 +56,9 @@ const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
             setTextFilter('')
             const queryString = `?userId=not_null&isActive=true`;
             const response = await findPartnerQuery(queryString);
-            setPeople(response.data.items);
-            setPeopleSearch(response.data.items);
-            response.data.items.map((value) => {
-               value.points = 0
-            })
+            const data = response.data.items.filter(x => x.user.id !== appDuck.user.id);
+            setPeople(data);
+            setPeopleSearch(data);
         } catch (e) {
             console.log(e);
         }finally{
