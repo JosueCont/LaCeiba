@@ -94,7 +94,7 @@ const QRScreen = ({navigation, appDuck, route}) => {
             if (supported) {
                 await Linking.openURL(url);
             } else {
-                setModalText('No se pudo agregar la wallet');
+                setModalText('No fue posible agregar la wallet');
                 setModalVisible(true);
             }
         } catch (e) {
@@ -112,7 +112,7 @@ const QRScreen = ({navigation, appDuck, route}) => {
             if(await Linking.canOpenURL(fullUrl)){
                 await Linking.openURL(fullUrl);
             }else{
-                setModalText('No se puedo agregar la wallet');
+                setModalText('No fue posible agregar la wallet');
                 setModalVisible(true);
             }
         } catch (error) {
