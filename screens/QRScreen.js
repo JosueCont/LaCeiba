@@ -88,14 +88,14 @@ const QRScreen = ({navigation, appDuck, route}) => {
     }
     const addToAppleWallet = async () => {
         try {
-            // TODO: cambiar la URL para descargar el pase
             let baseURL = Constants.manifest.extra.production ? Constants.manifest.extra.URL : Constants.manifest.extra.URL_DEV;
-            const url = `${baseURL}/v1/wallets/users/${appDuck.user.id}/apple`//'http://10.124.0.67:3000/download'
+            const url = `${baseURL}/v1/wallets/users/${appDuck.user.id}/apple`
             const supported = await Linking.canOpenURL(url); //To check if URL is supported or not.
             if (supported) {
-                await Linking.openURL(url); // It will open the URL on browser.
+                await Linking.openURL(url);
             } else {
-                console.log(`Don't know how to open this URL: ${url}`);
+                setModalText('No se pudo agregar la wallet');
+                setModalVisible(true);
             }
         } catch (e) {
             console.log(e)
@@ -109,10 +109,10 @@ const QRScreen = ({navigation, appDuck, route}) => {
             const response = await getTokenGoogleWallet('', [appDuck.user.id]);
             const fullUrl = response?.data?.data?.url + response?.data?.data?.token;
             console.log(fullUrl);
-            if(Linking.canOpenURL(fullUrl)){
-                Linking.openURL(fullUrl);
+            if(await Linking.canOpenURL(fullUrl)){
+                await Linking.openURL(fullUrl);
             }else{
-                setModalText('No se puede agregar la wallet');
+                setModalText('No se puedo agregar la wallet');
                 setModalVisible(true);
             }
         } catch (error) {
@@ -208,9 +208,9 @@ const QRScreen = ({navigation, appDuck, route}) => {
                         </View>
                         }
                         { Platform.OS == 'ios' &&
-                            <View flex={1} px={5}>
+                            <View flex={1} mt={2}>
                                 <TouchableOpacity onPress={() => addToAppleWallet()}>
-                                    <Image source={addToAppleWalletBtn} style={{width: '100%', resizeMode: 'contain'}}/>
+                                    <Image source={addToAppleWalletBtn} style={{width: '100%', resizeMode: 'contain', height:64}}/>
                                 </TouchableOpacity>
                             </View>
                         }
