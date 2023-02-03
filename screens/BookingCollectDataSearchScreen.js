@@ -72,7 +72,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
     const getPartnersFunction = async () => {
         try {
-            const queryString = `?q=${textFilter}&limit=5&userId=not_null&isActive=true`;
+            const queryString = `?q=${textFilter}&userId=not_null&isActive=true`;
             const response = await findPartnerQuery(queryString);
             let ignorePersons = route.params.currentPeople.map((item) => item.type === 'SOCIO' && item.data.person.idStandard);
             ignorePersons.push(appDuck.user?.partner?.id)
@@ -201,7 +201,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
                             {
                                 (typeSelected ==='p' || points > route.params?.pointsDay ) &&
-                                <View mb={4}>
+                                <View mb={2}>
                                     <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                         Elija a la persona
                                     </Text>
@@ -216,7 +216,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
                             {
                                 (textFilter.length > 0 && typeSelected) &&
-                                <ScrollView flexGrow={1} height={300} my={10}>
+                                <ScrollView flexGrow={1} height={250} my={2}>
                                     <View my={10} justifyContent={'center'}>
 
                                         <FormControl isInvalid={personNotValidText}>
@@ -306,7 +306,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                     {
                     (typeSelected ==='p' || points > route.params?.pointsDay ) &&
 
-                        <Button mb={2} isDisabled={((_.has(personSelected, 'valid') ? personSelected.valid === false : true) || !textFilter || (typeSelected === 'g' && points < route.params?.pointsDay))} onPress={() => {
+                        <Button mb={2} mt={2} isDisabled={((_.has(personSelected, 'valid') ? personSelected.valid === false : true) || !textFilter || (typeSelected === 'g' && points < route.params?.pointsDay))} onPress={() => {
                                 route?.params?.onAddPerson({type: typeSelected, person: personSelected})
                                 navigation.goBack();
                             }}>

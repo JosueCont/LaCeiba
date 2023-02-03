@@ -81,14 +81,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     });
 
     useEffect(() => {
-        if (isFocused) {
-            cleanData()
-            setArea(null)
-            setAreaId(null)
-        }
-    }, [isFocused])
-
-    useEffect(() => {
         if (timeLeft == 0) {
             setMinutesLeft('00');
             setSecondsLeft('00');
