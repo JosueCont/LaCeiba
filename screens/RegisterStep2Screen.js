@@ -29,27 +29,29 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
     const validateMovil = async () => {
         console.log(movil, 24)
 
-        if (movil.length === 10) {
-            try {
-                setLoadingNext(true)
-                let data = {
-                    "name": "Eduardo Couoh",
-                    "email": "couoheduardo@icloud.com"
-                }
+        // if (movil.length === 10) {
+            
 
-                const response = await registerSendConfirmEmail(data)
-
-                console.log(response.data)
-                setLoadingNext(false)
-                navigation.navigate('RegisterStep3Screen')
-            } catch (e) {
-                let v = await errorCapture(e);
-                alert(v.value)
-                setLoadingNext(false)
+        // } else {
+        //     setRetry(true)
+        // }
+        try {
+            setLoadingNext(true)
+            let data = {
+                "name": "Eduardo Couoh",
+                "email": "couoheduardo@icloud.com"
             }
 
-        } else {
-            setRetry(true)
+            const response = await registerSendConfirmEmail(data)
+
+            console.log(response.data)
+            setLoadingNext(false)
+            navigation.navigate('RegisterStep3Screen')
+        } catch (e) {
+            console.log(e);
+            let v = await errorCapture(e);
+            alert(v.value)
+            setLoadingNext(false)
         }
     }
 
@@ -66,8 +68,10 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
 
             await setAttribute('user', userUpdate)
             if(response.data.celular.length >0){
+                console.log(response.data.celular);
                 setMovil(response.data.celular);
             }else{
+                console.log(response.data.telefono);
                 setMovil(response.data.telefono);
             }
             
