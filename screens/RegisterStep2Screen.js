@@ -59,14 +59,18 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
             setLoading(true)
             const response = await tryFindPartner('/' + navigationDuck.user.claveSocio);
 
-            console.log(response.data)
             const userUpdate = {
                 ...navigationDuck.user,
                 ...response.data
             }
 
             await setAttribute('user', userUpdate)
-            setMovil(response.data.celular)
+            if(response.data.celular.length >0){
+                setMovil(response.data.celular);
+            }else{
+                setMovil(response.data.telefono);
+            }
+            
             setRetry(false)
         } catch (e) {
             alert(e.toString())
