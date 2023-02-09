@@ -16,6 +16,8 @@ import ModalAsk from "../screens/Modals/ModalAsk";
 import iconBooking from "../assets/iconBooking.png";
 import imgLogo from "../assets/imgLogo.png";
 import {logOut} from "../api/Requests";
+import { setAttribute } from '../redux/ducks/navigationDuck';
+
 
 const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
     const [modalSessionVisible, setModalSessionVisible] = useState(null);
@@ -25,6 +27,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
         const {pushToken} = appDuck.user
         try {
             const response = await logOut('', [pushToken])
+            setAttribute('notificationExist', false)
             console.log(response.data)
         } catch (e) {
             console.log(JSON.stringify(e))

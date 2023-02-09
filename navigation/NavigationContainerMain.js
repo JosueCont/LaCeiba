@@ -30,10 +30,10 @@ const NavigatorContainerMain = ({appDuck,setAttribute}) => {
             try {
                 const queryString = `?userId=${appDuck.user.id}&isRead=false`;
                 const response = await getAllNotifications(queryString);
-                if(response?.data?.items?.length > 0){
-                    setAttribute('notificationExist', true)
-                }else{
+                if(response?.data?.items?.length===0){
                     setAttribute('notificationExist', false)
+                }else{
+                    setAttribute('notificationExist', true)
                 }
                 
             } catch (error) {
