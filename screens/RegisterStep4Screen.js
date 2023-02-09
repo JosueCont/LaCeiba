@@ -59,7 +59,7 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
                 confirm: values.passwordConfirm,
                 claveSocio: navigationDuck.user.claveSocio,
                 countryCode: '+' + route.params.countryCode,
-                phone: navigationDuck.user.celular
+                phone: navigationDuck.user.celular.length > 0 ? navigationDuck.user.celular : navigationDuck.user.telefono
             }
 
             const headers = {
