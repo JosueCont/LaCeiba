@@ -5,7 +5,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import moment from 'moment';
 import 'moment/locale/es';
 import {findPartnerQuery, getGuests, getPoints, validatePartner} from "../api/Requests";
-import _ from "lodash";
+import _, { set } from "lodash";
 import {TouchableOpacity} from "react-native";
 import {connect} from "react-redux";
 import {MaterialIcons} from "@expo/vector-icons";
@@ -24,9 +24,8 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
     const [personNotValid, setPersonNotValid] = useState(false);
 
     const [peopleSearch, setPeopleSearch] = useState([]);
-    const [points, setPoints] = useState(null);
+    const [points, setPoints] = useState(route.params.points || null);
 
-    console.log(appDuck.user, 27)
     useEffect(() => {
         setLoading(true)
         getPersonsTypeFunction()
@@ -34,6 +33,11 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
             setLoading(false)
         }, 500)
     }, [])
+
+        useEffect(() => {
+            setPoints(route.params.points)
+            console.log(route.params.points)
+        },[route]);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -43,6 +47,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                 setTypeSelected(null);
                 setTextFilter('');
                 setPersonSelected(null);
+                
             };
         }, [])
     );
@@ -50,7 +55,6 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
     useEffect(() => {
         if (typeSelected == 'g') {
             getGuestsFunction();
-            getPointsFunction()
         } else if (typeSelected == 'p') {
             getPartnersFunction();
         }
@@ -63,7 +67,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
             let data = _.filter(response.data, function (o) {
                 return !ignorePersons.includes(o.idInvitado);
             });
-            setPeople(data);
+            setPeople(data)
         } catch (e) {
             console.log(e)
         }
@@ -132,19 +136,19 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
     }, 100);
 
 
-    const getPointsFunction = async () => {
-        try {
-            setLoading(true)
-            const response = await getPoints('', [appDuck.user.id]);
-            console.log(response.data, 138)
-            let pointsTotal = response.data.totalPoints - route.params.points;
-            setPoints(pointsTotal)
-        } catch (ex) {
-            console.log(ex)
-        } finally {
-            setLoading(false)
-        }
-    }
+    // const getPointsFunction = async () => {
+        // try {
+        //     setLoading(true)
+        //     const response = await getPoints('', [appDuck.user.id]);
+        //     console.log(response.data, 138)
+        //     let pointsTotal = response.data.totalPoints - route.params.points;
+        //     setPoints(pointsTotal)
+        // } catch (ex) {
+        //     console.log(ex)
+        // } finally {
+        //     setLoading(false)
+        // }
+    // }
 
     return (
 
@@ -200,7 +204,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
 
                             {
-                                (typeSelected ==='p' || points > route.params?.pointsDay ) &&
+                                (typeSelected ==='p' || points >= route.params?.pointsDay ) &&
                                 <View mb={2}>
                                     <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                         Elija a la persona
@@ -259,7 +263,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                                                 <View flex={1} justifyContent={'center'}>
                                                                     {
                                                                         typeSelected == 'g' ?
-                                                                            <Text color={Colors.green}>{item.nombre + " " + item.apellidoPaterno}</Text>
+                                                                            <Text color={Colors.green}>{`${item.nombre} ${item.apellidoPaterno}`}</Text>
                                                                             :
                                                                             <Text color={Colors.green}>{item.nombreSocio}</Text>
                                                                     }
@@ -304,7 +308,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
                     <View>
                     {
-                    (typeSelected ==='p' || points > route.params?.pointsDay ) &&
+                    (typeSelected ==='p' || points >= route.params?.pointsDay ) &&
 
                         <Button mb={2} mt={2} isDisabled={((_.has(personSelected, 'valid') ? personSelected.valid === false : true) || !textFilter || (typeSelected === 'g' && points < route.params?.pointsDay))} onPress={() => {
                                 route?.params?.onAddPerson({type: typeSelected, person: personSelected})

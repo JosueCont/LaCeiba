@@ -12,7 +12,7 @@ import ModalBookingConfirmation from "./Modals/ModalBookingConfirmation";
 import ModalInfo from "./Modals/ModalInfo";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
-import {bookService, cacheBookHour, getAdditionals, getIntervalsTime, getPoints, unBlockHour} from "../api/Requests";
+import {bookService, cacheBookHour, getAdditionals, getIntervalsTime, getPoints, transferPoints, unBlockHour} from "../api/Requests";
 import _ from "lodash";
 import {useIsFocused} from "@react-navigation/native";
 import LayoutV3 from "./Layouts/LayoutV3";
@@ -122,7 +122,21 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         const person = {
             data: data,
             name: data.type == 'p' ? data.person.nombreSocio : data.person.nombre + ' ' + data.person.apellidoPaterno,
-            type: data.type == 'p' ? "SOCIO" : "INVITADO"
+            type: data.type == 'p' ? "SOCIO" : "INVITADO",
+            totalPoints: 0
+
+        }
+        if(data.type == 'p'){
+            data.person.user.pointsTransferred.map( point => {      
+                let totalPoints = 0          
+                    if( data.type =='p' && point.toId === appDuck.user.id){
+                        totalPoints = totalPoints + point.points
+                    }
+                setPoints(points + totalPoints )
+                person.totalPoints = totalPoints
+            })
+        }else{
+            setPoints(points - pointsDay)
         }
 
         let arrayPeopleTemp = [...people, person]
@@ -131,10 +145,32 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
     }
 
-    const removePerson = (index) => {
-        let arrayPeopleTemp = people.filter((_, i) => i != index)
+    const removePerson = (index , person) => {
+        console.log(person.data.person.nombreSocio)
+        console.log(people)
+
+        if(person.type === 'INVITADO'){
+             let arrayPeopleTemp = people.filter((_, i) => i != index)
         setFieldValue("peopleArray", arrayPeopleTemp);
         setPeople(arrayPeopleTemp);
+        setPoints(points + pointsDay)
+        }else{
+            let arrayPartner = people.filter((e) => e.name != person.data.person.nombreSocio)
+            setFieldValue("peopleArray", arrayPartner);
+            setPeople(arrayPartner);
+                person.data.person.user.pointsTransferred.map( point => {                    
+                        if( person.data.type =='p' && point.toId === appDuck.user.id){
+                            let arrayPeopleTemp = people.filter((e) => e.type != 'INVITADO' && e.name != person.data.person.nombreSocio)
+                            setFieldValue("peopleArray", arrayPeopleTemp);
+                            setPeople(arrayPeopleTemp);
+                        }
+                })
+            
+            // let arrayPeopleTemp = people.filter((e) => e.type != 'INVITADO')
+            // setFieldValue("peopleArray", arrayPeopleTemp);
+            // setPeople(arrayPeopleTemp);
+        }
+
     }
 
     const getHoursFunction = async (dateString) => {
@@ -177,6 +213,15 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             }
 
             let guests = _.filter(people, {'type': 'INVITADO'});
+            let partners2 = _.filter(people, {'type': 'SOCIO'})
+
+            let partnerTransferPoints = []
+            partners2.forEach(e =>{
+                e.totalPoints > 0 ? partnerTransferPoints.push(e.data.person.user.id) : '';
+                console.log(e.data.person.user.id)
+            })
+
+
             let guestsArray = [];
             for (const person of guests) {
                 const guest = {
@@ -189,6 +234,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             }
             if (guestsArray.length > 0) {
                 params['guests'] = guestsArray;
+                params['partnerTransferPoints'] = partnerTransferPoints
             }
 
 
@@ -551,8 +597,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                             let invitados = _.filter(people, function (o) {
                                                 if (o.type === 'INVITADO') return o
                                             }).length;
-                                            let points = invitados * pointsDay;
-                                            navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points: points, pointsDay: pointsDay})
+                                            let point = invitados * pointsDay;
+                                            navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points:points, point: point, pointsDay: pointsDay})
                                         }}>
                                             <View height={75} bg={'rgba(255,255, 255,1)'} flexDirection={'row'} borderStyle={'dashed'} borderWidth={1.5}>
                                                 <View flex={1} justifyContent={'center'} alignItems={'center'}>
@@ -589,7 +635,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                                         <Text color={'#000'} fontSize={10}>{person.type}</Text>
                                                     </View>
                                                     <TouchableOpacity onPress={() => {
-                                                        removePerson(index)
+                                                        removePerson(index, person)
                                                     }}>
                                                         <View flex={1} width={65} alignItems={'center'} justifyContent={'center'}>
                                                             <Icon as={MaterialIcons} name={'delete'} size={'2xl'} color={'red.500'}></Icon>
