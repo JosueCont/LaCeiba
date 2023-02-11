@@ -36,7 +36,6 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
         useEffect(() => {
             setPoints(route.params.points)
-            console.log(route.params.points)
         },[route]);
 
     useFocusEffect(

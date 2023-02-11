@@ -127,16 +127,21 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
         }
         if(data.type == 'p'){
-            data.person.user.pointsTransferred.map( point => {      
+            console.log(data.person.user)
+          
+            setPoints(old => {
                 let totalPoints = 0          
-                    if( data.type =='p' && point.toId === appDuck.user.id){
-                        totalPoints = totalPoints + point.points
-                    }
-                setPoints(points + totalPoints )
+                data.person.user.pointsTransferred.map( point => {    
+                    console.log(point.points)
+                        if( point.toId === appDuck.user.id){
+                            totalPoints = totalPoints + point.points
+                        }
+                })
                 person.totalPoints = totalPoints
+                return old + totalPoints
             })
         }else{
-            setPoints(points - pointsDay)
+            setPoints(old => old - pointsDay)
         }
 
         let arrayPeopleTemp = [...people, person]
@@ -153,19 +158,12 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
              let arrayPeopleTemp = people.filter((_, i) => i != index)
         setFieldValue("peopleArray", arrayPeopleTemp);
         setPeople(arrayPeopleTemp);
-        setPoints(points + pointsDay)
+        setPoints(old => old + pointsDay)
         }else{
-            let arrayPartner = people.filter((e) => e.name != person.data.person.nombreSocio)
-            setFieldValue("peopleArray", arrayPartner);
-            setPeople(arrayPartner);
-                person.data.person.user.pointsTransferred.map( point => {                    
-                        if( person.data.type =='p' && point.toId === appDuck.user.id){
-                            let arrayPeopleTemp = people.filter((e) => e.type != 'INVITADO' && e.name != person.data.person.nombreSocio)
-                            setFieldValue("peopleArray", arrayPeopleTemp);
-                            setPeople(arrayPeopleTemp);
-                        }
-                })
-            
+            let arrayPeopleTemp = people.filter((_, i) => i != index)
+            setFieldValue("peopleArray", arrayPeopleTemp);
+            setPeople(arrayPeopleTemp);
+            setPoints(old => old - person.totalPoints)          
             // let arrayPeopleTemp = people.filter((e) => e.type != 'INVITADO')
             // setFieldValue("peopleArray", arrayPeopleTemp);
             // setPeople(arrayPeopleTemp);
@@ -437,7 +435,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                         onDayPress={day => {
                                             if (area) {
                                                 let pointsDayValue = _.find(area?.calendarDays, {day: moment(day.dateString).locale('en').format('dddd')}).points;
-                                                setPointsDay(pointsDayValue)
+                                                setPointsDay(old => pointsDayValue)
                                                 recalculePoints(pointsDayValue)
 
                                             }
@@ -567,7 +565,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                 </Text>
                                 <View flexDir={'row'} mb={3}>
                                     <View flex={1}>
-                                        <Text textAlign={'center'} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>
+                                        <Text textAlign={'center'} color={points>= 0 ? Colors.green : 'red.500'} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>
                                             {points}
                                         </Text>
                                         <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'xs'}>
@@ -584,6 +582,13 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                     </View>
 
                                 </View>
+
+                                {
+                                (points < 0) &&
+                                <Text textAlign={'center'} color={'red.500'} fontSize={'xs'} mb={4}>
+                                   Puntos insuficientes, elimina algún invitado para poder completar tu reservación
+                                </Text>
+                                }
 
 
                                 <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
@@ -699,7 +704,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 </View>
 
                 <View>
-                    <Button onPress={() => handleSubmit()} isLoading={sending}>Reservar</Button>
+                    <Button disabled={points < 0} onPress={() => handleSubmit()} isLoading={sending}>Reservar</Button>
                 </View>
             </View>
             <ModalBookingConfirmation
