@@ -126,13 +126,10 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             totalPoints: 0
 
         }
-        if(data.type == 'p'){
-            console.log(data.person.user)
-          
+        if(data.type == 'p'){          
             setPoints(old => {
                 let totalPoints = 0          
                 data.person.user.pointsTransferred.map( point => {    
-                    console.log(point.points)
                         if( point.toId === appDuck.user.id){
                             totalPoints = totalPoints + point.points
                         }
@@ -151,9 +148,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     }
 
     const removePerson = (index , person) => {
-        console.log(person.data.person.nombreSocio)
-        console.log(people)
-
+     
         if(person.type === 'INVITADO'){
              let arrayPeopleTemp = people.filter((_, i) => i != index)
         setFieldValue("peopleArray", arrayPeopleTemp);
@@ -216,7 +211,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             let partnerTransferPoints = []
             partners2.forEach(e =>{
                 e.totalPoints > 0 ? partnerTransferPoints.push(e.data.person.user.id) : '';
-                console.log(e.data.person.user.id)
             })
 
 
@@ -301,7 +295,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         }
     }
 
-
     const unBlockHourFunction = async (hour) => {
         try {
             const response = await unBlockHour(`?dueDate=${date}&dueTime=${hour}`, [appDuck.user.id, areaId])
@@ -313,22 +306,23 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         }
     }
 
-    const recalculePoints = (pointsDayVar) => {
-        let arrayPeople = people;
-        let invitados = _.filter(arrayPeople, {'type': 'INVITADO'});
-        if (pointsDayVar && invitados.length > 0 && points) {
-            let arrayFinalRemove = [];
-            for (var i = invitados.length; i > 0; i--) {
-                if ((i * pointsDayVar) > points) {
-                    arrayFinalRemove.push(invitados[i - 1].data.person.idStandard)
-                }
-            }
-            var evens = _.remove(arrayPeople, function (o) {
-                return !arrayFinalRemove.includes(o.data.person.idStandard);
-            });
-            setPeople(evens)
-        }
-    }
+    // const recalculePoints = (pointsDayVar) => {
+    //     let arrayPeople = people;
+    //     let invitados = _.filter(arrayPeople, {'type': 'INVITADO'});
+    //     if (pointsDayVar && invitados.length > 0 && points) {
+            
+    //         let arrayFinalRemove = [];
+    //         for (var i = invitados.length; i > 0; i--) {
+    //             if ((i * pointsDayVar) > points) {
+    //                 arrayFinalRemove.push(invitados[i - 1].data.person.idStandard)
+    //             }
+    //         }
+    //         var evens = _.remove(arrayPeople, function (o) {
+    //             return !arrayFinalRemove.includes(o.data.person.idStandard);
+    //         });
+    //         setPeople(evens)
+    //     }
+    // }
 
     const getPointsFunction = async () => {
         try {
@@ -348,12 +342,10 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const areaSelect = async (v) => {
         try {
             setAreaId(v)
+            setDate(null);
+            getPointsFunction( )
+            setPeople([])
             let areaFilter = _.find(route?.params?.service?.areas, {'id': v});
-            if (date) {
-                let pointsDayValue = _.find(areaFilter?.calendarDays, {'day': moment(date).locale('en').format('dddd')}).points;
-                setPointsDay(pointsDayValue)
-                recalculePoints(pointsDayValue)
-            }
             setArea(areaFilter)
         } catch (e) {
 
@@ -361,6 +353,17 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             alert(v.value)
         }
 
+    }
+
+    const calculatePoints = (dayPoints) => {
+        let partners = _.filter(people, {'type': 'SOCIO'})
+        let totalPoints = 0
+        partners.forEach(e =>{
+            let points = 0;
+            points = points + e.totalPoints
+            totalPoints = totalPoints + points
+        })
+        setPoints(totalPoints - dayPoints)
     }
 
 
@@ -433,12 +436,17 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                         minDate={route?.params?.service?.bookNextDay ? tomorrow : today}
                                         maxDate={todayPlus7}
                                         onDayPress={day => {
+                                            let guest = _.filter(people, {'type': 'INVITADO'})
+
                                             if (area) {
                                                 let pointsDayValue = _.find(area?.calendarDays, {day: moment(day.dateString).locale('en').format('dddd')}).points;
-                                                setPointsDay(old => pointsDayValue)
-                                                recalculePoints(pointsDayValue)
-
+                                                setPointsDay(pointsDayValue)
                                             }
+                                            if(guest.length > 0) {
+                                                let pointsDayValue = _.find(area?.calendarDays, {day: moment(day.dateString).locale('en').format('dddd')}).points;
+                                                calculatePoints(pointsDayValue)
+                                            }
+
                                             setDate(day.dateString)
                                             setFieldValue("date", day.dateString)
                                             setShowCalendar(false)
