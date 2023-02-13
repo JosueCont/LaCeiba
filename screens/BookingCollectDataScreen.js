@@ -355,9 +355,11 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
     }
 
-    const calculatePoints = (dayPoints) => {
+    const calculatePoints = async(dayPoints) => {
         let partners = _.filter(people, {'type': 'SOCIO'})
-        let totalPoints = 0
+        const response = await getPoints('', [appDuck.user.id]);
+        let pointsTotal = response.data.totalPoints;
+        let totalPoints = pointsTotal
         partners.forEach(e =>{
             let points = 0;
             points = points + e.totalPoints
