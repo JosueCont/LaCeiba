@@ -239,7 +239,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             if (peopleArray.length > 0) {
                 params['users'] = peopleArray;
             }
-
+          
             const response = await bookService(params, [appDuck.user.id]);
             if (!response.data?.message) {
                 setModalConfirmBooking(false);
@@ -359,13 +359,14 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         let partners = _.filter(people, {'type': 'SOCIO'})
         const response = await getPoints('', [appDuck.user.id]);
         let pointsTotal = response.data.totalPoints;
+        let pointGuests = _.filter(people, {'type': 'INVITADO'}).length * dayPoints
         let totalPoints = pointsTotal
         partners.forEach(e =>{
             let points = 0;
             points = points + e.totalPoints
             totalPoints = totalPoints + points
         })
-        setPoints(totalPoints - dayPoints)
+        setPoints(totalPoints - pointGuests)
     }
 
 
@@ -402,6 +403,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                         loading === false &&
                                         <FormControl isInvalid={errors.areaSelected}>
                                             <Select
+                                                selectedValue={areaId}
                                                 onOpen={() => {
 
                                                 }}
