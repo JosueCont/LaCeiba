@@ -30,10 +30,6 @@ const QRScreen = ({navigation, appDuck, route}) => {
 
     const imgRef = useRef();
 
-
-
-    console.log(appDuck)
-
     useEffect(() => {
         if (isFocused) {
             validatePermission()
@@ -41,8 +37,8 @@ const QRScreen = ({navigation, appDuck, route}) => {
     }, [isFocused])
 
     const validatePermission = async () => {
-        console.log(permissionResponse)
-        if (permissionResponse.granted === false) {
+        const {status} = await MediaLibrary.getPermissionsAsync();
+        if (status == 'denied') {
             navigation.navigate('AskForMediaLibraryScreen', {screenOk: 'QRScreen', screenReject: 'QRInstructionsScreen'})
         }
     }
@@ -199,7 +195,9 @@ const QRScreen = ({navigation, appDuck, route}) => {
 
                         {
                             route.params?.card === true &&
-                            <Button onPress={() => {permissionResponse.granted == true ?  captureScreenFunction() : validatePermission()}}>Descargar</Button>
+                            <Button onPress={async() => {
+                                const {status} = await MediaLibrary.getPermissionsAsync();
+                                status == 'granted' ?  captureScreenFunction() : validatePermission()}}>Descargar</Button>
                         }
                         { Platform.OS == 'android' && <View flexDirection={'column'} justifyContent={'center'} alignItems={'center'} mt={2}>
                             <TouchableOpacity onPress={()=>{saveToGoogleWallet();}}>
@@ -215,7 +213,7 @@ const QRScreen = ({navigation, appDuck, route}) => {
                             </View>
                         }
 
-                        <Button mt={5} onPress={() => navigation.goBack()}>Terminar</Button>
+                        <Button mt={5} mb={4} onPress={() => navigation.navigate('HomeScreen')}>Terminar</Button>
                     </View>
 
                 </View>

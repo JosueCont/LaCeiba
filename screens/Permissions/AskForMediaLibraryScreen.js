@@ -4,16 +4,37 @@ import {AntDesign} from "@expo/vector-icons";
 import LayoutV3 from "../Layouts/LayoutV3";
 import {Colors} from "../../Colors";
 import * as MediaLibrary from "expo-media-library";
+import * as Linking from 'expo-linking';
+import { Alert} from 'react-native';
+
+
 
 const AskForMediaLibraryScreen = ({navigation, route}) => {
 
     const askPermission = async () => {
-        const {status} = await MediaLibrary.requestPermissionsAsync();
+        console.log(await MediaLibrary.requestPermissionsAsync(false))
+        const {status} = await MediaLibrary.requestPermissionsAsync(false);
 
         if (status === 'granted') {
-            navigation.navigate(route.params.screenOk)
+            navigation.navigate(route.params.screenOk ,{card: true})
         } else if (status === 'denied') {
-            alert('El permiso fue denegado anteriormente. ');
+        
+            Alert.alert(
+                'Permiso denegado',
+                'El permiso fue denegado anteriormente, tienes que permitir acceder a tus archivos manualmente en tus ajustes de la aplicación',
+                [
+                  {
+                    text: 'Cancelar',
+                    style: 'cancel',
+                  },
+                  {
+                    text: 'OK', 
+                    onPress: () => Linking.openSettings()
+                  },
+                ],
+                {cancelable: false},
+              );
+
         } else {
             alert('Failed');
         }
