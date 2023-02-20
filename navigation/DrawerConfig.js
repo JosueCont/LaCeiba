@@ -57,6 +57,7 @@ import FixedGroupDetail from "../screens/FixedGroupDetail";
 import FixedGroupList from "../screens/FixedGroupList";
 import NotificationDetail from "../screens/NotificationDetail";
 import AddPointsPartnesScreen from "../screens/AddPointsPartnesScreen"
+import CardPointScreen from "../screens/CardPointScreen"
 import { getAllNotifications } from "../api/Requests";
 import { connect } from "react-redux";
 import {useSelector} from "react-redux";
@@ -198,6 +199,8 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'FixedGroupList'} component={FixedGroupList} options={{title: ''}}/>
             <Drawer.Screen name={'FixedGroupDetail'} component={FixedGroupDetail} options={{title: ''}}/>
             <Drawer.Screen name={'AddPointsPartnesScreen'} component={AddPointsPartnesScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'CardPointScreen'} component={CardPointScreen} options={{title: ''}}/>
+
         </Drawer.Navigator>
     );
 }
