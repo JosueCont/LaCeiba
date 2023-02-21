@@ -16,6 +16,7 @@ import {bookService, cacheBookHour, getAdditionals, getIntervalsTime, getPoints,
 import _ from "lodash";
 import {useIsFocused} from "@react-navigation/native";
 import LayoutV3 from "./Layouts/LayoutV3";
+import HolesItemSelected from "../components/HolesItemSelected"
 
 moment.locale('es');
 
@@ -47,6 +48,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const today = new Date().setDate(new Date().getDate())
     const todayPlus7 = new Date()
     todayPlus7.setDate(new Date().getDate() + 5)
+    const [holes,setHoles] = useState(null)
 
 
     const {touched, handleSubmit, errors, setFieldValue, resetForm} = useFormik({
@@ -54,8 +56,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             date: '',
             hourSelected: '',
             peopleArray: [],
-            areaSelected: 0
-        },
+            areaSelected: 0        },
         onSubmit: (formValue) => {
             sendConfirmationBooking(formValue)
         },
@@ -76,7 +77,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 .array()
                 //.required('Los invitados son obligatorios')
                 .min(area?.minPeople - 1, `Seleccione al menos ${area?.minPeople - 1} persona(s)`)
-
         })
     });
 
@@ -205,6 +205,10 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 params['additionals'] = groupValues
             }
 
+            if(holes !== null){
+                params['numHoles'] = holes
+            }
+
             let guests = _.filter(people, {'type': 'INVITADO'});
             let partners2 = _.filter(people, {'type': 'SOCIO'})
 
@@ -226,7 +230,10 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             }
             if (guestsArray.length > 0) {
                 params['guests'] = guestsArray;
-                params['partnerTransferPoints'] = partnerTransferPoints
+                if(partnerTransferPoints.length > 0){
+                    params['partnerTransferPoints'] = partnerTransferPoints
+
+                }
             }
 
 
@@ -239,7 +246,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             if (peopleArray.length > 0) {
                 params['users'] = peopleArray;
             }
-          
+
             const response = await bookService(params, [appDuck.user.id]);
             if (!response.data?.message) {
                 setModalConfirmBooking(false);
@@ -266,6 +273,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         setPointsDay(null)
         setAreaId(null);
         setArea(null);
+        setHoles(null)
     }
 
     const sendConfirmationBooking = async (values) => {
@@ -369,7 +377,9 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         setPoints(totalPoints - pointGuests)
     }
 
-
+    const getHole = (holes)=>{
+        setHoles(holes)
+    }
 
 
     useEffect(() => {
@@ -427,7 +437,21 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                 }
                             </View>
                         }
+                        { route?.params?.service.isGolf &&
 
+                            <View mb={6}>
+                                 <View  mb={4} justifyContent={'center'} alignItems={'center'} textAlign={'center'}>
+                                    <Text justifyContent={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>Numero de hoyos a jugar</Text>
+                                 </View>
+                                 {
+                                    loading === true ?
+                                    <Skeleton height={45} borderRadius={30}></Skeleton> :
+
+                                    <HolesItemSelected getHole={getHole}></HolesItemSelected>
+
+                                 }
+                             </View>
+                        }
                         <View mb={6}>
                             <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                 Fecha
@@ -565,7 +589,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                         {
                             minutesLeft &&
                             <View mb={2}>
-                                <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'sm'}>Tiempo para reservar {minutesLeft}:{secondsLeft}</Text>
+                                <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>Tiempo para reservar {minutesLeft}:{secondsLeft}</Text>
                             </View>
                         }
 
@@ -716,7 +740,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 </View>
 
                 <View>
-                    <Button disabled={points < 0} onPress={() => handleSubmit()} isLoading={sending}>Reservar</Button>
+                    <Button disabled={points < 0 || !holes} onPress={() => handleSubmit()} isLoading={sending}>Reservar</Button>
                 </View>
             </View>
             <ModalBookingConfirmation

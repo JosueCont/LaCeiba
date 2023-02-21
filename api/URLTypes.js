@@ -22,6 +22,7 @@ export const URLTypes = {
     GET_ALL_BOOKINGS: '/v1/bookings',//?page=1&limit=10,
     GET_ALL_INVITATIONS: '/v1/bookings/invitations',
     GET_PROFILE: '/v1/users/{{param}}/partners',
+    GET_USER: '/v1/users/{{param}}',
     GET_ADDITIONAL_MEMBERS: '/v1/users/partners/action',
     GET_POINTS: '/v1/users/{{param}}/partners/points',
     SET_RESERVATION_STATUS: '/v1/bookings/invitations/{{param}}',
@@ -33,6 +34,7 @@ export const URLTypes = {
     GET_ALL_GUESTS: '/v1/free-services/users/guests', //?userId=
     CREATE_GUEST: '/v1/free-services/users/{{param}}/guests',
     EDIT_GUEST: '/v1/free-services/users/{{param}}/guests/{{param}}',
+    EDIT_USER: '/v1/users/{{param}}',
     DELETE_GUEST: '/v1/free-services/users/guests/{{param}}',
     GET_FREE_SERVICES: '/v1/free-services',
     GENERATE_PASS : '/v1/free-services/users/{{param}}/guests/{{param}}/qr',
