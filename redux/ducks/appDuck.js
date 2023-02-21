@@ -28,6 +28,8 @@ export let loggedAction = (data) => {
 export let loggedOutAction = () => {
     return async (dispatch, getState) => {
         await AsyncStorage.setItem('@user', '');
+        await AsyncStorage.setItem('ghin','')
+
         dispatch({type: LOGOUT});
     };
 }

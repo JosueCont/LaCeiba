@@ -57,8 +57,13 @@ const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) =
             response.data.user['pushToken'] = navigationDuck.pushToken
 
             console.log(response)
+            if(response.data.user.ghin){
+                await AsyncStorage.setItem('ghin',response?.data?.user?.ghin)
 
-            await AsyncStorage.setItem('@user', JSON.stringify(response.data))
+            }else{
+                await AsyncStorage.setItem('ghin','')
+            }
+            await AsyncStorage.setItem('@user',JSON.stringify(response.data))
             await loggedAction(response.data)
 
         } catch (ex) {

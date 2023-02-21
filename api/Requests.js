@@ -22,6 +22,7 @@ export const bookService = async (params, queryStringParams = []) => await reque
 export const getAllBookings = async (params) => await request(URLTypes.GET_ALL_BOOKINGS, params, 'get');
 export const getAllInvitations = async (params) => await request(URLTypes.GET_ALL_INVITATIONS, params, 'get');
 export const getProfile = async (params, queryStringParams = []) => await request(URLTypes.GET_PROFILE, params, 'get', null, queryStringParams);
+export const getUser = async (params, queryStringParams = []) => await request(URLTypes.GET_USER, params, 'get', null, queryStringParams);
 export const getAdditionalMembers = async (params) => await request(URLTypes.GET_ADDITIONAL_MEMBERS, params, 'get');
 export const getPoints = async (params, queryStringParams = []) => await request(URLTypes.GET_POINTS, params, 'get', null, queryStringParams);
 export const setReservationStatus = async (params, queryStringParams = []) => await request(URLTypes.SET_RESERVATION_STATUS, params, 'put', null, queryStringParams);
@@ -29,6 +30,7 @@ export const getAdditionals = async (params, queryStringParams = []) => await re
 export const unBlockHour = async (params, queryStringParams = []) => await request(URLTypes.CACHE_BOOKING, params, 'delete', null, queryStringParams);
 export const cancelBooking = async (params, queryStringParams = []) => await request(URLTypes.CANCEL_BOOKING, params, 'delete', null, queryStringParams);
 export const transferPoints = async (params) => await request(URLTypes.TRASNFER_POINTS, params, 'post');
+export const editUser = async (params, queryStringParams = []) => await request(URLTypes.EDIT_USER, params, 'put', null, queryStringParams);
 
 export const registerSendConfirmEmail = async (params) => await request(URLTypes.REGISTER_SEND_CONFIRM_EMAIL, params, 'post');
 export const registerConfirmEmail = async (params) => await request(URLTypes.REGISTER_CONFIRM_EMAIL, params, 'post');
