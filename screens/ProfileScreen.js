@@ -10,7 +10,6 @@ import {useIsFocused} from "@react-navigation/native";
 import _ from "lodash";
 import LayoutV3 from "./Layouts/LayoutV3";
 import moment from "moment";
-import modalEditGhin from "./Modals/modalEditGhin"
 import ModalEditGhin from "./Modals/modalEditGhin";
 import iconEdit from '../assets/iconEdit.png'
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -37,9 +36,9 @@ const ProfileScreen = ({navigation, appDuck}) => {
 
 
     const getProfileFunction = async () => {
-
         const ghin = await AsyncStorage.getItem('ghin');
         setGhin(ghin)
+
         try {
             setLoading(true)
             const response = await getProfile('', [appDuck.user.id])
@@ -145,7 +144,9 @@ const ProfileScreen = ({navigation, appDuck}) => {
                             <Text mr={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
                             {ghin? ghin : 'El valor aún no se ha especificado'}
                             </Text>
-                            <TouchableOpacity onPress={()=>{
+                            <TouchableOpacity onPress={async()=>{
+                                const ghin = await AsyncStorage.getItem('ghin');
+                                setGhin(ghin)
                                  setModalEditGhin(true)
                                 }}>
                             <View>

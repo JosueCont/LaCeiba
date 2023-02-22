@@ -1,54 +1,34 @@
 import React, {useState,useEffect} from "react";
 import {Alert, Modal, TouchableOpacity} from "react-native";
 import {styles} from './ModalInfoStyleSheet';
-import {Button, Icon, Text, View, Input,FormControl, WarningOutlineIcon} from "native-base";
+import {Button, Icon, Text, View, Input,Image,FormControl, WarningOutlineIcon} from "native-base";
 import {AntDesign} from "@expo/vector-icons";
 import {Colors} from "../../Colors";
 import {LinearGradient} from "expo-linear-gradient";
 import {getPoints,transferPoints} from "../../api/Requests";
 import {connect} from "react-redux";
 import {editUser} from "../../api/Requests";
+import golfFlag from '../../assets/golfFlag.png';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
 
 
-const modalEditGhin = ({visible, setVisible, appDuck,action}) => {
+const ModalAddScore = ({visible, setVisible, appDuck,action, numerHole,AssginPoints}) => {
     const [heightGradient, setHeightGradient] = useState(null);
     const [value, setValue] = useState('')
     const [validateEmpty, setValidateEmpty] = useState(false)
     const [pointsUser, setPointsUser] = useState(null)
 
-    useEffect(() => {
-        getGhinUser()
-    }, [visible])
 
 
-    const getGhinUser = async() =>{
-        const ghin =  await AsyncStorage.getItem('ghin');
-        setValue(ghin)
-    }
 
 
     const handleSubmit = async() => {
-        try {
-           let params ={
-            ghin: value
-           }
-           const response = await editUser(params, [appDuck.user.id]);
-           if (response.status=== 200) {
-               setVisible(false);
-               await AsyncStorage.setItem('ghin', value)
-               action(true)
-            }
-        } catch (e) {
-            let v = await errorCapture(e);
-            alert(v.value)
-            setSending(false)
-            action(false)
-
-        }
+        setVisible(false)
+        setValue('')
+        AssginPoints(value, numerHole)
     }
 
     return (
@@ -86,7 +66,13 @@ const modalEditGhin = ({visible, setVisible, appDuck,action}) => {
                     </TouchableOpacity>
                    
                     <View>
-                        <Text style={styles.modalText} mb={8} fontSize={'2xl'}>GHIN</Text>
+                        <View justifyContent={'center'} alignItems={'center'}>
+                        <Image  source={golfFlag} style={{width: 60, height: 60}}></Image>   
+                        </View>
+
+                        <Text color={Colors.yellow} style={styles.modalText} mt={2} mb={4} fontSize={'2xl'}>Hoyo {numerHole}</Text>
+                        <Text style={styles.modalText} mb={1} fontSize={'sm'}>Score</Text>
+                    
                         <Input width={'full'}  mb={5} isRequired value={value}  onChangeText={val =>{
                             setValue(val)
                         }}/>
@@ -95,7 +81,9 @@ const modalEditGhin = ({visible, setVisible, appDuck,action}) => {
                                 El valor no puede ser vacio y deber ser mayor a 0 y maximo {pointsUser} puntos
                             </FormControl.ErrorMessage>
                         </FormControl> */}
-                        <Button colorScheme={'green'} onPress={() => handleSubmit()} mt={4} mb={1}>Actualizar</Button>
+                        <Button colorScheme={'green'} onPress={() => handleSubmit()} mt={4} mb={1}>Agregar</Button>
+                        <Button colorScheme={'green'} onPress={() => setVisible(false)} mt={2} mb={1}>Cancelar</Button>
+
                     </View>
                 </View>
             </View>
@@ -110,4 +98,4 @@ const mapState = (state) => {
     }
 }
 
-export default connect(mapState)(modalEditGhin);
+export default connect(mapState)(ModalAddScore);

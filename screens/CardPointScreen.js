@@ -5,7 +5,13 @@ import LayoutV4 from "./Layouts/LayoutV4";
 import bannerCardPoints from "../assets/bannerCardPoints.png"
 import matechesIconGreen from "../assets/matechesIconGreen.png"
 import CardPointTable from "./CardPointTable";
+import { useState } from "react";
+import ModalScoreDetails from "./Modals/ModalScoreDetails";
+
 const CardPointScreen = ({ navigation }) => {
+
+const [colorSelected, setColorSelected] = useState(null)
+const [openModal, setOpenModal] = useState(false)
 
     return (
         <LayoutV4>
@@ -27,19 +33,38 @@ const CardPointScreen = ({ navigation }) => {
                 <Text textAlign={'center'} mt={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xl'}>TARJETA DE PUNTUACIÓN</Text>
                 <View flexDirection={'row'} mt={5} mb={5} justifyContent={'space-between'} alignContent={'center'} alignItems={'center'}>
                     <Text mr={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>Marcas</Text>
-
-                    <Button pl={1} mr={2} height={6} width={6} background={'#29A0E3'} colorScheme={'#29A0E3'}>
+                   
+                     <Button  onPress={() =>{
+                        let color = 'blue'
+                        setColorSelected(color)
+                    }} 
+                     pl={1} mr={2} height={6} width={6}  style={colorSelected ==='blue' ? {backgroundColor:'#29A0E3', borderColor:'black', borderWidth:2} : {backgroundColor:'#29A0E3'}}>
                     </Button>
-                    <Button p={2} borderColor={Colors.green} mr={2} height={6} width={6} background={'white'} colorScheme={'white'}>
+                    <Button  onPress={() =>{
+                        let color = 'white'
+                        setColorSelected(color)
+                    }} 
+                     p={2} borderColor={Colors.green} mr={2} height={6} width={6}  style={colorSelected ==='white' ? {backgroundColor:'#fff', borderColor:'black', borderWidth:2} : {backgroundColor:'#fff'}}>
                     </Button>
-                    <Button p={2} mr={2} height={6} width={6} colorScheme={'red'}>
+                    <Button  onPress={() =>{
+                        let color = 'red'
+                        setColorSelected(color)
+                    }} 
+                     p={2} mr={2} height={6} width={6} style={colorSelected ==='red' ? {backgroundColor:'red', borderColor:'black', borderWidth:2} : {backgroundColor:'red'}}>
                     </Button>
-                    <Button p={2} mr={2} height={6} width={6} colorScheme={'yellow'}>
+                    <Button  onPress={() =>{
+                        let color = 'gold'
+                        setColorSelected(color)
+                    }} 
+                     p={2} mr={2} height={6} width={6} style={colorSelected ==='gold' ? {backgroundColor:'gold', borderColor:'black', borderWidth:2} : {backgroundColor:'gold'}}>
                     </Button>
-                    <Button p={2} mr={2} height={6} width={6} background={'black'} colorScheme={'black'}>
+                    <Button  onPress={() =>{
+                        let color = 'green'
+                        setColorSelected(color)
+                    }} 
+                     p={2} mr={2} height={6} width={6} style={colorSelected ==='green' ? {backgroundColor:Colors.green, borderColor:'black', borderWidth:2} : {backgroundColor:Colors.green}} >
                     </Button>
-
-                    <Button borderRadius={'3xl'} px={4} py={2} textAlign={'center'} justifyContent={'center'} alignItems={'center'}>
+                    <Button onPress={()=>setOpenModal(true)} borderRadius={'3xl'} px={4} py={2} textAlign={'center'} justifyContent={'center'} alignItems={'center'}>
                         Ver mas
                     </Button>
                 </View>
@@ -62,6 +87,12 @@ const CardPointScreen = ({ navigation }) => {
                     </Button>
                 </View>
             </View>
+        
+            <ModalScoreDetails
+                visible={openModal}
+                setVisible={setOpenModal}
+                >   
+            </ModalScoreDetails>
 
         </LayoutV4>
 
