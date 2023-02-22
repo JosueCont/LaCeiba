@@ -119,10 +119,13 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
             </View>
             <View flex={1} mx={10}>
                 <ScrollView flexGrow={1} pt={10} showsVerticalScrollIndicator={false}>
-                    <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={18} textAlign={'center'}>{route.params.booking?.area?.service?.name}</Text>
+                    <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={22} textAlign={'center'}>{route.params.booking?.area?.service?.name}</Text>
                     <View borderWidth={1} borderColor={Colors.yellow} my={4}/>
-
-                    <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={18} textAlign={'center'}>ID DE RESERVACIÓN: {route.params.booking.id}</Text>
+                    {route.params.booking.numHoles &&  <> 
+                    <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={17} textAlign={'center'}>{route.params.booking.numHoles} HOYOS INICIANDO EN EL HOYO {route.params.booking.numHoles - 8}  </Text>
+                    <View borderWidth={1} borderColor={Colors.yellow} my={4}/>
+                    </> }
+                    <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={16} textAlign={'center'}>ID DE RESERVACIÓN: {route.params.booking.id}</Text>
                     <View borderWidth={1} borderColor={Colors.yellow} my={4}/>
 
                     <View mx={10} mb={6} alignItems={'center'}>

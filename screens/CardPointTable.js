@@ -1,8 +1,9 @@
-import React from "react";
 import {Button, Icon, Text, View, Image} from "native-base";
 import {Colors} from "../Colors";
-import { StyleSheet} from 'react-native';
+import { StyleSheet, TouchableOpacity} from 'react-native';
 import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component';
+import ModalAddScore from "./Modals/ModalAddScore";
+import  Reaact, { useState } from "react";
 
 
 const CardPointTable = ({navigation, mb = 2}) => {
@@ -10,13 +11,166 @@ const CardPointTable = ({navigation, mb = 2}) => {
 
    const  tableHead = ['Hoyo', '1', '2', '3','4','5', '6', '7','8','9']
    const  tableHead2 = ['Hoyo', '10', '11', '12','13','14', '15', '16','17','18']
+   const [openModalScore, setOpenModalScore] = useState(false)
+   const [holeScore, setHoleScore] = useState(null)
+   const [holeScorePoints, setHoleScorePoints] = useState(['','','','','','','','','',''])
+
+
+   const elementButton1 = (value) => (
+    <TouchableOpacity onPress={() => {
+      setHoleScore(value)
+      setOpenModalScore(true)
+      }}>
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[0]}</Text>
+    </TouchableOpacity>
+  );
+  const elementButton2 = (value) => (
+    <TouchableOpacity onPress={() => {
+      setHoleScore(value)
+      setOpenModalScore(true)
+      }}>
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[1]}</Text>
+    </TouchableOpacity>
+  );
+  const elementButton3 = (value) => (
+    <TouchableOpacity onPress={() => {
+      setHoleScore(value)
+      setOpenModalScore(true)
+      }}>
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[2]}</Text>
+    </TouchableOpacity>
+  );
+  const elementButton4 = (value) => (
+    <TouchableOpacity onPress={() => {
+      setHoleScore(value)
+      setOpenModalScore(true)
+      }}>
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[3]}</Text>
+    </TouchableOpacity>
+  );
+  const elementButton5 = (value) => (
+    <TouchableOpacity onPress={() => {
+      setHoleScore(value)
+      setOpenModalScore(true)
+      }}>
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[4]}</Text>
+    </TouchableOpacity>
+  );
+  const elementButton6 = (value) => (
+    <TouchableOpacity onPress={() => {
+      setHoleScore(value)
+      setOpenModalScore(true)
+      }}>
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[5]}</Text>
+    </TouchableOpacity>
+  );
+  const elementButton7 = (value) => (
+    <TouchableOpacity onPress={() => {
+      setHoleScore(value)
+      setOpenModalScore(true)
+      }}>
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[6]}</Text>
+    </TouchableOpacity>
+  );
+  const elementButton8 = (value) => (
+    <TouchableOpacity onPress={() => {
+      setHoleScore(value)
+      setOpenModalScore(true)
+      }}>
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[7]}</Text>
+    </TouchableOpacity>
+  );
+  const elementButton9 = (value) => (
+    <TouchableOpacity onPress={() => {
+      setHoleScore(value)
+      setOpenModalScore(true)
+      }}>
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[8]}</Text>
+    </TouchableOpacity>
+  );
+  const elementButton10 = (value) => (
+    <TouchableOpacity onPress={() => {
+      setHoleScore(value)
+      setOpenModalScore(true)
+      }}>
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[9]}</Text>
+    </TouchableOpacity>
+  );
+  const elementButton11 = (value) => (
+    <TouchableOpacity onPress={() => {
+      setHoleScore(value)
+      setOpenModalScore(true)
+      }}>
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[10]}</Text>
+    </TouchableOpacity>
+  );
+  const elementButton12 = (value) => (
+    <TouchableOpacity onPress={() => {
+      setHoleScore(value)
+      setOpenModalScore(true)
+      }}>
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[11]}</Text>
+    </TouchableOpacity>
+  );
+  const elementButton13 = (value) => (
+    <TouchableOpacity onPress={() => {
+      setHoleScore(value)
+      setOpenModalScore(true)
+      }}>
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[12]}</Text>
+    </TouchableOpacity>
+  );
+  const elementButton14 = (value) => (
+    <TouchableOpacity onPress={() => {
+      setHoleScore(value)
+      setOpenModalScore(true)
+      }}>
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[13]}</Text>
+    </TouchableOpacity>
+  );
+  const elementButton15 = (value) => (
+    <TouchableOpacity onPress={() => {
+      setHoleScore(value)
+      setOpenModalScore(true)
+      }}>
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[14]}</Text>
+    </TouchableOpacity>
+  );
+  const elementButton16 = (value) => (
+    <TouchableOpacity onPress={() => {
+      setHoleScore(value)
+      setOpenModalScore(true)
+      }}>
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[15]}</Text>
+    </TouchableOpacity>
+  );
+  const elementButton17 = (value) => (
+    <TouchableOpacity onPress={() => {
+      setHoleScore(value)
+      setOpenModalScore(true)
+      }}>
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[16]}</Text>
+    </TouchableOpacity>
+  );
+  const elementButton18 = (value) => (
+    <TouchableOpacity onPress={() => {
+      setHoleScore(value)
+      setOpenModalScore(true)
+      }}>
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[17]}</Text>
+    </TouchableOpacity>
+  );
+
+  const AssginPoints = (value, numHole) => {
+    holeScorePoints[numHole-1] = value 
+  }
 
    const  tableData = [
-      ['25', '', '', '', '', '', '', '', ''],
+      [elementButton1(1), elementButton2(2), elementButton3(3), elementButton4(4), elementButton5(5), elementButton6(6), elementButton7(7), elementButton8(8), elementButton9(9)],
       ['2', '', '', '', '', '', '', '', ''],
     ]
     const  tableData2 = [
-      ['', '', '', '', '', '', '', '', ''],
+      [elementButton10(10), elementButton11(11), elementButton12(12), elementButton13(13), elementButton14(14), elementButton15(15), elementButton16(16), elementButton17(17), elementButton18(18)],
       ['', '', '', '', '', '', '', '', ''],
     ]
     const tableTitle= ['Score', 'Par']
@@ -53,7 +207,15 @@ const CardPointTable = ({navigation, mb = 2}) => {
             <Rows data={tableData2} flexArr={[1, 1,1,]} style={styles.row} textStyle={styles.textRow}/>
         </TableWrapper>
         </Table>
-        </View>   
+        </View>  
+
+           <ModalAddScore
+                visible={openModalScore}
+                setVisible={setOpenModalScore}
+                numerHole={holeScore}
+                AssginPoints={AssginPoints}
+                >   
+            </ModalAddScore> 
         </View>       
     )
     

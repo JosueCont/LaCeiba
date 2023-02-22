@@ -36,7 +36,6 @@ const MatchesScreen = ({navigation}) => {
                 <TouchableOpacity onPress={() => navigation.navigate('CardPointScreen')}>
                 <MatchItem mb={4} yellow={true}/>
                 </TouchableOpacity>
-                <MatchItem mb={4}/>
                 <View mt={4} flexDirection={'row'} justifyContent='center' mb={4}>
                 <View mt={3} mr={2} width={'15%'} background={Colors.green} height={'2px'}/>
                 <Text textAlign={'center'} mb={4} color={Colors.green} fontSize={'md'}>PARTIDOS FINALIZADOS</Text>
@@ -50,6 +49,8 @@ const MatchesScreen = ({navigation}) => {
                 <MatchItem mb={4}/>
                 <MatchItem mb={4}/>
                 <MatchItem mb={4}/>
+                <MatchItem mb={4}/>
+
             
             </View>
 

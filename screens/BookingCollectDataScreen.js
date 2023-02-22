@@ -441,7 +441,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
                             <View mb={6}>
                                  <View  mb={4} justifyContent={'center'} alignItems={'center'} textAlign={'center'}>
-                                    <Text justifyContent={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>Numero de hoyos a jugar</Text>
+                                    <Text justifyContent={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>Número de hoyos a jugar</Text>
                                  </View>
                                  {
                                     loading === true ?
