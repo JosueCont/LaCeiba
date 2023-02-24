@@ -46,5 +46,8 @@ export const URLTypes = {
     GET_ALL_NOTIFICATIONS: '/v1/notifications',
     GET_ONE_NOTIFICATION: '/v1/notifications/{{param}}',
     SET_NOTIFICATION_READ: '/v1/notifications/{{param}}',
-    GET_GOOGLE_WALLET_TOKEN: '/v1/wallets/users/{{param}}/google'
+    GET_GOOGLE_WALLET_TOKEN: '/v1/wallets/users/{{param}}/google',
+    GET_REGISTRY_TABLE: '/v1/users/{{param}}/registry-table',
+    REGISTRY_TABLE_ADD_RECORD: '/v1/users/{{param}}/registry-table/add-record',
+    REGISTRY_TABLE_DELETE_RECORD: '/v1/users/{{param}}/registry-table/{{param}}',
 };
