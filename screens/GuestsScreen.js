@@ -162,8 +162,7 @@ const GuestsScreen = ({navigation, appDuck}) => {
     return (
         <LayoutV5>
             <View flex={1}>
-                <View flex={1}>{/*
-                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Invitados</Text>*/}
+                <View flex={1}>
 
                     <Text textAlign={'center'} mt={8} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Invitados</Text>
                     <View mb={5} flexDirection={'row'} justifyContent={'center'} mx={8}>
@@ -187,9 +186,9 @@ const GuestsScreen = ({navigation, appDuck}) => {
 
                         <View mx={8}>
                             {
-                                guestsFiltered.map((item) => {
+                                guestsFiltered.map((item, idx) => {
                                     return (
-                                        <TouchableOpacity onPress={() => isValidPartnert ? generatePass(item) : invalidPartnetModal()}>
+                                        <TouchableOpacity key={idx} onPress={() => isValidPartnert ? generatePass(item) : invalidPartnetModal()}>
                                             <GuestItem mb={4} item={item} onEdit={editGuest} onDelete={onDeleteGuest} />
                                         </TouchableOpacity>
                                     )
