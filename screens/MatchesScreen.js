@@ -58,7 +58,7 @@ const MatchesScreen = ({navigation, appDuck}) => {
                         </Button>
                     </View>
                     <View flex={1} p={2}>
-                        <Button  p={2} textAlign={'center'} justifyContent={'center'} alignItems={'center'}>
+                        <Button  p={2} textAlign={'center'} justifyContent={'center'} alignItems={'center'} onPress={()=> navigation.navigate('ScoreCardRegistryTableScreen')}>
                         Tabla de registro
                         </Button>
                     </View>

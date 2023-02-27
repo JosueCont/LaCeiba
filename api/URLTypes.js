@@ -49,6 +49,8 @@ export const URLTypes = {
     GET_GOOGLE_WALLET_TOKEN: '/v1/wallets/users/{{param}}/google',
     GET_ALL_PARTNERS_SCORE_CARDS: '/v1/score-card/user/{{param}}',
     GET_ONE_PARTNERS_SOCRE_CARD: '/v1/score-card/{{param}}',
-    EDIT_HOLE: '/v1/score-card/{{param}}/hole'
-
+    EDIT_HOLE: '/v1/score-card/{{param}}/hole',
+    GET_REGISTRY_TABLE: '/v1/users/{{param}}/registry-table',
+    REGISTRY_TABLE_ADD_RECORD: '/v1/users/{{param}}/registry-table/add-record',
+    REGISTRY_TABLE_DELETE_RECORD: '/v1/users/{{param}}/registry-table/{{param}}',
 };

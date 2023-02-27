@@ -56,3 +56,6 @@ export const getAllPartnersScoreCards = async (params, queryStringParams = []) =
 export const getOnePartnersScoreCards = async (params, queryStringParams = []) => await request(URLTypes.GET_ONE_PARTNERS_SOCRE_CARD, params, 'get', null, queryStringParams);
 export const editPartnersScoreCard = async (params, queryStringParams = []) => await request(URLTypes.EDIT_HOLE, params, 'put', null, queryStringParams);
 
+export const getRegistryTable = async (params, queryStringParams = []) => await request(URLTypes.GET_REGISTRY_TABLE, '', 'get', null, queryStringParams)
+export const registryTableAddRecord = async (data, queryStringParams = []) => await request(URLTypes.REGISTRY_TABLE_ADD_RECORD, data, 'post', null, queryStringParams)
+export const registryTableDeleteRecord = async (params, queryStringParams = []) => await request(URLTypes.REGISTRY_TABLE_DELETE_RECORD, '', 'delete', null, queryStringParams)
