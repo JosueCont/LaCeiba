@@ -46,5 +46,9 @@ export const URLTypes = {
     GET_ALL_NOTIFICATIONS: '/v1/notifications',
     GET_ONE_NOTIFICATION: '/v1/notifications/{{param}}',
     SET_NOTIFICATION_READ: '/v1/notifications/{{param}}',
-    GET_GOOGLE_WALLET_TOKEN: '/v1/wallets/users/{{param}}/google'
+    GET_GOOGLE_WALLET_TOKEN: '/v1/wallets/users/{{param}}/google',
+    GET_ALL_PARTNERS_SCORE_CARDS: '/v1/score-card/user/{{param}}',
+    GET_ONE_PARTNERS_SOCRE_CARD: '/v1/score-card/{{param}}',
+    EDIT_HOLE: '/v1/score-card/{{param}}/hole'
+
 };

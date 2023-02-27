@@ -3,10 +3,12 @@ import {Colors} from "../Colors";
 import { StyleSheet, TouchableOpacity} from 'react-native';
 import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component';
 import ModalAddScore from "./Modals/ModalAddScore";
-import  Reaact, { useState } from "react";
+import  Reaact, { useState, useEffect } from "react";
+import {useIsFocused} from "@react-navigation/native";
+import {getOnePartnersScoreCards, editPartnersScoreCard} from "../api/Requests";
 
 
-const CardPointTable = ({navigation, mb = 2}) => {
+const CardPointTable = ({navigation, mb = 2, idHole=null}) => {
 
 
    const  tableHead = ['Hoyo', '1', '2', '3','4','5', '6', '7','8','9']
@@ -14,6 +16,35 @@ const CardPointTable = ({navigation, mb = 2}) => {
    const [openModalScore, setOpenModalScore] = useState(false)
    const [holeScore, setHoleScore] = useState(null)
    const [holeScorePoints, setHoleScorePoints] = useState(['','','','','','','','','',''])
+   const isFocused = useIsFocused();
+   const [showTable1, setShowTable1] = useState(false)
+   const [showTable2, setShowTable2] = useState(false)
+
+useEffect(() => {
+  getHoles()
+}, [isFocused])
+
+const getHoles = async() =>{
+  const response = await getOnePartnersScoreCards('', [idHole])
+  let numHoles = response.data.numHoles
+  if(numHoles == 9){
+    setShowTable1(true)
+    setShowTable2(false)
+  }else{
+    setShowTable1(true)
+    setShowTable2(true)
+  }
+
+  let newHole = response.data.holes.sort((a, b) => parseFloat(a.hole) - parseFloat(b.hole));
+  let holes = newHole.map(e=>{
+      if(e.point === 0){
+        e.point = ''
+      }
+      return e.point
+  } )
+  console.log("🚀 ~ file: CardPointTable.js:43 ~ holes ~ holes:", holes)
+  setHoleScorePoints(holes)
+}
 
 
    const elementButton1 = (value) => (
@@ -161,13 +192,32 @@ const CardPointTable = ({navigation, mb = 2}) => {
     </TouchableOpacity>
   );
 
-  const AssginPoints = (value, numHole) => {
-    holeScorePoints[numHole-1] = value 
+  const AssginPoints = async (value, numHole) => {
+
+    try {
+
+      let data = {
+          numHole: parseInt(numHole),
+          newPoints: parseInt(value)
+      }
+
+      const response = await editPartnersScoreCard(data, [idHole])
+      if(response.status == 200){
+        getHoles()
+      }
+
+    
+
+      
+    } catch (e) {
+      alert(e)
+      
+    }
   }
 
    const  tableData = [
       [elementButton1(1), elementButton2(2), elementButton3(3), elementButton4(4), elementButton5(5), elementButton6(6), elementButton7(7), elementButton8(8), elementButton9(9)],
-      ['2', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', ''],
     ]
     const  tableData2 = [
       [elementButton10(10), elementButton11(11), elementButton12(12), elementButton13(13), elementButton14(14), elementButton15(15), elementButton16(16), elementButton17(17), elementButton18(18)],
@@ -188,6 +238,7 @@ const CardPointTable = ({navigation, mb = 2}) => {
 
     return (
         <View>
+          { showTable1 &&
           <View mb={10}>
         <Table borderStyle={{borderWidth: 1, borderColor: Colors.green}} color={Colors.green}>
           <Row data={tableHead} flexArr={[3.08, 1, 1, 1]} style={styles.head} textStyle={styles.text}/>
@@ -197,7 +248,8 @@ const CardPointTable = ({navigation, mb = 2}) => {
           </TableWrapper>
         </Table>
         </View>
-
+          }
+         { showTable2 &&
         <View mb={5}>
 
         <Table borderStyle={{borderWidth: 1, borderColor: Colors.green}} color={Colors.green}>
@@ -208,6 +260,7 @@ const CardPointTable = ({navigation, mb = 2}) => {
         </TableWrapper>
         </Table>
         </View>  
+          }
 
            <ModalAddScore
                 visible={openModalScore}

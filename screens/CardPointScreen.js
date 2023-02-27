@@ -1,17 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Icon, Text, View, Image } from "native-base";
 import { Colors } from "../Colors";
 import LayoutV4 from "./Layouts/LayoutV4";
 import bannerCardPoints from "../assets/bannerCardPoints.png"
 import matechesIconGreen from "../assets/matechesIconGreen.png"
 import CardPointTable from "./CardPointTable";
-import { useState } from "react";
 import ModalScoreDetails from "./Modals/ModalScoreDetails";
+import moment from "moment";
+import {connect} from "react-redux";
+import {useIsFocused} from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const CardPointScreen = ({ navigation }) => {
+
+
+
+
+
+const CardPointScreen = ({ route, navigation, appDuck }) => {
+
 
 const [colorSelected, setColorSelected] = useState(null)
 const [openModal, setOpenModal] = useState(false)
+const isFocused = useIsFocused();
+const [ghin, setGhin] = useState(null)
+
+
+useEffect(() => {
+    if (isFocused) {
+        getProfileFunction()
+    }
+}, [isFocused])
+
+
+
+const getProfileFunction = async () => {
+    const ghin = await AsyncStorage.getItem('ghin');
+    setGhin(ghin)
+}
+
 
     return (
         <LayoutV4>
@@ -21,10 +47,10 @@ const [openModal, setOpenModal] = useState(false)
                     <View mr={3} background={Colors.yellow} height={'auto'} width={'1px'}>
                     </View>
                     <View justifyContent={'space-between'} width={'150px'}>
-                        <Text color={'#ffff'} fontFamily={'titleComfortaaBold'} fontSize={'md'}>Francisco Hernandez</Text>
-                        <Text color={'#ffff'} fontFamily={'titleLight'} fontSize={'md'}>10/Mar/23</Text>
-                        <Text color={'#ffff'} fontFamily={'titleLight'} fontSize={'md'}>9:00 am</Text>
-                        <Text width={'50%'} color={'#ffff'} fontFamily={'titleComfortaaBold'} numberOfLines={2} fontSize={'md'}>GHIN 123456</Text>
+                        <Text color={'#ffff'} fontFamily={'titleComfortaaBold'} fontSize={'md'}>{appDuck.user.fullName}</Text>
+                        <Text color={'#ffff'} fontFamily={'titleLight'} fontSize={'md'}>{moment(route.params.dataScore.booking?.dueDate, "YYYY-MM-DD").format('DD/MMM/YY')}</Text>
+                        <Text color={'#ffff'} fontFamily={'titleLight'} fontSize={'md'}>{moment(route.params.dataScore.booking.dueTime, "HH:mm").format("hh:mm a")}</Text>
+                        <Text width={'50%'} color={'#ffff'} fontFamily={'titleComfortaaBold'} numberOfLines={2} fontSize={'md'}>{ghin ? `GHIN: ${ghin}` : 'No especificado'}</Text>
                     </View>
                 </View>
 
@@ -68,22 +94,22 @@ const [openModal, setOpenModal] = useState(false)
                         Ver mas
                     </Button>
                 </View>
-                <CardPointTable/>
+                <CardPointTable idHole={route.params.dataScore.id}/>
                 <View p={6} justifyContent={'center'} flexDirection={'row'}>
                     <Image source={matechesIconGreen} width={'70px'} height={'70px'} mr={3}></Image>
 
                     <View mr={3} background={Colors.yellow} height={'auto'} width={'2px'}>
                     </View>
                     <View justifyContent={'space-between'}>
-                        <Text color={Colors.green} fontFamily={'titleRegular'} fontSize={'md'}>Vuelta 1:  96</Text>
-                        <Text color={Colors.green} fontFamily={'titleRegular'} fontSize={'md'}>Vuelta 2:  96</Text>
-                        <Text color={Colors.green} fontFamily={'titleComfortaaBold'} fontWeight={'bold'} fontSize={'md'}>TOTAL:  188</Text>
+                        <Text color={Colors.green} fontFamily={'titleRegular'} fontSize={'md'}>Vuelta 1:  {route.params.dataScore.round1}</Text>
+                        <Text color={Colors.green} fontFamily={'titleRegular'} fontSize={'md'}>Vuelta 2:  {route.params.dataScore.round2}</Text>
+                        <Text color={Colors.green} fontFamily={'titleComfortaaBold'} fontWeight={'bold'} fontSize={'md'}>TOTAL:  {route.params.dataScore.round1 + route.params.dataScore.round2 }</Text>
                     </View>
                 </View>
 
                 <View mt={4} mb={4} justifyContent={'center'} flexDirection={'row'}>
                     <Button borderRadius={'3xl'} colorScheme={Colors.yellow} background={Colors.yellow} px={4} py={2} textAlign={'center'} justifyContent={'center'} alignItems={'center'} _text={{ color: Colors.green, fontWeight: 'bold', fontSize: '18px' }}>
-                        HANDICAP = 123
+                         {`HANDICAP: ${route.params.dataScore.handicap}`}
                     </Button>
                 </View>
             </View>
@@ -101,4 +127,10 @@ const [openModal, setOpenModal] = useState(false)
 }
 
 
-export default CardPointScreen;
+const mapState = (state) => {
+    return {
+        appDuck: state.appDuck
+    }
+}
+
+export default connect(mapState)(CardPointScreen);
