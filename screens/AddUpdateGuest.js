@@ -88,16 +88,8 @@ const AddUpdateGuest = ({navigation, route}) => {
             setSuccess(true);
             setModalInfoVisible(true);
         } catch (error) {
-            console.log(error?.data);
-            switch (error?.data?.message) {
-                case 'Guest name or email already exists for this user':
-                    setTextModal("El nombre o email ya existen en un invitado");
-                    break;
-                default:
-                    setTextModal("Los parámetros son incorrectos, vuelve a intentarlo");
-                    break;
-            }
-            
+            console.log(error);
+            setTextModal(error.data.message);
             setSuccess(false);
             setModalInfoVisible(true);
             
@@ -128,20 +120,7 @@ const AddUpdateGuest = ({navigation, route}) => {
             setModalInfoVisible(true);
         } catch (error) {
             console.log("ERR: ", error?.data);
-            switch (error?.data?.message) {
-                case 'Guest name or email already exists for this user':
-                    setTextModal("El nombre o email ya existen en un invitado");
-                    break;
-                case 'Guest name is already exists for this user':
-                    setTextModal("El nombre ya existe en un invitado");    
-                    break;
-                case 'Guest email is already exists for this user':
-                    setTextModal("El email ya existe en un invitado");
-                    break;
-                default:
-                    setTextModal("Los parámetros son incorrectos, vuelve a intentarlo");
-                    break;
-            }
+            setTextModal(error.data.message);
             setSuccess(false);
             setModalInfoVisible(true);
         }
@@ -162,8 +141,8 @@ const AddUpdateGuest = ({navigation, route}) => {
             <View flex={1} mx={20} justifyContent={'center'}>
                 
 
-                <Text color={Colors.green} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={5}>
-                    Nuevo Invitado
+                <Text color={Colors.green} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={5} textTransform={'uppercase'}>
+                    {route.params.data ? 'Editar invitado' : 'Nuevo invitado'}
                 </Text>
                 <Text color={Colors.green} fontSize={'sm'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={5}>
                     Nombre completo
@@ -186,7 +165,7 @@ const AddUpdateGuest = ({navigation, route}) => {
                                     else {
                                         addGuest()
                                     }}}>
-                        {route.params.data ? 'Editar' : 'Agregar'}
+                        {route.params.data ? 'Actualizar' : 'Agregar'}
                 </Button>
                 <Button onPress={() => {cleanData(); navigation.goBack();}}>Regresar</Button>
             </View>
