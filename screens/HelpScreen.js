@@ -31,9 +31,10 @@ const HelpScreen = ({navigation}) => {
 
     return (
         <LayoutV3>
-            <View flex={1} mx={20}>
+            <View flex={1}>
 
                 <ScrollView
+                    showsVerticalScrollIndicator={false}
                     refreshControl={
                         <RefreshControl
                             tintColor={Colors.green}
@@ -42,8 +43,9 @@ const HelpScreen = ({navigation}) => {
                         />
                     }
                     flex={1}>
-                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>Documentos de ayuda</Text>
+                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={20} textTransform={'uppercase'}>Documentos de ayuda</Text>
 
+                    <View flex={1} mx={20}>
                     {
                         loading === true ?
                             <View>
@@ -54,16 +56,17 @@ const HelpScreen = ({navigation}) => {
                             </View> :
                             <View>
                             {
-                                categories.map((item) => {
+                                categories.map((item, idx) => {
                                     console.log(item)
                                     return (
-                                        <Button onPress={() => navigation.navigate('HelpContentScreen', {id: item.id, title: item.title, description: item.description})} mb={6}>{item.title}</Button>
+                                        <Button key={idx} onPress={() => navigation.navigate('HelpContentScreen', {id: item.id, title: item.title, description: item.description})} mb={6}>{item.title}</Button>
 
                                     )
                                 })
                             }
                             </View>
                     }
+                    </View>
                 </ScrollView>
             </View>
         </LayoutV3>
