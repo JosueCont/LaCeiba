@@ -512,7 +512,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                                     color: Colors.green
                                                 },
                                             },
-                                            todayTextColor: Colors.green,
+                                            todayBackgroundColor: Colors.gray,
+                                            todayTextColor: '#ffffff',
                                             dayTextColor: Colors.green,
                                             textDayFontSize: 14,
                                             arrowColor: Colors.yellow,

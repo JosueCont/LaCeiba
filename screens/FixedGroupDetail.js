@@ -16,7 +16,7 @@ import { dayWeek } from "../utils";
 import { formatHour } from "../utils";
 
 const FixedGroupDetail = ({appDuck, navigation, route}) => {
-    const {schedule, groupData, userId, minPeople, maxPeople} = route.params;
+    const {schedule, groupData, userId, minPeople, maxPeople, blocked} = route.params;
     const [groupDataConst, setGroupDataConst] = useState(null);
     const [membersInvite, setMembersInvite] = useState([])
     const [membersInviteLeaders, setMembersInviteLeaders] = useState([]);
@@ -160,7 +160,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                 <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'}> {dayWeek[schedule?.day].day} {getNextDayOfWeek(dayWeek[schedule?.day].id)} </Text>
                 <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'} mb={8}> {formatHour(schedule?.fromHour)}</Text>
                 {
-                    groupDataConst?.leaders?.map((valueGroup, index)=>{
+                    groupData?.leaders?.map((valueGroup, index)=>{
                         return(
                             
                             (<View key={index} flexDirection={'row'} height={79} justifyContent={'center'} alignItems={'center'} bgColor={'#fff'} borderRadius={50} paddingX={6} mb={4} mx={4}
@@ -183,7 +183,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                                         ios_backgroundColor="#3e3e3e"
                                         onValueChange={(status)=>{toggle(status, valueGroup.id, valueGroup.firstName, true); }}
                                         value={membersInvite.length <= 0 ? false : membersInvite.includes(valueGroup.id)}
-                                        disabled={(membersInvite.length>=maxPeople && !membersInvite.includes(valueGroup.id))}
+                                        disabled={(membersInvite.length>=maxPeople && !membersInvite.includes(valueGroup.id)) || blocked}
                                     />
                                 </View>
                             </View>
@@ -192,7 +192,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                     })
                 }
                 {
-                    groupDataConst?.members?.map((valueGroup, index)=>{
+                    groupData?.members?.map((valueGroup, index)=>{
                         return(
                             <View key={index} flexDirection={'row'} height={79} justifyContent={'center'} alignItems={'center'} bgColor={'#fff'} borderRadius={50} paddingX={6} mb={4} mx={4}
                                   style={{
@@ -213,7 +213,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                                     ios_backgroundColor="#3e3e3e"
                                     onValueChange={(status)=>{toggle(status, valueGroup.id, valueGroup.firstName); }}
                                     value={membersInvite.length <= 0 ? false : membersInvite.includes(valueGroup.id)}
-                                    disabled={membersInvite.length>=maxPeople && !membersInvite.includes(valueGroup.id)}
+                                    disabled={(membersInvite.length>=maxPeople && !membersInvite.includes(valueGroup.id)) || blocked}
                                 />
                                 </View>
                             </View>
