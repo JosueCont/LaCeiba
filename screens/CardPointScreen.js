@@ -10,6 +10,7 @@ import moment from "moment";
 import {connect} from "react-redux";
 import {useIsFocused} from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {getOnePartnersScoreCards} from "../api/Requests";
 
 
 
@@ -23,16 +24,21 @@ const [colorSelected, setColorSelected] = useState(null)
 const [openModal, setOpenModal] = useState(false)
 const isFocused = useIsFocused();
 const [ghin, setGhin] = useState(null)
+const [dataMatch, setDataMatch] = useState([])
 
 
 useEffect(() => {
     if (isFocused) {
         getProfileFunction()
+        getMatch()
     }
 }, [isFocused])
 
-
-
+const getMatch = async() =>{
+    const response = await getOnePartnersScoreCards('', [route.params.dataScore.id])
+    setDataMatch(response.data)
+  }
+  
 const getProfileFunction = async () => {
     const ghin = await AsyncStorage.getItem('ghin');
     setGhin(ghin)
@@ -94,22 +100,29 @@ const getProfileFunction = async () => {
                         Ver mas
                     </Button>
                 </View>
-                <CardPointTable idHole={route.params.dataScore.id}/>
+                <CardPointTable 
+                idHole={route.params.dataScore.id}
+                action={(v) => {
+                    if (v === true) {
+                        getMatch()
+                    }
+                }}
+                />
                 <View p={6} justifyContent={'center'} flexDirection={'row'}>
                     <Image source={matechesIconGreen} width={'70px'} height={'70px'} mr={3}></Image>
 
                     <View mr={3} background={Colors.yellow} height={'auto'} width={'2px'}>
                     </View>
                     <View justifyContent={'space-between'}>
-                        <Text color={Colors.green} fontFamily={'titleRegular'} fontSize={'md'}>Vuelta 1:  {route.params.dataScore.round1}</Text>
-                        <Text color={Colors.green} fontFamily={'titleRegular'} fontSize={'md'}>Vuelta 2:  {route.params.dataScore.round2}</Text>
-                        <Text color={Colors.green} fontFamily={'titleComfortaaBold'} fontWeight={'bold'} fontSize={'md'}>TOTAL:  {route.params.dataScore.round1 + route.params.dataScore.round2 }</Text>
+                        <Text color={Colors.green} fontFamily={'titleRegular'} fontSize={'md'}>Vuelta 1:  {dataMatch.round1}</Text>
+                        <Text color={Colors.green} fontFamily={'titleRegular'} fontSize={'md'}>Vuelta 2:  {dataMatch.round2}</Text>
+                        <Text color={Colors.green} fontFamily={'titleComfortaaBold'} fontWeight={'bold'} fontSize={'md'}>TOTAL:  {dataMatch.round1 + dataMatch.round2 }</Text>
                     </View>
                 </View>
 
                 <View mt={4} mb={4} justifyContent={'center'} flexDirection={'row'}>
                     <Button borderRadius={'3xl'} colorScheme={Colors.yellow} background={Colors.yellow} px={4} py={2} textAlign={'center'} justifyContent={'center'} alignItems={'center'} _text={{ color: Colors.green, fontWeight: 'bold', fontSize: '18px' }}>
-                         {`HANDICAP: ${route.params.dataScore.handicap}`}
+                         {`HANDICAP: ${dataMatch.handicap}`}
                     </Button>
                 </View>
             </View>

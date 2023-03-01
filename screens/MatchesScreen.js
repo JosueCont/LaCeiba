@@ -10,13 +10,15 @@ import React, { useEffect, useState } from "react";
 import {useIsFocused} from "@react-navigation/native";
 import {connect} from "react-redux";
 import {getAllPartnersScoreCards} from "../api/Requests";
+import moment from "moment";
 
 
 
 
 const MatchesScreen = ({navigation, appDuck}) => {
 
-    const [matches,setMatches] = useState([])
+    const [todayMatches,setTodayMatches] = useState([])
+    const [pastMatches,setPastMatches] = useState([])
     const [loading, setLoading] = useState(null);
     const isFocused = useIsFocused();
 
@@ -24,6 +26,7 @@ const MatchesScreen = ({navigation, appDuck}) => {
     useEffect(() => {
         if (isFocused) {
             getData()
+            console.log(appDuck)
         }
     }, [isFocused]);
 
@@ -31,7 +34,12 @@ const MatchesScreen = ({navigation, appDuck}) => {
     const getMatches = async () => {
 
         const response = await getAllPartnersScoreCards('', [appDuck.user.id])
-        setMatches(response?.data);        
+        let todayDate = moment().format('YYYY-MM-DD')
+       let formatMatches = response?.data.sort((a, b) => b.id - a.id);
+        let dayMatches = formatMatches.filter(e => e.booking.dueDate === todayDate)
+        setTodayMatches(dayMatches);       
+        let pastMatches = formatMatches.filter(e => e.booking.dueDate < todayDate)
+        setPastMatches(pastMatches);       
     }
     const getData = async () => {
         try {
@@ -74,19 +82,25 @@ const MatchesScreen = ({navigation, appDuck}) => {
                         />
                     }
                     flexGrow={1}>
-                <Text textAlign={'center'} mt={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>PRÓXIMOS JUEGOS</Text>
+                <Text textAlign={'center'} mt={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>JUEGOS DEL DÍA</Text>
                 <View mt={1} alignItems={'center'} flexDirection={'row'} justifyContent='center' mb={4}>
-                <Image mr={1} source={iconGroupSmall} style={{width: 15, height: 15}}></Image>
-                <Text textAlign={'center'} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xs'}>GRUPO FIJO</Text>
+                {/* <Image mr={1} source={iconGroupSmall} style={{width: 15, height: 15}}></Image> */}
+                {/* <Text textAlign={'center'} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xs'}>GRUPO FIJO</Text> */}
                 </View>
-                {
-                        matches.map((matche, index) => {
+                    {
+                        
+                        todayMatches.map((matche, index) => {
+                            let hourMatche = moment(matche.booking.dueTime, 'HH:mm').format('HH')
+                            let hourMatcheToday = moment().format('HH')
                             return (
                                 <TouchableOpacity key={index} onPress={() => navigation.navigate('CardPointScreen', {dataScore: matche })}>
-                                    <MatchItem mb={4} dataMatche={matche} yellow={true}/>
+                                    <MatchItem mb={4} dataMatche={matche} yellow={ hourMatche === hourMatcheToday ? true : false}/>
                                 </TouchableOpacity>
                             );
                         })
+                    }
+                    { todayMatches.length === 0 &&
+                        <Text textAlign={'center'} mb={4} color={Colors.green} fontSize={'sm'}>No hay proximos partidos</Text>
                     }
                 <View mt={4} flexDirection={'row'} justifyContent='center' mb={4}>
                 <View mt={3} mr={2} width={'15%'} background={Colors.green} height={'2px'}/>
@@ -94,8 +108,18 @@ const MatchesScreen = ({navigation, appDuck}) => {
                 <View mt={3} ml={2} width={'15%'} background={Colors.green} height={'2px'}/>
 
                 </View>
-
+                { pastMatches.length > 0 &&
+                        pastMatches.map((matche, index) => {
+                            return (
+                                <TouchableOpacity key={index} onPress={() => navigation.navigate('CardPointScreen', {dataScore: matche })}>
+                                    <MatchItem mb={4} dataMatche={matche}/>
+                                </TouchableOpacity>
+                            );
+                        })
+                }
+                { pastMatches.length === 0 &&
                 <Text textAlign={'center'} mb={4} color={Colors.green} fontSize={'sm'}>No hay proximos partidos</Text>
+                }
                 </ScrollView>  
             </View>
 
