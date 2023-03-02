@@ -140,7 +140,7 @@ const GuestGeneratePass = ({navigation, route}) => {
                                         theme={{
                                             'stylesheet.calendar.header': {
                                                 monthText: {
-                                                    color: Colors.green,
+                                                    color: Colors.gray,
                                                     fontWeight: '700',
                                                     fontSize: 20,
                                                 },
@@ -154,7 +154,8 @@ const GuestGeneratePass = ({navigation, route}) => {
                                                     color: Colors.green
                                                 },
                                             },
-                                            todayTextColor: Colors.green,
+                                            todayBackgroundColor: Colors.gray,
+                                            todayTextColor: '#ffffff',
                                             dayTextColor: Colors.green,
                                             textDayFontSize: 14,
                                             arrowColor: Colors.yellow,

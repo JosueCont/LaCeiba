@@ -9,7 +9,7 @@ import {connect} from "react-redux";
 import {useFocusEffect} from "@react-navigation/native";
 import iconBooking from "../assets/iconBooking.png";
 import SliderCustom from "../components/SliderCustom/SliderCustom";
-import { getOneGF } from "../api/Requests";
+import { getAllGF, getOneGF } from "../api/Requests";
 
 const FixedGroupList = ({appDuck, navigation, route}) => {
 
@@ -27,9 +27,17 @@ const FixedGroupList = ({appDuck, navigation, route}) => {
         try {
             for (const group of groupsFounded) {
                 console.log(group.id);
-                const response = await getOneGF('', [group.id]);
-                console.log(response.data);
-                setGroupsFoundedDetail([...groupsFoundedDetail, response.data]);
+                
+                const params = `?leader_name=${appDuck.user.firstName}`;
+                const allFG = await getAllGF(params);
+                console.log("All fg: ", allFG.data);
+                for (const groupElement of allFG.data) {
+                    const response = await getOneGF('', [groupElement.id]);
+                    setGroupsFoundedDetail(groupsReference => [...groupsReference, response.data]);
+                    console.log(response.data);
+                }
+                // console.log(response.data);
+                
             }    
         } catch (error) {
             console.log('error: ', error);
@@ -54,9 +62,10 @@ const FixedGroupList = ({appDuck, navigation, route}) => {
                         flexGrow={1}>
                         {
                             groupsFoundedDetail.length>0 && groupsFoundedDetail.map((value, index) => {
+                                console.log("name:", value);
                                 const groupTarget = groupsFounded?.find(group => group.id == value.id);
-                                const minP = groupTarget.area.minPeople;
-                                const maxP = groupTarget.area.maxPeople;
+                                const minP = groupTarget?.area?.minPeople;
+                                const maxP = groupTarget?.area?.maxPeople;
                                 return (
                                     <View key={index} flex={1} mb={4}>
                                         <TouchableOpacity disabled={!value.isActive} onPress={() => {
