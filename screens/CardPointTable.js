@@ -20,6 +20,8 @@ const CardPointTable = ({navigation, mb = 2, idHole=null, action}) => {
    const [showTable1, setShowTable1] = useState(false)
    const [showTable2, setShowTable2] = useState(false)
    const [matchData, setMatchData] = useState([])   
+   const [numHoles, setNumHoles] = useState(null)
+   const [area, setArea] = useState(null)
 
 useEffect(() => {
   getHoles()
@@ -29,7 +31,10 @@ const getHoles = async() =>{
   const response = await getOnePartnersScoreCards('', [idHole])
   let numHoles = response.data.numHoles
   let area = response.data.booking.area.name  
+  setArea(area)
+  setNumHoles(numHoles)
   setMatchData(response.data)
+
   if(numHoles == 9 && area ==='Hoyo 1'){
     setShowTable1(true)
     setShowTable2(false)
@@ -59,8 +64,8 @@ const getHoles = async() =>{
 
 
    const elementButton1 = (value) => (
-    <TouchableOpacity onPress={() => {
-     let todayDate = moment().format('YYYY-MM-DD')
+    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+      let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
       setOpenModalScore(true)
@@ -71,7 +76,7 @@ const getHoles = async() =>{
     
   );
   const elementButton2 = (value) => (
-    <TouchableOpacity onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
@@ -82,7 +87,7 @@ const getHoles = async() =>{
     </TouchableOpacity>
   );
   const elementButton3 = (value) => (
-    <TouchableOpacity onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
       if(todayDate === matchData.booking.dueDate){
        setHoleScore(value)
@@ -93,7 +98,7 @@ const getHoles = async() =>{
     </TouchableOpacity>
   );
   const elementButton4 = (value) => (
-    <TouchableOpacity onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
@@ -104,7 +109,7 @@ const getHoles = async() =>{
     </TouchableOpacity>
   );
   const elementButton5 = (value) => (
-    <TouchableOpacity onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
@@ -115,7 +120,7 @@ const getHoles = async() =>{
     </TouchableOpacity>
   );
   const elementButton6 = (value) => (
-    <TouchableOpacity onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
       if(todayDate === matchData.booking.dueDate){
        setHoleScore(value)
@@ -126,7 +131,7 @@ const getHoles = async() =>{
     </TouchableOpacity>
   );
   const elementButton7 = (value) => (
-    <TouchableOpacity onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
       if(todayDate === matchData.booking.dueDate){
        setHoleScore(value)
@@ -137,7 +142,7 @@ const getHoles = async() =>{
     </TouchableOpacity>
   );
   const elementButton8 = (value) => (
-    <TouchableOpacity onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
       if(todayDate === matchData.booking.dueDate){
        setHoleScore(value)
@@ -148,7 +153,7 @@ const getHoles = async() =>{
     </TouchableOpacity>
   );
   const elementButton9 = (value) => (
-    <TouchableOpacity onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
       if(todayDate === matchData.booking.dueDate){
        setHoleScore(value)
@@ -159,102 +164,147 @@ const getHoles = async() =>{
     </TouchableOpacity>
   );
   const elementButton10 = (value) => (
-    <TouchableOpacity onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
       setOpenModalScore(true)
      }
       }}>
+        { numHoles === 9 && area ==='Hoyo 10' &&
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[0]}</Text>
+        }
+          { numHoles === 18 || area ==='Hoyo 10' || area ==='Hoyo 1' &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[9]}</Text>
+        }
     </TouchableOpacity>
   );
   const elementButton11 = (value) => (
-    <TouchableOpacity onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
       setOpenModalScore(true)
      }
       }}>
+         { numHoles === 9 && area ==='Hoyo 10' &&
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[1]}</Text>
+        }
+          { numHoles === 18 || area ==='Hoyo 10' || area ==='Hoyo 1' &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[10]}</Text>
+        }
     </TouchableOpacity>
   );
   const elementButton12 = (value) => (
-    <TouchableOpacity onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
       setOpenModalScore(true)
      }
       }}>
+         { numHoles === 9 && area ==='Hoyo 10' &&
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[2]}</Text>
+        }
+          { numHoles === 18 || area ==='Hoyo 10' || area ==='Hoyo 1' &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[11]}</Text>
+        }
     </TouchableOpacity>
   );
   const elementButton13 = (value) => (
-    <TouchableOpacity onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
       setOpenModalScore(true)
      }
       }}>
+         { numHoles === 9 && area ==='Hoyo 10' &&
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[3]}</Text>
+        }
+          { numHoles === 18 || area ==='Hoyo 10' || area ==='Hoyo 1' &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[12]}</Text>
+        }
     </TouchableOpacity>
   );
   const elementButton14 = (value) => (
-    <TouchableOpacity onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
       if(todayDate === matchData.booking.dueDate){
        setHoleScore(value)
        setOpenModalScore(true)
       }
       }}>
+         { numHoles === 9 && area ==='Hoyo 10' &&
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[4]}</Text>
+        }
+          { numHoles === 18 || area ==='Hoyo 10' || area ==='Hoyo 1' &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[13]}</Text>
+        }
     </TouchableOpacity>
   );
   const elementButton15 = (value) => (
-    <TouchableOpacity onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
       setOpenModalScore(true)
      }
       }}>
+         { numHoles === 9 && area ==='Hoyo 10' &&
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[5]}</Text>
+        }
+          { numHoles === 18 || area ==='Hoyo 10' || area ==='Hoyo 1' &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[14]}</Text>
+        }
     </TouchableOpacity>
   );
   const elementButton16 = (value) => (
-    <TouchableOpacity onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
       if(todayDate === matchData.booking.dueDate){
        setHoleScore(value)
        setOpenModalScore(true)
       }
       }}>
+         { numHoles === 9 && area ==='Hoyo 10' &&
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[6]}</Text>
+        }
+          { numHoles === 18 || area ==='Hoyo 10' || area ==='Hoyo 1' &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[15]}</Text>
+        }
     </TouchableOpacity>
   );
   const elementButton17 = (value) => (
-    <TouchableOpacity onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
       setOpenModalScore(true)
      }
       }}>
+         { numHoles === 9 && area ==='Hoyo 10' &&
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[7]}</Text>
+        }
+          { numHoles === 18 || area ==='Hoyo 10' || area ==='Hoyo 1' &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[16]}</Text>
+        }
     </TouchableOpacity>
   );
   const elementButton18 = (value) => (
-    <TouchableOpacity onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
       if(todayDate === matchData.booking.dueDate){
        setHoleScore(value)
        setOpenModalScore(true)
       }
       }}>
+         { numHoles === 9 && area ==='Hoyo 10' &&
+      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[8]}</Text>
+        }
+          { numHoles === 18 || area ==='Hoyo 10' || area ==='Hoyo 1' &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[17]}</Text>
+        }
     </TouchableOpacity>
   );
 
