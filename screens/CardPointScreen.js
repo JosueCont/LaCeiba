@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Icon, Text, View, Image } from "native-base";
+import { Button, Icon, Text, View, Image, Spinner } from "native-base";
 import { Colors } from "../Colors";
 import LayoutV4 from "./Layouts/LayoutV4";
 import bannerCardPoints from "../assets/bannerCardPoints.png"
@@ -25,7 +25,7 @@ const [openModal, setOpenModal] = useState(false)
 const isFocused = useIsFocused();
 const [ghin, setGhin] = useState(null)
 const [dataMatch, setDataMatch] = useState([])
-
+const [loading, setLoading] = useState(null);
 
 useEffect(() => {
     if (isFocused) {
@@ -35,8 +35,15 @@ useEffect(() => {
 }, [isFocused])
 
 const getMatch = async() =>{
+
+    try {
+    setLoading(true)
     const response = await getOnePartnersScoreCards('', [route.params.dataScore.id])
     setDataMatch(response.data)
+    setLoading(false)
+    } catch (e) {
+        alert(e)
+    }
   }
   
 const getProfileFunction = async () => {
@@ -100,6 +107,15 @@ const getProfileFunction = async () => {
                         Ver mas
                     </Button>
                 </View>
+                <Text colo mb={4}  color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xs'} textAlign={'center'}>
+                *Presiona sobre una casilla para agregar el score
+                </Text>
+                {
+                    loading === true ?
+                    <Spinner color={Colors.green} size={'lg'} />
+                    :
+                loading === false &&
+                <View>
                 <CardPointTable 
                 idHole={route.params.dataScore.id}
                 action={(v) => {
@@ -107,7 +123,7 @@ const getProfileFunction = async () => {
                         getMatch()
                     }
                 }}
-                />
+                />                 
                 <View p={6} justifyContent={'center'} flexDirection={'row'}>
                     <Image source={matechesIconGreen} width={'70px'} height={'70px'} mr={3}></Image>
 
@@ -119,14 +135,14 @@ const getProfileFunction = async () => {
                         <Text color={Colors.green} fontFamily={'titleComfortaaBold'} fontWeight={'bold'} fontSize={'md'}>TOTAL:  {dataMatch.round1 + dataMatch.round2 }</Text>
                     </View>
                 </View>
-
                 <View mt={4} mb={4} justifyContent={'center'} flexDirection={'row'}>
                     <Button borderRadius={'3xl'} colorScheme={Colors.yellow} background={Colors.yellow} px={4} py={2} textAlign={'center'} justifyContent={'center'} alignItems={'center'} _text={{ color: Colors.green, fontWeight: 'bold', fontSize: '18px' }}>
                          {`HANDICAP: ${dataMatch.handicap}`}
                     </Button>
                 </View>
+                </View>
+                }
             </View>
-        
             <ModalScoreDetails
                 visible={openModal}
                 setVisible={setOpenModal}
