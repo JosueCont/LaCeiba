@@ -38,7 +38,7 @@ const QRScreen = ({navigation, appDuck, route}) => {
 
     const validatePermission = async () => {
         const {status} = await MediaLibrary.getPermissionsAsync();
-        if (status == 'denied') {
+        if (status == 'denied' || status  == 'undetermined') {
             navigation.navigate('AskForMediaLibraryScreen', {screenOk: 'QRScreen', screenReject: 'QRInstructionsScreen'})
         }
     }
