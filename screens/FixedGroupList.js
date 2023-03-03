@@ -26,18 +26,8 @@ const FixedGroupList = ({appDuck, navigation, route}) => {
     const getDetailGroups = async () => {
         try {
             for (const group of groupsFounded) {
-                console.log(group.id);
-                
-                const params = `?leader_name=${appDuck.user.firstName}`;
-                const allFG = await getAllGF(params);
-                console.log("All fg: ", allFG.data);
-                for (const groupElement of allFG.data) {
-                    const response = await getOneGF('', [groupElement.id]);
-                    setGroupsFoundedDetail(groupsReference => [...groupsReference, response.data]);
-                    console.log(response.data);
-                }
-                // console.log(response.data);
-                
+                const response = await getOneGF('', [group.id]);
+                setGroupsFoundedDetail(groupsReference => [...groupsReference, response.data]);
             }    
         } catch (error) {
             console.log('error: ', error);
@@ -61,8 +51,7 @@ const FixedGroupList = ({appDuck, navigation, route}) => {
                         showsVerticalScrollIndicator={false}
                         flexGrow={1}>
                         {
-                            groupsFoundedDetail.length>0 && groupsFoundedDetail.map((value, index) => {
-                                console.log("name:", value);
+                            (groupsFoundedDetail.length>0 ) && groupsFoundedDetail.map((value, index) => {
                                 const groupTarget = groupsFounded?.find(group => group.id == value.id);
                                 const minP = groupTarget?.area?.minPeople;
                                 const maxP = groupTarget?.area?.maxPeople;
