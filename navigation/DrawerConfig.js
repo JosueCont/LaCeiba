@@ -59,7 +59,6 @@ import NotificationDetail from "../screens/NotificationDetail";
 import AddPointsPartnesScreen from "../screens/AddPointsPartnesScreen"
 import CardPointScreen from "../screens/CardPointScreen"
 import ScoreCardRegistryTableScreen from "../screens/ScoreCardRegistryTableScreen"
-import { getAllNotifications } from "../api/Requests";
 import { connect } from "react-redux";
 import {useSelector} from "react-redux";
 import * as Notifications from "expo-notifications";
@@ -149,6 +148,25 @@ const DrawerConfig = () => {
                 headerLeft: () => {
                     if (route.name.includes('HomeScreen')) {
                         <View/>
+                    }else if(route.name.includes('QRInstructionsScreen')){
+                        return (
+                            <TouchableOpacity onPress={async () => {
+
+                                navigation.navigate('HomeScreen')
+
+
+                            }} style={{
+                                width: 50,
+                                height: '100%',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                borderRadius: 5,
+                                marginLeft: 10
+                            }}>
+                                <Icon as={MaterialIcons} name={'arrow-back-ios'} color={'white'} size={'md'}/>
+
+                            </TouchableOpacity>
+                        )
                     } else {
                         return (
                             <TouchableOpacity onPress={async () => {

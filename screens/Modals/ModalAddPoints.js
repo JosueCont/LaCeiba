@@ -94,7 +94,7 @@ const ModalAddPoints = ({visible, error=false, setVisible, points, textButton = 
                    
                     <View>
                         <Text style={styles.modalText} mb={8} fontSize={'sm'}>Puntos disponibles: {pointsUser}</Text>
-                        <Text style={styles.modalText} textTransform={'capitalize'}  mb={8} fontSize={'lg'} >Asignar puntos a {people?.nombreSocio}</Text>
+                        <Text style={styles.modalText}  mb={8} fontSize={'lg'} >Asignar puntos a {people?.nombreSocio}</Text>
                         <Input  mb={2} isRequired value={value}  onChangeText={val =>{
                             let numberRegex = /^\d+$/;
                             const formatNumber= numberRegex.test(val) ? val : ''
@@ -103,7 +103,7 @@ const ModalAddPoints = ({visible, error=false, setVisible, points, textButton = 
                         }} keyboardType="numeric" mx="3" placeholder="Puntos a transferir" w="100%" />
                         <FormControl isInvalid={validateEmpty} mb={6}>
                             <FormControl.ErrorMessage _text={{color: "white"}} leftIcon={<WarningOutlineIcon  size="xs" />}>
-                                El valor no puede ser vacio y deber ser mayor a 0 y maximo {pointsUser} puntos
+                                El valor no puede ser vacío y debe ser mayor a 0 y máximo {pointsUser} puntos
                             </FormControl.ErrorMessage>
                         </FormControl>
                         <Button colorScheme={'green'} onPress={() => validate(people)} mb={4}>{textButton}</Button>

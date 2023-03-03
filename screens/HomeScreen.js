@@ -73,7 +73,7 @@ const HomeScreen = ({navigation, appDuck}) => {
             for (const groupElement of response?.data) {
                 for (const leader of groupElement.leaders) {
                     if(leader?.id == appDuck.user.id){
-                        setGroupsFounded([...groupsFounded, groupElement]);
+                        setGroupsFounded(groups => [...groups, groupElement]);
                     }
                 }
             }

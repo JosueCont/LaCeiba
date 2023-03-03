@@ -9,7 +9,7 @@ import {connect} from "react-redux";
 import {useFocusEffect} from "@react-navigation/native";
 import iconBooking from "../assets/iconBooking.png";
 import SliderCustom from "../components/SliderCustom/SliderCustom";
-import { getOneGF } from "../api/Requests";
+import { getAllGF, getOneGF } from "../api/Requests";
 
 const FixedGroupList = ({appDuck, navigation, route}) => {
 
@@ -26,10 +26,8 @@ const FixedGroupList = ({appDuck, navigation, route}) => {
     const getDetailGroups = async () => {
         try {
             for (const group of groupsFounded) {
-                console.log(group.id);
                 const response = await getOneGF('', [group.id]);
-                console.log(response.data);
-                setGroupsFoundedDetail([...groupsFoundedDetail, response.data]);
+                setGroupsFoundedDetail(groupsReference => [...groupsReference, response.data]);
             }    
         } catch (error) {
             console.log('error: ', error);
@@ -53,10 +51,10 @@ const FixedGroupList = ({appDuck, navigation, route}) => {
                         showsVerticalScrollIndicator={false}
                         flexGrow={1}>
                         {
-                            groupsFoundedDetail.length>0 && groupsFoundedDetail.map((value, index) => {
+                            (groupsFoundedDetail.length>0 ) && groupsFoundedDetail.map((value, index) => {
                                 const groupTarget = groupsFounded?.find(group => group.id == value.id);
-                                const minP = groupTarget.area.minPeople;
-                                const maxP = groupTarget.area.maxPeople;
+                                const minP = groupTarget?.area?.minPeople;
+                                const maxP = groupTarget?.area?.maxPeople;
                                 return (
                                     <View key={index} flex={1} mb={4}>
                                         <TouchableOpacity disabled={!value.isActive} onPress={() => {

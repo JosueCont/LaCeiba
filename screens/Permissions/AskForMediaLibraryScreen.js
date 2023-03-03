@@ -12,9 +12,7 @@ import { Alert} from 'react-native';
 const AskForMediaLibraryScreen = ({navigation, route}) => {
 
     const askPermission = async () => {
-        console.log(await MediaLibrary.requestPermissionsAsync(false))
-        const {status} = await MediaLibrary.requestPermissionsAsync(false);
-
+        const {status} = await MediaLibrary.requestPermissionsAsync();
         if (status === 'granted') {
             navigation.navigate(route.params.screenOk ,{card: true})
         } else if (status === 'denied') {

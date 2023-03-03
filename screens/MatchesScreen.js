@@ -1,15 +1,59 @@
-import React from "react";
-import {Button, Icon, Text, View, Image} from "native-base";
+import {Button, Icon, Text, View, Image, ScrollView} from "native-base";
 import iconGroupSmall from "../assets/iconGroupSmall.png";
 import {Colors} from "../Colors";
 import LayoutV4 from "./Layouts/LayoutV4";
 import MatchItem from "./MatchItem";
 import {MaterialIcons} from "@expo/vector-icons";
 import { color } from "react-native-reanimated";
-import {TouchableOpacity} from "react-native";
+import {TouchableOpacity, RefreshControl} from "react-native";
+import React, { useEffect, useState } from "react";
+import {useIsFocused} from "@react-navigation/native";
+import {connect} from "react-redux";
+import {getAllPartnersScoreCards} from "../api/Requests";
+import moment from "moment";
 
 
-const MatchesScreen = ({navigation}) => {
+
+
+const MatchesScreen = ({navigation, appDuck}) => {
+
+    const [todayMatches,setTodayMatches] = useState([])
+    const [pastMatches,setPastMatches] = useState([])
+    const [loading, setLoading] = useState(null);
+    const isFocused = useIsFocused();
+
+
+    useEffect(() => {
+        if (isFocused) {
+            getData()
+            console.log(appDuck)
+        }
+    }, [isFocused]);
+
+
+    const getMatches = async () => {
+
+        const response = await getAllPartnersScoreCards('', [appDuck.user.id])
+        let todayDate = moment().format('YYYY-MM-DD')
+       let formatMatches = response?.data.sort((a, b) => b.id - a.id);
+        let dayMatches = formatMatches.filter(e => e.booking.dueDate === todayDate)
+        setTodayMatches(dayMatches);       
+        let pastMatches = formatMatches.filter(e => e.booking.dueDate < todayDate)
+        setPastMatches(pastMatches);       
+    }
+    const getData = async () => {
+        try {
+            setLoading(true)
+            await getMatches();
+            
+            //console.log(moment(date).format('YYYY-MM-DD'));
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setLoading(false)
+        }
+
+    }
 
 
     return (
@@ -28,35 +72,66 @@ const MatchesScreen = ({navigation}) => {
                     </View>
                 </View>
 
-                <Text textAlign={'center'} mt={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>PRÓXIMOS JUEGOS</Text>
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        <RefreshControl
+                            tintColor={Colors.green}
+                            refreshing={loading}
+                            onRefresh={getData}
+                        />
+                    }
+                    flexGrow={1}>
+                <Text textAlign={'center'} mt={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>JUEGOS DEL DÍA</Text>
                 <View mt={1} alignItems={'center'} flexDirection={'row'} justifyContent='center' mb={4}>
-                <Image mr={1} source={iconGroupSmall} style={{width: 15, height: 15}}></Image>
-                <Text textAlign={'center'} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xs'}>GRUPO FIJO</Text>
+                {/* <Image mr={1} source={iconGroupSmall} style={{width: 15, height: 15}}></Image> */}
+                {/* <Text textAlign={'center'} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xs'}>GRUPO FIJO</Text> */}
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('CardPointScreen')}>
-                <MatchItem mb={4} yellow={true}/>
-                </TouchableOpacity>
+                    {
+                        
+                        todayMatches.map((matche, index) => {
+                            let hourMatche = moment(matche.booking.dueTime, 'HH:mm').format('HH')
+                            let hourMatcheToday = moment().format('HH')
+                            return (
+                                <TouchableOpacity key={index} onPress={() => navigation.navigate('CardPointScreen', {dataScore: matche })}>
+                                    <MatchItem mb={4} dataMatche={matche} yellow={ hourMatche === hourMatcheToday ? true : false}/>
+                                </TouchableOpacity>
+                            );
+                        })
+                    }
+                    { todayMatches.length === 0 &&
+                        <Text textAlign={'center'} mb={4} color={Colors.green} fontSize={'sm'}>No hay proximos partidos</Text>
+                    }
                 <View mt={4} flexDirection={'row'} justifyContent='center' mb={4}>
                 <View mt={3} mr={2} width={'15%'} background={Colors.green} height={'2px'}/>
                 <Text textAlign={'center'} mb={4} color={Colors.green} fontSize={'md'}>PARTIDOS FINALIZADOS</Text>
                 <View mt={3} ml={2} width={'15%'} background={Colors.green} height={'2px'}/>
 
                 </View>
-
-                <MatchItem mb={4}/>
-                <MatchItem mb={4}/>
-                <MatchItem mb={4}/>
-                <MatchItem mb={4}/>
-                <MatchItem mb={4}/>
-                <MatchItem mb={4}/>
-                <MatchItem mb={4}/>
-
-            
+                { pastMatches.length > 0 &&
+                        pastMatches.map((matche, index) => {
+                            return (
+                                <TouchableOpacity key={index} onPress={() => navigation.navigate('CardPointScreen', {dataScore: matche })}>
+                                    <MatchItem mb={4} dataMatche={matche}/>
+                                </TouchableOpacity>
+                            );
+                        })
+                }
+                { pastMatches.length === 0 &&
+                <Text textAlign={'center'} mb={4} color={Colors.green} fontSize={'sm'}>No hay proximos partidos</Text>
+                }
+                </ScrollView>  
             </View>
 
         </LayoutV4>
     )
 }
 
+const mapState = (state) => {
+    return {
+        appDuck: state.appDuck
+    }
+}
 
-export default MatchesScreen;
+
+export default connect(mapState)(MatchesScreen);

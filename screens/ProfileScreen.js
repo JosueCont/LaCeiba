@@ -10,7 +10,7 @@ import {useIsFocused} from "@react-navigation/native";
 import _ from "lodash";
 import LayoutV3 from "./Layouts/LayoutV3";
 import moment from "moment";
-import ModalEditGhin from "./Modals/modalEditGhin";
+import ModalEditGhin from "./Modals/ModalEditGhin";
 import iconEdit from '../assets/iconEdit.png'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 

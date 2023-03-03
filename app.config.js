@@ -18,14 +18,14 @@ const commonConfig = {
     },
     plugins: [
         [
-            "expo-media-library",
-            {
-                "photosPermission": "Allow to access your photos.",
-                "savePhotosPermission": "Allow to save photos.",
-                "isAccessMediaLocationEnabled": true
-            }
+          "expo-media-library",
+          {
+            "photosPermission": "Allow to access your photos.",
+            "savePhotosPermission": "Allow to save photos.",
+            "isAccessMediaLocationEnabled": true
+          }
         ]
-    ],
+      ],
     extra: {
         debug: true,
         production: true,

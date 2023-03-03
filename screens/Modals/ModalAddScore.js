@@ -81,7 +81,7 @@ const ModalAddScore = ({visible, setVisible, appDuck,action, numerHole,AssginPoi
                                 El valor no puede ser vacio y deber ser mayor a 0 y maximo {pointsUser} puntos
                             </FormControl.ErrorMessage>
                         </FormControl> */}
-                        <Button colorScheme={'green'} onPress={() => handleSubmit()} mt={4} mb={1}>Agregar</Button>
+                        <Button colorScheme={'green'} disabled={value=== ''} onPress={() => handleSubmit()} mt={4} mb={1}>Agregar</Button>
                         <Button colorScheme={'green'} onPress={() => setVisible(false)} mt={2} mb={1}>Cancelar</Button>
 
                     </View>

@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { Colors } from "../Colors";
 import {connect} from "react-redux";
-import { createBookingGF, getGFNextBooking } from "../api/Requests";
+import { createBookingGF, getAllBookings, getGFNextBooking } from "../api/Requests";
 import moment from "moment";
 import ModalAsk from "./Modals/ModalAsk";
 import ModalInfo from "./Modals/ModalInfo";
@@ -16,7 +16,7 @@ import { dayWeek } from "../utils";
 import { formatHour } from "../utils";
 
 const FixedGroupDetail = ({appDuck, navigation, route}) => {
-    const {schedule, groupData, userId, minPeople, maxPeople} = route.params;
+    const {schedule, groupData, userId, minPeople, maxPeople, blocked} = route.params;
     const [groupDataConst, setGroupDataConst] = useState(null);
     const [membersInvite, setMembersInvite] = useState([])
     const [membersInviteLeaders, setMembersInviteLeaders] = useState([]);
@@ -28,6 +28,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
     const [loading, setLoading] = useState(false);
     const [errorBooking, setErrorBooking] = useState(false);
     const [init, setInit] = useState(true);
+    const [bookingInvitations, setBookingInvitations] = useState([]);
 
     const toggle = (value, id, name, isLeader = false) => {
         if(!value){
@@ -54,20 +55,35 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
             setLoading(false);
             setErrorBooking(false);
           return () => {
+            setBookingInvitations([]);
             setGroupDataConst(null);
           };
         }, [])
     );
+    
 
     useEffect(()=>{
-        console.log(membersInvite, groupData);
-        // setMembersInvite([]);
-        // setMembersInviteNames([]);
-    }, [membersInvite]);
+        matchBooking();
+    }, [schedule]);
 
     useEffect(()=>{
         membersFormated();
     }, [membersInvite])
+
+    const matchBooking = async () => {
+        try {
+            const bookings = await getAllBookings();
+            const dueDateSplited = getNextDayOfWeek(dayWeek[schedule?.day].id).split('-');
+            const dueDateParsed = dueDateSplited[2] + '-' + dueDateSplited[1] + '-' + dueDateSplited[0];
+            
+            const bookingFinded = bookings.data.items.filter((booking)=> booking.dueDate == dueDateParsed && booking.fixedGroupId == groupData.id && booking.dueTime == schedule?.fromHour);
+            if(bookingFinded?.length >= 1) {
+                setBookingInvitations(bookingFinded[0].invitations);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const getNextDayOfWeek = (dayOfWeek) => {
         const date = new Date();
@@ -104,9 +120,6 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
             }
 
             const membersFiltered = membersInvite.filter((item)=>item != userLeader);
-            console.log(membersFiltered);
-            console.log(userLeader);
-            
 
             const body = {
                 dueDate : dateBooking,
@@ -160,7 +173,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                 <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'}> {dayWeek[schedule?.day].day} {getNextDayOfWeek(dayWeek[schedule?.day].id)} </Text>
                 <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'} mb={8}> {formatHour(schedule?.fromHour)}</Text>
                 {
-                    groupDataConst?.leaders?.map((valueGroup, index)=>{
+                    groupData?.leaders?.map((valueGroup, index)=>{
                         return(
                             
                             (<View key={index} flexDirection={'row'} height={79} justifyContent={'center'} alignItems={'center'} bgColor={'#fff'} borderRadius={50} paddingX={6} mb={4} mx={4}
@@ -178,12 +191,12 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                                 <View flex={.5} borderLeftWidth={2} borderColor={Colors.yellow} height={'60%'} alignSelf={'center'}  justifyContent={'center'} alignItems={'center'}>
                                     <Switch
                                         justifyContent={'center'}
-                                        trackColor={{ false: "#767577", true: valueGroup.id == userId  || membersInvite.includes(valueGroup.id) ? Colors.green : '#767577'}}
+                                        trackColor={{ false: "#767577", true: blocked ? Colors.green : valueGroup.id == userId  || membersInvite.includes(valueGroup.id) ? Colors.green : '#767577'}}
                                         thumbColor={membersInvite.includes(valueGroup.id) ? "#f4f3f4" : "#f4f3f4"}
                                         ios_backgroundColor="#3e3e3e"
                                         onValueChange={(status)=>{toggle(status, valueGroup.id, valueGroup.firstName, true); }}
-                                        value={membersInvite.length <= 0 ? false : membersInvite.includes(valueGroup.id)}
-                                        disabled={(membersInvite.length>=maxPeople && !membersInvite.includes(valueGroup.id))}
+                                        value={blocked ? bookingInvitations.some((bi)=> bi.user.id  == valueGroup.id) : membersInvite.length <= 0 ? false : membersInvite.includes(valueGroup.id)}
+                                        isDisabled={(membersInvite.length>=maxPeople && !membersInvite.includes(valueGroup.id)) || blocked}
                                     />
                                 </View>
                             </View>
@@ -192,7 +205,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                     })
                 }
                 {
-                    groupDataConst?.members?.map((valueGroup, index)=>{
+                    groupData?.members?.map((valueGroup, index)=>{
                         return(
                             <View key={index} flexDirection={'row'} height={79} justifyContent={'center'} alignItems={'center'} bgColor={'#fff'} borderRadius={50} paddingX={6} mb={4} mx={4}
                                   style={{
@@ -208,12 +221,12 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                                 <View flex={.5} borderLeftWidth={2} borderColor={Colors.yellow} height={'60%'} alignSelf={'center'}  justifyContent={'center'} alignItems={'center'}>
                                 <Switch
                                     justifyContent={'center'}
-                                    trackColor={{ false: "#767577", true: membersInvite.includes(valueGroup.id) ? Colors.green : "#767577"}}
+                                    trackColor={{ false: "#767577", true: blocked ? Colors.green :membersInvite.includes(valueGroup.id) ? Colors.green : "#767577"}}
                                     thumbColor={membersInvite.includes(valueGroup.id) ? "#f4f3f4" : "#f4f3f4"}
                                     ios_backgroundColor="#3e3e3e"
                                     onValueChange={(status)=>{toggle(status, valueGroup.id, valueGroup.firstName); }}
-                                    value={membersInvite.length <= 0 ? false : membersInvite.includes(valueGroup.id)}
-                                    disabled={membersInvite.length>=maxPeople && !membersInvite.includes(valueGroup.id)}
+                                    value={blocked ? bookingInvitations.some((bi)=> bi.user.id == valueGroup.id) : membersInvite.length <= 0 ? false : membersInvite.includes(valueGroup.id)}
+                                    isDisabled={(membersInvite.length>=maxPeople && !membersInvite.includes(valueGroup.id)) || blocked}
                                 />
                                 </View>
                             </View>

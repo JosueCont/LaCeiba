@@ -52,6 +52,9 @@ export const getAllNotifications = async (params) => await request(URLTypes.GET_
 export const getOneNotification = async (params, queryStringParams = []) => await request(URLTypes.GET_ONE_NOTIFICATION, params, 'get', null, queryStringParams);
 export const setNotificationRead = async (params, queryStringParams = []) => await request(URLTypes.SET_NOTIFICATION_READ, params, 'put', null, queryStringParams);
 export const getTokenGoogleWallet = async (params, queryStringParams = []) => await request(URLTypes.GET_GOOGLE_WALLET_TOKEN, params, 'get', null, queryStringParams);
+export const getAllPartnersScoreCards = async (params, queryStringParams = []) => await request(URLTypes.GET_ALL_PARTNERS_SCORE_CARDS, params, 'get', null, queryStringParams);
+export const getOnePartnersScoreCards = async (params, queryStringParams = []) => await request(URLTypes.GET_ONE_PARTNERS_SOCRE_CARD, params, 'get', null, queryStringParams);
+export const editPartnersScoreCard = async (params, queryStringParams = []) => await request(URLTypes.EDIT_HOLE, params, 'put', null, queryStringParams);
 
 export const getRegistryTable = async (params, queryStringParams = []) => await request(URLTypes.GET_REGISTRY_TABLE, '', 'get', null, queryStringParams)
 export const registryTableAddRecord = async (data, queryStringParams = []) => await request(URLTypes.REGISTRY_TABLE_ADD_RECORD, data, 'post', null, queryStringParams)
