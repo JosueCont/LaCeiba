@@ -14,7 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
-const modalEditGhin = ({visible, setVisible, appDuck,action}) => {
+const ModalEditGhin = ({visible, setVisible, appDuck,action}) => {
     const [heightGradient, setHeightGradient] = useState(null);
     const [value, setValue] = useState('')
     const [validateEmpty, setValidateEmpty] = useState(false)
@@ -87,7 +87,7 @@ const modalEditGhin = ({visible, setVisible, appDuck,action}) => {
                    
                     <View>
                         <Text style={styles.modalText} mb={8} fontSize={'2xl'}>GHIN</Text>
-                        <Input width={'full'}  mb={5} isRequired value={value}  onChangeText={val =>{
+                        <Input maxLength={7} width={'full'}  mb={5} isRequired value={value}  onChangeText={val =>{
                             setValue(val)
                         }}/>
                         {/* <FormControl isInvalid={validateEmpty} mb={6}>
@@ -110,4 +110,4 @@ const mapState = (state) => {
     }
 }
 
-export default connect(mapState)(modalEditGhin);
+export default connect(mapState)(ModalEditGhin);

@@ -17,7 +17,7 @@ const QRInstructionsScreen = ({navigation}) => {
                         Aquí puedes consultar{'\n'}tu código para ingresar{'\n'}al club
                     </Text>
                     <Button mb={4} onPress={() => navigation.navigate('QRScreen', {card: true})}>Código QR</Button>
-                    <Button onPress={() => navigation.goBack()}>Regresar</Button>
+                    <Button onPress={() => navigation.navigate('HomeScreen')}>Regresar</Button>
                 </View>
             </View>
         </LayoutV2>

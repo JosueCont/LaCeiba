@@ -10,6 +10,7 @@ import {ScrollView} from "react-native";
 import ModalInfo from "./Modals/ModalInfo";
 import _ from 'lodash';
 import * as Notifications from "expo-notifications";
+import { Alert} from 'react-native';
 
 const RegisterScreen = ({navigation, setAttribute}) => {
     const [modalErrorVisible, setModalErrorVisible] = useState(null);
@@ -62,6 +63,20 @@ const RegisterScreen = ({navigation, setAttribute}) => {
             const response = await findPartner(queryString);
 
             console.log(response.data)
+
+            if(response.data.email ==='' || !response.data.email){
+                Alert.alert(
+                    '',
+                    'No tiene un correo especificado',
+                    [
+                      {
+                        text: 'Ok'
+                      },
+                    ],
+                    {cancelable: false},
+                  );                
+                  return
+            }
 
             const userUpdate = {
                 ...response.data,

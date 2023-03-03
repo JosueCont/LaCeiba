@@ -741,7 +741,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 </View>
 
                 <View>
-                    <Button disabled={points < 0 || !holes} onPress={() => handleSubmit()} isLoading={sending}>Reservar</Button>
+                <Button disabled={points < 0 || (route?.params?.service?.isGolf && !holes)} onPress={() => handleSubmit()} isLoading={sending}>Reservar</Button>
                 </View>
             </View>
             <ModalBookingConfirmation
