@@ -1,5 +1,5 @@
-import React,  { useEffect, useState }  from "react";
-import { useFocusEffect } from "@react-navigation/native";
+import React, {useEffect, useRef, useState} from "react";
+import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import CustomDrawerContent from "./DrawerNavigatorContent";
 import HomeScreen from "../screens/HomeScreen";
@@ -61,6 +61,9 @@ import CardPointScreen from "../screens/CardPointScreen"
 import ScoreCardRegistryTableScreen from "../screens/ScoreCardRegistryTableScreen"
 import { connect } from "react-redux";
 import {useSelector} from "react-redux";
+import * as Notifications from "expo-notifications";
+import {NOTIFICATION_TYPES} from "../utils";
+import appDuck from "../redux/ducks/appDuck";
 
 
 
@@ -70,6 +73,71 @@ const DrawerConfig = () => {
     const notificationExist = useSelector(state => {
         return state.navigationDuck.notificationExist;
     });
+
+
+    const navigation = useNavigation();
+    const notificationListener = useRef();
+    const responseListener = useRef();
+
+    useEffect( () => {
+        // Register for push notification
+
+        // This listener is fired whenever a notification is received while the app is foregrounded
+        notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+            notificationCommonHandler(notification);
+        });
+
+        // This listener is fired whenever a user taps on or interacts with a notification
+        // (works when app is foregrounded, backgrounded, or killed)
+        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+            notificationCommonHandler(response.notification);
+            notificationNavigationHandler(response.notification.request.content);
+
+        });
+
+        Notifications.setNotificationHandler({
+            handleNotification: async () => ({
+                shouldShowAlert: true,
+                shouldPlaySound: false,
+                shouldSetBadge: false,
+            }),
+        });
+
+        // The listeners must be clear on app unmount
+        return () => {
+            Notifications.removeNotificationSubscription(notificationListener);
+            Notifications.removeNotificationSubscription(responseListener);
+        };
+    }, []);
+
+    const notificationCommonHandler = (notification) => {
+        // save the notification to reac-redux store
+        console.log('A notification has been received', notification)
+    }
+
+
+    const notificationNavigationHandler = ({ data }) => {
+        // navigate to app screen
+        console.log('A notification has been touched', data.notification_type)
+      /*  if(data.notification_type){
+            let bookingNotifications = [
+              //  NOTIFICATION_TYPES.NOTIFY_HOST_BOOKING_READY,
+                NOTIFICATION_TYPES.NOTIFY_GUEST_BOOKING_INVITATION,
+                NOTIFICATION_TYPES.NOTIFY_HOST_INVITATION_CONFIRMED,
+                NOTIFICATION_TYPES.NOTIFY_HOST_INVITATION_REJECTED
+            ]
+
+            if(Object.values(NOTIFICATION_TYPES).includes(data.notification_type)){
+                let invitation = data.invitation
+                let booking = data.invitation.booking
+
+                console.log('=========DATA==========',invitation, booking)
+
+                navigation.navigate('BookingsDetailScreen', {invitation, booking})
+            }
+        }*/
+    }
+
 
     return (
         <Drawer.Navigator
