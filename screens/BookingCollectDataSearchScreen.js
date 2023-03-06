@@ -14,7 +14,6 @@ moment.locale('es');
 
 const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
     const [loading, setLoading] = useState(null);
-    const [loadingData, setLoadingData] = useState(false)
     const [personType, setPersonType] = useState(null);
 
     const [typeSelected, setTypeSelected] = useState(null);
@@ -23,9 +22,9 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
     const [textFilter, setTextFilter] = useState('');
     const [personNotValidText, setPersonNotValidText] = useState(null);
     const [personNotValid, setPersonNotValid] = useState(false);
-
     const [peopleSearch, setPeopleSearch] = useState([]);
     const [points, setPoints] = useState(route.params.points || null);
+    const [noticeWrite, setNoticeWrite] = useState(false)
 
     useEffect(() => {
         setLoading(true)
@@ -99,14 +98,24 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
     const search = async (v) => {
 
+
         if (typeSelected == 'g') {
-            setLoadingData(true)
-            setPeopleSearch(people.filter((item, i) => (item.nombre.toLowerCase().includes(v.toLowerCase()) || item.apellidoPaterno.toLowerCase().includes(v.toLowerCase())) && i<=20))
-            setLoadingData(false)
+            setNoticeWrite(false)
+            if(v.length >=3){
+                setNoticeWrite(true)
+                setPeopleSearch( () => {
+                    return people.filter((item) =>{
+                        let fullname = `${item.nombre.toLowerCase()} ${item.apellidoPaterno.toLowerCase()} ${item.apellidoMaterno.toLowerCase()} `
+                        return fullname.includes(v.toLowerCase())
+                    } )
+                })
+
+            }
         } else if (typeSelected == 'p') {
-            setLoadingData(true)
+            setNoticeWrite(true)
             setPeopleSearch(people.filter((item) => item.nombreSocio.toLowerCase().includes(v.toLowerCase())))
-            setLoadingData(false)
+            setTimeout(() => {
+            }, 500)
         }
     }
 
@@ -213,7 +222,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                         Elija a la persona
                                     </Text>
                                     <Input placeholder={'Buscar'} value={textFilter} onChangeText={(v) => {
-                                        debounce_fun(v)
+                                        search(v)
                                         setTextFilter(v)
                                         setPersonNotValidText(null);
                                     }}/>
@@ -223,11 +232,14 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
                             {
                                 (textFilter.length > 0 && typeSelected) &&
-                                <ScrollView flexGrow={1} height={loadingData === true ? 50 : 250} my={2}>
-                                { loadingData === true ?
-                                    <Spinner color={Colors.green} size={'lg'} />
-                                    :
-                                    <View my={10} justifyContent={'center'}>
+                                <ScrollView flexGrow={1} height={!noticeWrite ? 50 : 250} my={2}>
+                                { 
+                                !noticeWrite ?
+                                    <Text textAlign={'center'} color={'red.500'} fontSize={'xs'} mb={4}>
+                                      Escribe por lo menos 3 letras
+                                  </Text>
+                                  :
+                                  <View my={10} justifyContent={'center'}>
                                         <FormControl isInvalid={personNotValidText}>
 
                                             {
@@ -275,6 +287,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                                                      <Text color={Colors.green}>{item.nombreSocio}</Text>
                                                                     }
                                                                 </View>
+                                                                
                                                                 <View justifyContent={'center'} pr={4}>
                                                                     {
                                                                         selected &&
@@ -305,7 +318,8 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                             <Text textAlign={'center'} color={'red.500'} mb={2}>Sin resultados</Text>
                                         }
                                         </View>
-                                    }
+                                }
+                               
                                 </ScrollView>
                                 
                             }
