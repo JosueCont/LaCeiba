@@ -1,4 +1,4 @@
-import {Button, FormControl, Icon, Input, ScrollView, Select, Skeleton, Text, View} from "native-base";
+import {Button, FormControl, Icon, Input, ScrollView, Select, Skeleton, Text, View, Spinner} from "native-base";
 import {Colors} from "../Colors";
 import React, {useEffect, useState} from "react";
 import {useFocusEffect} from '@react-navigation/native';
@@ -14,6 +14,7 @@ moment.locale('es');
 
 const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
     const [loading, setLoading] = useState(null);
+    const [loadingData, setLoadingData] = useState(false)
     const [personType, setPersonType] = useState(null);
 
     const [typeSelected, setTypeSelected] = useState(null);
@@ -97,11 +98,15 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
     }
 
     const search = async (v) => {
-        if (typeSelected == 'g') {
-            setPeopleSearch(people.filter((item) => item.nombre.toLowerCase().includes(v.toLowerCase()) || item.apellidoPaterno.toLowerCase().includes(v.toLowerCase()) || item.apellidoMaterno.toLowerCase().includes(v.toLowerCase())))
-        } else if (typeSelected == 'p') {
-            setPeopleSearch(people.filter((item) => item.nombreSocio.toLowerCase().includes(v.toLowerCase())))
 
+        if (typeSelected == 'g') {
+            setLoadingData(true)
+            setPeopleSearch(people.filter((item, i) => (item.nombre.toLowerCase().includes(v.toLowerCase()) || item.apellidoPaterno.toLowerCase().includes(v.toLowerCase())) && i<=20))
+            setLoadingData(false)
+        } else if (typeSelected == 'p') {
+            setLoadingData(true)
+            setPeopleSearch(people.filter((item) => item.nombreSocio.toLowerCase().includes(v.toLowerCase())))
+            setLoadingData(false)
         }
     }
 
@@ -131,7 +136,6 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
     var debounce_fun = _.debounce(function (v) {
         search(v)
-
     }, 100);
 
 
@@ -219,9 +223,11 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
                             {
                                 (textFilter.length > 0 && typeSelected) &&
-                                <ScrollView flexGrow={1} height={250} my={2}>
+                                <ScrollView flexGrow={1} height={loadingData === true ? 50 : 250} my={2}>
+                                { loadingData === true ?
+                                    <Spinner color={Colors.green} size={'lg'} />
+                                    :
                                     <View my={10} justifyContent={'center'}>
-
                                         <FormControl isInvalid={personNotValidText}>
 
                                             {
@@ -261,10 +267,12 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                                                 height={50} mb={2} justifyContent={'center'} pl={5} borderRadius={10}>
                                                                 <View flex={1} justifyContent={'center'}>
                                                                     {
-                                                                        typeSelected == 'g' ?
-                                                                            <Text color={Colors.green}>{`${item.nombre} ${item.apellidoPaterno}`}</Text>
-                                                                            :
-                                                                            <Text color={Colors.green}>{item.nombreSocio}</Text>
+                                                                        typeSelected == 'g' && item.nombre  &&
+                                                                            <Text color={Colors.green}>{`${item.nombre} ${item.apellidoPaterno}`}</Text>        
+                                                                    }
+                                                                    {
+                                                                     typeSelected == 'p' && item.nombreSocio  &&
+                                                                     <Text color={Colors.green}>{item.nombreSocio}</Text>
                                                                     }
                                                                 </View>
                                                                 <View justifyContent={'center'} pr={4}>
@@ -297,6 +305,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                             <Text textAlign={'center'} color={'red.500'} mb={2}>Sin resultados</Text>
                                         }
                                         </View>
+                                    }
                                 </ScrollView>
                                 
                             }
