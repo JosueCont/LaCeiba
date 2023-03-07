@@ -76,7 +76,7 @@ const BookingsScreen = ({navigation, appDuck}) => {
                             const diff = dateToday.diff(dateparsed, 'days'); 
                             return (
                                 diff <= 0 &&
-                                <TouchableOpacity key={index} onPress={() => navigation.navigate('BookingsDetailScreen', {service: 'Campo de golf', state: "r", invitation: invitation, booking: bookings.find((booking) => booking.id == invitation?.booking?.id)})}>
+                                <TouchableOpacity key={index} onPress={() => navigation.navigate('BookingsDetailScreen', {invitation_id: invitation.id})}>
                                     <BookinsItem mb={4} dataInvitation={invitation} dataBooking={bookings.find((booking) => booking.id == invitation?.booking?.id)} data={{state: invitation.status}}/>
                                 </TouchableOpacity>
                             );

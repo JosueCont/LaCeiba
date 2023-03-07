@@ -119,23 +119,20 @@ const DrawerConfig = () => {
     const notificationNavigationHandler = ({ data }) => {
         // navigate to app screen
         console.log('A notification has been touched', data.notification_type)
-      /*  if(data.notification_type){
+        if(data.notification_type){
             let bookingNotifications = [
-              //  NOTIFICATION_TYPES.NOTIFY_HOST_BOOKING_READY,
+                NOTIFICATION_TYPES.NOTIFY_HOST_BOOKING_READY,
                 NOTIFICATION_TYPES.NOTIFY_GUEST_BOOKING_INVITATION,
                 NOTIFICATION_TYPES.NOTIFY_HOST_INVITATION_CONFIRMED,
                 NOTIFICATION_TYPES.NOTIFY_HOST_INVITATION_REJECTED
             ]
 
             if(Object.values(NOTIFICATION_TYPES).includes(data.notification_type)){
-                let invitation = data.invitation
-                let booking = data.invitation.booking
+                console.log('=========DATA==========',data.invitation_id)
 
-                console.log('=========DATA==========',invitation, booking)
-
-                navigation.navigate('BookingsDetailScreen', {invitation, booking})
+                navigation.navigate('BookingsDetailScreen', {invitation_id:data.invitation_id})
             }
-        }*/
+        }
     }
 
 

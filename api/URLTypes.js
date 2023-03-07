@@ -21,6 +21,7 @@ export const URLTypes = {
     CACHE_BOOKING: '/v1/bookings/users/{{param}}/areas/{{param}}/reserved',
     GET_ALL_BOOKINGS: '/v1/bookings',//?page=1&limit=10,
     GET_ALL_INVITATIONS: '/v1/bookings/invitations',
+    GET_ONE_INVITATION: '/v1/bookings/invitations/{{param}}',
     GET_PROFILE: '/v1/users/{{param}}/partners',
     GET_USER: '/v1/users/{{param}}',
     GET_ADDITIONAL_MEMBERS: '/v1/users/partners/action',
