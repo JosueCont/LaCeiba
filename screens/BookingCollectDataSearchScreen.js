@@ -1,4 +1,4 @@
-import {Button, FormControl, Icon, Input, ScrollView, Select, Skeleton, Text, View} from "native-base";
+import {Button, FormControl, Icon, Input, ScrollView, Select, Skeleton, Text, View, Spinner} from "native-base";
 import {Colors} from "../Colors";
 import React, {useEffect, useState} from "react";
 import {useFocusEffect} from '@react-navigation/native';
@@ -22,9 +22,9 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
     const [textFilter, setTextFilter] = useState('');
     const [personNotValidText, setPersonNotValidText] = useState(null);
     const [personNotValid, setPersonNotValid] = useState(false);
-
     const [peopleSearch, setPeopleSearch] = useState([]);
     const [points, setPoints] = useState(route.params.points || null);
+    const [noticeWrite, setNoticeWrite] = useState(false)
 
     useEffect(() => {
         setLoading(true)
@@ -97,11 +97,25 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
     }
 
     const search = async (v) => {
-        if (typeSelected == 'g') {
-            setPeopleSearch(people.filter((item) => item.nombre.toLowerCase().includes(v.toLowerCase()) || item.apellidoPaterno.toLowerCase().includes(v.toLowerCase()) || item.apellidoMaterno.toLowerCase().includes(v.toLowerCase())))
-        } else if (typeSelected == 'p') {
-            setPeopleSearch(people.filter((item) => item.nombreSocio.toLowerCase().includes(v.toLowerCase())))
 
+
+        if (typeSelected == 'g') {
+            setNoticeWrite(false)
+            if(v.length >=3){
+                setNoticeWrite(true)
+                setPeopleSearch( () => {
+                    return people.filter((item) =>{
+                        let fullname = `${item.nombre.toLowerCase()} ${item.apellidoPaterno.toLowerCase()} ${item.apellidoMaterno.toLowerCase()} `
+                        return fullname.includes(v.toLowerCase())
+                    } )
+                })
+
+            }
+        } else if (typeSelected == 'p') {
+            setNoticeWrite(true)
+            setPeopleSearch(people.filter((item) => item.nombreSocio.toLowerCase().includes(v.toLowerCase())))
+            setTimeout(() => {
+            }, 500)
         }
     }
 
@@ -131,7 +145,6 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
     var debounce_fun = _.debounce(function (v) {
         search(v)
-
     }, 100);
 
 
@@ -209,7 +222,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                         Elija a la persona
                                     </Text>
                                     <Input placeholder={'Buscar'} value={textFilter} onChangeText={(v) => {
-                                        debounce_fun(v)
+                                        search(v)
                                         setTextFilter(v)
                                         setPersonNotValidText(null);
                                     }}/>
@@ -219,9 +232,14 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
                             {
                                 (textFilter.length > 0 && typeSelected) &&
-                                <ScrollView flexGrow={1} height={250} my={2}>
-                                    <View my={10} justifyContent={'center'}>
-
+                                <ScrollView flexGrow={1} height={!noticeWrite ? 50 : 250} my={2}>
+                                { 
+                                !noticeWrite ?
+                                    <Text textAlign={'center'} color={'red.500'} fontSize={'xs'} mb={4}>
+                                      Escribe por lo menos 3 letras
+                                  </Text>
+                                  :
+                                  <View my={10} justifyContent={'center'}>
                                         <FormControl isInvalid={personNotValidText}>
 
                                             {
@@ -261,12 +279,15 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                                                 height={50} mb={2} justifyContent={'center'} pl={5} borderRadius={10}>
                                                                 <View flex={1} justifyContent={'center'}>
                                                                     {
-                                                                        typeSelected == 'g' ?
-                                                                            <Text color={Colors.green}>{`${item.nombre} ${item.apellidoPaterno}`}</Text>
-                                                                            :
-                                                                            <Text color={Colors.green}>{item.nombreSocio}</Text>
+                                                                        typeSelected == 'g' && item.nombre  &&
+                                                                            <Text color={Colors.green}>{`${item.nombre} ${item.apellidoPaterno}`}</Text>        
+                                                                    }
+                                                                    {
+                                                                     typeSelected == 'p' && item.nombreSocio  &&
+                                                                     <Text color={Colors.green}>{item.nombreSocio}</Text>
                                                                     }
                                                                 </View>
+                                                                
                                                                 <View justifyContent={'center'} pr={4}>
                                                                     {
                                                                         selected &&
@@ -297,6 +318,8 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                             <Text textAlign={'center'} color={'red.500'} mb={2}>Sin resultados</Text>
                                         }
                                         </View>
+                                }
+                               
                                 </ScrollView>
                                 
                             }
