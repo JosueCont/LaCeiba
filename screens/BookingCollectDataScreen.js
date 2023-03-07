@@ -56,28 +56,31 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             date: '',
             hourSelected: '',
             peopleArray: [],
-            areaSelected: 0        },
+            areaSelected: 0,
+            },
+            validateOnChange: true,
+            enableReinitialize: true,
+            validationSchema: Yup.object({
+                areaSelected: Yup
+                    .number()
+                    .required("El área obligatoria"),
+                date: Yup
+                    .string()
+                    .trim()
+                    .required("La fecha es obligatoria"),
+                hourSelected: Yup
+                    .string()
+                    .trim()
+                    .required("La hora es obligatoria"),
+                peopleArray: Yup
+                    .array()
+                    //.required('Los invitados son obligatorios')
+                    .min(area?.minPeople - 1, `Seleccione al menos ${area?.minPeople - 1} persona(s)`)
+            }),
         onSubmit: (formValue) => {
+            
             sendConfirmationBooking(formValue)
         },
-        validateOnChange: true,
-        validationSchema: Yup.object({
-            areaSelected: Yup
-                .number()
-                .required("El área obligatoria"),
-            date: Yup
-                .string()
-                .trim()
-                .required("La fecha es obligatoria"),
-            hourSelected: Yup
-                .string()
-                .trim()
-                .required("La hora es obligatoria"),
-            peopleArray: Yup
-                .array()
-                //.required('Los invitados son obligatorios')
-                .min(area?.minPeople - 1, `Seleccione al menos ${area?.minPeople - 1} persona(s)`)
-        })
     });
 
     useEffect(() => {
@@ -85,6 +88,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             setMinutesLeft('00');
             setSecondsLeft('00');
             setHourSelected(null);
+            setFieldValue('hourSelected', '')
+            
         }
         if (!timeLeft) {
             setMinutesLeft(null);
@@ -95,10 +100,9 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         const intervalId = setInterval(() => {
             setTimeLeft(timeLeft - 1);
             convertToMinutes(timeLeft);
-        }, 1000);
+        }, 550);
         return () => clearInterval(intervalId);
     }, [timeLeft]);
-
 
     useEffect(() => {
 
@@ -114,6 +118,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
     useEffect(() => {
         cleanData();
+        resetForm()
     }, [route?.params?.service?.id])
 
 
@@ -148,14 +153,13 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     }
 
     const removePerson = (index , person) => {
-     
+        let arrayPeopleTemp = people.filter((_, i) => i != index)
+
         if(person.type === 'INVITADO'){
-             let arrayPeopleTemp = people.filter((_, i) => i != index)
         setFieldValue("peopleArray", arrayPeopleTemp);
         setPeople(arrayPeopleTemp);
         setPoints(old => old + pointsDay)
         }else{
-            let arrayPeopleTemp = people.filter((_, i) => i != index)
             setFieldValue("peopleArray", arrayPeopleTemp);
             setPeople(arrayPeopleTemp);
             setPoints(old => old - person.totalPoints)          
@@ -163,7 +167,9 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             // setFieldValue("peopleArray", arrayPeopleTemp);
             // setPeople(arrayPeopleTemp);
         }
-
+        if(arrayPeopleTemp.length === 0){
+            setFieldValue("peopleArray", []);
+        }
     }
 
     const getHoursFunction = async (dateString) => {
@@ -550,6 +556,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                     loading === false &&
                                     <FormControl isInvalid={errors.hourSelected}>
                                         <Select
+
                                             isDisabled={date == null}
                                             selectedValue={hourSelected ? hourSelected : ''}
                                             onOpen={() => {
@@ -569,8 +576,6 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                                     setHourSelected(v);
                                                     validateHour(v);
                                                 }
-
-
                                             }}
                                             placeholder="Seleccionar">
                                             {
@@ -741,7 +746,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 </View>
 
                 <View>
-                <Button disabled={points < 0 || (route?.params?.service?.isGolf && !holes)} onPress={() => handleSubmit()} isLoading={sending}>Reservar</Button>
+                <Button disabled={points < 0 || (route?.params?.service?.isGolf && !holes)} onPress={() =>handleSubmit()} isLoading={sending}>Reservar</Button>
                 </View>
             </View>
             <ModalBookingConfirmation

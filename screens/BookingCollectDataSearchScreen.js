@@ -226,20 +226,29 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                         setTextFilter(v)
                                         setPersonNotValidText(null);
                                     }}/>
+                                 
                                 </View>
                             }
 
-
+                                <View>
+                                    {
+                                            personNotValidText &&
+                                            <Text my={2} textAlign={'center'} color={'red.500'}>{personNotValidText}</Text>
+                                    }
+                                </View>
                             {
                                 (textFilter.length > 0 && typeSelected) &&
+                                
                                 <ScrollView flexGrow={1} height={!noticeWrite ? 50 : 250} my={2}>
+                                   
                                 { 
                                 !noticeWrite ?
                                     <Text textAlign={'center'} color={'red.500'} fontSize={'xs'} mb={4}>
                                       Escribe por lo menos 3 letras
                                   </Text>
                                   :
-                                  <View my={10} justifyContent={'center'}>
+                                  <View my={5} justifyContent={'center'}>
+                                         
                                         <FormControl isInvalid={personNotValidText}>
 
                                             {
@@ -251,11 +260,18 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                                             people.map(async (itemSub) => {
                                                                 if (typeSelected == 'g') {
                                                                     if (itemSub.idInvitado == item.idInvitado) {
+                                                                        let mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                                                                        if(!itemSub.mail.match(mailFormat)){
+                                                                            setPersonNotValidText(`Esta persona no tiene un correo valido`)
+                                                                            setPersonSelected(null);
+                                                                            return
+                                                                        }
                                                                         itemSub['idStandard'] = itemSub.idInvitado;
                                                                         itemSub['valid'] = true;
                                                                         setPersonSelected(itemSub);
                                                                         setPersonNotValidText(null);
                                                                     }
+                                                                                                                                  
                                                                 } else if (typeSelected == 'p') {
                                                                     if (itemSub.id == item.id) {
                                                                         let validate = await validatePartnerFunction(itemSub.user.id);
@@ -305,13 +321,6 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
 
                                         </FormControl>
-
-                                        {
-                                            personNotValidText &&
-                                            <Text textAlign={'center'} color={'red.500'} mb={2}>{personNotValidText}</Text>
-
-                                        }
-
 
                                         {
                                             ((textFilter !== '' && peopleSearch.length === 0)) &&
