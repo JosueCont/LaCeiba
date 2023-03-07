@@ -90,7 +90,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
     const getAdditionalsFunction = async () => {
         try {
             setLoading(true)
-            const response = await getAdditionals('', [invitation.id]);
+            const response = await getAdditionals('', [appDuck.user.id]);
             setAdditionals(response.data)
             setLoading(false)
         } catch (e) {
