@@ -199,7 +199,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                             </View>
 
                             {
-                                invitation?.status === 'PENDING' && additionals.length > 0 &&
+                                invitation?.status === 'PENDING' && additionals.length > 0  && !invitation.booking.deletedAt &&
                                 <View mb={10} pl={2}>
                                     <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                         Adicionales
