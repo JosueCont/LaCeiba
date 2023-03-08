@@ -270,11 +270,11 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                 </View>
                             }
                             {
-                                invitation.status == 'CONFIRMED' &&  invitation.booking.deletedAt &&
+                                invitation.status == 'CONFIRMED' &&  !invitation.booking.deletedAt &&
                                 <View>
                                     <Button onPress={() => navigation.navigate("QRScreen")} mb={4}>Código QR</Button>
 
-                                    {!invitation.booking?.fixedGroupId && invitation.booking.hostedId === appDuck.user.id && !invitation.booking.deletedAt &&
+                                    {!invitation.booking?.fixedGroupId && invitation.booking.hostedBy.id === appDuck.user.id && !invitation.booking.deletedAt &&
 
                                         <Button
                                             colorScheme={'red'}
