@@ -257,7 +257,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                 </View>
                             }
                             {
-                                invitation?.status == 'PENDING' &&
+                                invitation?.status == 'PENDING' &&  !invitation.booking.deletedAt &&
                                 <View>
                                     <Button onPress={() => {
                                         setActionBook("Confirm");
@@ -270,7 +270,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                 </View>
                             }
                             {
-                                invitation.status == 'CONFIRMED' &&
+                                invitation.status == 'CONFIRMED' &&  invitation.booking.deletedAt &&
                                 <View>
                                     <Button onPress={() => navigation.navigate("QRScreen")} mb={4}>Código QR</Button>
 
@@ -290,6 +290,15 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                             mb={4}>Cancelar reservación</Button>
 
                                     }
+                                </View>
+                            }
+                             {
+                                 invitation.booking.deletedAt &&
+                                <View>
+
+                                        <Button
+                                            colorScheme={'red'}
+                                            mb={4}>Reservación cancelada</Button>                        
                                 </View>
                             }
                             <Button onPress={() => navigation.goBack()} mb={'20'}>Regresar</Button>
