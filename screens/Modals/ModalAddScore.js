@@ -73,8 +73,10 @@ const ModalAddScore = ({visible, setVisible, appDuck,action, numerHole,AssginPoi
                         <Text color={Colors.yellow} style={styles.modalText} mt={2} mb={4} fontSize={'2xl'}>Hoyo {numerHole}</Text>
                         <Text style={styles.modalText} mb={1} fontSize={'sm'}>Score</Text>
                     
-                        <Input width={'full'}  mb={5} isRequired value={value}  onChangeText={val =>{
-                            setValue(val)
+                        <Input width={'full'} maxLength={3} mb={5} isRequired value={value}  onChangeText={val =>{
+                             let numberRegex = /^\d+$/;
+                             const formatNumber= numberRegex.test(val) ? val : ''
+                            setValue(formatNumber)
                         }}/>
                         {/* <FormControl isInvalid={validateEmpty} mb={6}>
                             <FormControl.ErrorMessage _text={{color: "white"}} leftIcon={<WarningOutlineIcon  size="xs" />}>

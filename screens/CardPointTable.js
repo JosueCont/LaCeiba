@@ -174,7 +174,7 @@ const getHoles = async() =>{
         { numHoles === 9 && area ==='Hoyo 10' &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[0]}</Text>
         }
-          { numHoles === 18 || area ==='Hoyo 10' || area ==='Hoyo 1' &&
+          { numHoles === 18 &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[9]}</Text>
         }
     </TouchableOpacity>
@@ -190,7 +190,7 @@ const getHoles = async() =>{
          { numHoles === 9 && area ==='Hoyo 10' &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[1]}</Text>
         }
-          { numHoles === 18 || area ==='Hoyo 10' || area ==='Hoyo 1' &&
+          { numHoles === 18 &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[10]}</Text>
         }
     </TouchableOpacity>
@@ -206,7 +206,7 @@ const getHoles = async() =>{
          { numHoles === 9 && area ==='Hoyo 10' &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[2]}</Text>
         }
-          { numHoles === 18 || area ==='Hoyo 10' || area ==='Hoyo 1' &&
+          { numHoles === 18 &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[11]}</Text>
         }
     </TouchableOpacity>
@@ -222,7 +222,7 @@ const getHoles = async() =>{
          { numHoles === 9 && area ==='Hoyo 10' &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[3]}</Text>
         }
-          { numHoles === 18 || area ==='Hoyo 10' || area ==='Hoyo 1' &&
+          { numHoles === 18 &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[12]}</Text>
         }
     </TouchableOpacity>
@@ -238,7 +238,7 @@ const getHoles = async() =>{
          { numHoles === 9 && area ==='Hoyo 10' &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[4]}</Text>
         }
-          { numHoles === 18 || area ==='Hoyo 10' || area ==='Hoyo 1' &&
+          { numHoles === 18 &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[13]}</Text>
         }
     </TouchableOpacity>
@@ -254,7 +254,7 @@ const getHoles = async() =>{
          { numHoles === 9 && area ==='Hoyo 10' &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[5]}</Text>
         }
-          { numHoles === 18 || area ==='Hoyo 10' || area ==='Hoyo 1' &&
+          { numHoles === 18 &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[14]}</Text>
         }
     </TouchableOpacity>
@@ -270,7 +270,7 @@ const getHoles = async() =>{
          { numHoles === 9 && area ==='Hoyo 10' &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[6]}</Text>
         }
-          { numHoles === 18 || area ==='Hoyo 10' || area ==='Hoyo 1' &&
+          { numHoles === 18 &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[15]}</Text>
         }
     </TouchableOpacity>
@@ -286,7 +286,7 @@ const getHoles = async() =>{
          { numHoles === 9 && area ==='Hoyo 10' &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[7]}</Text>
         }
-          { numHoles === 18 || area ==='Hoyo 10' || area ==='Hoyo 1' &&
+          { numHoles === 18 &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[16]}</Text>
         }
     </TouchableOpacity>
@@ -302,7 +302,7 @@ const getHoles = async() =>{
          { numHoles === 9 && area ==='Hoyo 10' &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[8]}</Text>
         }
-          { numHoles === 18 || area ==='Hoyo 10' || area ==='Hoyo 1' &&
+          { numHoles === 18 &&
       <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[17]}</Text>
         }
     </TouchableOpacity>

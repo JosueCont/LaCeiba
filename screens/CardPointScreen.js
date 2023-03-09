@@ -35,7 +35,6 @@ useEffect(() => {
 }, [isFocused])
 
 const getMatch = async() =>{
-
     try {
     setLoading(true)
     const response = await getOnePartnersScoreCards('', [route.params.dataScore.id])
@@ -136,9 +135,11 @@ const getProfileFunction = async () => {
                     </View>
                 </View>
                 <View mt={4} mb={4} justifyContent={'center'} flexDirection={'row'}>
+                    { dataMatch.numHoles == 18 &&
                     <Button borderRadius={'3xl'} colorScheme={Colors.yellow} background={Colors.yellow} px={4} py={2} textAlign={'center'} justifyContent={'center'} alignItems={'center'} _text={{ color: Colors.green, fontWeight: 'bold', fontSize: '18px' }}>
                          {`HANDICAP: ${dataMatch.handicap}`}
                     </Button>
+                        }
                 </View>
                 </View>
                 }
