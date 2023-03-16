@@ -146,9 +146,9 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                     <View flex={1} mx={10}>
                         <ScrollView flexGrow={1} pt={10} showsVerticalScrollIndicator={false}>
                             <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={22} textAlign={'center'}>{invitation.booking?.area?.service?.name}</Text>
-                            {!invitation.booking.area.service.isGolf &&  <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={17} textAlign={'center'}>({invitation.booking.area.name})</Text> }
+                            {!invitation?.booking?.area?.service?.isGolf &&  <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={17} textAlign={'center'}>({invitation.booking.area.name})</Text> }
                             <View borderWidth={1} borderColor={Colors.yellow} my={4}/>
-                            {invitation.booking.numHoles &&  <>
+                            {invitation?.booking?.numHoles &&  <>
                             <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={17} textAlign={'center'}>{invitation.booking.numHoles} HOYOS, INICIANDO EN EL HOYO {invitation.booking.numHoles - 8}  </Text>
                             <View borderWidth={1} borderColor={Colors.yellow} my={4}/>
                             </> }
@@ -165,11 +165,11 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                     {moment(invitation?.booking?.dueTime, "HH:mm").format("hh:mm a")}
                                 </Text>
                                 {
-                                    invitation.booking.invitations.filter((currentBooking) => currentBooking.user != null).length > 0 &&
+                                    invitation?.booking?.invitations.filter((currentBooking) => currentBooking.user != null).length > 0 &&
                                     <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>SOCIOS</Text>
                                 }
                                 {
-                                    invitation.booking.invitations.map((currentBooking, index) => {
+                                    invitation?.booking?.invitations.map((currentBooking, index) => {
 
                                         return (
                                             currentBooking.user &&
@@ -181,11 +181,11 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                     })
                                 }
                                 {
-                                    invitation.booking.invitations.filter((currentBooking) => currentBooking.user == null).length > 0 &&
+                                    invitation?.booking?.invitations.filter((currentBooking) => currentBooking.user == null).length > 0 &&
                                     <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>INVITADOS</Text>
                                 }
                                 {
-                                    invitation.booking.invitations.map((currentBooking, index) => {
+                                    invitation?.booking?.invitations.map((currentBooking, index) => {
 
                                         return (
                                             currentBooking.guestName &&
@@ -199,7 +199,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                             </View>
 
                             {
-                                invitation?.status === 'PENDING' && additionals.length > 0  && !invitation.booking.deletedAt &&
+                                invitation?.status === 'PENDING' && additionals.length > 0  && !invitation?.booking?.deletedAt &&
                                 <View mb={10} pl={2}>
                                     <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                         Adicionales
@@ -257,7 +257,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                 </View>
                             }
                             {
-                                invitation?.status == 'PENDING' &&  !invitation.booking.deletedAt &&
+                                invitation?.status == 'PENDING' &&  !invitation?.booking?.deletedAt &&
                                 <View>
                                     <Button onPress={() => {
                                         setActionBook("Confirm");
@@ -270,11 +270,11 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                 </View>
                             }
                             {
-                                invitation.status == 'CONFIRMED' &&  !invitation.booking.deletedAt &&
+                                invitation?.status == 'CONFIRMED' &&  !invitation.booking?.deletedAt &&invitation?.qr?.url &&
                                 <View>
-                                    <Button onPress={() => navigation.navigate("QRScreen")} mb={4}>Código QR</Button>
+                                    <Button onPress={() => navigation.navigate("QRScreenInvitation", {invitation:invitation })} mb={4}>Código QR</Button>
 
-                                    {!invitation.booking?.fixedGroupId && invitation.booking.hostedBy.id === appDuck.user.id && !invitation.booking.deletedAt &&
+                                    {!invitation.booking?.fixedGroupId && invitation?.booking?.hostedBy.id === appDuck.user.id && !invitation?.booking?.deletedAt &&
 
                                         <Button
                                             colorScheme={'red'}
@@ -293,7 +293,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                 </View>
                             }
                              {
-                                 invitation.booking.deletedAt &&
+                                 invitation?.booking?.deletedAt &&
                                 <View>
 
                                         <Button
@@ -312,7 +312,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                         setVisible={setOpenModal}
                         type={actionBook}
                         title={actionBook == "Confirm" ? "Confirmación de la reservación" : "Rechazar reservación"}
-                        data={{date: moment(invitation?.booking?.dueDate, "YYYY-MM-DD").format("DD-MM-YYYY"), hour: moment(invitation?.booking?.dueTime, "HH:mm").format("hh:mm a"), numPeople: invitation.booking?.invitations?.length}}
+                        data={{date: moment(invitation?.booking?.dueDate, "YYYY-MM-DD").format("DD-MM-YYYY"), hour: moment(invitation?.booking?.dueTime, "HH:mm").format("hh:mm a"), numPeople: invitation?.booking?.invitations?.length}}
                         onAccept={actionBook == "Confirm" ? AcceptBooking : RejectBooking}>
 
                     </ModalConfirmRejectBook>
