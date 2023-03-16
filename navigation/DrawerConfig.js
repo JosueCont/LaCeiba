@@ -59,6 +59,7 @@ import NotificationDetail from "../screens/NotificationDetail";
 import AddPointsPartnesScreen from "../screens/AddPointsPartnesScreen"
 import CardPointScreen from "../screens/CardPointScreen"
 import ScoreCardRegistryTableScreen from "../screens/ScoreCardRegistryTableScreen"
+import QRScreenInvitation from "../screens/QRScreenInvitation"
 import { connect } from "react-redux";
 import {useSelector} from "react-redux";
 import * as Notifications from "expo-notifications";
@@ -285,6 +286,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'AddPointsPartnesScreen'} component={AddPointsPartnesScreen} options={{title: ''}}/>
             <Drawer.Screen name={'CardPointScreen'} component={CardPointScreen} options={{title: ''}}/>
             <Drawer.Screen name={'ScoreCardRegistryTableScreen'} component={ScoreCardRegistryTableScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'QRScreenInvitation'} component={QRScreenInvitation} options={{title: ''}}/>
 
         </Drawer.Navigator>
     );
