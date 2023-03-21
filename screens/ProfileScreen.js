@@ -5,7 +5,7 @@ import {ImageBackground, RefreshControl, TouchableOpacity} from "react-native";
 import bgButton from "../assets/bgButton.png";
 import iconPersonEdit from "../assets/iconPersonEdit.png";
 import {connect, useSelector} from "react-redux";
-import {getPoints, getProfile, getUser} from "../api/Requests";
+import {getPoints, getProfile, validatePartner} from "../api/Requests";
 import {useIsFocused} from "@react-navigation/native";
 import _ from "lodash";
 import LayoutV3 from "./Layouts/LayoutV3";
@@ -25,6 +25,7 @@ const ProfileScreen = ({navigation, appDuck}) => {
     const [modalEditGhin, setModalEditGhin] = useState(false)
     const [ghin, setGhin] = useState(null)
     const toast = useToast();
+    const [isActive, setIsActive] = useState(null)
 
 
 
@@ -43,8 +44,10 @@ const ProfileScreen = ({navigation, appDuck}) => {
             setLoading(true)
             const response = await getProfile('', [appDuck.user.id])
             const response2 = await getPoints('', [appDuck.user.id]);
-            setPoints(response2.data.totalPoints)
-            setData(response.data)
+            const response3 = await validatePartner(`/${appDuck.user.id}/partners/validate`)
+            setIsActive(response3?.data?.status)
+            setPoints(response2?.data?.totalPoints)
+            setData(response?.data)
             setLoading(false)
 
         } catch (e) {
@@ -155,7 +158,16 @@ const ProfileScreen = ({navigation, appDuck}) => {
                             </TouchableOpacity>
                             </View>
                     }
+                    {
+                    loading === true ?
+                    <Skeleton height={50} mb={10}></Skeleton> :
+                    loading === false && isActive ?
                      <Button onPress={() => navigation.navigate('AddPointsPartnesScreen')} mb={5}>Transferir Puntos</Button>
+                     :
+                     <Text mb={5} mr={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                      *No puedes transferir puntos porque tu usuario está desactivado
+                     </Text>
+                    }
                     <Button onPress={() => navigation.goBack()} mb={10}>Regresar</Button>
 
                     {/*<Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>*/}
