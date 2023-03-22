@@ -49,7 +49,6 @@ const RegistryTableItemAdd = ({onAdd})=>{
                     <TouchableOpacity
                         style={{width:'100%'}}
                         onPress={() => {
-                            console.log('Open calendar')
                             setShowCalendar(!showCalendar)
                         }
                     }>
@@ -61,18 +60,18 @@ const RegistryTableItemAdd = ({onAdd})=>{
                                    style={{color:Colors.greenV2, fontSize:12, backgroundColor:'white', borderRadius:20, paddingHorizontal:3, textAlign:'center'}}/>
                     </TouchableOpacity>
                     :<TextInput placeholder={'Fecha'}
-                                onPressIn={()=>{
-                                    setDateOpacity(0.5)
-                                }}
-                                onPressOut={(e) => {
-                                    setDateOpacity(1)
-                                    setShowCalendar(!showCalendar)
-                                }}
-                                height={31}
-                                placeholderTextColor={Colors.greenV2}
-                                editable={false}
-                                value={(date ? moment(date).format('YYYY-MM-DD'): '')}
-                                style={{width:'100%',color:Colors.greenV2, fontSize:12, backgroundColor:'white',opacity:dateOpacity, borderRadius:20, paddingHorizontal:3, textAlign:'center'}}/>
+                            onPressIn={()=>{
+                                setDateOpacity(0.5)
+                            }}
+                            onPressOut={(e) => {
+                                setDateOpacity(1)
+                                setShowCalendar(!showCalendar)
+                            }}
+                            height={31}
+                            placeholderTextColor={Colors.greenV2}
+                            editable={false}
+                            value={(date ? moment(date).format('YYYY-MM-DD'): '')}
+                            style={{width:'100%',color:Colors.greenV2, fontSize:12, backgroundColor:'white',opacity:dateOpacity, borderRadius:20, paddingHorizontal:3, textAlign:'center'}}/>
 
                 }
             </View>
