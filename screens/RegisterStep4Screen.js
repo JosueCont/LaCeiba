@@ -58,7 +58,7 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
                 password: values.password,
                 confirm: values.passwordConfirm,
                 claveSocio: navigationDuck.user.claveSocio,
-                countryCode: '+' + route.params.countryCode,
+                countryCode: '+' + route?.params?.countryCode,
                 phone: navigationDuck.user.celular.length > 0 ? navigationDuck.user.celular : navigationDuck.user.telefono
             }
 
