@@ -26,6 +26,7 @@ const RegistryTableItemAdd = ({onAdd})=>{
     const [playerName, setPlayerName] = useState('');
     const [status, setStatus] = useState('');
     const [points, setPoints] = useState('');
+    const [dateOpacity, setDateOpacity] = useState(1);
     const selectRef = useRef()
 
     const onAddRecord = () =>{
@@ -44,20 +45,36 @@ const RegistryTableItemAdd = ({onAdd})=>{
             }}>
         <View flexDirection={'row'} justifyContent={'center'} alignItems={'center'} paddingBottom={1} >
             <View flex={1} flexDirection={'column'} px={1} alignItems={'center'}>
-                <TouchableOpacity
-                    style={{width:'100%'}}
-                    onPress={() => {
-                        setShowCalendar(!showCalendar)
-                    }
-                }>
-                       {/* <Text numberOfLines={1} fontSize={'12'} color={Colors.greenV2} textDecorationLine={'underline'}>{date ? moment(date).format('YYYY-MM-DD') : 'Fecha'}</Text>*/}
-                    <TextInput placeholder={'Fecha'}
-                               height={31}
-                               placeholderTextColor={Colors.greenV2}
-                               editable={false}
-                               value={(date ? moment(date).format('YYYY-MM-DD'): '')}
-                               style={{color:Colors.greenV2, fontSize:12, backgroundColor:'white', borderRadius:20, paddingHorizontal:3, textAlign:'center'}}/>
-                </TouchableOpacity>
+                {Platform.OS === 'android' ?
+                    <TouchableOpacity
+                        style={{width:'100%'}}
+                        onPress={() => {
+                            console.log('Open calendar')
+                            setShowCalendar(!showCalendar)
+                        }
+                    }>
+                        <TextInput placeholder={'Fecha'}
+                                   height={31}
+                                   placeholderTextColor={Colors.greenV2}
+                                   editable={false}
+                                   value={(date ? moment(date).format('YYYY-MM-DD'): '')}
+                                   style={{color:Colors.greenV2, fontSize:12, backgroundColor:'white', borderRadius:20, paddingHorizontal:3, textAlign:'center'}}/>
+                    </TouchableOpacity>
+                    :<TextInput placeholder={'Fecha'}
+                                onPressIn={()=>{
+                                    setDateOpacity(0.5)
+                                }}
+                                onPressOut={(e) => {
+                                    setDateOpacity(1)
+                                    setShowCalendar(!showCalendar)
+                                }}
+                                height={31}
+                                placeholderTextColor={Colors.greenV2}
+                                editable={false}
+                                value={(date ? moment(date).format('YYYY-MM-DD'): '')}
+                                style={{width:'100%',color:Colors.greenV2, fontSize:12, backgroundColor:'white',opacity:dateOpacity, borderRadius:20, paddingHorizontal:3, textAlign:'center'}}/>
+
+                }
             </View>
             <View flex={1} flexDirection={'column'} px={1} alignItems={'center'}>
                 <KeyboardAvoidingView
@@ -147,6 +164,9 @@ const RegistryTableItemAdd = ({onAdd})=>{
                     onDayPress={day => {
                         setDate(day.dateString)
                         setShowCalendar(false)
+                    }}
+                    style={{
+                        marginTop:25
                     }}
                     theme={{
                         'stylesheet.calendar.header': {
