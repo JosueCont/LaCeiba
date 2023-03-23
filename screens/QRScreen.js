@@ -192,13 +192,6 @@ const QRScreen = ({navigation, appDuck, route}) => {
                                     Muestra este código en {'\n'}la entrada del área que reservó
                                 </Text>
                         }
-
-                        {
-                            route.params?.card === true &&
-                            <Button onPress={async() => {
-                                const {status} = await MediaLibrary.getPermissionsAsync();
-                                status == 'granted' ?  captureScreenFunction() : validatePermission()}}>Descargar</Button>
-                        }
                         { Platform.OS == 'android' && <View flexDirection={'column'} justifyContent={'center'} alignItems={'center'} mt={2}>
                             <TouchableOpacity onPress={()=>{saveToGoogleWallet();}}>
                                 <Image source={googleWallet}></Image>
@@ -213,7 +206,14 @@ const QRScreen = ({navigation, appDuck, route}) => {
                             </View>
                         }
 
-                        <Button mt={5} mb={4} onPress={() => navigation.navigate('HomeScreen')}>Terminar</Button>
+                        {
+                            route.params?.card === true &&
+                            <Button  mt={2} onPress={async() => {
+                                const {status} = await MediaLibrary.getPermissionsAsync();
+                                status == 'granted' ?  captureScreenFunction() : validatePermission()}}>Descargar</Button>
+                        }
+
+                        <Button mt={2} mb={4} onPress={() => navigation.navigate('HomeScreen')}>Terminar</Button>
                     </View>
 
                 </View>
