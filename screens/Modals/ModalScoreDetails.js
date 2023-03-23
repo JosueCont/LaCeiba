@@ -48,9 +48,7 @@ const ModalScoreDetails = ({visible, setVisible}) => {
                         <SliderCustomScoreCard 
                              height={300}
                              items={[
-                                {image: ImageRN.resolveAssetSource(require('../../assets/pointsDetailsScore.png')).uri},
-                                {image: ImageRN.resolveAssetSource(require('../../assets/pointsDetailsScore.png')).uri},
-                            ]}
+                                {image: ImageRN.resolveAssetSource(require('../../assets/pointsDetailsScore.png')).uri}                            ]}
                             position={sliderPosition}
                             setPosition={setSliderPosition}/>
                            
