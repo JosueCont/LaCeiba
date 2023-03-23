@@ -27,9 +27,10 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
 
         const {pushToken} = appDuck.user
         try {
-            const response = await logOut('', [pushToken])
             setAttribute('notificationExist', false)
+            const response = await logOut('', [pushToken])
             console.log(response.data)
+            loggedOutAction()
         } catch (e) {
             console.log(JSON.stringify(e))
             // alert(JSON.stringify(e))
@@ -193,7 +194,6 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                 text={'¿Deseas cerrar sesión?'}
                 action={() => {
                     loggedOut()
-                    loggedOutAction()
                     setModalSessionVisible(false)
                 }}
                 setVisible={setModalSessionVisible}

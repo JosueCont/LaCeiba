@@ -8,6 +8,7 @@ import DrawerConfig from "./DrawerConfig";
 import { connect } from "react-redux";
 import { getAllNotifications } from "../api/Requests";
 import { setAttribute } from '../redux/ducks/navigationDuck';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const NavigatorContainerMain = ({appDuck,setAttribute}) => {
     const status = useSelector(state => {
@@ -26,19 +27,16 @@ const NavigatorContainerMain = ({appDuck,setAttribute}) => {
     }, [status]);
 
     const getNotifications = async () => {
-        if(appDuck && appDuck.user && appDuck.user.id){
-            try {
-                const queryString = `?userId=${appDuck.user.id}&isRead=false`;
+        const logged = await AsyncStorage.getItem('logged') || null
+        const isLogged =  JSON.parse(logged) || null
+        if(isLogged){
+                const queryString = `?userId=${appDuck?.user?.id}&isRead=false`;
                 const response = await getAllNotifications(queryString);
-                if(response?.data?.items?.length===0){
-                    setAttribute('notificationExist', false)
-                }else{
+                if(response?.data?.items?.length>0){
                     setAttribute('notificationExist', true)
-                }
-                
-            } catch (error) {
-                console.log(error?.data);
-            }
+                }else{
+                    setAttribute('notificationExist', false)
+                }    
         }
     }
 
