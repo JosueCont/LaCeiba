@@ -1,12 +1,17 @@
 import React, {useEffect, useState} from "react"
 import LayoutV4 from "./Layouts/LayoutV4";
-import {AddIcon, Button, CloseIcon, ScrollView, Text, View} from "native-base";
+import {AddIcon, Button, CloseIcon, ScrollView, Spinner, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import LayoutV5 from "./Layouts/LayoutV5";
 import {Cell, Row, Table, TableWrapper} from "react-native-table-component";
 import {TouchableOpacity, StyleSheet} from "react-native";
 import {useIsFocused} from "@react-navigation/native";
-import {getRegistryTable, registryTableAddRecord, registryTableDeleteRecord} from "../api/Requests";
+import {
+    getRegistryTable,
+    registryTableAddRecord,
+    registryTableDeleteRecord,
+    registryTableUpdateRecord
+} from "../api/Requests";
 import {connect} from "react-redux";
 import RegistryTableHead from "../components/RegistryTable/RegistryTableHead";
 import RegistryTableItem from "../components/RegistryTable/RegistryTableItem";
@@ -20,7 +25,8 @@ const ScoreCardRegistryTableScreen = ({navigation, appDuck})=>{
     const [selectedItem, setSelectedItem] = useState(null);
     const [showModalConfirm, setShowModalConfirm] = useState(false);
     const [showSectionAdd, setShowSectionAdd] = useState(false);
-    const [maxItems, setMaxItems] = useState(20)
+    const [maxItems, setMaxItems] = useState(30)
+    const [errorMessage, setErrorMessage] = useState('');
     const isFocused = useIsFocused();
     const getRegistryTableData = async () => {
         try {
@@ -66,15 +72,14 @@ const ScoreCardRegistryTableScreen = ({navigation, appDuck})=>{
             if(result.status === 200){
                 await getRegistryTableData()
             }
+            setLoading(false)
         } catch (e) {
-            console.log(e);
-        } finally {
+            console.log(e.data?.message);
             setLoading(false)
         }
     }
     
     const onAdd = async (item) =>{
-        setShowSectionAdd(false)
         console.log(item)
         try {
             setLoading(true)
@@ -83,9 +88,34 @@ const ScoreCardRegistryTableScreen = ({navigation, appDuck})=>{
             if(result.status === 201){
                 await getRegistryTableData()
             }
+            setShowSectionAdd(false)
+            setLoading(false)
         } catch (e) {
-            console.log(e);
-        } finally {
+            console.log(e.data?.message);
+            setShowSectionAdd(false)
+            setLoading(false)
+        }
+    }
+
+    const onEdit = async (item) =>{
+        setSelectedItem(item)
+        setShowSectionAdd(true)
+    }
+
+    const onUpdate = async (item) =>{
+        try {
+            setLoading(true)
+            let result = await registryTableUpdateRecord(item, [appDuck.user.id, selectedItem.uuid])
+            if(result.status === 200){
+                await getRegistryTableData()
+            }
+            setShowSectionAdd(false)
+            setSelectedItem(null)
+            setLoading(false)
+        } catch (e) {
+            console.log(e.data?.message);
+            setShowSectionAdd(false)
+            setSelectedItem(null)
             setLoading(false)
         }
     }
@@ -111,11 +141,25 @@ const ScoreCardRegistryTableScreen = ({navigation, appDuck})=>{
                 <View flexDirection={'row'} justifyContent={'center'} mx={4} mt={8} mb={5} >
                     <Text color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Tabla de registro</Text>
                     {!showSectionAdd && <Button onPress={()=>{ setShowSectionAdd(true)}} borderRadius={30} width={30} height={30} ml={4} isDisabled={registryTable.length === maxItems}><AddIcon color='white'/></Button>}
-                    {showSectionAdd && <Button onPress={()=>{ setShowSectionAdd(false)}} borderRadius={30} width={30} height={30} ml={4} backgroundColor={Colors.yellow}><CloseIcon color='white'/></Button>}
+                    {showSectionAdd && <Button onPress={()=>{
+                        // Evitar cerrar hasta que se termine de cargar
+                        if(loading) return
+                        setShowSectionAdd(false)
+                        selectedItem && setSelectedItem(null)
+                    }} borderRadius={30} width={30} height={30} ml={4} backgroundColor={Colors.yellow}><CloseIcon color='white'/></Button>}
                 </View>
 
                 {registryTable.length === maxItems && <Text textAlign={'center'} color={'red.500'} fontSize={'xs'} mb={4}>No se pueden agregar más de {maxItems} registros. Elimine algún elemento para continuar.</Text>}
-                {showSectionAdd && <RegistryTableItemAdd onAdd={onAdd}/>}
+                {showSectionAdd && <RegistryTableItemAdd
+                    loading={loading}
+                    item={selectedItem}
+                    onAdd={onAdd}
+                    onUpdate={onUpdate}
+                    onCancel={()=>{
+                        setSelectedItem(null)
+                        setShowSectionAdd(false)
+                    }}
+                />}
                 <View mx={4}>
                     <RegistryTableHead/>
                 </View>
@@ -123,12 +167,23 @@ const ScoreCardRegistryTableScreen = ({navigation, appDuck})=>{
                     _contentContainerStyle={{flexGrow: 1}}
                     ScrollEnabled={true}
                     >
-
+                   {/* { loading ?
+                            <Spinner color={Colors.green} size={'lg'} />
+                        :*/}
                     <View mx={4}>
                         {
-                            registryTable.map((item, rowIdx)=> <RegistryTableItem key={item.uuid} item={item} isSelected={selectedItem?.uuid === item.uuid} onDelete={()=>{ confirmDelete(item) }}/>)
+                            registryTable.map((item, rowIdx)=> <RegistryTableItem
+                                disableActions={showSectionAdd}
+                                key={item.uuid}
+                                item={item}
+                                isSelected={selectedItem?.uuid === item.uuid}
+                                onDelete={()=>{ confirmDelete(item) }}
+                                onEdit={()=>onEdit(item)}
+                            />
+                            )
                         }
                     </View>
+
                 </ScrollView>
                 <ModalAsk
                     setVisible={()=>{

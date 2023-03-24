@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {
     Button,
     CheckCircleIcon,
@@ -19,7 +19,7 @@ import moment from "moment";
 import 'moment/locale/es';
 import {Calendar} from "react-native-calendars";
 moment.locale('es');
-const RegistryTableItemAdd = ({onAdd})=>{
+const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=>{
     const [showCalendar, setShowCalendar] = useState(false);
     const [showSelector, setShowSelector] = useState(false);
     const [date, setDate] = useState('');
@@ -31,13 +31,23 @@ const RegistryTableItemAdd = ({onAdd})=>{
 
     const onAddRecord = () =>{
         if(playerName.trim() === '') return
-        onAdd({
+        let data = {
             date: moment(date).format('YYYY-MM-DD'),
             playerName : playerName.trim(),
             status,
             points: parseInt(points)
-        })
+        }
+        item ? onUpdate(data) : onAdd(data)
     }
+    useEffect(()=>{
+        if(item){
+            setDate(item.date)
+            setPlayerName(item.playerName)
+            setStatus(item.status)
+            setPoints(item.points.toString())
+
+        }
+    },[item])
 
     return (<View paddingY={3} paddingX={3} mb={1}
             style={{
@@ -105,6 +115,7 @@ const RegistryTableItemAdd = ({onAdd})=>{
                         dropdownOpenIcon={<ChevronUpIcon style={{marginLeft:0, marginRight: 5}}/>}
                         placeholder={'Resultado'}
                         placeholderTextColor={Colors.greenV2}
+                        selectedValue={status}
                         onValueChange={itemValue => {setStatus(itemValue)}}
                         style={{width: '100%'}}
                     >
@@ -119,11 +130,11 @@ const RegistryTableItemAdd = ({onAdd})=>{
                 >
                     <TextInput
                         height={31}
+                        placeholder={'Puntos'}
                         placeholderTextColor={Colors.greenV2}
                         keyboardType={'number-pad'}
                         value={points}
                         maxLength={3}
-                        placeholder={'Puntos'}
                         onChangeText={text => {
                             setPoints(old => text.replace(/[^0-9]/g, ''))
                         }}
@@ -132,18 +143,47 @@ const RegistryTableItemAdd = ({onAdd})=>{
                 </KeyboardAvoidingView>
             </View>
         </View>
-        <View flexDirection={'row'} justifyContent={'flex-end'} alignItems={'center'} px={1} >
-            <Button
-                isDisabled={date === '' || playerName.trim() === '' || status === '' || points === ''}
-                size={'xs'}
-                height={31}
-                lineHeight={1.5}
-                startIcon={<CheckIcon size={5} />}
-                onPress={onAddRecord}
-            >
-                Agregar
-            </Button>
-        </View>
+        {item ?
+                <View flexDirection={'row'} justifyContent={'flex-end'} alignItems={'center'} px={1} >
+                    <Button
+                        isDisabled={loading}
+                        colorScheme={'red'}
+                        mr={2}
+                        size={'xs'}
+                        height={31}
+                        lineHeight={1.5}
+                        startIcon={<CloseIcon size={5} />}
+                        onPress={onCancel}
+                    >
+                        Cancelar
+                    </Button>
+                    <Button
+                        isDisabled={date === '' || playerName.trim() === '' || status === '' || points === '' || loading}
+                        isLoading={loading}
+                        size={'xs'}
+                        height={31}
+                        lineHeight={1.5}
+                        startIcon={<CheckIcon size={5} />}
+                        onPress={onAddRecord}
+                    >
+                        Actualizar
+                    </Button>
+                </View>
+            :
+                <View flexDirection={'row'} justifyContent={'flex-end'} alignItems={'center'} px={1} >
+                    <Button
+                        isDisabled={date === '' || playerName.trim() === '' || status === '' || points === '' || loading}
+                        isLoading={loading}
+                        size={'xs'}
+                        height={31}
+                        lineHeight={1.5}
+                        startIcon={<CheckIcon size={5} />}
+                        onPress={onAddRecord}
+                    >
+                        Agregar
+                    </Button>
+                </View>
+            }
             <Modal
                 animationType="slide"
                 transparent={false}
