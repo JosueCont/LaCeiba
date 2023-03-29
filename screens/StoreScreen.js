@@ -33,7 +33,7 @@ const StoreScreen = ({ navigation, appDuck }) => {
             <View flex={1}>
                 <View flex={1}>
 
-                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Tienda en Linea</Text>
+                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Tienda en Línea</Text>
                     <ScrollView
                         mt={5}
                         _contentContainerStyle={{ flexGrow: 1 }}
