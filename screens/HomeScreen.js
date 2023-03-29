@@ -176,19 +176,6 @@ const HomeScreen = ({navigation, appDuck}) => {
                                     <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Invitados</Text>
                                 </View>
                             </TouchableOpacity>
-
-                            { (fixedGroups > 0 || groupsFounded.length > 0) && <View flex={1} mt={4}>
-                                <TouchableOpacity onPress={() => navigation.navigate('FixedGroupList', {user: appDuck.user.id, groupsFounded: groupsFounded})}>
-                                    <View alignItems={'center'} mb={2}>
-                                        <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                            <Image source={iconFixedGroups} style={{width: 45, resizeMode: 'contain'}}/>
-                                        </ImageBackground>
-                                    </View>
-                                    <View>
-                                        <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Grupos fijos</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>}
                         </View>
                         <View flex={1}>
                             <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen')}>
@@ -205,13 +192,26 @@ const HomeScreen = ({navigation, appDuck}) => {
 
                             
                         </View>
-
-                        
+    
                     </View>
                     
-                    {/* <View mb={4} flexDirection={'row'}>
-                        <View flex={2} alignItems={'center'}>
-                            <TouchableOpacity onPress={() => navigation.navigate('GuestsScreen')}>
+                    <View mb={4} flexDirection={'row'}>
+                        
+                    { (fixedGroups > 0 || groupsFounded.length > 0) && 
+                            <View flex={1}>
+                                <TouchableOpacity onPress={() => navigation.navigate('FixedGroupList', {user: appDuck.user.id, groupsFounded: groupsFounded})}>
+                                    <View alignItems={'center'} mb={2}>
+                                        <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                            <Image source={iconFixedGroups} style={{width: 45, resizeMode: 'contain'}}/>
+                                        </ImageBackground>
+                                    </View>
+                                    <View>
+                                        <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Grupos fijos</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>}
+                        <View flex={1} alignItems={'center'}>
+                            <TouchableOpacity onPress={() => navigation.navigate('StoreScreen')}>
 
                                 <View alignItems={'center'} mb={2}>
                                     <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
@@ -219,11 +219,11 @@ const HomeScreen = ({navigation, appDuck}) => {
                                     </ImageBackground>
                                 </View>
                                 <View>
-                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Grupos fijos</Text>
+                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Tienda</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
-                    </View> */}
+                    </View>
 
                 </View>
 

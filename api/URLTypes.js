@@ -51,6 +51,7 @@ export const URLTypes = {
     GET_ALL_PARTNERS_SCORE_CARDS: '/v1/score-card/user/{{param}}',
     GET_ONE_PARTNERS_SOCRE_CARD: '/v1/score-card/{{param}}',
     EDIT_HOLE: '/v1/score-card/{{param}}/hole',
+    EDIT_COLOR_SCORE_CARD: '/v1/score-card/{{param}}',
     GET_REGISTRY_TABLE: '/v1/users/{{param}}/registry-table',
     REGISTRY_TABLE_ADD_RECORD: '/v1/users/{{param}}/registry-table/add-record',
     REGISTRY_TABLE_UPDATE_RECORD: '/v1/users/{{param}}/registry-table/{{param}}',
