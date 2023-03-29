@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {
     Button,
     CheckCircleIcon,
@@ -19,24 +19,35 @@ import moment from "moment";
 import 'moment/locale/es';
 import {Calendar} from "react-native-calendars";
 moment.locale('es');
-const RegistryTableItemAdd = ({onAdd})=>{
+const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=>{
     const [showCalendar, setShowCalendar] = useState(false);
     const [showSelector, setShowSelector] = useState(false);
     const [date, setDate] = useState('');
     const [playerName, setPlayerName] = useState('');
     const [status, setStatus] = useState('');
     const [points, setPoints] = useState('');
+    const [dateOpacity, setDateOpacity] = useState(1);
     const selectRef = useRef()
 
     const onAddRecord = () =>{
         if(playerName.trim() === '') return
-        onAdd({
+        let data = {
             date: moment(date).format('YYYY-MM-DD'),
             playerName : playerName.trim(),
             status,
             points: parseInt(points)
-        })
+        }
+        item ? onUpdate(data) : onAdd(data)
     }
+    useEffect(()=>{
+        if(item){
+            setDate(item.date)
+            setPlayerName(item.playerName)
+            setStatus(item.status)
+            setPoints(item.points.toString())
+
+        }
+    },[item])
 
     return (<View paddingY={3} paddingX={3} mb={1}
             style={{
@@ -44,20 +55,35 @@ const RegistryTableItemAdd = ({onAdd})=>{
             }}>
         <View flexDirection={'row'} justifyContent={'center'} alignItems={'center'} paddingBottom={1} >
             <View flex={1} flexDirection={'column'} px={1} alignItems={'center'}>
-                <TouchableOpacity
-                    style={{width:'100%'}}
-                    onPress={() => {
-                        setShowCalendar(!showCalendar)
-                    }
-                }>
-                       {/* <Text numberOfLines={1} fontSize={'12'} color={Colors.greenV2} textDecorationLine={'underline'}>{date ? moment(date).format('YYYY-MM-DD') : 'Fecha'}</Text>*/}
-                    <TextInput placeholder={'Fecha'}
-                               height={31}
-                               placeholderTextColor={Colors.greenV2}
-                               editable={false}
-                               value={(date ? moment(date).format('YYYY-MM-DD'): '')}
-                               style={{color:Colors.greenV2, fontSize:12, backgroundColor:'white', borderRadius:20, paddingHorizontal:3, textAlign:'center'}}/>
-                </TouchableOpacity>
+                {Platform.OS === 'android' ?
+                    <TouchableOpacity
+                        style={{width:'100%'}}
+                        onPress={() => {
+                            setShowCalendar(!showCalendar)
+                        }
+                    }>
+                        <TextInput placeholder={'Fecha'}
+                                   height={31}
+                                   placeholderTextColor={Colors.greenV2}
+                                   editable={false}
+                                   value={(date ? moment(date).format('YYYY-MM-DD'): '')}
+                                   style={{color:Colors.greenV2, fontSize:12, backgroundColor:'white', borderRadius:20, paddingHorizontal:3, textAlign:'center'}}/>
+                    </TouchableOpacity>
+                    :<TextInput placeholder={'Fecha'}
+                            onPressIn={()=>{
+                                setDateOpacity(0.5)
+                            }}
+                            onPressOut={(e) => {
+                                setDateOpacity(1)
+                                setShowCalendar(!showCalendar)
+                            }}
+                            height={31}
+                            placeholderTextColor={Colors.greenV2}
+                            editable={false}
+                            value={(date ? moment(date).format('YYYY-MM-DD'): '')}
+                            style={{width:'100%',color:Colors.greenV2, fontSize:12, backgroundColor:'white',opacity:dateOpacity, borderRadius:20, paddingHorizontal:3, textAlign:'center'}}/>
+
+                }
             </View>
             <View flex={1} flexDirection={'column'} px={1} alignItems={'center'}>
                 <KeyboardAvoidingView
@@ -89,6 +115,7 @@ const RegistryTableItemAdd = ({onAdd})=>{
                         dropdownOpenIcon={<ChevronUpIcon style={{marginLeft:0, marginRight: 5}}/>}
                         placeholder={'Resultado'}
                         placeholderTextColor={Colors.greenV2}
+                        selectedValue={status}
                         onValueChange={itemValue => {setStatus(itemValue)}}
                         style={{width: '100%'}}
                     >
@@ -103,11 +130,11 @@ const RegistryTableItemAdd = ({onAdd})=>{
                 >
                     <TextInput
                         height={31}
+                        placeholder={'Puntos'}
                         placeholderTextColor={Colors.greenV2}
                         keyboardType={'number-pad'}
                         value={points}
                         maxLength={3}
-                        placeholder={'Puntos'}
                         onChangeText={text => {
                             setPoints(old => text.replace(/[^0-9]/g, ''))
                         }}
@@ -116,18 +143,47 @@ const RegistryTableItemAdd = ({onAdd})=>{
                 </KeyboardAvoidingView>
             </View>
         </View>
-        <View flexDirection={'row'} justifyContent={'flex-end'} alignItems={'center'} px={1} >
-            <Button
-                isDisabled={date === '' || playerName.trim() === '' || status === '' || points === ''}
-                size={'xs'}
-                height={31}
-                lineHeight={1.5}
-                startIcon={<CheckIcon size={5} />}
-                onPress={onAddRecord}
-            >
-                Agregar
-            </Button>
-        </View>
+        {item ?
+                <View flexDirection={'row'} justifyContent={'flex-end'} alignItems={'center'} px={1} >
+                    <Button
+                        isDisabled={loading}
+                        colorScheme={'red'}
+                        mr={2}
+                        size={'xs'}
+                        height={31}
+                        lineHeight={1.5}
+                        startIcon={<CloseIcon size={5} />}
+                        onPress={onCancel}
+                    >
+                        Cancelar
+                    </Button>
+                    <Button
+                        isDisabled={date === '' || playerName.trim() === '' || status === '' || points === '' || loading}
+                        isLoading={loading}
+                        size={'xs'}
+                        height={31}
+                        lineHeight={1.5}
+                        startIcon={<CheckIcon size={5} />}
+                        onPress={onAddRecord}
+                    >
+                        Actualizar
+                    </Button>
+                </View>
+            :
+                <View flexDirection={'row'} justifyContent={'flex-end'} alignItems={'center'} px={1} >
+                    <Button
+                        isDisabled={date === '' || playerName.trim() === '' || status === '' || points === '' || loading}
+                        isLoading={loading}
+                        size={'xs'}
+                        height={31}
+                        lineHeight={1.5}
+                        startIcon={<CheckIcon size={5} />}
+                        onPress={onAddRecord}
+                    >
+                        Agregar
+                    </Button>
+                </View>
+            }
             <Modal
                 animationType="slide"
                 transparent={false}
@@ -147,6 +203,9 @@ const RegistryTableItemAdd = ({onAdd})=>{
                     onDayPress={day => {
                         setDate(day.dateString)
                         setShowCalendar(false)
+                    }}
+                    style={{
+                        marginTop:25
                     }}
                     theme={{
                         'stylesheet.calendar.header': {

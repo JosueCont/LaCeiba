@@ -59,12 +59,7 @@ const MatchesScreen = ({navigation, appDuck}) => {
     return (
         <LayoutV4>
             <View flex={1} mx={8} mb={5}>
-            <View flexDirection={'row'} mt={5}>
-                    <View flex={1} p={2}>
-                        <Button p={2}  leftIcon={<Icon as={MaterialIcons} color={Colors.green} name="date-range" size="sm"/>} variant="outline" borderColor={Colors.green} _text={{color: Colors.green}}>
-                            Buscar partido
-                        </Button>
-                    </View>
+            <View mx={12} flexDirection={'row'} mt={5}>
                     <View flex={1} p={2}>
                         <Button  p={2} textAlign={'center'} justifyContent={'center'} alignItems={'center'} onPress={()=> navigation.navigate('ScoreCardRegistryTableScreen')}>
                         Tabla de registro

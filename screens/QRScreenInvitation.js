@@ -8,7 +8,7 @@ import ViewShot, { captureRef } from 'react-native-view-shot';
 import * as MediaLibrary from 'expo-media-library';
 import { useIsFocused } from "@react-navigation/native";
 
-const QRScreen = ({ navigation, route }) => {
+const QRScreenInvitation = ({ navigation, route }) => {
     const [imageQRCode, setImageQRCode] = useState(null);
     const [modalVisible, setModalVisible] = useState(null);
     const [modalText, setModalText] = useState(null);
@@ -103,4 +103,4 @@ const QRScreen = ({ navigation, route }) => {
     )
 }
 
-export default QRScreen;
+export default QRScreenInvitation;

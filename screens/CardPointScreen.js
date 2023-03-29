@@ -87,7 +87,6 @@ const updateColorScoreCard = async(color) => {
                 <View flexDirection={'row'} mt={5} mb={5} justifyContent={'space-between'} alignContent={'center'} alignItems={'center'}>
                     <Text mr={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>Marcas</Text>
                    
-<<<<<<< Updated upstream
                      <Button  onPress={() =>{
                         let color = 'blue'
                         setColorSelected(color)
@@ -113,7 +112,19 @@ const updateColorScoreCard = async(color) => {
                      p={2} mr={2} height={6} width={6} style={colorSelected ==='gold' ? {backgroundColor:'gold', borderColor:'black', borderWidth:2} : {backgroundColor:'gold'}}>
                     </Button>
                     <Button  onPress={() =>{
-                        let color = 'green'
+                        let color = 'white'
+                        setColorSelected(color)
+                    }} 
+                     p={2} borderColor={Colors.green} mr={2} height={6} width={6}  style={colorSelected ==='white' ? {backgroundColor:'#fff', borderColor:'black', borderWidth:2} : {backgroundColor:'#fff'}}>
+                    </Button>
+                     <Button  onPress={() =>{
+                        let color = 'blue'
+                        setColorSelected(color)
+                    }} 
+                     pl={1} mr={2} height={6} width={6}  style={colorSelected ==='blue' ? {backgroundColor:'#29A0E3', borderColor:'black', borderWidth:2} : {backgroundColor:'#29A0E3'}}>
+                    </Button>
+                    <Button  onPress={() =>{
+                        let color = 'black'
                         setColorSelected(color)
                     }} 
                      p={2} mr={2} height={6} width={6} style={colorSelected ==='green' ? {backgroundColor:Colors.green, borderColor:'black', borderWidth:2} : {backgroundColor:Colors.green}} >

@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
 const initialData = {
     logged: null,
     user: null
@@ -21,6 +22,7 @@ const appDuck = (state = initialData, action) => {
 
 export let loggedAction = (data) => {
     return async (dispatch, getState) => {
+        await AsyncStorage.setItem('logged', JSON.stringify(true));
         dispatch({type: LOGIN, payload: data});
     };
 }
@@ -29,6 +31,7 @@ export let loggedOutAction = () => {
     return async (dispatch, getState) => {
         await AsyncStorage.setItem('@user', '');
         await AsyncStorage.setItem('ghin','')
+        await AsyncStorage.setItem('logged', JSON.stringify(false));
 
         dispatch({type: LOGOUT});
     };
