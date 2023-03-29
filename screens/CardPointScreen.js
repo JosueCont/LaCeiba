@@ -126,9 +126,9 @@ const updateColorScoreCard = async(color) => {
                     <Button  onPress={() =>{
                         let color = 'black'
                         setColorSelected(color)
-                    }} 
-                     p={2} mr={2} height={6} width={6} style={colorSelected ==='green' ? {backgroundColor:Colors.green, borderColor:'black', borderWidth:2} : {backgroundColor:Colors.green}} >
-=======
+                    }}>
+                    </Button>
+                     p={2} mr={2} height={6} width={6} style={colorSelected ==='green' ? {backgroundColor:Colors.green, borderColor:'black', borderWidth:2} : {backgroundColor:Colors.green}}
                     <Button  onPress={() =>{
                         let color = 'Rojo' 
                         updateColorScoreCard(color)
@@ -158,7 +158,6 @@ const updateColorScoreCard = async(color) => {
                         updateColorScoreCard(color)
                     }} 
                      p={2} mr={2} height={6} width={6} style={colorSelected ==='Negro' ? {backgroundColor:'black', borderColor:'#fff', borderWidth:2} : {backgroundColor:'black'}} >
->>>>>>> Stashed changes
                     </Button>
                     <Button onPress={()=>setOpenModal(true)} borderRadius={'3xl'} px={4} py={2} textAlign={'center'} justifyContent={'center'} alignItems={'center'}>
                         Ver mas
