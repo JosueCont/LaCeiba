@@ -10,7 +10,7 @@ import moment from "moment";
 import {connect} from "react-redux";
 import {useIsFocused} from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {getOnePartnersScoreCards} from "../api/Requests";
+import {getOnePartnersScoreCards,editColorScoreCard} from "../api/Requests";
 
 
 
@@ -39,6 +39,7 @@ const getMatch = async() =>{
     setLoading(true)
     const response = await getOnePartnersScoreCards('', [route.params.dataScore.id])
     setDataMatch(response.data)
+    setColorSelected(response.data.color)
     setLoading(false)
     } catch (e) {
         alert(e)
@@ -48,6 +49,20 @@ const getMatch = async() =>{
 const getProfileFunction = async () => {
     const ghin = await AsyncStorage.getItem('ghin');
     setGhin(ghin)
+}
+const updateColorScoreCard = async(color) => {
+    try {
+        let data = {
+            color,
+        }
+        const response = await editColorScoreCard(data, [dataMatch.id])
+        if(response.status == 200){
+            setColorSelected(color)
+          }    
+        } catch (e) {
+            alert(e)
+            setColorSelected(null)
+        } 
 }
 
 
@@ -72,6 +87,7 @@ const getProfileFunction = async () => {
                 <View flexDirection={'row'} mt={5} mb={5} justifyContent={'space-between'} alignContent={'center'} alignItems={'center'}>
                     <Text mr={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>Marcas</Text>
                    
+<<<<<<< Updated upstream
                      <Button  onPress={() =>{
                         let color = 'blue'
                         setColorSelected(color)
@@ -101,6 +117,37 @@ const getProfileFunction = async () => {
                         setColorSelected(color)
                     }} 
                      p={2} mr={2} height={6} width={6} style={colorSelected ==='green' ? {backgroundColor:Colors.green, borderColor:'black', borderWidth:2} : {backgroundColor:Colors.green}} >
+=======
+                    <Button  onPress={() =>{
+                        let color = 'Rojo' 
+                        updateColorScoreCard(color)
+                    }} 
+                     p={2} mr={2} height={6} width={6} style={colorSelected ==='Rojo' ? {backgroundColor:'red', borderColor:'black', borderWidth:2} : {backgroundColor:'red'}}>
+                    </Button>
+                    <Button  onPress={() =>{
+                        let color = 'Dorado'
+                        updateColorScoreCard(color)
+                    }} 
+                     p={2} mr={2} height={6} width={6} style={colorSelected ==='Dorado' ? {backgroundColor:'gold', borderColor:'black', borderWidth:2} : {backgroundColor:'gold'}}>
+                    </Button>
+                    <Button  onPress={() =>{
+                        let color = 'Blanco'
+                        updateColorScoreCard(color)
+                    }} 
+                     p={2} borderColor={Colors.green} mr={2} height={6} width={6}  style={colorSelected ==='Blanco' ? {backgroundColor:'#fff', borderColor:'black', borderWidth:2} : {backgroundColor:'#fff'}}>
+                    </Button>
+                     <Button  onPress={() =>{
+                        let color = 'Azul'
+                        updateColorScoreCard(color)
+                    }} 
+                     pl={1} mr={2} height={6} width={6}  style={colorSelected ==='Azul' ? {backgroundColor:'#29A0E3', borderColor:'black', borderWidth:2} : {backgroundColor:'#29A0E3'}}>
+                    </Button>
+                    <Button  onPress={() =>{
+                        let color = 'Negro'
+                        updateColorScoreCard(color)
+                    }} 
+                     p={2} mr={2} height={6} width={6} style={colorSelected ==='Negro' ? {backgroundColor:'black', borderColor:'#fff', borderWidth:2} : {backgroundColor:'black'}} >
+>>>>>>> Stashed changes
                     </Button>
                     <Button onPress={()=>setOpenModal(true)} borderRadius={'3xl'} px={4} py={2} textAlign={'center'} justifyContent={'center'} alignItems={'center'}>
                         Ver mas
