@@ -109,9 +109,7 @@ const StoreItemDetail = ({ navigation, appDuck }) => {
                         </View>
 
                         <View justifyContent={'center'} alignItems={'center'} mx={8} mb={5}>
-                            {/* <Button width={'100%'} py={3} onPress={() => navigation.navigate('PaymentConfirmationScreen')} borderRadius={50} background={Colors.yellow} _pressed={{ backgroundColor: '#d1d1d1' }} _text={{ color: Colors.green, fontSize: 18, fontFamily: 'titleComfortaaBold' }}>Ir a pagar</Button> */}
-                            <Button width={'100%'} py={3} onPress={() => downloadFile()}>Ir a pagar</Button>
-
+                            <Button width={'100%'} py={3} onPress={() => navigation.navigate('PaymentConfirmationScreen')} borderRadius={50} background={Colors.yellow} _pressed={{ backgroundColor: '#d1d1d1' }} _text={{ color: Colors.green, fontSize: 18, fontFamily: 'titleComfortaaBold' }}>Ir a pagar</Button>
                         </View>
                     </ScrollView>
                 </View>
