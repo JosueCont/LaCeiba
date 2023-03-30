@@ -7,16 +7,24 @@ import LayoutV5 from "./Layouts/LayoutV5";
 import { connect } from "react-redux";
 import _ from 'lodash';
 import { useFocusEffect } from "@react-navigation/native";
+import NumericInput from 'react-native-numeric-input'
+import 'intl';
+import 'intl/locale-data/jsonp/en'; // or any other locale you need
+
 
 const StoreItemDetail = ({ navigation, appDuck }) => {
 
     const [loading, setLoading] = useState(null);
     const [status, setStatus] = useState('');
+    const [count, setCount] = useState(1)
+    const [price, setPrice] = useState(1500)
     useEffect(() => {
     }, [])
 
     useFocusEffect(
         React.useCallback(() => {
+            setCount(1)
+            setPrice(1500)
         }, [])
     );
 
@@ -27,7 +35,6 @@ const StoreItemDetail = ({ navigation, appDuck }) => {
         }, 2000);
 
     }
-
     return (
         <LayoutV5>
             <View flex={1}>
@@ -64,24 +71,27 @@ const StoreItemDetail = ({ navigation, appDuck }) => {
                                 </View>
                                 <View width={'100%'} flexDirection={'row'} justifyContent={'space-around'}>
                                     <Text numberOfLines={1} color={Colors.yellow} fontSize={'22'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>Cantidad</Text>
-                                    <Select
-                                        width={'110px'}
-                                        fontSize={13}
-                                        height={8}
-                                        dropdownIcon={<ChevronDownIcon style={{ marginLeft: 0, marginRight: 5 }} />}
-                                        dropdownOpenIcon={<ChevronUpIcon style={{ marginLeft: 0, marginRight: 5 }} />}
-                                        placeholder={'Seleccione'}
-                                        placeholderTextColor={Colors.green}
-                                        onValueChange={itemValue => { setStatus(itemValue) }}
-                                        style={{ width: '100%' }}
-                                    >
-                                        <Select.Item label={'1'} value={'1'} />
-                                        <Select.Item label={'2'} value={'2'} />
-                                        <Select.Item label={'3'} value={'3'} />
-                                        <Select.Item label={'4'} value={'4'} />
-                                        <Select.Item label={'5'} value={'5'} />
-                                        <Select.Item label={'6'} value={'6'} />
-                                    </Select>
+                                    <NumericInput
+                                        value={count}
+                                        onChange={(value) => {
+                                            setCount(value)
+                                        }}
+                                        initValue={count}
+                                        minValue={1}
+                                        maxValue={10}
+                                        totalWidth={100}
+                                        totalHeight={35}
+                                        iconSize={25}
+                                        editable={false}
+                                        step={1}
+                                        valueType='real'
+                                        rounded
+                                        iconStyle={{ color: Colors.green, fontSize: 20 }}
+                                        textColor={'white'}
+                                        inputStyle={{ fontSize: 16, fontFamily: 'titleComfortaaBold' }}
+                                        rightButtonBackgroundColor={Colors.yellow}
+                                        leftButtonBackgroundColor={Colors.yellow}
+                                    />
                                 </View>
                             </View>
                         </View>
@@ -97,11 +107,11 @@ const StoreItemDetail = ({ navigation, appDuck }) => {
                             <View justifyContent={'center'} background={'#fff'} width={20} mb={2} borderRadius={10} height={10}>
                                 <Text textAlign={'center'} mt={1} mb={1} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'md'}>Total</Text>
                             </View>
-                            <Text textAlign={'center'} mt={1} mb={1} color={Colors.yellow} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>$1,500 M.N.</Text>
+                            <Text textAlign={'center'} mt={1} mb={1} color={Colors.yellow} fontFamily={'titleComfortaaBold'} fontSize={'3xl'}>${(price * count).toLocaleString('en-US')} M.N.</Text>
                         </View>
 
                         <View justifyContent={'center'} alignItems={'center'} mx={8} mb={5}>
-                            <Button width={'100%'} py={3} onPress={() => navigation.navigate('HomeScreen')} borderRadius={50} background={Colors.yellow} _pressed={{ backgroundColor: '#d1d1d1' }} _text={{ color: Colors.green, fontSize: 18, fontFamily: 'titleComfortaaBold' }}>Ir a pagar</Button>
+                            <Button width={'100%'} py={3} onPress={() => navigation.navigate('PaymentConfirmationScreen')} borderRadius={50} background={Colors.yellow} _pressed={{ backgroundColor: '#d1d1d1' }} _text={{ color: Colors.green, fontSize: 18, fontFamily: 'titleComfortaaBold' }}>Ir a pagar</Button>
                         </View>
                     </ScrollView>
                 </View>

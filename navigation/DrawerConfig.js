@@ -63,6 +63,7 @@ import QRScreenInvitation from "../screens/QRScreenInvitation"
 import StoreScreen from "../screens/StoreScreen"
 import StoreItem from "../screens/StoreItem"
 import StoreItemDetail from "../screens/StoreItemDetail"
+import PaymentConfirmationScreen from "../screens/PaymentConfirmationScreen"
 import { connect } from "react-redux";
 import {useSelector} from "react-redux";
 import * as Notifications from "expo-notifications";
@@ -293,6 +294,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'StoreScreen'} component={StoreScreen} options={{title: ''}}/>
             <Drawer.Screen name={'StoreItem'} component={StoreItem} options={{title: ''}}/>
             <Drawer.Screen name={'StoreItemDetail'} component={StoreItemDetail} options={{title: ''}}/>
+            <Drawer.Screen name={'PaymentConfirmationScreen'} component={PaymentConfirmationScreen} options={{title: ''}}/>
         </Drawer.Navigator>
     );
 }
