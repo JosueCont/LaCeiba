@@ -24,8 +24,8 @@ const ModalScoreDetails = ({visible, setVisible}) => {
         <Modal
             presentationStyle="pageSheet"
             animationType="slide"
-            transparent={true}
             visible={visible}
+            transparent={true}
             onRequestClose={() => {
                 Alert.alert("Modal has been closed.");
                 setVisible(!visible);

@@ -40,6 +40,7 @@ const getMatch = async() =>{
     const response = await getOnePartnersScoreCards('', [route.params.dataScore.id])
     setDataMatch(response.data)
     setColorSelected(response.data.color)
+    console.log("🚀 ~ file: CardPointScreen.js:47 ~ getMatch ~ response.data.color:", response.data.color)
     setLoading(false)
     } catch (e) {
         alert(e)
@@ -86,78 +87,40 @@ const updateColorScoreCard = async(color) => {
                 <Text textAlign={'center'} mt={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xl'}>TARJETA DE PUNTUACIÓN</Text>
                 <View flexDirection={'row'} mt={5} mb={5} justifyContent={'space-between'} alignContent={'center'} alignItems={'center'}>
                     <Text mr={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>Marcas</Text>
-                   
-                     <Button  onPress={() =>{
-                        let color = 'blue'
-                        setColorSelected(color)
-                    }} 
-                     pl={1} mr={2} height={6} width={6}  style={colorSelected ==='blue' ? {backgroundColor:'#29A0E3', borderColor:'black', borderWidth:2} : {backgroundColor:'#29A0E3'}}>
-                    </Button>
                     <Button  onPress={() =>{
-                        let color = 'white'
+                        let color = 'Negras'
                         setColorSelected(color)
-                    }} 
-                     p={2} borderColor={Colors.green} mr={2} height={6} width={6}  style={colorSelected ==='white' ? {backgroundColor:'#fff', borderColor:'black', borderWidth:2} : {backgroundColor:'#fff'}}>
-                    </Button>
-                    <Button  onPress={() =>{
-                        let color = 'red'
-                        setColorSelected(color)
-                    }} 
-                     p={2} mr={2} height={6} width={6} style={colorSelected ==='red' ? {backgroundColor:'red', borderColor:'black', borderWidth:2} : {backgroundColor:'red'}}>
-                    </Button>
-                    <Button  onPress={() =>{
-                        let color = 'gold'
-                        setColorSelected(color)
-                    }} 
-                     p={2} mr={2} height={6} width={6} style={colorSelected ==='gold' ? {backgroundColor:'gold', borderColor:'black', borderWidth:2} : {backgroundColor:'gold'}}>
-                    </Button>
-                    <Button  onPress={() =>{
-                        let color = 'white'
-                        setColorSelected(color)
-                    }} 
-                     p={2} borderColor={Colors.green} mr={2} height={6} width={6}  style={colorSelected ==='white' ? {backgroundColor:'#fff', borderColor:'black', borderWidth:2} : {backgroundColor:'#fff'}}>
+                        updateColorScoreCard(color)
+                    }}
+                    p={2} mr={2} height={6} width={6} style={colorSelected ==='Negras' ? {backgroundColor:'black', borderColor:'white', borderWidth:2} : {backgroundColor:'black'}}>
                     </Button>
                      <Button  onPress={() =>{
-                        let color = 'blue'
+                        let color = 'Azules'
                         setColorSelected(color)
+                        updateColorScoreCard(color)
                     }} 
-                     pl={1} mr={2} height={6} width={6}  style={colorSelected ==='blue' ? {backgroundColor:'#29A0E3', borderColor:'black', borderWidth:2} : {backgroundColor:'#29A0E3'}}>
+                     pl={1} mr={2} height={6} width={6}  style={colorSelected ==='Azules' ? {backgroundColor:'#29A0E3', borderColor:'black', borderWidth:2} : {backgroundColor:'#29A0E3'}}>
                     </Button>
                     <Button  onPress={() =>{
-                        let color = 'black'
+                        let color = 'Blancas'
                         setColorSelected(color)
-                    }}>
-                    </Button>
-                     p={2} mr={2} height={6} width={6} style={colorSelected ==='green' ? {backgroundColor:Colors.green, borderColor:'black', borderWidth:2} : {backgroundColor:Colors.green}}
-                    <Button  onPress={() =>{
-                        let color = 'Rojo' 
                         updateColorScoreCard(color)
                     }} 
-                     p={2} mr={2} height={6} width={6} style={colorSelected ==='Rojo' ? {backgroundColor:'red', borderColor:'black', borderWidth:2} : {backgroundColor:'red'}}>
+                     p={2} borderColor={Colors.green} mr={2} height={6} width={6}  style={colorSelected ==='Blancas' ? {backgroundColor:'#fff', borderColor:'black', borderWidth:2} : {backgroundColor:'#fff'}}>
                     </Button>
                     <Button  onPress={() =>{
-                        let color = 'Dorado'
+                        let color = 'Doradas'
+                        setColorSelected(color)
                         updateColorScoreCard(color)
                     }} 
-                     p={2} mr={2} height={6} width={6} style={colorSelected ==='Dorado' ? {backgroundColor:'gold', borderColor:'black', borderWidth:2} : {backgroundColor:'gold'}}>
+                     p={2} mr={2} height={6} width={6} style={colorSelected ==='Doradas' ? {backgroundColor:'Doradas', borderColor:'black', borderWidth:2} : {backgroundColor:'gold'}}>
                     </Button>
                     <Button  onPress={() =>{
-                        let color = 'Blanco'
+                        let color = 'Rojas'
+                        setColorSelected(color)
                         updateColorScoreCard(color)
                     }} 
-                     p={2} borderColor={Colors.green} mr={2} height={6} width={6}  style={colorSelected ==='Blanco' ? {backgroundColor:'#fff', borderColor:'black', borderWidth:2} : {backgroundColor:'#fff'}}>
-                    </Button>
-                     <Button  onPress={() =>{
-                        let color = 'Azul'
-                        updateColorScoreCard(color)
-                    }} 
-                     pl={1} mr={2} height={6} width={6}  style={colorSelected ==='Azul' ? {backgroundColor:'#29A0E3', borderColor:'black', borderWidth:2} : {backgroundColor:'#29A0E3'}}>
-                    </Button>
-                    <Button  onPress={() =>{
-                        let color = 'Negro'
-                        updateColorScoreCard(color)
-                    }} 
-                     p={2} mr={2} height={6} width={6} style={colorSelected ==='Negro' ? {backgroundColor:'black', borderColor:'#fff', borderWidth:2} : {backgroundColor:'black'}} >
+                     p={2} mr={2} height={6} width={6} style={colorSelected ==='Rojas' ? {backgroundColor:'Rojas', borderColor:'black', borderWidth:2} : {backgroundColor:'red'}}>
                     </Button>
                     <Button onPress={()=>setOpenModal(true)} borderRadius={'3xl'} px={4} py={2} textAlign={'center'} justifyContent={'center'} alignItems={'center'}>
                         Ver mas

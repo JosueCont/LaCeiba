@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input, ScrollView, Text, View, Image, Select, ChevronDownIcon, ChevronUpIcon, } from "native-base";
+import { Button, Input, ScrollView, Text, View, Image, Select, ChevronDownIcon, ChevronUpIcon } from "native-base";
 import { Colors } from "../Colors";
 import coins from '../assets/coins.png'
-import { RefreshControl, TouchableOpacity } from "react-native";
+import { RefreshControl, TouchableOpacity, Linking } from "react-native";
 import LayoutV5 from "./Layouts/LayoutV5";
 import { connect } from "react-redux";
 import _ from 'lodash';
@@ -10,8 +10,6 @@ import { useFocusEffect } from "@react-navigation/native";
 import NumericInput from 'react-native-numeric-input'
 import 'intl';
 import 'intl/locale-data/jsonp/en'; // or any other locale you need
-
-
 const StoreItemDetail = ({ navigation, appDuck }) => {
 
     const [loading, setLoading] = useState(null);
@@ -111,7 +109,9 @@ const StoreItemDetail = ({ navigation, appDuck }) => {
                         </View>
 
                         <View justifyContent={'center'} alignItems={'center'} mx={8} mb={5}>
-                            <Button width={'100%'} py={3} onPress={() => navigation.navigate('PaymentConfirmationScreen')} borderRadius={50} background={Colors.yellow} _pressed={{ backgroundColor: '#d1d1d1' }} _text={{ color: Colors.green, fontSize: 18, fontFamily: 'titleComfortaaBold' }}>Ir a pagar</Button>
+                            {/* <Button width={'100%'} py={3} onPress={() => navigation.navigate('PaymentConfirmationScreen')} borderRadius={50} background={Colors.yellow} _pressed={{ backgroundColor: '#d1d1d1' }} _text={{ color: Colors.green, fontSize: 18, fontFamily: 'titleComfortaaBold' }}>Ir a pagar</Button> */}
+                            <Button width={'100%'} py={3} onPress={() => downloadFile()}>Ir a pagar</Button>
+
                         </View>
                     </ScrollView>
                 </View>
