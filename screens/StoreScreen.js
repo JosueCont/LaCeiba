@@ -27,6 +27,7 @@ const StoreScreen = ({ navigation, appDuck }) => {
         setCategory('Todas las categorías')
         setFilter('')
     }, [])
+    
 
 useEffect(() => {
     if (isFocused) {
