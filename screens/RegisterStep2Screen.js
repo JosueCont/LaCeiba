@@ -118,7 +118,7 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
                             <Skeleton h={20}/> :
                             <Text fontSize={'lg'} textAlign={'center'} fontFamily={'titleLight'} mb={6} numberOfLines={1}>
                                 {
-                                    navigationDuck.user.celular
+                                    navigationDuck.user.celular ? navigationDuck.user.celular : navigationDuck.user.telefono
                                 }
                             </Text>
                     }
