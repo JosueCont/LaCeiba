@@ -8,7 +8,7 @@ import iconReserve from '../assets/iconReserve.png'
 import iconGuests from '../assets/iconGuests.png'
 import iconBooking from '../assets/iconBooking.png';
 import iconFixedGroups from '../assets/iconFixedGroups.png';
-
+import iconStore from '../assets/iconStore.png'
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import LayoutV4 from "./Layouts/LayoutV4";
 import {getAllGF, getGFLeader, validatePartner} from "../api/Requests";
@@ -215,7 +215,7 @@ const HomeScreen = ({navigation, appDuck}) => {
 
                                 <View alignItems={'center'} mb={2}>
                                     <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                        <Image source={iconGuests} style={{width: 45, resizeMode: 'contain'}}/>
+                                        <Image source={iconStore} style={{width: 45, resizeMode: 'contain'}}/>
                                     </ImageBackground>
                                 </View>
                                 <View>
