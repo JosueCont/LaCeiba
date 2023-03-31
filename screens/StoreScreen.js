@@ -48,12 +48,12 @@ useEffect(() => {
     }
 
     return (
-        <LayoutV5>
+        <LayoutV5 white={true}>
             <View flex={1}>
                 <View flex={1}>
 
-                    <Text textAlign={'center'} mt={8} mb={6} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Tienda de productos</Text>
-                    <View justifyContent={'center'} alignItems={'center'} background={Colors.green} height={'100px'} style={{ flexDirection: 'row' }}>
+                    <Text textAlign={'center'} mt={8} mb={6} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'20px'} textTransform={'uppercase'}>Tienda de productos</Text>
+                    <View justifyContent={'center'} alignItems={'center'} background={Colors.greenLight} height={'70px'} style={{ flexDirection: 'row' }}>
                         <ScrollView ref={scrollViewRef}
                             horizontal={true}
                             showsHorizontalScrollIndicator={false}
@@ -62,40 +62,40 @@ useEffect(() => {
                                 setCategory('Todas las categorías')
                                 }>
                                 <View ml={2} flexDirection={'row'} alignItems={'center'}>
-                                    <View alignItems={'center'} justifyContent={'center'} height={12} width={12} borderRadius={'full'} bg={'#fff'}>
-                                        <Image mx={2} source={allCategories} style={{ width: 35, height: 35 }}></Image>
+                                    <View borderWidth={category === 'Todas las categorías' ? 1.5 : 0} borderColor={Colors.green} alignItems={'center'} justifyContent={'center'} height={'40px'} width={'40px'} borderRadius={'full'} bg={'#fff'}>
+                                        <Image mx={2} source={allCategories} style={{ width: 28, height: 28 }}></Image>
                                     </View>
-                                    <Text textAlign={'center'} color={category === 'Todas las categorías' ? Colors.yellow : '#fff'} fontFamily={'titleComfortaaBold'} mx={2} fontSize={'sm'}>Todas las categorías</Text>
+                                    <Text textAlign={'center'} color={category === 'Todas las categorías' ? Colors.green : '#5F5F5F'} fontFamily={category === 'Todas las categorías' ? 'titleComfortaaBold' : 'titleConfortaaRegular'} mx={2} fontSize={'sm'}>Todas las categorías</Text>
                                 </View>
                             </TouchableOpacity> 
                             <TouchableOpacity activeOpacity={0.8} onPress={() => 
                                 setCategory('Puntos')
                                 }>
                                 <View ml={2} flexDirection={'row'} alignItems={'center'}>
-                                    <View alignItems={'center'} justifyContent={'center'} height={12} width={12} borderRadius={'full'} bg={'#fff'}>
-                                        <Image mx={2} source={coinIcon} style={{ width: 35, height: 35 }}></Image>
+                                    <View borderWidth={category === 'Puntos' ? 1.5 : 0} borderColor={Colors.green} alignItems={'center'} justifyContent={'center'}  height={'40px'} width={'40px'} borderRadius={'full'} bg={'#fff'}>
+                                        <Image mx={2} source={coinIcon} style={{ width: 28, height: 28 }}></Image>
                                     </View>
-                                    <Text textAlign={'center'} color={category === 'Puntos' ? Colors.yellow : '#fff'} fontFamily={'titleComfortaaBold'} mx={2} fontSize={'sm'}>Puntos</Text>
+                                    <Text textAlign={'center'} color={category === 'Puntos' ? Colors.green : '#5F5F5F'} fontFamily={category === 'Puntos' ? 'titleComfortaaBold' : 'titleConfortaaRegular'} mx={2} fontSize={'sm'}>Puntos</Text>
                                 </View>
                             </TouchableOpacity>
                             <TouchableOpacity activeOpacity={0.8} onPress={() => 
                                 setCategory('Accesorios')
                                 }>
                                 <View ml={2} flexDirection={'row'} alignItems={'center'}>
-                                    <View alignItems={'center'} justifyContent={'center'} height={12} width={12} borderRadius={'full'} bg={'#fff'}>
-                                        <Image mx={2} source={golfBall} style={{ width: 35, height: 35 }}></Image>
+                                    <View borderWidth={category === 'Accesorios' ? 1.5 : 0} borderColor={Colors.green} alignItems={'center'} justifyContent={'center'}  height={'40px'} width={'40px'} borderRadius={'full'} bg={'#fff'}>
+                                        <Image mx={2} source={golfBall} style={{ width: 28, height: 28 }}></Image>
                                     </View>
-                                    <Text textAlign={'center'} color={category === 'Accesorios' ? Colors.yellow : '#fff'} fontFamily={'titleComfortaaBold'} mx={2} fontSize={'sm'}>Accesorios</Text>
+                                    <Text textAlign={'center'} color={category === 'Accesorios' ? Colors.green : '#5F5F5F'} fontFamily={category === 'Accesorios' ? 'titleComfortaaBold' : 'titleConfortaaRegular'} mx={2} fontSize={'sm'}>Accesorios</Text>
                                 </View>
                             </TouchableOpacity>
                             <TouchableOpacity activeOpacity={0.8} onPress={() => 
                                 setCategory('Equipo Deportivo')
                                 }>
                                 <View ml={2} flexDirection={'row'} alignItems={'center'}>
-                                    <View alignItems={'center'} justifyContent={'center'} height={12} width={12} borderRadius={'full'} bg={'#fff'}>
-                                        <Image mx={2} source={golfCart} style={{ width: 35, height: 35 }}></Image>
+                                    <View borderWidth={category === 'Equipo Deportivo' ? 1.5 : 0} borderColor={Colors.green} alignItems={'center'} justifyContent={'center'} height={'40px'} width={'40px'} borderRadius={'full'} bg={'#fff'}>
+                                        <Image mx={2} source={golfCart} style={{ width: 28, height: 28 }}></Image>
                                     </View>
-                                    <Text textAlign={'center'} color={category === 'Equipo Deportivo' ? Colors.yellow : '#fff'} fontFamily={'titleComfortaaBold'} mx={2} fontSize={'sm'}>Equipo deportivo</Text>
+                                    <Text textAlign={'center'} color={category === 'Equipo Deportivo' ? Colors.green : '#5F5F5F'} fontFamily={category === 'Equipo Deportivo' ? 'titleComfortaaBold' : 'titleConfortaaRegular'} mx={2} fontSize={'sm'}>Equipo deportivo</Text>
                                 </View>
                             </TouchableOpacity>           
                         </ScrollView>
@@ -130,10 +130,9 @@ useEffect(() => {
                             />
                         }>
                         <View mx={8}>
-                            <StoreItem navigation={navigation} mb={5} />
-                            <StoreItem navigation={navigation} mb={5} />
-                            <StoreItem navigation={navigation} mb={5} />
-                            <StoreItem navigation={navigation} mb={5} />
+                            <StoreItem navigation={navigation} image={'coin'} title={'Puntos para invitados'} mb={5} />
+                            <StoreItem navigation={navigation} image={'boll'}  title={'Bola de golf'} mb={5} price={'$ 600.00'} />
+                            <StoreItem navigation={navigation} image={'shirt'} title={'Playera Polo'} mb={5} />
                         </View>
 
 
