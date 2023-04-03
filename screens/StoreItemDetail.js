@@ -1,30 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { Button, Input, ScrollView, Text, View, Image, Select, ChevronDownIcon, ChevronUpIcon } from "native-base";
 import { Colors } from "../Colors";
-import coins from '../assets/coins.png'
 import { RefreshControl, TouchableOpacity, Linking } from "react-native";
 import LayoutV5 from "./Layouts/LayoutV5";
 import { connect } from "react-redux";
 import _ from 'lodash';
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import NumericInput from 'react-native-numeric-input'
 import 'intl';
 import 'intl/locale-data/jsonp/en'; // or any other locale you need
-const StoreItemDetail = ({ navigation, appDuck }) => {
+import coins from '../assets/coins.png'
+import shirt from '../assets/shirtPolo.png'
+import bolls from '../assets/bollsGolf.png'
+const StoreItemDetail = ({ route, navigation, appDuck }) => {
 
     const [loading, setLoading] = useState(null);
     const [status, setStatus] = useState('');
     const [count, setCount] = useState(1)
     const [price, setPrice] = useState(1500)
+    const isFocused = useIsFocused();
+    const [image, setImage] = useState(null)
+
     useEffect(() => {
     }, [])
 
-    useFocusEffect(
-        React.useCallback(() => {
+
+    useEffect(() => {
+        if (isFocused) {
             setCount(1)
-            setPrice(1500)
-        }, [])
-    );
+            console.log("🚀 ~ file: StoreItemDetail.js:32 ~ useEffect ~ route.params:", route.params)
+            setPrice(route.params.price)
+            setImage(route.params.title)
+        }
+    }, [isFocused]);
 
     const getProducts = () => {
         setLoading(true)
@@ -49,9 +57,20 @@ const StoreItemDetail = ({ navigation, appDuck }) => {
                                 onRefresh={getProducts}
                             />
                         }>
-                <Image source={coins} style={{ width: '100%', height: 200 }}></Image>
+                {
+                    image === 'Puntos para invitados' &&
+                    <Image source={coins} style={{ width: '100%', height: 200 }}></Image>
+                }
+                {
+                    image === 'Bola de golf' &&
+                    <Image source={bolls} style={{ width: '100%', height: 200 }}></Image>
+                }
+                {
+                    image === 'Playera Polo' &&
+                    <Image source={shirt} style={{ width: '100%', height: 200 }}></Image>
+                }
                
-                    <Text textAlign={'center'} mt={8} mb={4} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xl'} textTransform={'uppercase'}>Puntos para invitados</Text>
+                    <Text textAlign={'center'} mt={8} mb={4} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xl'} textTransform={'uppercase'}>{route.params.title}</Text>
                     <View width={'100%'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} mb={5}>
                                     <Text numberOfLines={1} color={Colors.green} fontSize={'15'} justifyItems={'center'} mr={5} fontFamily={'titleConfortaaRegular'}>Cantidad</Text>
                                     <NumericInput
