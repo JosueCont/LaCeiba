@@ -1,30 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { Button, Input, ScrollView, Text, View, Image, Select, ChevronDownIcon, ChevronUpIcon } from "native-base";
 import { Colors } from "../Colors";
-import coins from '../assets/coins.png'
 import { RefreshControl, TouchableOpacity, Linking } from "react-native";
 import LayoutV5 from "./Layouts/LayoutV5";
 import { connect } from "react-redux";
 import _ from 'lodash';
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import NumericInput from 'react-native-numeric-input'
 import 'intl';
 import 'intl/locale-data/jsonp/en'; // or any other locale you need
-const StoreItemDetail = ({ navigation, appDuck }) => {
+import coins from '../assets/coins.png'
+import shirt from '../assets/shirtPolo.png'
+import bolls from '../assets/bollsGolf.png'
+const StoreItemDetail = ({ route, navigation, appDuck }) => {
 
     const [loading, setLoading] = useState(null);
     const [status, setStatus] = useState('');
     const [count, setCount] = useState(1)
     const [price, setPrice] = useState(1500)
+    const isFocused = useIsFocused();
+    const [image, setImage] = useState(null)
+
     useEffect(() => {
     }, [])
 
-    useFocusEffect(
-        React.useCallback(() => {
+
+    useEffect(() => {
+        if (isFocused) {
             setCount(1)
-            setPrice(1500)
-        }, [])
-    );
+            console.log("🚀 ~ file: StoreItemDetail.js:32 ~ useEffect ~ route.params:", route.params)
+            setPrice(route.params.price)
+            setImage(route.params.title)
+        }
+    }, [isFocused]);
 
     const getProducts = () => {
         setLoading(true)
@@ -34,13 +42,12 @@ const StoreItemDetail = ({ navigation, appDuck }) => {
 
     }
     return (
-        <LayoutV5>
+        <LayoutV5 white={true}>
             <View flex={1}>
                 <View flex={1}>
-
-                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Detalle del producto</Text>
-                    <ScrollView
-                        mt={5}
+                <ScrollView
+                        mt={0}
+                        showsVerticalScrollIndicator={false}
                         _contentContainerStyle={{ flexGrow: 1 }}
                         ScrollEnabled={true}
                         refreshControl={
@@ -50,25 +57,22 @@ const StoreItemDetail = ({ navigation, appDuck }) => {
                                 onRefresh={getProducts}
                             />
                         }>
-                        <View mx={8}>
-                            <View flexDirection={'column'} height={150} justifyContent={'center'} alignItems={'flex-start'} bgColor={'#768491'} borderRadius={10} mb={4}
-                                style={{
-                                    shadowColor: '#000',
-                                    shadowOffset: { width: 0, height: 3 },
-                                    shadowOpacity: 0.5,
-                                    shadowRadius: 2,
-                                    elevation: 3
-                                }}>
-                                <View flexDirection={'row'} mb={2}>
-                                    <View mr={4} flex={.7} justifyContent={'center'} alignItems={'center'} pt={2}>
-                                        <Image source={coins} style={{ width: 80, height: 80 }}></Image>
-                                    </View>
-                                    <View flex={1} flexDirection={'column'} pr={1} pt={6}>
-                                        <Text numberOfLines={2} color={'#fff'} fontSize={'18'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>Puntos para invitados</Text>
-                                    </View>
-                                </View>
-                                <View width={'100%'} flexDirection={'row'} justifyContent={'space-around'}>
-                                    <Text numberOfLines={1} color={Colors.yellow} fontSize={'22'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>Cantidad</Text>
+                {
+                    image === 'Puntos para invitados' &&
+                    <Image source={coins} style={{ width: '100%', height: 200 }}></Image>
+                }
+                {
+                    image === 'Bola de golf' &&
+                    <Image source={bolls} style={{ width: '100%', height: 200 }}></Image>
+                }
+                {
+                    image === 'Playera Polo' &&
+                    <Image source={shirt} style={{ width: '100%', height: 200 }}></Image>
+                }
+               
+                    <Text textAlign={'center'} mt={8} mb={4} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xl'} textTransform={'uppercase'}>{route.params.title}</Text>
+                    <View width={'100%'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} mb={5}>
+                                    <Text numberOfLines={1} color={Colors.green} fontSize={'15'} justifyItems={'center'} mr={5} fontFamily={'titleConfortaaRegular'}>Cantidad</Text>
                                     <NumericInput
                                         value={count}
                                         onChange={(value) => {
@@ -77,39 +81,39 @@ const StoreItemDetail = ({ navigation, appDuck }) => {
                                         initValue={count}
                                         minValue={1}
                                         maxValue={10}
-                                        totalWidth={100}
-                                        totalHeight={35}
+                                        totalWidth={90}
+                                        totalHeight={28}
                                         iconSize={25}
                                         editable={false}
                                         step={1}
                                         valueType='real'
                                         rounded
-                                        iconStyle={{ color: Colors.green, fontSize: 20 }}
-                                        textColor={'white'}
-                                        inputStyle={{ fontSize: 16, fontFamily: 'titleComfortaaBold' }}
-                                        rightButtonBackgroundColor={Colors.yellow}
-                                        leftButtonBackgroundColor={Colors.yellow}
+                                        iconStyle={{ color: 'white', fontSize: 20 }}
+                                        textColor={Colors.green}
+                                        inputStyle={{ fontSize: 16, fontFamily: 'titleComfortaaBold', borderColor:'transparent'}}
+                                        containerStyle={{borderColor:Colors.green,borderRadius:6,borderWidth:1.2}}
+                                        rightButtonBackgroundColor={Colors.green}
+                                        leftButtonBackgroundColor={Colors.green}
+                                        borderColor={Colors.green}
                                     />
                                 </View>
-                            </View>
-                        </View>
-                        <View mx={8}>
-                            <Text textAlign={'center'} mt={5} mb={4} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>Información</Text>
+                        <View mx={8} mt={5}>
                             <View alignItems={'center'}>
                                 <View background={Colors.yellow} height={'2px'} width={'95%'}>
                                 </View>
                             </View>
-                            <Text textAlign={'justify'} mt={5} mb={0} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'md'}>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need</Text>
+                            <Text mb={2} textAlign={'left'} mt={5} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'lg'}>Detalles del producto</Text>
+                            <Text textAlign={'justify'} mt={2} mb={0} color={'#5F5F5F'} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour</Text>
+                            <Text textAlign={'justify'} mt={2} mb={0} color={'#5F5F5F'} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour</Text>
                         </View>
-                        <View my={5} background={Colors.green} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} py={8}>
-                            <View justifyContent={'center'} background={'#fff'} width={20} mb={2} borderRadius={10} height={10}>
-                                <Text textAlign={'center'} mt={1} mb={1} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'md'}>Total</Text>
+                        <View my={8} justifyContent={'center'} alignItems={'center'}>
+                        <View justifyContent={'space-around'} alignItems={'center'} flexDirection={'row'} background={Colors.greenLight} width={300} mb={2} borderRadius={'full'} height={'55px'}>
+                             <Text textAlign={'center'} mt={1} mb={1} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'22px'}>TOTAL</Text>
+                             <Text textAlign={'center'} mt={1} mb={1} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'22px'}>$ {(price * count).toLocaleString('en-US')}.00 M.N</Text>
                             </View>
-                            <Text textAlign={'center'} mt={1} mb={1} color={Colors.yellow} fontFamily={'titleComfortaaBold'} fontSize={'3xl'}>${(price * count).toLocaleString('en-US')} M.N.</Text>
                         </View>
-
                         <View justifyContent={'center'} alignItems={'center'} mx={8} mb={5}>
-                            <Button width={'100%'} py={3} onPress={() => navigation.navigate('PaymentConfirmationScreen')} borderRadius={50} background={Colors.yellow} _pressed={{ backgroundColor: '#d1d1d1' }} _text={{ color: Colors.green, fontSize: 18, fontFamily: 'titleComfortaaBold' }}>Ir a pagar</Button>
+                            <Button width={'100%'} py={3} onPress={() => navigation.navigate('PaymentConfirmationScreen')} borderRadius={50} background={Colors.green} _pressed={{ backgroundColor: '#d1d1d1' }} _text={{ color: 'white', fontSize: 18, fontFamily: 'titleConfortaaRegular' }}>Comprar ahora</Button>
                         </View>
                     </ScrollView>
                 </View>
