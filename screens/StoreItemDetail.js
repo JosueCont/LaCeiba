@@ -12,7 +12,12 @@ import 'intl/locale-data/jsonp/en'; // or any other locale you need
 import coins from '../assets/coins.png'
 import shirt from '../assets/shirtPolo.png'
 import bolls from '../assets/bollsGolf.png'
-const StoreItemDetail = ({ route, navigation, appDuck }) => {
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { setAttribute } from '../redux/ducks/navigationDuck';
+import {useSelector} from "react-redux";
+
+
+const StoreItemDetail = ({ route, navigation, appDuck, setAttribute }) => {
 
     const [loading, setLoading] = useState(null);
     const [status, setStatus] = useState('');
@@ -21,6 +26,7 @@ const StoreItemDetail = ({ route, navigation, appDuck }) => {
     const isFocused = useIsFocused();
     const [image, setImage] = useState(null)
 
+
     useEffect(() => {
     }, [])
 
@@ -28,7 +34,6 @@ const StoreItemDetail = ({ route, navigation, appDuck }) => {
     useEffect(() => {
         if (isFocused) {
             setCount(1)
-            console.log("🚀 ~ file: StoreItemDetail.js:32 ~ useEffect ~ route.params:", route.params)
             setPrice(route.params.price)
             setImage(route.params.title)
         }
@@ -40,6 +45,27 @@ const StoreItemDetail = ({ route, navigation, appDuck }) => {
             setLoading(false)
         }, 2000);
 
+    }
+
+    const productsToCart = async() =>{
+        let product = [
+            {
+            id: 1,
+            name: 'Puntos para invitados',
+            cantidad: '1',
+            image:'shirt',
+            precio: 1500,
+            },
+            {
+                id: 2,
+                name: 'Playera Polo',
+                cantidad: '1',
+                image:'coin',
+                precio: 1500,
+            }
+        ]
+        setAttribute('products', product)
+        await AsyncStorage.setItem('products', JSON.stringify(product))
     }
     return (
         <LayoutV5 white={true}>
@@ -106,14 +132,26 @@ const StoreItemDetail = ({ route, navigation, appDuck }) => {
                             <Text textAlign={'justify'} mt={2} mb={0} color={'#5F5F5F'} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour</Text>
                             <Text textAlign={'justify'} mt={2} mb={0} color={'#5F5F5F'} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour</Text>
                         </View>
-                        <View my={8} justifyContent={'center'} alignItems={'center'}>
-                        <View justifyContent={'space-around'} alignItems={'center'} flexDirection={'row'} background={Colors.greenLight} width={300} mb={2} borderRadius={'full'} height={'55px'}>
+                        <View paddingBottom={0} width={'100%'} my={8} justifyContent={'center'}alignItems={'center'}>
+                        <View justifyContent={'space-around'} alignItems={'center'} flexDirection={'row'} background={Colors.greenLight} width={'75%'} borderRadius={'full'} height={'55px'}>
                              <Text textAlign={'center'} mt={1} mb={1} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'22px'}>TOTAL</Text>
                              <Text textAlign={'center'} mt={1} mb={1} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'22px'}>$ {(price * count).toLocaleString('en-US')}.00 M.N</Text>
-                            </View>
+                        </View>
                         </View>
                         <View justifyContent={'center'} alignItems={'center'} mx={8} mb={5}>
-                            <Button width={'100%'} py={3} onPress={() => navigation.navigate('PaymentConfirmationScreen')} borderRadius={50} background={Colors.green} _pressed={{ backgroundColor: '#d1d1d1' }} _text={{ color: 'white', fontSize: 18, fontFamily: 'titleConfortaaRegular' }}>Comprar ahora</Button>
+                        <Button my={4} width={'100%'} py={3} onPress={() =>{ 
+                            productsToCart()
+                            navigation.navigate('ProductsCartScreen')
+                        }}
+                         borderRadius={50} background={Colors.green} _pressed={{ backgroundColor: '#d1d1d1' }} _text={{ color: 'white', fontSize: 18, fontFamily: 'titleConfortaaRegular', display:'flex', alignItems:'center', justifyContent:'center' }}>Añadir al carrito</Button>
+
+                            <Button width={'100%'} py={3} onPress={() => navigation.navigate('PaymentConfirmationScreen')} 
+                                borderRadius={50} 
+                                background={Colors.green}
+                                _pressed={{ backgroundColor: '#d1d1d1' }} 
+                                _text={{ color: 'white', fontSize: 18, fontFamily: 'titleConfortaaRegular', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                                Comprar ahora
+                                </Button>
                         </View>
                     </ScrollView>
                 </View>
@@ -130,4 +168,4 @@ const mapState = (state) => {
     }
 }
 
-export default connect(mapState)(StoreItemDetail)
+export default connect(mapState,{setAttribute})(StoreItemDetail)

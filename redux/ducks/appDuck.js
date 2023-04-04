@@ -1,4 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { setAttribute } from "./navigationDuck";
+
 
 
 const initialData = {
@@ -24,6 +26,13 @@ export let loggedAction = (data) => {
     return async (dispatch, getState) => {
         await AsyncStorage.setItem('logged', JSON.stringify(true));
         dispatch({type: LOGIN, payload: data});
+        const products = JSON.parse(await AsyncStorage.getItem('products'));
+        if(products){
+            dispatch(setAttribute('products', products))
+        }else{
+            dispatch(setAttribute('products', ''))
+
+        }
     };
 }
 
@@ -31,6 +40,7 @@ export let loggedOutAction = () => {
     return async (dispatch, getState) => {
         await AsyncStorage.setItem('@user', '');
         await AsyncStorage.setItem('ghin','')
+        await AsyncStorage.setItem('products','')
         await AsyncStorage.setItem('logged', JSON.stringify(false));
 
         dispatch({type: LOGOUT});

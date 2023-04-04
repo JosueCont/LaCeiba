@@ -40,7 +40,6 @@ const getMatch = async() =>{
     const response = await getOnePartnersScoreCards('', [route.params.dataScore.id])
     setDataMatch(response.data)
     setColorSelected(response.data.color)
-    console.log("🚀 ~ file: CardPointScreen.js:47 ~ getMatch ~ response.data.color:", response.data.color)
     setLoading(false)
     } catch (e) {
         alert(e)
