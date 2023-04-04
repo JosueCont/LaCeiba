@@ -17,7 +17,7 @@ const RegisterScreen = ({navigation, setAttribute}) => {
     const [modalUserExists, setModalUserExists] = useState(null);
 
 
-    const {touched, handleSubmit, errors, setFieldValue} = useFormik({
+    const {touched, handleSubmit, errors, setFieldValue, setFieldTouched} = useFormik({
         initialValues: {
             numberAction: '',
             namePartner: '',
@@ -114,7 +114,7 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                     <View flex={0.4} alignItems={'center'} justifyContent={'flex-end'}>
                     </View>
                     <View flex={1}>
-                        <View mx={20} mt={10}>
+                        <View mx={55} mt={10}>
                             <Text fontSize={'5xl'} textAlign={'center'} fontFamily={'titleLight'} mb={4}>Registrar</Text>
                             <View alignSelf={'center'} width={'100%'} borderWidth={1} borderColor={'#FFB718'} mb={8}/>
                             <FormControl isInvalid={errors.numberAction} mb={4}>
@@ -123,26 +123,29 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                                     maxLength={4}
                                     returnKeyType={'done'}
                                     keyboardType={'number-pad'}
-                                    onChangeText={(v) => setFieldValue('numberAction', v)}/>
+                                    onChangeText={(v) => setFieldValue('numberAction', v)}
+                                    onBlur={()=> setFieldTouched('numberAction', true)}/>
 
                                 <FormControl.ErrorMessage>
-                                    {errors.numberAction}
+                                    {errors.numberAction && touched.numberAction ? errors.numberAction :''}
                                 </FormControl.ErrorMessage>
                             </FormControl>
 
 
                             <FormControl isInvalid={errors.namePartner} mb={4}>
                                 <Text textAlign={'center'} mb={2}>Nombre(s) de socio</Text>
-                                <Input onChangeText={(v) => setFieldValue('namePartner', v)}/>
+                                <Input onChangeText={(v) => setFieldValue('namePartner', v)}
+                                       onBlur={()=> setFieldTouched('namePartner', true)}/>
                                 <FormControl.ErrorMessage>
-                                    {errors.namePartner}
+                                    {errors.namePartner && touched.namePartner ? errors.namePartner :''}
                                 </FormControl.ErrorMessage>
                             </FormControl>
                             <FormControl isInvalid={errors.lastNamePartner} mb={4}>
                                 <Text textAlign={'center'} mb={2}>Apellido(s) de socio</Text>
-                                <Input onChangeText={(v) => setFieldValue('lastNamePartner', v)}/>
+                                <Input onChangeText={(v) => setFieldValue('lastNamePartner', v)}
+                                       onBlur={()=> setFieldTouched('lastNamePartner', true)}/>
                                 <FormControl.ErrorMessage>
-                                    {errors.lastNamePartner}
+                                    {errors.lastNamePartner && touched.lastNamePartner ? errors.lastNamePartner :''}
                                 </FormControl.ErrorMessage>
                             </FormControl>
 
@@ -152,6 +155,7 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                                     onValueChange={(v) => {
                                         setFieldValue('relationship', v)
                                     }}
+                                    onClose={()=> setFieldTouched('relationship', true)}
                                     placeholder="Seleccionar">
                                     <Select.Item label={'Titular'} value={'0'}/>
                                     <Select.Item label={'Hijo(a) titular'} value={'1'}/>
@@ -161,7 +165,7 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                                     <Select.Item label={'Cotitular'} value={'5'}/>
                                 </Select>
                                 <FormControl.ErrorMessage>
-                                    {errors.relationship}
+                                    {errors.relationship && touched.relationship ? errors.relationship :''}
                                 </FormControl.ErrorMessage>
                             </FormControl>
 

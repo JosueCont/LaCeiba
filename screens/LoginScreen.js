@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, FormControl, Icon, Image, Input, Text, View} from "native-base";
+import {Button, FormControl, Icon, Image, Input, ScrollView, Text, View} from "native-base";
 import imgLogo from '../assets/imgLogo.png';
 import Layout from "./Layouts/Layout";
 import {signIn} from "../api/Requests";
@@ -18,7 +18,7 @@ import _ from "lodash";
 const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) => {
     const [modalInfoVisible, setModalInfoVisible] = useState(null);
     const [showPasssword, setShowPassword] = useState(null)
-    const {touched, handleSubmit, errors, setFieldValue} = useFormik({
+    const {touched, handleSubmit, errors, setFieldValue, setFieldTouched} = useFormik({
         initialValues: {
             email: '',
             password: ''
@@ -86,15 +86,23 @@ const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) =
                 <Image source={imgLogo}/>
             </View>
             <View flex={1}>
-                <View mx={20} mt={10}>
+                <ScrollView contentContainerStyle={{flexGrow: 1}} >
+                <View mx={55} mt={10}>
                     <Text fontSize={'5xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>Bienvenido</Text>
 
 
                     <FormControl isInvalid={errors.email} mb={2}>
                         <Text textAlign={'center'} mb={2}>Correo electrónico</Text>
-                        <Input autoCapitalize={'none'} mb={4} onChangeText={(v) => setFieldValue('email', v)}/>
+                        <Input
+                            autoCapitalize={'none'} mb={4}
+                            onChangeText={(v) => {
+                                setFieldValue('email', v)
+                                setFieldTouched('email', true)
+                            }}
+                            onBlur={()=> setFieldTouched('email', true)}
+                        />
                         <FormControl.ErrorMessage>
-                            {errors.email}
+                            {errors.email && touched.email ? errors.email : ''}
                         </FormControl.ErrorMessage>
                     </FormControl>
 
@@ -104,6 +112,7 @@ const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) =
                         <Input
                             type={showPasssword ? "text" : "password"}
                             onChangeText={(v) => setFieldValue('password', v)}
+                            onBlur={()=> setFieldTouched('password', true)}
                             mb={4}
                             InputRightElement={
                                 <TouchableOpacity onPress={() => setShowPassword(!showPasssword)}>
@@ -112,7 +121,7 @@ const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) =
                             }
                         />
                         <FormControl.ErrorMessage>
-                            {errors.password}
+                            {errors.password && touched.password && errors.password}
                         </FormControl.ErrorMessage>
                     </FormControl>
 
@@ -122,8 +131,9 @@ const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) =
                         <Text textAlign={'center'} mb={6}>¿Olvidaste tu contraseña?</Text>
                     </TouchableOpacity>
 
-                    <Button onPress={() => handleSubmit()}>Entrar</Button>
+                    <Button mb={10} onPress={() => handleSubmit()}>Entrar</Button>
                 </View>
+                </ScrollView>
             </View>
             <ModalInfo
                 close={true}
