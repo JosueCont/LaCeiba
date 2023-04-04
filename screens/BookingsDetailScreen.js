@@ -147,12 +147,12 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                         <ScrollView flexGrow={1} pt={10} showsVerticalScrollIndicator={false}>
                             <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={22} textAlign={'center'}>{invitation.booking?.area?.service?.name}</Text>
                             {!invitation?.booking?.area?.service?.isGolf &&  <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={17} textAlign={'center'}>({invitation.booking.area.name})</Text> }
-                            <View borderWidth={1} borderColor={Colors.yellow} my={4}/>
                             {invitation?.booking?.numHoles &&  <>
-                            <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={17} textAlign={'center'}>{invitation.booking.numHoles} HOYOS, INICIANDO EN EL HOYO {invitation.booking.numHoles - 8}  </Text>
-                            <View borderWidth={1} borderColor={Colors.yellow} my={4}/>
+                                <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={17} textAlign={'center'}>{invitation.booking.numHoles} HOYOS, INICIANDO EN EL HOYO {invitation.booking.numHoles - 8}  </Text>
+                                <View borderWidth={1} borderColor={Colors.yellow} my={4}/>
                             </> }
                             <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={16} textAlign={'center'}>ID DE RESERVACIÓN: {invitation.booking.id}</Text>
+                            {invitation.booking?.fixedGroupId && <Text color={Colors.green} textAlign={'center'} fontFamily={'titleConfortaaRegular'} fontSize={15}>(Grupo fijo)</Text>}
                             <View borderWidth={1} borderColor={Colors.yellow} my={4}/>
 
                             <View mx={10} mb={6} alignItems={'center'}>
@@ -174,7 +174,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                         return (
                                             currentBooking.user &&
                                             <Text key={index} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
-                                                {currentBooking?.user?.firstName.toUpperCase()} {currentBooking?.user?.lastName.toUpperCase()}
+                                                - {currentBooking?.user?.firstName.toUpperCase()} {currentBooking?.user?.lastName.toUpperCase()}
                                             </Text>
 
                                         );

@@ -47,7 +47,7 @@ const RecoverPasswordScreen = ({navigation}) => {
             <View flex={0.4} alignItems={'center'} justifyContent={'flex-end'}>
             </View>
             <View flex={1}>
-                <View mx={20} mt={10}>
+                <View mx={55} mt={10}>
                     <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={8}>¿Olvidaste tu contraseña?</Text>
 
                     <FormControl isInvalid={errors.email} mb={4}>
