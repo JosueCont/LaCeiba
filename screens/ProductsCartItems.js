@@ -9,18 +9,18 @@ import bolls from '../assets/bollsGolf.png'
 import iconTrash from '../assets/iconTrash.png'
 import 'intl';
 import 'intl/locale-data/jsonp/en';
-const ProductsCartItems = ({ navigation, mb = 2, id='', image = '', title = '', price = 1500, onConfirm }) => {
+const ProductsCartItems = ({ navigation, mb = 2, id='', product, onConfirm }) => {
 
     return (
         <View mx={2} position={'relative'} flexDirection={'row'} height={146} justifyContent={'center'} alignItems={'flex-start'} borderRadius={20} mb={mb}
            >
-            <Image borderRadius={20} source={image === 'coin' ? coins : image === 'shirt' ? shirt : image === 'boll' ? bolls : coins} style={{ width: '50%', height: '100%' }}></Image>
+            <Image borderRadius={20} source={{uri: product.image}} style={{ width: '50%', height: '100%' }}></Image>
             <View flexDirection={'row'} paddingX={2} alignItems={'center'} justifyContent={'space-between'} width={'50%'}>
                 <View flexDirection={'column'}>
-                    <Text mb={1} numberOfLines={2} color={Colors.green} fontSize={'18px'} justifyItems={'center'} fontFamily={'titleConfortaaRegular'}>{title}</Text>
-                    <Text mb={1} color={Colors.green} fontSize={'14px'} justifyItems={'center'} fontFamily={'titleConfortaaRegular'}>Cantidad: 1</Text>
-                    <Text color={Colors.green} fontSize={'18px'} letterSpacing={.4} justifyItems={'center'} fontFamily={'titleBrandonBldBold'}>$ {price.toLocaleString('en-US')}.00 M.N.</Text>
-                    <TouchableOpacity  onPress={()=>onConfirm(id)}>
+                    <Text mb={1} numberOfLines={2} color={Colors.green} fontSize={'17px'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>{product.name}</Text>
+                    <Text mb={1} color={Colors.green} fontSize={'14px'} justifyItems={'center'} fontFamily={'titleConfortaaRegular'}>Cantidad: {product.count}</Text>
+                    <Text color={Colors.green} fontSize={'18px'} letterSpacing={.4} justifyItems={'center'} fontFamily={'titleBrandonBldBold'}>$ {product.price.toLocaleString('en-US')}.00 M.N.</Text>
+                    <TouchableOpacity  onPress={()=>onConfirm(product.id)}>
                     <View mt={2} flexDirection={'row'}>
                             <Image source={iconTrash} style={{width: 20, height: 20}}></Image>
                             <Text ml={2} color={Colors.green} fontSize={'14px'} justifyItems={'center'} fontFamily={'titleConfortaaRegular'}>Eliminar</Text>

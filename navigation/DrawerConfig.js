@@ -237,7 +237,7 @@ const DrawerConfig = () => {
                         {
                         products?.length > 0 &&
                         <View position={'relative'}>
-                        <Text position={'absolute'} bottom={'12px'} ml={2} color={Colors.yellow} fontSize={'12px'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>{products.length}</Text>
+                        <Text position={'absolute'} bottom={'12px'} ml={2} color={Colors.yellow} fontSize={'10px'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>{products.length}</Text>
                         <Image source={IconCartWithItems} style={{width: 20, height: 20}}></Image>   
                         </View>
 
