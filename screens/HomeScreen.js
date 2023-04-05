@@ -36,12 +36,6 @@ const HomeScreen = ({navigation, appDuck}) => {
         }, [])
     );
 
-    useEffect(()=>{
-        console.log(groupsFounded);
-    },[groupsFounded]);
-
-
-
     const validatePartnerFunction = async (screen) => {
         try {
             const response = await validatePartner(`/${appDuck.user.id}/partners/validate`)

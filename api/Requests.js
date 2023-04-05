@@ -62,5 +62,6 @@ export const getRegistryTable = async (params, queryStringParams = []) => await 
 export const registryTableAddRecord = async (data, queryStringParams = []) => await request(URLTypes.REGISTRY_TABLE_ADD_RECORD, data, 'post', null, queryStringParams)
 export const registryTableUpdateRecord = async (data, queryStringParams = []) => await request(URLTypes.REGISTRY_TABLE_UPDATE_RECORD, data, 'put', null, queryStringParams)
 export const registryTableDeleteRecord = async (params, queryStringParams = []) => await request(URLTypes.REGISTRY_TABLE_DELETE_RECORD, '', 'delete', null, queryStringParams)
-export const getAllProductsCategories = async (params, queryStringParams = []) => await request(URLTypes.GET_ALL_PRODUCT_CATEGORY, '', 'get', null, queryStringParams)
+export const getAllProductsCategories = async (params, queryStringParams = []) => await request(URLTypes.GET_ALL_PRODUCTS_CATEGORY, '', 'get', null, queryStringParams)
+export const getAllProducts = async (params, queryStringParams = []) => await request(URLTypes.GET_ALL_PRODUCTS, '', 'get', null, queryStringParams)
 

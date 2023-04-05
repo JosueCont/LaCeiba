@@ -43,9 +43,7 @@ const ModalAddPoints = ({visible, error=false, setVisible, points, textButton = 
                 "toId": people.user.id,
                 "points": parseInt(value)
               }
-              console.log("🚀 ~ file: ModalAddPoints.js:46 ~ validate ~ params:", params)
               const response = await transferPoints(params);
-              console.log("🚀 ~ file: ModalAddPoints.js:47 ~ validate ~ response:", response)
               if(response?.data?.status){
                 action(true)
               }else{

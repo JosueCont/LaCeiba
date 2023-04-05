@@ -119,7 +119,6 @@ const GuestsScreen = ({navigation, appDuck}) => {
     const validatePartnerFunction = async (id) => {
         try {
             const response = await validatePartner(`/${appDuck.user.id}/partners/validate`)
-            console.log("DATT:: ", response.data);
             if (response.data.status === true) {
                 setIsValidPartner(true);
             } else {
