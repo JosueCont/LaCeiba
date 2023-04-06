@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { ScrollView, Text, View, Image, Select, ChevronDownIcon, ChevronUpIcon } from "native-base";
+import { ScrollView, Text, View, Image, Select, ChevronDownIcon, ChevronUpIcon, Skeleton } from "native-base";
 import { Colors } from "../Colors";
 import StoreItem from "./StoreItem";
 import { Alert, RefreshControl, TouchableOpacity } from "react-native";
@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import _, { set } from 'lodash';
 import { errorCapture } from "../utils";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
-import { getAllProductsCategories } from "../api/Requests";
+import { getAllProductsCategories, getAllProducts } from "../api/Requests";
 
 
 const StoreScreen = ({ navigation, appDuck }) => {
@@ -19,6 +19,7 @@ const StoreScreen = ({ navigation, appDuck }) => {
     const [categorySelected, setCategorySelected] = useState('Todas las categorías')
     const [filter, setFilter] = useState('')
     const [categories, setCategories] = useState([])
+    const [products, setProducts] = useState([])
 
 
 useEffect(() => {
@@ -28,20 +29,16 @@ useEffect(() => {
         setCategorySelected()
         scrollViewRef.current?.scrollTo(0, 0, true);
         setCategorySelected('Todas las categorías')
+        getProducts()
+
     }
 }, [isFocused]);
    
-useEffect(() => {
-    getProductsCategories()
-}, []);
+// useEffect(() => {
+//     getProductsCategories()
+//     getProducts()
+// }, []);
    
-    const getProducts = () => {
-        setLoading(true)
-        setTimeout(() => {
-            setLoading(false)
-        }, 2000);
-
-    }
 
     const getProductsCategories = async() =>{
         try {
@@ -50,10 +47,28 @@ useEffect(() => {
                 setCategories(response.data.items)
             }
 
+
         } catch (error) {
             alert(error)
         }
     }
+    const getProducts = async() =>{
+        try {
+            setLoading(true)
+            setCategorySelected('Todas las categorías')
+            const response = await getAllProducts()
+
+            if(response.status=== 200){
+                setProducts(response.data)
+            }
+            setLoading(false)
+
+
+        } catch (error) {
+            alert(error)
+        }
+    }
+    
 
     return (
         <LayoutV5 white={true}>
@@ -118,9 +133,22 @@ useEffect(() => {
                         </View>
                     </View>
                         <View mx={8}>
-                            <StoreItem navigation={navigation} image={'coin'} title={'Puntos para invitados'} mb={5} />
-                            <StoreItem navigation={navigation} image={'boll'}  title={'Bola de golf'} mb={5} price={600} />
-                            <StoreItem navigation={navigation} image={'shirt'} title={'Playera Polo'} mb={5} />
+                            {
+
+                              products.map((product, index) => {
+                                if(loading){
+                                    return(
+                                    <Skeleton mb={4} borderRadius={20} height={150}></Skeleton> 
+                                    );
+
+                                }else{
+                                    return(
+                                    <StoreItem key={index} navigation={navigation} product={product} price={product?.price} mb={5} />
+                                    );
+
+                                }
+                        })
+                    }
                         </View>
 
 

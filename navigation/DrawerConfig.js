@@ -6,6 +6,8 @@ import HomeScreen from "../screens/HomeScreen";
 import {Icon, View,Text, Image} from "native-base";
 import iconNewNotification from '../assets/iconNewNotification.png';
 import iconNotifications from '../assets/iconNotifications.png';
+import iconCart from '../assets/iconCart.png';
+import IconCartWithItems from '../assets/IconCartWithItems.png';
 import {TouchableOpacity} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
 import {Colors} from "../Colors";
@@ -63,14 +65,16 @@ import QRScreenInvitation from "../screens/QRScreenInvitation"
 import StoreScreen from "../screens/StoreScreen"
 import StoreItem from "../screens/StoreItem"
 import StoreItemDetail from "../screens/StoreItemDetail"
+import ProductsCartScreen from "../screens/ProductsCartScreen"
 import PaymentConfirmationScreen from "../screens/PaymentConfirmationScreen"
+import BuysScreen from "../screens/BuysScreen"
+import BuysItemDetailScreen from "../screens/BuysItemDetailScreen"
 import { connect } from "react-redux";
 import {useSelector} from "react-redux";
 import * as Notifications from "expo-notifications";
 import {NOTIFICATION_TYPES} from "../utils";
 import appDuck from "../redux/ducks/appDuck";
-
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Drawer = createDrawerNavigator();
 
@@ -78,7 +82,10 @@ const DrawerConfig = () => {
     const notificationExist = useSelector(state => {
         return state.navigationDuck.notificationExist;
     });
-
+    const products = useSelector(state => {
+        return state.navigationDuck.products;
+    });
+    
 
     const navigation = useNavigation();
     const notificationListener = useRef();
@@ -222,6 +229,26 @@ const DrawerConfig = () => {
                        } 
 
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('ProductsCartScreen')}
+                    style={{
+                        width: 40,
+                        height: '100%',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}> 
+                        {
+                        products?.length > 0 &&
+                        <View position={'relative'}>
+                        <Text position={'absolute'} bottom={'12px'} ml={2} color={Colors.yellow} fontSize={'10px'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>{products.length}</Text>
+                        <Image source={IconCartWithItems} style={{width: 20, height: 20}}></Image>   
+                        </View>
+
+                        }
+                        {products?.length === 0 && 
+                        <Image source={iconCart} style={{width: 20, height: 20}}></Image>   
+                        }
+
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.openDrawer()} style={{
                         width: 50,
                         height: '100%',
@@ -295,6 +322,9 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'StoreItem'} component={StoreItem} options={{title: ''}}/>
             <Drawer.Screen name={'StoreItemDetail'} component={StoreItemDetail} options={{title: ''}}/>
             <Drawer.Screen name={'PaymentConfirmationScreen'} component={PaymentConfirmationScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'ProductsCartScreen'} component={ProductsCartScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'BuysScreen'} component={BuysScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'BuysItemDetailScreen'} component={BuysItemDetailScreen} options={{title: ''}}/>
         </Drawer.Navigator>
     );
 }
