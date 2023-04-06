@@ -15,7 +15,6 @@ import { useFocusEffect } from "@react-navigation/native";
 const GuestsScreen = ({navigation, appDuck}) => {
 
     const [loading, setLoading] = useState(null);
-    const [guests, setQuests] = useState([]);
     const [allGuests, setAllGuests] = useState([]);
     const [guestsFiltered, setQuestsFiltered] = useState([]);
     const [modalAskVisible, setModalAskVisible] = useState(false);
@@ -59,11 +58,9 @@ const GuestsScreen = ({navigation, appDuck}) => {
     const getQuestsFunction = async () => {
         try {
             setLoading(true)
-            const response = await getGuests('')
             const queryString = `?userId=${appDuck.user.id}`
             const allGuests = await getAllGuests(queryString);
             setAllGuests(allGuests.data);
-            setQuests(response.data)
             setQuestsFiltered(allGuests.data)
             //console.log(response.data)
         } catch (e) {

@@ -44,10 +44,10 @@ const AddUpdateGuest = ({navigation, route}) => {
 
     useEffect(()=>{
         validateParams();
-    },[route.params.data])
+    },[route.params])
 
     const validateParams = () => {
-        if(route.params.data){
+        if(route.params?.data){
             setNameGuest(route.params?.data?.name);
             setEmailGuest(route.params?.data?.email);
             setModalInfoVisible(false);
@@ -90,6 +90,11 @@ const AddUpdateGuest = ({navigation, route}) => {
         } catch (error) {
             console.log(error);
             setTextModal(error.data.message);
+            if(error.data.code === 400){
+                if(error.data.errors?.length > 0){
+                    setTextModal(error.data.errors[0]);
+                }
+            }
             setSuccess(false);
             setModalInfoVisible(true);
             
@@ -112,15 +117,20 @@ const AddUpdateGuest = ({navigation, route}) => {
             if(editedEmail){
                 bodyString['email'] = emailGuest;
             }
-            console.log(bodyString);
+           // console.log(bodyString);
             const response = await editGuest(bodyString, [route.params?.userId, route?.params?.data?.id])
             setTextModal("Se modificó al usuario correctamente");
-            console.log(response?.data);    
+          //  console.log(response?.data);
             setSuccess(true);
             setModalInfoVisible(true);
         } catch (error) {
             console.log("ERR: ", error?.data);
             setTextModal(error.data.message);
+            if(error.data.code === 400){
+                if(error.data.errors?.length > 0){
+                    setTextModal(error.data.errors[0]);
+                }
+            }
             setSuccess(false);
             setModalInfoVisible(true);
         }
