@@ -7,6 +7,7 @@ import iconHome from '../assets/iconHome.png';
 import iconProfile from '../assets/iconProfile.png';
 import iconGuestsSmall from '../assets/iconGuestsSmall.png';
 import iconHelp from '../assets/iconHelp.png';
+import iconStore from '../assets/iconStore.png';
 import iconLogout from '../assets/iconLogout.png';
 import iconMembers from '../assets/iconMembers.png'
 import iconNotifications from '../assets/iconNotifications.png';
@@ -173,6 +174,17 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                         </View>
                     </View>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('BuysScreen')}>
+                    <View flexDirection={'row'} mb={4}>
+                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                            <Image source={iconStore} style={{width: 20, height: 20}}></Image>
+                        </View>
+                        <View flex={1} justifyContent={'center'}>
+                            <Text fontSize={'md'}>Mis compras</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+
 
                 <TouchableOpacity onPress={() => setModalSessionVisible(true)}>
                     <View flexDirection={'row'} mb={4}>

@@ -67,6 +67,8 @@ import StoreItem from "../screens/StoreItem"
 import StoreItemDetail from "../screens/StoreItemDetail"
 import ProductsCartScreen from "../screens/ProductsCartScreen"
 import PaymentConfirmationScreen from "../screens/PaymentConfirmationScreen"
+import BuysScreen from "../screens/BuysScreen"
+import BuysItemDetailScreen from "../screens/BuysItemDetailScreen"
 import { connect } from "react-redux";
 import {useSelector} from "react-redux";
 import * as Notifications from "expo-notifications";
@@ -321,6 +323,8 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'StoreItemDetail'} component={StoreItemDetail} options={{title: ''}}/>
             <Drawer.Screen name={'PaymentConfirmationScreen'} component={PaymentConfirmationScreen} options={{title: ''}}/>
             <Drawer.Screen name={'ProductsCartScreen'} component={ProductsCartScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'BuysScreen'} component={BuysScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'BuysItemDetailScreen'} component={BuysItemDetailScreen} options={{title: ''}}/>
         </Drawer.Navigator>
     );
 }
