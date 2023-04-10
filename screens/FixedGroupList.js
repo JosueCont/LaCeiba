@@ -55,6 +55,9 @@ const FixedGroupList = ({appDuck, navigation, route}) => {
                                 const groupTarget = groupsFounded?.find(group => group.id == value.id);
                                 const minP = groupTarget?.area?.minPeople;
                                 const maxP = groupTarget?.area?.maxPeople;
+                                if(!value.isActive){
+                                    return;
+                                }
                                 return (
                                     <View key={index} flex={1} mb={4}>
                                         <TouchableOpacity disabled={!value.isActive} onPress={() => {
