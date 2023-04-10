@@ -51,8 +51,6 @@ const QRScreen = ({navigation, appDuck, route}) => {
         try {
             setRefreshing(true)
             const response = await request(`/v1/users/${appDuck.user.id}/qr-code`, '', 'get')
-            console.log(response.data)
-            console.log(response.data.qrCode);
             setImageQRCode(response.data.qrCode)
         } catch (e) {
             setModalText(e.data.message);

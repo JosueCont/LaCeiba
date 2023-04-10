@@ -162,12 +162,13 @@ const ProfileScreen = ({navigation, appDuck}) => {
                     loading === true ?
                     <Skeleton height={50} mb={10}></Skeleton> :
                     loading === false && isActive ?
-                     <Button onPress={() => navigation.navigate('AddPointsPartnesScreen')} mb={5}>Transferir Puntos</Button>
+                     <Button onPress={() => navigation.navigate('AddPointsPartnesScreen')} mb={3}>Transferir Puntos</Button>
                      :
                      <Text mb={5} mr={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
                       *No puedes transferir puntos porque tu usuario está desactivado
                      </Text>
                     }
+                    <Button onPress={() => navigation.navigate('BuysScreen')} mb={3}>Mis compras</Button>
                     <Button onPress={() => navigation.goBack()} mb={10}>Regresar</Button>
 
                     {/*<Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>*/}
