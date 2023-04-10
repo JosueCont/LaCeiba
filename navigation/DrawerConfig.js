@@ -176,6 +176,25 @@ const DrawerConfig = () => {
 
                             </TouchableOpacity>
                         )
+                    }else if (route.name.includes('QRScreen')){
+                        return (
+                            <TouchableOpacity onPress={async () => {
+
+                                navigation.navigate('QRInstructionsScreen')
+
+
+                            }} style={{
+                                width: 50,
+                                height: '100%',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                borderRadius: 5,
+                                marginLeft: 10
+                            }}>
+                                <Icon as={MaterialIcons} name={'arrow-back-ios'} color={'white'} size={'md'}/>
+
+                            </TouchableOpacity>
+                        )
                     } else {
                         return (
                             <TouchableOpacity onPress={async () => {

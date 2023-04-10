@@ -262,7 +262,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                                                     if (itemSub.idInvitado == item.idInvitado) {
                                                                         let mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
                                                                         if(!itemSub.mail.match(mailFormat)){
-                                                                            setPersonNotValidText(`Esta persona no tiene un correo valido`)
+                                                                            setPersonNotValidText(`Esta persona no tiene un correo válido`)
                                                                             setPersonSelected(null);
                                                                             return
                                                                         }
