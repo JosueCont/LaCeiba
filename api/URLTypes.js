@@ -57,6 +57,7 @@ export const URLTypes = {
     REGISTRY_TABLE_UPDATE_RECORD: '/v1/users/{{param}}/registry-table/{{param}}',
     REGISTRY_TABLE_DELETE_RECORD: '/v1/users/{{param}}/registry-table/{{param}}',
     GET_ALL_PRODUCTS: '/v1/e-commerce/products',
-    GET_ALL_PRODUCTS_CATEGORY: '/v1/e-commerce/product-category'
-    
+    GET_ALL_PRODUCTS_CATEGORY: '/v1/e-commerce/product-category',
+    GET_USER_DATA_DELETION_REQUEST: '/v1/users/{{param}}/data-deletion-request',
+    CREATE_USER_DATA_DELETION_REQUEST: '/v1/users/{{param}}/data-deletion-request'
 };
