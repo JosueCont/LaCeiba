@@ -5,7 +5,7 @@ import {ImageBackground, RefreshControl, TouchableOpacity} from "react-native";
 import bgButton from "../assets/bgButton.png";
 import iconPersonEdit from "../assets/iconPersonEdit.png";
 import {connect, useSelector} from "react-redux";
-import {getPoints, getProfile, validatePartner} from "../api/Requests";
+import {createUserDataDeletionRequest, getPoints, getProfile, getUserDataDeletionRequest, validatePartner} from "../api/Requests";
 import {useIsFocused} from "@react-navigation/native";
 import _ from "lodash";
 import LayoutV3 from "./Layouts/LayoutV3";
@@ -13,6 +13,8 @@ import moment from "moment";
 import ModalEditGhin from "./Modals/ModalEditGhin";
 import iconEdit from '../assets/iconEdit.png'
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ModalAsk from "./Modals/ModalAsk";
+import ModalInfo from "./Modals/ModalInfo";
 
 
 
@@ -26,12 +28,17 @@ const ProfileScreen = ({navigation, appDuck}) => {
     const [ghin, setGhin] = useState(null)
     const toast = useToast();
     const [isActive, setIsActive] = useState(null)
-
+    const [modalDeleteInfoUser, setModalDeleteInfoUser] = useState(false)
+    const [requestDeletionVisible, setRequestDeletionVisible] = useState(false);
+    const [creatingRequest, setCreatingRequest] = useState(false);
+    const [requestDeletionInfo, setRequestDeletionInfo] = useState(false);
+    const [messageRequest, setMessageRequest] = useState('');
 
 
     useEffect(() => {
         if (isFocused) {
-            getProfileFunction()
+            getProfileFunction();
+            getUserDeleteRequest();
         }
     }, [isFocused])
 
@@ -53,6 +60,36 @@ const ProfileScreen = ({navigation, appDuck}) => {
         } catch (e) {
             console.log(e.status)
         } finally {
+        }
+    }
+
+    const getUserDeleteRequest = async () => {
+        try {
+            const response = await getUserDataDeletionRequest({}, [appDuck.user.id]);
+            if(response?.data?.status !== 0) {
+                setRequestDeletionVisible(true);
+                return;
+            }
+            setRequestDeletionVisible(false);
+        } catch (error) {
+            setRequestDeletionVisible(true);
+        }
+    }
+
+    const createUserDeleteRequest = async () => {
+        try {
+            setModalDeleteInfoUser(false);
+            setMessageRequest('Se creó la solicitud de eliminación de datos con éxito. Para cancelarla, llama a soporte');
+            setCreatingRequest(true);
+            setRequestDeletionVisible(false);
+            const response = await createUserDataDeletionRequest({}, [appDuck.user.id]);
+            setCreatingRequest(false);
+            setRequestDeletionInfo(true);
+        } catch (error) {
+            setMessageRequest('Ocurrió un error al solicitar la eliminación de tus datos, inténtalo de nuevo');
+            setRequestDeletionInfo(true);
+            setRequestDeletionVisible(false);
+            setCreatingRequest(false);
         }
     }
 
@@ -170,7 +207,15 @@ const ProfileScreen = ({navigation, appDuck}) => {
                     }
                     <Button onPress={() => navigation.navigate('BuysScreen')} mb={3}>Mis compras</Button>
                     <Button onPress={() => navigation.goBack()} mb={10}>Regresar</Button>
-
+                    <Button isLoading={creatingRequest} 
+                            onPress={() => {
+                                if(!requestDeletionVisible) {
+                                    setMessageRequest('Ya tienes una solicitud en progreso');
+                                    setRequestDeletionInfo(true);
+                                    return;
+                                }
+                            setModalDeleteInfoUser(true)}} 
+                    mb={3}>Solicitar eliminación de datos</Button>
                     {/*<Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>*/}
                     {/*    Datos de facturación*/}
                     {/*</Text>*/}
@@ -199,6 +244,26 @@ const ProfileScreen = ({navigation, appDuck}) => {
                             description: "Hubo un error intenta más tarde"
                         })
                     }
+                }}
+            />
+
+            <ModalAsk
+                visible={modalDeleteInfoUser}
+                setVisible={setModalDeleteInfoUser}
+                textButton="Confirmar"
+                textNoButton="Cerrar"
+                title="¿Desea solicitar la eliminación de sus datos?"
+                text=" La eliminación de sus datos será aplicada en los siguientes 60 días"
+                action={createUserDeleteRequest}
+            />
+
+            <ModalInfo
+                visible={requestDeletionInfo}
+                setVisible={setRequestDeletionInfo}
+                text=""
+                title={messageRequest}
+                action={()=>{
+                    setRequestDeletionInfo(false);
                 }}
             />
 

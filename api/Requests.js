@@ -65,3 +65,6 @@ export const registryTableDeleteRecord = async (params, queryStringParams = []) 
 export const getAllProductsCategories = async (params, queryStringParams = []) => await request(URLTypes.GET_ALL_PRODUCTS_CATEGORY, '', 'get', null, queryStringParams)
 export const getAllProducts = async (params, queryStringParams = []) => await request(URLTypes.GET_ALL_PRODUCTS, '', 'get', null, queryStringParams)
 
+export const getUserDataDeletionRequest =  async (data, queryStringParams = []) => await request(URLTypes.GET_USER_DATA_DELETION_REQUEST, '', 'get', null, queryStringParams)
+export const createUserDataDeletionRequest =  async (data, queryStringParams = []) => await request(URLTypes.CREATE_USER_DATA_DELETION_REQUEST, '', 'post', null, queryStringParams)
+
