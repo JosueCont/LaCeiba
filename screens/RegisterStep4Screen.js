@@ -69,7 +69,7 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
 
             const response = await registerPartner(data, {headers: headers});
 
-            console.log(response.data)
+            console.log('registerPartnerFuncion', response.data)
             if (Constants.manifest.extra.debug === true) {
                 alert(data['email'].toString())
             }
@@ -99,7 +99,6 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
             let v = await errorCapture(e);
             alert(v.value)
         }
-
     }
 
     return (

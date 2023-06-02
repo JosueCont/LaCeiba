@@ -15,6 +15,7 @@ import {getAllGF, getGFLeader, validatePartner} from "../api/Requests";
 import {connect} from "react-redux";
 import ModalInfo from "./Modals/ModalInfo";
 import { useFocusEffect } from '@react-navigation/native';
+import Constants from "expo-constants";
 
 const HomeScreen = ({navigation, appDuck}) => {
     const [sliderPosition, setSliderPosition] = useState(0);
@@ -191,32 +192,36 @@ const HomeScreen = ({navigation, appDuck}) => {
                     
                     <View mb={4} flexDirection={'row'}>
                         
-                    { (fixedGroups > 0 || groupsFounded.length > 0) && 
-                            <View flex={1}>
-                                <TouchableOpacity onPress={() => navigation.navigate('FixedGroupList', {user: appDuck.user.id, groupsFounded: groupsFounded})}>
+                        { (fixedGroups > 0 || groupsFounded.length > 0) &&
+                                <View flex={1}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('FixedGroupList', {user: appDuck.user.id, groupsFounded: groupsFounded})}>
+                                        <View alignItems={'center'} mb={2}>
+                                            <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                                <Image source={iconFixedGroups} style={{width: 45, resizeMode: 'contain'}}/>
+                                            </ImageBackground>
+                                        </View>
+                                        <View>
+                                            <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Grupos fijos</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                        }
+
+                        { Constants.manifest.extra.eCommerce &&
+                            <View flex={1} alignItems={'center'}>
+                                <TouchableOpacity onPress={() => navigation.navigate('StoreScreen')}>
+
                                     <View alignItems={'center'} mb={2}>
                                         <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                            <Image source={iconFixedGroups} style={{width: 45, resizeMode: 'contain'}}/>
+                                            <Image source={iconStore} style={{width: 45, resizeMode: 'contain'}}/>
                                         </ImageBackground>
                                     </View>
                                     <View>
-                                        <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Grupos fijos</Text>
+                                        <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Tienda</Text>
                                     </View>
                                 </TouchableOpacity>
-                            </View>}
-                        <View flex={1} alignItems={'center'}>
-                            <TouchableOpacity onPress={() => navigation.navigate('StoreScreen')}>
-
-                                <View alignItems={'center'} mb={2}>
-                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                        <Image source={iconStore} style={{width: 45, resizeMode: 'contain'}}/>
-                                    </ImageBackground>
-                                </View>
-                                <View>
-                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Tienda</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
+                            </View>
+                        }
                     </View>
 
                 </View>

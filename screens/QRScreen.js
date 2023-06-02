@@ -190,19 +190,6 @@ const QRScreen = ({navigation, appDuck, route}) => {
                                     Muestra este código en {'\n'}la entrada del área que reservó
                                 </Text>
                         }
-                        { Platform.OS == 'android' && <View flexDirection={'column'} justifyContent={'center'} alignItems={'center'} mt={2}>
-                            <TouchableOpacity onPress={()=>{saveToGoogleWallet();}}>
-                                <Image source={googleWallet}></Image>
-                            </TouchableOpacity>
-                        </View>
-                        }
-                        { Platform.OS == 'ios' &&
-                            <View flex={1} mt={2}>
-                                <TouchableOpacity onPress={() => addToAppleWallet()}>
-                                    <Image source={addToAppleWalletBtn} style={{width: '100%', resizeMode: 'contain', height:64}}/>
-                                </TouchableOpacity>
-                            </View>
-                        }
 
                         {
                             route.params?.card === true &&
@@ -212,6 +199,21 @@ const QRScreen = ({navigation, appDuck, route}) => {
                         }
 
                         <Button mt={2} mb={4} onPress={() => navigation.navigate('HomeScreen')}>Terminar</Button>
+
+                        { Platform.OS == 'android' && Constants.manifest.extra.googleWallet &&
+                            <View flexDirection={'column'} justifyContent={'center'} alignItems={'center'} mt={2}>
+                            <TouchableOpacity onPress={()=>{saveToGoogleWallet();}}>
+                                <Image source={googleWallet}></Image>
+                            </TouchableOpacity>
+                        </View>
+                        }
+                        { Platform.OS == 'ios' && Constants.manifest.extra.appleWallet &&
+                            <View flex={1} mt={2}>
+                                <TouchableOpacity onPress={() => addToAppleWallet()}>
+                                    <Image source={addToAppleWalletBtn} style={{width: '100%', resizeMode: 'contain', height:64}}/>
+                                </TouchableOpacity>
+                            </View>
+                        }
                     </View>
 
                 </View>

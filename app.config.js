@@ -27,14 +27,18 @@ const commonConfig = {
         ]
       ],
     extra: {
-        debug: true,
-        production: true,
-        URL: "https://api.hacienda.hiumanlab.com",
-        URL_DEV: "https://qa.api.hacienda.hiumanlab.com",
+        debug: true, //Colocar a false para no generar correos dummy al registro del socio
+        production: false,
+        URL: "https://api.clubdegolflahacienda.com",
+        URL_DEV: "https://api.hacienda.hiumanlab.com",
+        //URL_DEV: "https://qa.api.hacienda.hiumanlab.com",
         eas: {
             projectId: "c16e312d-b8ac-495f-b1bc-39e309569e13"
         },
-        debugEmail: 'couoheduardo@icloud.com',
+        debugEmail: 'alex.dzul@hiumanlab.com',
+        appleWallet: false,
+        googleWallet: false,
+        eCommerce: false,
         debugPhone: '9991979545'
     }
 };
