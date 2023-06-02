@@ -207,7 +207,7 @@ const ProfileScreen = ({navigation, appDuck}) => {
                     }
                     <Button onPress={() => navigation.navigate('BuysScreen')} mb={3}>Mis compras</Button>
                     <Button onPress={() => navigation.goBack()} mb={10}>Regresar</Button>
-                    <Button isLoading={creatingRequest} 
+                    <Button color={Colors.red} isLoading={creatingRequest} 
                             onPress={() => {
                                 if(!requestDeletionVisible) {
                                     setMessageRequest('Ya tienes una solicitud en progreso');
@@ -215,7 +215,7 @@ const ProfileScreen = ({navigation, appDuck}) => {
                                     return;
                                 }
                             setModalDeleteInfoUser(true)}} 
-                    mb={3}>Solicitar eliminación de datos</Button>
+                    mb={10}>Solicitar eliminación de datos</Button>
                     {/*<Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>*/}
                     {/*    Datos de facturación*/}
                     {/*</Text>*/}
