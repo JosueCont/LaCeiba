@@ -19,6 +19,7 @@ import iconBooking from "../assets/iconBooking.png";
 import imgLogo from "../assets/imgLogo.png";
 import {logOut} from "../api/Requests";
 import { setAttribute } from '../redux/ducks/navigationDuck';
+import Constants from "expo-constants";
 
 
 const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
@@ -174,16 +175,19 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                         </View>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('BuysScreen')}>
-                    <View flexDirection={'row'} mb={4}>
-                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                            <Image source={iconStore} style={{width: 20, height: 20}}></Image>
+
+                { Constants.manifest.extra.eCommerce &&
+                    <TouchableOpacity onPress={() => navigation.navigate('BuysScreen')}>
+                        <View flexDirection={'row'} mb={4}>
+                            <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                                <Image source={iconStore} style={{width: 20, height: 20}}></Image>
+                            </View>
+                            <View flex={1} justifyContent={'center'}>
+                                <Text fontSize={'md'}>Mis compras</Text>
+                            </View>
                         </View>
-                        <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'md'}>Mis compras</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
+                    </TouchableOpacity>
+                }
 
 
                 <TouchableOpacity onPress={() => setModalSessionVisible(true)}>

@@ -5,14 +5,15 @@ import {connect} from "react-redux";
 import ModalInfo from "./Modals/ModalInfo";
 import {registerSendConfirmEmail, tryFindPartner} from "../api/Requests";
 import {setAttribute} from "../redux/ducks/navigationDuck";
-import {errorCapture} from "../utils";
+import {errorCapture, aliasGenerate} from "../utils";
+import Constants from "expo-constants";
 
 const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
 
     const [movil, setMovil] = useState(null);
     const [retry, setRetry] = useState(null);
     const [loading, setLoading] = useState(null);
-    const [loadingNext, setLoadingNext] = useState(null);
+    const [loadingNext, setLoadingNext] = useState(false);
 
     useEffect(() => {
         console.log(navigationDuck.user.celular, 16)
@@ -37,9 +38,10 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
         // }
         try {
             setLoadingNext(true)
+
             let data = {
-                "name": "Eduardo Couoh",
-                "email": "couoheduardo@icloud.com"
+                name: navigationDuck.user.firstName + ' ' + navigationDuck.user.lastName,
+                email: Constants.manifest.extra.debug === true ? aliasGenerate(Constants.manifest.extra.debugEmail) : navigationDuck.user.email,
             }
 
             const response = await registerSendConfirmEmail(data)
