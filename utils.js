@@ -131,6 +131,10 @@ export const aliasGenerate = (email) => {
     return email.split('@')[0] + '+' + getRandomInt(100).toString() + '@' + email.split('@')[1];
 }
 
+const getRandomInt = (max) => {
+    return Math.floor(Math.random() * max);
+}
+
 export const NOTIFICATION_TYPES = {
     NOTIFY_HOST_BOOKING_READY: 'NOTIFY_HOST_BOOKING_READY',
     NOTIFY_HOST_BOOKING_CANCELED: 'NOTIFY_HOST_BOOKING_CANCELED',

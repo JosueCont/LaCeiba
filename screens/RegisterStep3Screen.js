@@ -8,7 +8,7 @@ import ModalResendSMS from "./Modals/ModalResendSMS";
 import Constants from "expo-constants";
 import {connect} from "react-redux";
 import {useIsFocused} from "@react-navigation/native";
-import {errorCapture, aliasGenerate} from "../utils";
+import {errorCapture} from "../utils";
 
 const RegisterStep3Screen = ({navigation, route, navigationDuck}) => {
     const [modalResendSMSVisible, setModalResendSMSVisible] = useState(null);
@@ -42,7 +42,7 @@ const RegisterStep3Screen = ({navigation, route, navigationDuck}) => {
             // }
 
             let data = {
-                email: Constants.manifest.extra.debug === true ? aliasGenerate(Constants.manifest.extra.debugEmail) : navigationDuck.user.email,
+                email: Constants.manifest.extra.debug === true ? Constants.manifest.extra.debugEmail : navigationDuck.user.email,
                 code: values.code
             }
             const response = await registerConfirmEmail(data);
@@ -67,9 +67,10 @@ const RegisterStep3Screen = ({navigation, route, navigationDuck}) => {
         try {
             let data = {
                 name: navigationDuck.user.firstName + ' ' + navigationDuck.user.lastName,
-                email: Constants.manifest.extra.debug === true ? aliasGenerate(Constants.manifest.extra.debugEmail) : navigationDuck.user.email,
+                email: Constants.manifest.extra.debug === true ? Constants.manifest.extra.debugEmail : navigationDuck.user.email,
             }
             const response = await registerSendConfirmEmail(data);
+            console.log(data, response)
             setResendEnable(false)
             setTimeLeft(30)
             console.log(response.data)
