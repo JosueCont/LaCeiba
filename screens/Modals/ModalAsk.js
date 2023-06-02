@@ -13,6 +13,7 @@ const ModalAsk = ({
                       title = '',
                       text = 'Texto informativo',
                       textButton = 'Entendido',
+                      colorSchemeButtonOk='green',
                       close = true,
                       iconType = 'check',
                       textNoButton = 'No',
@@ -87,7 +88,7 @@ const ModalAsk = ({
                             <Button colorScheme={'green'} onPress={() => setVisible(false)}>{textNoButton}</Button>
                         </View>
                         <View flex={1} p={2}>
-                            <Button colorScheme={'green'} onPress={() => action()}>{textButton}</Button>
+                            <Button colorScheme={colorSchemeButtonOk} onPress={() => action()}>{textButton}</Button>
                         </View>
                     </View>
                 </View>

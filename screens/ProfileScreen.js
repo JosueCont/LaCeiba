@@ -15,6 +15,7 @@ import iconEdit from '../assets/iconEdit.png'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModalAsk from "./Modals/ModalAsk";
 import ModalInfo from "./Modals/ModalInfo";
+import Constants from "expo-constants";
 
 
 
@@ -99,6 +100,7 @@ const ProfileScreen = ({navigation, appDuck}) => {
             <View flex={1} mx={8}>
 
                 <ScrollView
+                    showsVerticalScrollIndicator={false}
                     refreshControl={
                         <RefreshControl
                             tintColor={Colors.green}
@@ -205,9 +207,11 @@ const ProfileScreen = ({navigation, appDuck}) => {
                       *No puedes transferir puntos porque tu usuario está desactivado
                      </Text>
                     }
+                    { Constants.manifest.extra.eCommerce &&
                     <Button onPress={() => navigation.navigate('BuysScreen')} mb={3}>Mis compras</Button>
+                    }
                     <Button onPress={() => navigation.goBack()} mb={10}>Regresar</Button>
-                    <Button color={Colors.red} isLoading={creatingRequest} 
+                    <Button colorScheme={'red'} isLoading={creatingRequest}
                             onPress={() => {
                                 if(!requestDeletionVisible) {
                                     setMessageRequest('Ya tienes una solicitud en progreso');
@@ -252,6 +256,7 @@ const ProfileScreen = ({navigation, appDuck}) => {
                 setVisible={setModalDeleteInfoUser}
                 textButton="Confirmar"
                 textNoButton="Cerrar"
+                colorSchemeButtonOk={'red'}
                 title="¿Desea solicitar la eliminación de sus datos?"
                 text=" La eliminación de sus datos será aplicada en los siguientes 60 días"
                 action={createUserDeleteRequest}
