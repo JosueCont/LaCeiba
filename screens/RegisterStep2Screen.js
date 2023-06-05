@@ -105,6 +105,8 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
                             </Text>
                     }
 
+                    <Text fontSize={'lg'} textAlign={'center'} fontFamily={'titleLight'} mb={2}>Le enviaremos un código de verificación al correo:</Text>
+
                     {
                         loading === true ?
                             <Skeleton h={20}/> :
@@ -115,7 +117,7 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
                                 }
                             </Text>
                     }
-                    {
+                    {/*{
                         loading === true ?
                             <Skeleton h={20}/> :
                             <Text fontSize={'lg'} textAlign={'center'} fontFamily={'titleLight'} mb={6} numberOfLines={1}>
@@ -123,7 +125,7 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
                                     navigationDuck.user.celular ? navigationDuck.user.celular : navigationDuck.user.telefono
                                 }
                             </Text>
-                    }
+                    }*/}
 
                     <Button mb={2} onPress={() => validateMovil()} isLoading={loadingNext}>Continuar</Button>
                     <Button onPress={() => navigation.goBack()}>Cancelar</Button>
