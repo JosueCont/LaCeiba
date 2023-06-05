@@ -127,9 +127,9 @@ const RegisterStep3Screen = ({navigation, route, navigationDuck}) => {
                             {errors.code}
                         </FormControl.ErrorMessage>
                     </FormControl>
-                    <Button mb={2} onPress={() => registerSendConfirmPhoneFunctionV2()} isDisabled={!resendEnable}><Text fontSize={12}>Reenviar {timeLeft !== 0 && `(${timeLeft})`}</Text></Button>
+                    <Button mb={2} onPress={() => handleSubmit()}>Continuar</Button>
+                    <Button onPress={() => registerSendConfirmPhoneFunctionV2()} isDisabled={!resendEnable}><Text fontSize={12}>Reenviar {timeLeft !== 0 && `(${timeLeft})`}</Text></Button>
 
-                    <Button onPress={() => handleSubmit()}>Continuar</Button>
                 </View>
             </View>
             <ModalResendSMS
