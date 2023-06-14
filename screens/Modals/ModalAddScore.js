@@ -73,18 +73,26 @@ const ModalAddScore = ({visible, setVisible, appDuck,action, numerHole,AssginPoi
                         <Text color={Colors.yellow} style={styles.modalText} mt={2} mb={4} fontSize={'2xl'}>Hoyo {numerHole}</Text>
                         <Text style={styles.modalText} mb={1} fontSize={'sm'}>Score</Text>
                     
-                        <Input width={'full'} maxLength={3} mb={5} isRequired value={value}  onChangeText={val =>{
-                             let numberRegex = /^\d+$/;
-                             const formatNumber= numberRegex.test(val) ? val : ''
-                            setValue(formatNumber)
-                        }}/>
+                        <Input
+                            keyboardType={'number-pad'}
+                            width={'full'}
+                            maxLength={3}
+                            mb={5}
+                            isRequired
+                            value={value}
+                            onChangeText={val =>{
+                                 let numberRegex = /^\d+$/;
+                                 const formatNumber= numberRegex.test(val) ? val : ''
+                                setValue(formatNumber)
+                            }}
+                        />
                         {/* <FormControl isInvalid={validateEmpty} mb={6}>
                             <FormControl.ErrorMessage _text={{color: "white"}} leftIcon={<WarningOutlineIcon  size="xs" />}>
                                 El valor no puede ser vacio y deber ser mayor a 0 y maximo {pointsUser} puntos
                             </FormControl.ErrorMessage>
                         </FormControl> */}
                         <Button colorScheme={'green'} disabled={value=== ''} onPress={() => handleSubmit()} mt={4} mb={1}>Agregar</Button>
-                        <Button colorScheme={'green'} onPress={() => setVisible(false)} mt={2} mb={1}>Cancelar</Button>
+                        {/*<Button colorScheme={'green'} onPress={() => setVisible(false)} mt={2} mb={1}>Cancelar</Button>*/}
 
                     </View>
                 </View>

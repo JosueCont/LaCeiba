@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Button, Icon, Text, View} from "native-base";
 import {AntDesign} from "@expo/vector-icons";
 import LayoutV3 from "../Layouts/LayoutV3";
@@ -6,16 +6,28 @@ import {Colors} from "../../Colors";
 import * as MediaLibrary from "expo-media-library";
 import * as Linking from 'expo-linking';
 import { Alert} from 'react-native';
+import {useIsFocused} from "@react-navigation/native";
 
 
 
 const AskForMediaLibraryScreen = ({navigation, route}) => {
 
     const askPermission = async () => {
-        const {status} = await MediaLibrary.requestPermissionsAsync();
-        if (status === 'granted') {
-            navigation.navigate(route.params.screenOk ,{card: true})
-        } else if (status === 'denied') {
+        const permission = await MediaLibrary.requestPermissionsAsync();
+        console.log(permission)
+        if (permission.status === 'granted') {
+
+            let params = {}
+            if(route.params.card){
+                params = {...params, card: route.params.card}
+            }
+            if(route.params.invitation) {
+                params = {...params, invitation:route.params.invitation}
+            }
+            console.log(Object.keys(route.params))
+
+            navigation.navigate(route.params.screenOk ,params)
+        } else if (permission.status === 'denied' || !permission.canAskAgain) {
         
             Alert.alert(
                 'Permiso denegado',
@@ -33,10 +45,15 @@ const AskForMediaLibraryScreen = ({navigation, route}) => {
                 {cancelable: false},
               );
 
-        } else {
-            alert('Failed');
         }
     }
+
+    const isFocused = useIsFocused();
+    useEffect(() => {
+        if (isFocused) {
+            console.log(route.params.screenReject)
+        }
+    }, [isFocused])
 
     return (
         <LayoutV3>
@@ -51,7 +68,19 @@ const AskForMediaLibraryScreen = ({navigation, route}) => {
 
 
                 <Button onPress={() => askPermission()} mb={2}>Permitir</Button>
-                <Button onPress={() => navigation.navigate(route.params.screenReject)}>Regresar</Button>
+                <Button onPress={() => {
+                    let params = {}
+                    if(route.params.card){
+                        params = {...params, card: route.params.card}
+                    }
+                    if(route.params.invitation) {
+                        params = {...params, invitation:route.params.invitation}
+                    }
+                    if(route.params.screenReject.includes('BookingsDetailScreen')) {
+                        params = {...params, invitation_id:route.params.invitation.id}
+                    }
+                    navigation.navigate(route.params.screenReject,params)
+                }}>Regresar</Button>
             </View>
 
         </LayoutV3>

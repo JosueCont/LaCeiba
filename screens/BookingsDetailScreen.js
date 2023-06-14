@@ -301,7 +301,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                             mb={4}>Reservación cancelada</Button>                        
                                 </View>
                             }
-                            <Button onPress={() => navigation.goBack()} mb={'20'}>Regresar</Button>
+                            <Button onPress={() => navigation.navigate('ReservationsScreen')} mb={'20'}>Regresar</Button>
 
 
                         </ScrollView>

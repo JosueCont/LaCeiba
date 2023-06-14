@@ -32,14 +32,22 @@ const QRScreen = ({navigation, appDuck, route}) => {
 
     useEffect(() => {
         if (isFocused) {
-            validatePermission()
+          //  validatePermission()
         }
     }, [isFocused])
 
     const validatePermission = async () => {
         const {status} = await MediaLibrary.getPermissionsAsync();
         if (status == 'denied' || status  == 'undetermined') {
-            navigation.navigate('AskForMediaLibraryScreen', {screenOk: 'QRScreen', screenReject: 'QRInstructionsScreen'})
+            let params = {}
+            if(route.params.card){
+                params = {...params, card: route.params.card}
+            }
+            if(route.params.invitation) {
+                params = {...params, invitation:route.params.invitation}
+            }
+            console.log(Object.keys(route.params))
+            navigation.navigate('AskForMediaLibraryScreen', {screenOk: 'QRScreen', screenReject: 'QRScreen', ...params})
         }
     }
 
