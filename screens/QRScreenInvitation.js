@@ -18,14 +18,14 @@ const QRScreenInvitation = ({ navigation, route }) => {
 
     useEffect(() => {
         if (isFocused) {
-            validatePermission()
+          //  validatePermission()
         }
     }, [isFocused])
 
     const validatePermission = async () => {
         const { status } = await MediaLibrary.getPermissionsAsync();
         if (status == 'denied' || status == 'undetermined') {
-            navigation.navigate('AskForMediaLibraryScreen', { screenOk: 'QRScreenInvitation', screenReject: 'BookingsDetailScreen' })
+            navigation.navigate('AskForMediaLibraryScreen', { screenOk: 'QRScreenInvitation', screenReject: 'BookingsDetailScreen', invitation: route.params.invitation })
         }
     }
 

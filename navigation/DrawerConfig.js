@@ -158,7 +158,7 @@ const DrawerConfig = () => {
                 headerLeft: () => {
                     if (route.name.includes('HomeScreen')) {
                         <View/>
-                    }else if(route.name.includes('QRInstructionsScreen')){
+                    }/*else if(route.name.includes('QRInstructionsScreen')){
                         return (
                             <TouchableOpacity onPress={async () => {
 
@@ -177,11 +177,11 @@ const DrawerConfig = () => {
 
                             </TouchableOpacity>
                         )
-                    }else if (route.name.includes('QRScreen')){
+                    }*/else if (route.name.includes('QRScreen')){
                         return (
                             <TouchableOpacity onPress={async () => {
 
-                                navigation.navigate('QRInstructionsScreen')
+                                navigation.navigate('HomeScreen')
 
 
                             }} style={{

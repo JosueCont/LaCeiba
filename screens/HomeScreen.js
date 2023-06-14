@@ -39,13 +39,21 @@ const HomeScreen = ({navigation, appDuck}) => {
 
     const validatePartnerFunction = async (screen) => {
         try {
-            const response = await validatePartner(`/${appDuck.user.id}/partners/validate`)
+            // Omitimos la validación para que el usuario pueda ver su Qr de acceso
+            if(screen.includes('QRScreen')){
+                navigation.navigate(screen, {card: true})
+            }else {
+                const response = await validatePartner(`/${appDuck.user.id}/partners/validate`)
 
-            console.log(response.data)
-            if (response.data.status === true) {
-                navigation.navigate(screen)
-            } else {
-                navigation.navigate('QRNonPaymentScreen', {responseError: response.data, message: screen == 'BookingServicesScreen' ? 'No se puede reservar por el siguiente motivo:' : 'No se puede generar el código Qr por el siguiente motivo:'})
+                console.log(response.data)
+                if (response.data.status === true) {
+                    navigation.navigate(screen)
+                } else {
+                    navigation.navigate('QRNonPaymentScreen', {
+                        responseError: response.data,
+                        message: screen == 'BookingServicesScreen' ? 'No se puede reservar por el siguiente motivo:' : 'No se puede generar el código Qr por el siguiente motivo:'
+                    })
+                }
             }
 
         } catch (ex) {
@@ -106,7 +114,7 @@ const HomeScreen = ({navigation, appDuck}) => {
                 <View flex={1} pt={10}>
                     <View mb={4} flexDirection={'row'}>
                         <View flex={1}>
-                            <TouchableOpacity onPress={() => validatePartnerFunction('QRInstructionsScreen')}>
+                            <TouchableOpacity onPress={() => validatePartnerFunction('QRScreen')}>
                                 <View alignItems={'center'} mb={2}>
                                     {/*<View borderRadius={60} height={120} width={120} bgColor={'#ccc'}></View>*/}
                                     <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
