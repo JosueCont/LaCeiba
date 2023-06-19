@@ -124,6 +124,7 @@ const ScoreCardRegistryTableScreen = ({navigation, appDuck})=>{
         if (isFocused) {
             getRegistryTableData()
             setShowSectionAdd(false)
+            setSelectedItem(null)
         }
     }, [isFocused]);
 
