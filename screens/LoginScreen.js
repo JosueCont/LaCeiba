@@ -51,26 +51,37 @@ const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) =
                 data['device'] = deviceData;
             }
             const response = await signIn(data)
-            console.log(data)
+           // console.log(data)
 
 
             response.data.user['pushToken'] = navigationDuck.pushToken
 
-            console.log(response)
+           // console.log(response)
             if(response.data.user.ghin){
                 await AsyncStorage.setItem('ghin',response?.data?.user?.ghin)
 
             }else{
                 await AsyncStorage.setItem('ghin','')
             }
-            await AsyncStorage.setItem('@user',JSON.stringify(response.data))
-            await loggedAction(response.data)
+           // await AsyncStorage.setItem('@user',JSON.stringify(response.data))
+            //await loggedAction(response.data)
+            await askForPermissionPushNotifications(response.data)
 
         } catch (ex) {
             console.log(ex)
             setModalInfoVisible(true)
         }
 
+    }
+
+    const askForPermissionPushNotifications = async (loggedData) => {
+        const {status} = await Notifications.getPermissionsAsync();
+        if (status === 'granted') {
+            await AsyncStorage.setItem('@user',JSON.stringify(loggedData))
+            await loggedAction(loggedData)
+        } else {
+            navigation.navigate('AskForPushNotificationsScreen', {loggedData, screenOk: 'HomeScreen', screenReject: 'HomeScreen'})
+        }
     }
 
 

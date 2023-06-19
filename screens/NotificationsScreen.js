@@ -81,7 +81,7 @@ const NotificationsScreen = ({navigation, appDuck}) => {
                         {
                             typesNotifications.map((item) => {
                                 return (
-                                    <Select.Item label={item.label} value={item.value}/>
+                                    <Select.Item key={item.value} label={item.label} value={item.value}/>
                                 )
                             })
                         }

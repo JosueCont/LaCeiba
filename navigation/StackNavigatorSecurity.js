@@ -16,7 +16,7 @@ const Stack = createStackNavigator();
 const StackNavigatorSecurity = () => {
     return (
         <Stack.Navigator screenOptions={{gestureEnabled: true}}>
-            <Stack.Screen name="HomeScreen" component={StartScreen} options={{headerShown: false}}/>
+            <Stack.Screen name="StartScreen" component={StartScreen} options={{headerShown: false}}/>
             <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown: false}}/>
             <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerShown: false}}/>
             <Stack.Screen name="RegisterStep2Screen" component={RegisterStep2Screen} options={{headerShown: false}}/>
