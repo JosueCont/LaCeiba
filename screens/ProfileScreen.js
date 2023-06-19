@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Button, Image, ScrollView, Skeleton, Text, View, useToast} from "native-base";
 import {Colors} from "../Colors";
-import {ImageBackground, RefreshControl, TouchableOpacity} from "react-native";
+import {Alert, AppState, ImageBackground, RefreshControl, TouchableOpacity} from "react-native";
 import bgButton from "../assets/bgButton.png";
 import iconPersonEdit from "../assets/iconPersonEdit.png";
 import {connect, useSelector} from "react-redux";
@@ -16,10 +16,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModalAsk from "./Modals/ModalAsk";
 import ModalInfo from "./Modals/ModalInfo";
 import Constants from "expo-constants";
+import * as Notifications from "expo-notifications";
+import * as Linking from "expo-linking";
 
 
 
-const ProfileScreen = ({navigation, appDuck}) => {
+const ProfileScreen = ({navigation, appDuck, route}) => {
+    const appState = useRef(AppState.currentState);
 
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(null);
@@ -34,12 +37,14 @@ const ProfileScreen = ({navigation, appDuck}) => {
     const [creatingRequest, setCreatingRequest] = useState(false);
     const [requestDeletionInfo, setRequestDeletionInfo] = useState(false);
     const [messageRequest, setMessageRequest] = useState('');
+    const [allowNotifications, setAllowNotifications] = useState(false)
 
 
     useEffect(() => {
         if (isFocused) {
             getProfileFunction();
             getUserDeleteRequest();
+            checkNotificationsPermission()
         }
     }, [isFocused])
 
@@ -94,6 +99,61 @@ const ProfileScreen = ({navigation, appDuck}) => {
         }
     }
 
+    const askPermission = async () => {
+        const {status} = await Notifications.requestPermissionsAsync();
+        if (status === 'granted') {
+            console.log('Notifications already allowed')
+            setAllowNotifications(true)
+        } else if (status === 'denied') {
+            //  alert('El permiso fue denegado anteriormente, para activar dirigete a Settings/Club La Hacienda/Notifications/Allow Notifications ');
+            Alert.alert(
+                'Permiso denegado',
+                'El permiso fue denegado anteriormente, para activar dirigete a Settings/Club La Hacienda/Notifications/Allow Notifications',
+                [
+                    {
+                        text: 'Cancelar',
+                        style: 'cancel',
+                    },
+                    {
+                        text: 'OK',
+                        onPress: () => Linking.openSettings()
+                    },
+                ],
+                {cancelable: false},
+            );
+        } else {
+            alert('Failed to get push token for push notification!');
+        }
+    }
+
+
+    const checkNotificationsPermission = async () =>{
+        const {status} = await Notifications.requestPermissionsAsync();
+        if (status === 'granted') {
+            console.log('Set notifications allowed')
+            setAllowNotifications(true)
+        }else {
+            console.log('Set notifications denied')
+            setAllowNotifications(false)
+        }
+    }
+
+    useEffect(() => {
+        const subscription = AppState.addEventListener('change', nextAppState => {
+            if (
+                appState.current.match(/inactive|background/) &&
+                nextAppState === 'active'
+            ) {
+                //console.log('App has come to the foreground!');
+                checkNotificationsPermission()
+            }
+            appState.current = nextAppState;
+        });
+
+        return () => {
+            subscription.remove();
+        };
+    }, []);
 
     return (
         <LayoutV3>
@@ -207,10 +267,11 @@ const ProfileScreen = ({navigation, appDuck}) => {
                       *No puedes transferir puntos porque tu usuario está desactivado
                      </Text>
                     }
-                    { Constants.manifest.extra.eCommerce &&
-                    <Button onPress={() => navigation.navigate('BuysScreen')} mb={3}>Mis compras</Button>
-                    }
-                    <Button onPress={() => navigation.goBack()} mb={10}>Regresar</Button>
+                    { Constants.manifest.extra.eCommerce && <Button onPress={() => navigation.navigate('BuysScreen')} mb={3}>Mis compras</Button> }
+                    { !allowNotifications && <Button onPress={() => askPermission()} mb={10}>Activar notificaciones</Button> }
+
+                     <Button onPress={() => navigation.goBack()} mb={10}>Regresar</Button>
+
                     <Button colorScheme={'red'} isLoading={creatingRequest}
                             onPress={() => {
                                 if(!requestDeletionVisible) {

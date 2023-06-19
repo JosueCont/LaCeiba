@@ -27,8 +27,8 @@ const commonConfig = {
         ]
       ],
     extra: {
-        debug: false, //Colocar a false para no generar correos dummy al registro del socio
-        production: true,
+        debug: true, //Colocar a false para no generar correos dummy al registro del socio
+        production: false,
         URL: "https://api.clubdegolflahacienda.com",
         URL_DEV: "https://api.hacienda.hiumanlab.com",
         //URL_DEV: "https://qa.api.hacienda.hiumanlab.com",
@@ -50,7 +50,7 @@ const ios = {
 };
 
 const android = {
-    versionCode: 40,
+    versionCode: 46,
     adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundImage: "./assets/adaptive-icon-bg.png"
@@ -65,21 +65,21 @@ module.exports = () => {
         return {
             ...commonConfig,
             slug: "clublahacienda",
-            version: "1.0.1",
+            version: "1.0.0",
             ios: ios
         };
     } else if (process.env.APP_ENV === "android") {
         return {
             ...commonConfig,
             slug: "clublahacienda",
-            version: "1.0.1",
+            version: "1.0.0",
             android: android
         };
     } else if (process.env.APP_ENV === "expo") {
         return {
             ...commonConfig,
             slug: "clublahacienda-dev",
-            version: "1.0.1",
+            version: "1.0.0",
             ios: ios,
             android: android
         };
