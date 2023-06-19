@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Button, Image, Text, View} from "native-base";
 import {Colors} from "../Colors";
 
@@ -12,6 +12,9 @@ import {connect} from "react-redux";
 
 const BookinsItem = ({navigation, mb = 2, data, dataInvitation, dataBooking, appDuck}) => {
 
+    useEffect(()=>{
+        console.log(dataInvitation)
+    },[dataInvitation])
     const {service, state} = data;
 
 
@@ -49,7 +52,7 @@ const BookinsItem = ({navigation, mb = 2, data, dataInvitation, dataBooking, app
             <View borderWidth={1} height={'60%'} alignSelf={'center'} borderColor={Colors.yellow}/>
             <View flex={1} justifyContent={'center'} alignItems={'center'} pr={2}>
                 {
-                    dataBooking?.deletedAt ?
+                    dataBooking?.deletedAt || dataInvitation?.booking?.deletedAt ?
                         <Button bgColor={Colors.red} size={"xs"}>
                             Cancelado
                         </Button> :
