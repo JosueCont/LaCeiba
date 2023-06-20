@@ -256,10 +256,10 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             const response = await bookService(params, [appDuck.user.id]);
             if (!response.data?.message) {
                 setModalConfirmBooking(false);
-                navigation.navigate('BookingConfirmScreenSuccess', {people: people, date: date, hour: hourSelected})
                 resetForm();
                 cleanData();
                 setSending(false)
+                navigation.navigate('BookingConfirmScreenSuccess', {people: people, date: date, hour: hourSelected})
             }
         } catch (e) {
             let v = await errorCapture(e);
@@ -453,7 +453,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                     loading === true ?
                                     <Skeleton height={45} borderRadius={30}></Skeleton> :
 
-                                    <HolesItemSelected getHole={getHole}></HolesItemSelected>
+                                    <HolesItemSelected defaultHole={holes} getHole={getHole}></HolesItemSelected>
 
                                  }
                              </View>
