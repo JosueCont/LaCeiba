@@ -35,6 +35,7 @@ export const editUser = async (params, queryStringParams = []) => await request(
 
 export const registerSendConfirmEmail = async (params) => await request(URLTypes.REGISTER_SEND_CONFIRM_EMAIL, params, 'post');
 export const registerConfirmEmail = async (params) => await request(URLTypes.REGISTER_CONFIRM_EMAIL, params, 'post');
+export const registerConfirmUser = async () => await request(URLTypes.REGISTER_CONFIRM_USER, '', 'post');
 export const getAllGuests = async (params) => await request(URLTypes.GET_ALL_GUESTS, params, 'get');
 export const createGuest = async (params, queryStringParams = []) => await request(URLTypes.CREATE_GUEST, params, 'post', null, queryStringParams);
 export const editGuest = async (params, queryStringParams = []) => await request(URLTypes.EDIT_GUEST, params, 'put', null, queryStringParams);
