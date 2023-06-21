@@ -1,31 +1,33 @@
 import React, {useState} from "react";
-import {Button, FormControl, Icon, Input, Text, View} from "native-base";
+import {Button, FormControl, Icon, Input, Select, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import {registerPartner, signIn} from "../api/Requests";
+import {registerConfirmUser, registerPartner, signIn} from "../api/Requests";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {connect} from "react-redux";
 import {loggedAction} from "../redux/ducks/appDuck";
 import ModalInfo from "./Modals/ModalInfo";
 import Constants from "expo-constants";
-import {TouchableOpacity} from "react-native";
+import {Alert, TouchableOpacity} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
-import {errorCapture} from "../utils";
+import {errorCapture, genders} from "../utils";
 
 const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) => {
     const [modalCompletedVisible, setModalCompletedVisible] = useState(null)
     const [dataValues, setDataValues] = useState(null);
-    const {touched, handleSubmit, errors, setFieldValue} = useFormik({
+    const {touched, handleSubmit, errors, setFieldValue, setFieldTouched} = useFormik({
         initialValues: {
             password: '',
             passwordConfirm: '',
+            gender: ''
         },
         onSubmit: (formValue) => {
             registerPartnerFuncion(formValue)
         },
         validateOnChange: true,
         validationSchema: Yup.object({
+            email: Yup.string().trim().required('El correo es obligatorio').email('Ingrese un correo válido'),
             password: Yup
                 .string()
                 .matches(/\w*[a-z]\w*/, "La contraseña debe contener al menos una minúscula")
@@ -51,35 +53,57 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
     }
     const registerPartnerFuncion = async (values) => {
         try {
-            const data = {
+            let data = {
                 firstName: navigationDuck.user.firstName,
                 lastName: navigationDuck.user.lastName,
-                email: Constants.manifest.extra.debug === true ? aliasGenerate(Constants.manifest.extra.debugEmail) : navigationDuck.user.email,
+                email: values.email,//Constants.manifest.extra.debug === true ? aliasGenerate(Constants.manifest.extra.debugEmail) : navigationDuck.user.email,
                 password: values.password,
                 confirm: values.passwordConfirm,
                 claveSocio: navigationDuck.user.claveSocio,
-                countryCode: '+' + route?.params?.countryCode,
+                countryCode: route?.params?.countryCode ? '+' + route?.params?.countryCode : '',
                 phone: navigationDuck.user.celular.length > 0 ? navigationDuck.user.celular : navigationDuck.user.telefono
             }
-
-            const headers = {
-                Accept: "application/json",
-                Authorization: `Bearer ${route.params.access_token}`
+            if(values.gender !== ''){
+                data = {...data, gender: values.gender}
             }
 
+            // Verificamos que la información proporcionada sea válida y obtenemos un token para el registro
+            const responseConfirm = await registerConfirmUser();
+            if (responseConfirm.data.isValid === false) {
+                Alert.alert(
+                    '',
+                    'No se pudieron verificar sus datos',
+                    [
+                        {
+                            text: 'Ok'
+                        },
+                    ],
+                    {cancelable: false},
+                )
+                return
+            }
+            console.log('isValid', responseConfirm.data)
+
+            // Agregamos el token al header
+            const headers = {
+                Accept: "application/json",
+                Authorization: `Bearer ${responseConfirm.data.access_token}`
+            }
+
+            // Solicitamos la creación de la cuenta del usuariocon los datos proporcionados email, género, password
             const response = await registerPartner(data, {headers: headers});
 
             console.log('registerPartnerFuncion', response.data)
-            if (Constants.manifest.extra.debug === true) {
+         /*   if (Constants.manifest.extra.debug === true) {
                 alert(data['email'].toString())
-            }
+            }*/
 
 
             setDataValues(data)
             setModalCompletedVisible(true)
         } catch (e) {
             console.log(e)
-            alert(e.toString())
+            alert(e.data.message.toString())
         }
     }
 
@@ -90,7 +114,8 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
                 email: dataValues.email,
                 password: dataValues.password,
                 refresh: true,
-                pushToken: navigationDuck.pushToken
+                pushToken: navigationDuck.pushToken,
+                gender: dataValues.gender,
             }
             const response = await signIn(data)
             await AsyncStorage.setItem('@user', JSON.stringify(response.data))
@@ -111,14 +136,26 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
                         <Text textAlign={'center'} mb={2}>Correo electrónico</Text>
                         <Input
                             autoCapitalize={'none'}
-                            autoCorrect={false}
+                           // autoCorrect={false}
                             keyboardType={'email-address'}
-                            defaultValue={navigationDuck.user.email}
-                            editable={false}
+                           // defaultValue={navigationDuck.user.email}
+                            onChangeText={(v) => setFieldValue('email', v)}
+                          //  editable={false}
                         />
                         <FormControl.ErrorMessage>
                             {errors.email}
                         </FormControl.ErrorMessage>
+                    </FormControl>
+                    <FormControl mb={4}>
+                        <Text textAlign={'center'} mb={2}>Género</Text>
+                        <Select
+                            onValueChange={(v) => {
+                                setFieldValue('gender', v)
+                            }}
+                            onClose={()=> setFieldTouched('gender', true)}>
+                            <Select.Item label={'No especificado'} value={''}/>
+                            {Object.keys(genders).map(key => <Select.Item key={key} label={genders[key]} value={key}/>)}
+                        </Select>
                     </FormControl>
                     <FormControl isInvalid={errors.password} mb={4}>
                         <Text textAlign={'center'} mb={2}>Contraseña</Text>

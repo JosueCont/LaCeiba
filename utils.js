@@ -22,6 +22,12 @@ export const dayWeek = {
     'Sunday' : {day: 'Domingo', id: 7},
 }
 
+export const genders = {
+    'H': 'Hombre',
+    'M': 'Mujer',
+    'N': 'No binario',
+}
+
 export const formatHour = (timeString) => {
     //if(!timeString) return;
     const [hourString, minute] = timeString.split(":");

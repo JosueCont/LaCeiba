@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Button, FormControl, Input, Select, Text, View} from "native-base";
 import Layout from "./Layouts/Layout";
-import {findPartner} from "../api/Requests";
+import {findPartner, registerConfirmUser} from "../api/Requests";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import {connect} from "react-redux";
@@ -11,6 +11,7 @@ import ModalInfo from "./Modals/ModalInfo";
 import _ from 'lodash';
 import * as Notifications from "expo-notifications";
 import { Alert} from 'react-native';
+import Constants from "expo-constants";
 
 const RegisterScreen = ({navigation, setAttribute}) => {
     const [modalErrorVisible, setModalErrorVisible] = useState(null);
@@ -62,9 +63,8 @@ const RegisterScreen = ({navigation, setAttribute}) => {
 
             const response = await findPartner(queryString);
 
-            console.log(response.data)
 
-            if(response.data.email ==='' || !response.data.email){
+           /* if(response.data.email ==='' || !response.data.email){
                 Alert.alert(
                     '',
                     'No tiene un correo especificado',
@@ -76,16 +76,18 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                     {cancelable: false},
                   );                
                   return
-            }
+            }*/
 
             const userUpdate = {
                 ...response.data,
                 firstName: _.startCase(values.namePartner),
                 lastName: _.startCase(values.lastNamePartner)
             }
+            console.log(userUpdate)
+          //  return
 
             setAttribute('user', userUpdate)
-            navigation.navigate('RegisterStep2Screen')
+            navigation.navigate('RegisterStep4Screen')
 
         } catch (e) {
             console.log(e)

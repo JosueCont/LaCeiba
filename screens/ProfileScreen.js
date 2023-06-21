@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Button, Image, ScrollView, Skeleton, Text, View, useToast} from "native-base";
+import {Button, Image, ScrollView, Skeleton, Text, View, useToast, Select} from "native-base";
 import {Colors} from "../Colors";
 import {Alert, AppState, ImageBackground, RefreshControl, TouchableOpacity} from "react-native";
 import bgButton from "../assets/bgButton.png";
@@ -18,6 +18,8 @@ import ModalInfo from "./Modals/ModalInfo";
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import * as Linking from "expo-linking";
+import {genders} from "../utils";
+import ModalEditGender from "./Modals/ModalEditGender";
 
 
 
@@ -30,6 +32,8 @@ const ProfileScreen = ({navigation, appDuck, route}) => {
     const [points, setPoints] = useState(null)
     const [modalEditGhin, setModalEditGhin] = useState(false)
     const [ghin, setGhin] = useState(null)
+    const [gender, setGender] = useState(null)
+    const [modalEditGender, setModalEditGender] = useState(false)
     const toast = useToast();
     const [isActive, setIsActive] = useState(null)
     const [modalDeleteInfoUser, setModalDeleteInfoUser] = useState(false)
@@ -62,7 +66,6 @@ const ProfileScreen = ({navigation, appDuck, route}) => {
             setPoints(response2?.data?.totalPoints)
             setData(response?.data)
             setLoading(false)
-
         } catch (e) {
             console.log(e.status)
         } finally {
@@ -257,6 +260,27 @@ const ProfileScreen = ({navigation, appDuck, route}) => {
                             </TouchableOpacity>
                             </View>
                     }
+                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                        Género:
+                    </Text>
+
+                    {
+                        loading === true ?
+                            <Skeleton height={50} mb={10}></Skeleton> :
+                            loading === false &&
+                            <View mb={10} justifyContent={'center'} alignItems={'center'} flexDirection={'row'}>
+                                <Text mr={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                                    {data?.user?.gender ? data.user.gender : 'No especificado'}
+                                </Text>
+                                <TouchableOpacity onPress={async()=>{
+                                    setModalEditGender(true)
+                                }}>
+                                    <View>
+                                        <Image source={iconEdit} style={{width: 25, height: 25}}></Image>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                    }
                     {
                     loading === true ?
                     <Skeleton height={50} mb={10}></Skeleton> :
@@ -300,7 +324,7 @@ const ProfileScreen = ({navigation, appDuck, route}) => {
                     if  (v === true) {
                         getProfileFunction()
                         toast.show({
-                            description: "Campo actualizado con éxito"
+                            description: "Ghin actualizado con éxito"
                         })
 
                     } else {
@@ -311,6 +335,26 @@ const ProfileScreen = ({navigation, appDuck, route}) => {
                     }
                 }}
             />
+
+            <ModalEditGender
+                partner={data}
+                visible={modalEditGender}
+                setVisible={setModalEditGender}
+                action={(v) =>{
+                    if  (v === true) {
+                        getProfileFunction()
+                        toast.show({
+                            description: "Género actualizado con éxito"
+                        })
+
+                    } else {
+                        setModalEditGender(false)
+                        toast.show({
+                            description: "Hubo un error intenta más tarde"
+                        })
+                    }
+                }}
+                />
 
             <ModalAsk
                 visible={modalDeleteInfoUser}

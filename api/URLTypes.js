@@ -3,6 +3,7 @@ export const URLTypes = {
     LOG_OUT: '/v1/auth/logout/{{param}}',
     FIND_PARTNER: '/v1/users/app/partners',
     GET_ALL_PARTNERS: '/v1/users/partners',
+    REGISTER_CONFIRM_USER: '/v1/auth/partner/confirm-user-nocode', // Confirmar la solicitud de registro de un usuario sin generar un código de verificación (devuelve un token)
     REGISTER_SEND_CONFIRM_PHONE: '/v1/auth/partner/send-confirm-phone',
     REGISTER_CONFIRM_PHONE: '/v1/auth/partner/confirm-phone',
     REGISTER_PARTNER: '/v1/users',
