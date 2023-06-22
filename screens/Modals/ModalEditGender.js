@@ -36,7 +36,7 @@ const ModalEditGender = ({visible, setVisible, appDuck,action, partner}) => {
     const handleSubmit = async() => {
         try {
            let params ={
-            gender: value.length <= 0 ? null : value
+            gender: value
            }
            console.log(params)
            const response = await editUser(params, [appDuck.user.id]);
