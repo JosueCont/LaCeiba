@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from "react";
 import {Alert, Modal, TouchableOpacity} from "react-native";
 import {styles} from './ModalInfoStyleSheet';
-import {Button, Icon, Text, View, Input, FormControl, WarningOutlineIcon, Select} from "native-base";
+import {Button, Icon, Text, View, Input, FormControl, WarningOutlineIcon, Select, Radio} from "native-base";
 import {AntDesign} from "@expo/vector-icons";
 import {Colors} from "../../Colors";
 import {LinearGradient} from "expo-linear-gradient";
@@ -24,7 +24,7 @@ const ModalEditGender = ({visible, setVisible, appDuck,action, partner}) => {
 
     useEffect(() => {
         if(visible && partner){
-            const gender = partner.user.gender;
+            const gender = partner.user.gender ?? 'NE';
             setValue(gender);
             setSelectKey(prevKey => prevKey + 1); 
             
@@ -87,23 +87,21 @@ const ModalEditGender = ({visible, setVisible, appDuck,action, partner}) => {
                    
                     <View>
                         <Text style={styles.modalText} mb={8} fontSize={'2xl'}>Género</Text>
-                        <Select
-                            key={selectKey}
-                            width={250}
-                            maxWidth={'100%'}
-                            defaultValue={value}
-                            onValueChange={(val) => {
+                        <Radio.Group
+                            value={value}
+                            onChange={(val) => {
+                                console.log(val);
                                 setValue(val)
                             }}>
-                            <Select.Item label={'No especificado'} value={''} style={{zIndex: 5}} />
-                            {Object.keys(genders).map(key => <Select.Item key={key} label={genders[key]} value={key} style={{zIndex: 5}} />)}
-                        </Select>
+                            {
+                                Object.keys(genders).map(key => <Radio value={key}>{genders[key]}</Radio>)
+                            }
+                        </Radio.Group>
                         <Button colorScheme={'green'} onPress={() => handleSubmit()} mt={4} mb={1}>Actualizar</Button>
                     </View>
                 </View>
             </View>
         </Modal>
-
     );
 };
 
