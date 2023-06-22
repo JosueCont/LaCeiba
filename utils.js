@@ -23,6 +23,7 @@ export const dayWeek = {
 }
 
 export const genders = {
+    'NE' : 'No especificado',
     'H': 'Hombre',
     'M': 'Mujer',
     'N': 'No binario',
