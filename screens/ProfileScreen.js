@@ -270,7 +270,7 @@ const ProfileScreen = ({navigation, appDuck, route}) => {
                             loading === false &&
                             <View mb={10} justifyContent={'center'} alignItems={'center'} flexDirection={'row'}>
                                 <Text mr={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
-                                    {data?.user?.gender ? genders[data.user.gender] : 'No especificado'}
+                                    {data?.user?.gender && data?.user?.gender.length > 0 ? genders[data.user.gender] : 'No especificado'}
                                 </Text>
                                 <TouchableOpacity onPress={async()=>{
                                     setModalEditGender(true)
