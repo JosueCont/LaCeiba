@@ -20,11 +20,14 @@ const ModalEditGender = ({visible, setVisible, appDuck,action, partner}) => {
     const [value, setValue] = useState('')
     const [validateEmpty, setValidateEmpty] = useState(false)
     const [pointsUser, setPointsUser] = useState(null)
+    const [selectKey, setSelectKey] = useState(0);
 
     useEffect(() => {
         if(visible && partner){
-            setValue(partner.user.gender)
-            console.log(appDuck.user)
+            const gender = partner.user.gender;
+            setValue(gender);
+            setSelectKey(prevKey => prevKey + 1); 
+            
         }
     }, [visible, partner])
 
@@ -33,7 +36,7 @@ const ModalEditGender = ({visible, setVisible, appDuck,action, partner}) => {
     const handleSubmit = async() => {
         try {
            let params ={
-            gender: value
+            gender: value.length <= 0 ? null : value
            }
            console.log(params)
            const response = await editUser(params, [appDuck.user.id]);
@@ -85,15 +88,15 @@ const ModalEditGender = ({visible, setVisible, appDuck,action, partner}) => {
                     <View>
                         <Text style={styles.modalText} mb={8} fontSize={'2xl'}>Género</Text>
                         <Select
+                            key={selectKey}
                             width={250}
                             maxWidth={'100%'}
                             defaultValue={value}
                             onValueChange={(val) => {
                                 setValue(val)
-                            }}
-                            onClose={()=> setFieldTouched('gender', true)}>
-                            <Select.Item label={'No especificado'} value={''}/>
-                            {Object.keys(genders).map(key => <Select.Item key={key} label={genders[key]} value={key}/>)}
+                            }}>
+                            <Select.Item label={'No especificado'} value={''} style={{zIndex: 5}} />
+                            {Object.keys(genders).map(key => <Select.Item key={key} label={genders[key]} value={key} style={{zIndex: 5}} />)}
                         </Select>
                         <Button colorScheme={'green'} onPress={() => handleSubmit()} mt={4} mb={1}>Actualizar</Button>
                     </View>
