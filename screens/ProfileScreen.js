@@ -203,7 +203,7 @@ const ProfileScreen = ({navigation, appDuck, route}) => {
                     }
 
                     <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
-                        Correo electrónico (SAP):
+                        Correo electrónico de facturación:
                     </Text>
                     {
                         loading === true ?
@@ -215,7 +215,7 @@ const ProfileScreen = ({navigation, appDuck, route}) => {
                     }
 
                     <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
-                        Correo electrónico (Usuario):
+                        Correo electrónico:
                     </Text>
                     {
                         loading === true ?
