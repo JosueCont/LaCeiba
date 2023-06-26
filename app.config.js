@@ -28,7 +28,7 @@ const commonConfig = {
       ],
     extra: {
         debug: true, //Colocar a false para no generar correos dummy al registro del socio
-        production: false,
+        production: true,
         URL: "https://api.clubdegolflahacienda.com",
         URL_DEV: "https://api.hacienda.hiumanlab.com",
         //URL_DEV: "https://qa.api.hacienda.hiumanlab.com",
