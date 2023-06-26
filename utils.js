@@ -26,6 +26,7 @@ export const genders = {
     'H': 'Hombre',
     'M': 'Mujer',
     'N': 'No binario',
+    'NE' : 'No especificado',
 }
 
 export const formatHour = (timeString) => {
