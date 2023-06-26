@@ -119,7 +119,7 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                     </View>
                     <View flex={1}>
                         <View mx={55} mt={10}>
-                            <Text fontSize={'5xl'} textAlign={'center'} fontFamily={'titleLight'} mb={4}>Registrar</Text>
+                            <Text fontSize={'5xl'} textAlign={'center'} fontFamily={'titleLight'} mb={4}>Registro</Text>
                             <View alignSelf={'center'} width={'100%'} borderWidth={1} borderColor={'#FFB718'} mb={8}/>
                             <FormControl isInvalid={errors.numberAction} mb={4}>
                                 <Text textAlign={'center'} mb={2}>Número de acción</Text>
