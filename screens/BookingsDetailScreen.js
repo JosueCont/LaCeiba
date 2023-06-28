@@ -279,7 +279,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                         <Button
                                             colorScheme={'red'}
                                             onPress={() => {
-                                                if ( dateNow === dueDate) {
+                                                if ( dateNow <= dueDate) {
                                                     setModalCancelInformationVisible(true)
                                                 } else {
                                                     setModalCancelVisible(true)

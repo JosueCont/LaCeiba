@@ -203,7 +203,7 @@ const ProfileScreen = ({navigation, appDuck, route}) => {
                     }
 
                     <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
-                        Correo electrónico:
+                        Correo electrónico de facturación:
                     </Text>
                     {
                         loading === true ?
@@ -211,6 +211,18 @@ const ProfileScreen = ({navigation, appDuck, route}) => {
                             loading === false &&
                             <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
                                 {data.email}
+                            </Text>
+                    }
+
+                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                        Correo electrónico:
+                    </Text>
+                    {
+                        loading === true ?
+                            <Skeleton height={50}></Skeleton> :
+                            loading === false &&
+                            <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                                {data?.user.email}
                             </Text>
                     }
 
@@ -270,7 +282,7 @@ const ProfileScreen = ({navigation, appDuck, route}) => {
                             loading === false &&
                             <View mb={10} justifyContent={'center'} alignItems={'center'} flexDirection={'row'}>
                                 <Text mr={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
-                                    {data?.user?.gender ? data.user.gender : 'No especificado'}
+                                    {data?.user?.gender && data?.user?.gender.length > 0 ? genders[data.user.gender] : 'No especificado'}
                                 </Text>
                                 <TouchableOpacity onPress={async()=>{
                                     setModalEditGender(true)
@@ -293,8 +305,6 @@ const ProfileScreen = ({navigation, appDuck, route}) => {
                     }
                     { Constants.manifest.extra.eCommerce && <Button onPress={() => navigation.navigate('BuysScreen')} mb={3}>Mis compras</Button> }
                     { !allowNotifications && <Button onPress={() => askPermission()} mb={10}>Activar notificaciones</Button> }
-
-                     <Button onPress={() => navigation.goBack()} mb={10}>Regresar</Button>
 
                     <Button colorScheme={'red'} isLoading={creatingRequest}
                             onPress={() => {

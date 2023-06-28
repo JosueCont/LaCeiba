@@ -16,6 +16,7 @@ import Constants from "expo-constants";
 const RegisterScreen = ({navigation, setAttribute}) => {
     const [modalErrorVisible, setModalErrorVisible] = useState(null);
     const [modalUserExists, setModalUserExists] = useState(null);
+    const [sentInformation, setSentInformation] = useState(false);
 
 
     const {touched, handleSubmit, errors, setFieldValue, setFieldTouched} = useFormik({
@@ -57,7 +58,7 @@ const RegisterScreen = ({navigation, setAttribute}) => {
     const registerPartnerFuncion = async (values) => {
 
         try {
-
+            setSentInformation(true);
 
             const queryString = `?userId=${values.numberAction}&firstName=${values.namePartner}&lastName=${values.lastNamePartner}&parent=${values.relationship}`;
 
@@ -85,12 +86,13 @@ const RegisterScreen = ({navigation, setAttribute}) => {
             }
             console.log(userUpdate)
           //  return
-
+            setSentInformation(false);
             setAttribute('user', userUpdate)
             navigation.navigate('RegisterStep4Screen')
 
         } catch (e) {
             console.log(e)
+            setSentInformation(false);;
             if (e.status === 404) {
                 setModalErrorVisible(true)
             } else if (e.status === 400) {
@@ -117,7 +119,7 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                     </View>
                     <View flex={1}>
                         <View mx={55} mt={10}>
-                            <Text fontSize={'5xl'} textAlign={'center'} fontFamily={'titleLight'} mb={4}>Registrar</Text>
+                            <Text fontSize={'5xl'} textAlign={'center'} fontFamily={'titleLight'} mb={4}>Registro</Text>
                             <View alignSelf={'center'} width={'100%'} borderWidth={1} borderColor={'#FFB718'} mb={8}/>
                             <FormControl isInvalid={errors.numberAction} mb={4}>
                                 <Text textAlign={'center'} mb={2}>Número de acción</Text>
@@ -171,7 +173,7 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                                 </FormControl.ErrorMessage>
                             </FormControl>
 
-                            <Button onPress={() => handleSubmit()} mb={2}>Continuar</Button>
+                            <Button disabled={sentInformation} onPress={() => handleSubmit()} mb={2}>Continuar</Button>
                             <Button onPress={() => navigation.goBack()}>Regresar</Button>
 
                         </View>

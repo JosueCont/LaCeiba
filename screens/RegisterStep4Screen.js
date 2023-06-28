@@ -128,10 +128,12 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
 
     return (
         <Layout overlay={true}>
-            <View flex={0.4} alignItems={'center'} justifyContent={'flex-end'}>
+            <View flex={0.1} alignItems={'center'} justifyContent={'flex-end'}>
             </View>
             <View flex={1}>
                 <View mx={20} mt={10}>
+                    <Text fontSize={'5xl'} textAlign={'center'} fontFamily={'titleLight'} mb={4}>Registro</Text>
+                    <View alignSelf={'center'} width={'100%'} borderWidth={1} borderColor={'#FFB718'} mb={8}/>
                     <FormControl isInvalid={errors.email} mb={4}>
                         <Text textAlign={'center'} mb={2}>Correo electrónico</Text>
                         <Input
@@ -153,7 +155,6 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
                                 setFieldValue('gender', v)
                             }}
                             onClose={()=> setFieldTouched('gender', true)}>
-                            <Select.Item label={'No especificado'} value={''}/>
                             {Object.keys(genders).map(key => <Select.Item key={key} label={genders[key]} value={key}/>)}
                         </Select>
                     </FormControl>
