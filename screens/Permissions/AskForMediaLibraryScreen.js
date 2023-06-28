@@ -31,16 +31,16 @@ const AskForMediaLibraryScreen = ({navigation, route}) => {
         
             Alert.alert(
                 'Permiso denegado',
-                'El permiso fue denegado anteriormente, tienes que permitir acceder a tus archivos manualmente en tus ajustes de la aplicación',
+                'El permiso fue denegado anteriormente, si desea decargar el Qr de acceso a su galería de imágenes, diríjase a la sección de ajustes de su dispositivo, identifique el nombre de esta aplicación y otorgue los permisos para acceder a su galería. ',
                 [
                   {
-                    text: 'Cancelar',
+                    text: 'De acuerdo',
                     style: 'cancel',
                   },
-                  {
+              /*    {
                     text: 'OK', 
                     onPress: () => Linking.openSettings()
-                  },
+                  },*/
                 ],
                 {cancelable: false},
               );
@@ -63,11 +63,11 @@ const AskForMediaLibraryScreen = ({navigation, route}) => {
                 </View>
 
                 <Text color={Colors.green} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={10}>
-                    Se requieren permisos para poder acceder a tu galería.
+                    Para poder descargar el Qr, es necesario otorgar los permisos de acceso a su galería de imágnes.
                 </Text>
 
 
-                <Button onPress={() => askPermission()} mb={2}>Permitir</Button>
+                <Button onPress={() => askPermission()} mb={2}>Continuar</Button>
                 <Button onPress={() => {
                     let params = {}
                     if(route.params.card){
