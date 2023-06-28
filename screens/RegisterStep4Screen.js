@@ -82,13 +82,13 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
                 )
                 return
             }
-            console.log('isValid', responseConfirm.data)
 
             // Agregamos el token al header
             const headers = {
                 Accept: "application/json",
                 Authorization: `Bearer ${responseConfirm.data.access_token}`
             }
+            console.log(data)
 
             // Solicitamos la creación de la cuenta del usuariocon los datos proporcionados email, género, password
             const response = await registerPartner(data, {headers: headers});
