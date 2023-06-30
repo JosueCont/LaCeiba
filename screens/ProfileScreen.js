@@ -304,9 +304,11 @@ const ProfileScreen = ({navigation, appDuck, route}) => {
                      </Text>
                     }
                     { Constants.manifest.extra.eCommerce && <Button onPress={() => navigation.navigate('BuysScreen')} mb={3}>Mis compras</Button> }
-                    { !allowNotifications && <Button onPress={() => askPermission()} mb={10}>Activar notificaciones</Button> }
+                    { !allowNotifications && <Button onPress={() => askPermission()} mb={3}>Activar notificaciones</Button> }
 
-                    <Button colorScheme={'red'} isLoading={creatingRequest}
+                    <Button variant="link" textDecoration={'underline'}>Cambiar contraseña</Button>
+
+                    <Button colorScheme={'red'} isLoading={creatingRequest} mt={10}
                             onPress={() => {
                                 if(!requestDeletionVisible) {
                                     setMessageRequest('Ya tienes una solicitud en progreso');
