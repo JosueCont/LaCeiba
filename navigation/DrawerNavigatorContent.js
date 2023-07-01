@@ -35,6 +35,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
             loggedOutAction()
         } catch (e) {
             console.log(JSON.stringify(e))
+            loggedOutAction()
             // alert(JSON.stringify(e))
         }    
     }

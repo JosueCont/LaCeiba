@@ -9,6 +9,7 @@ import {getPoints,transferPoints} from "../../api/Requests";
 import {connect} from "react-redux";
 import {editUser} from "../../api/Requests";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {errorCapture} from "../../utils";
 
 
 

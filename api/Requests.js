@@ -68,4 +68,8 @@ export const getAllProducts = async (params, queryStringParams = []) => await re
 
 export const getUserDataDeletionRequest =  async (data, queryStringParams = []) => await request(URLTypes.GET_USER_DATA_DELETION_REQUEST, '', 'get', null, queryStringParams)
 export const createUserDataDeletionRequest =  async (data, queryStringParams = []) => await request(URLTypes.CREATE_USER_DATA_DELETION_REQUEST, '', 'post', null, queryStringParams)
+export const updateUserPassword =  async (data, queryStringParams = []) => {
+    console.log('ThequeryStringParams', queryStringParams)
+    return await request(URLTypes.UPDATE_USER_PASSWORD, data, 'post', null, queryStringParams)
+}
 
