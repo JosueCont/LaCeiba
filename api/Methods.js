@@ -2,7 +2,6 @@ import AxiosInstance from "./AxiosInstance";
 
 export const request = async (uri, params = '', method, config = null, queryStringParams = []) => {
     if (method === 'post') {
-
         let uriResolved = queryStringParams.length > 0 ? paramsResolve(uri, queryStringParams) : uri;
         return await requestPost(uriResolved, params, config)
     } else if (method === 'get') {

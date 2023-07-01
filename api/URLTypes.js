@@ -60,5 +60,7 @@ export const URLTypes = {
     GET_ALL_PRODUCTS: '/v1/e-commerce/products',
     GET_ALL_PRODUCTS_CATEGORY: '/v1/e-commerce/product-category',
     GET_USER_DATA_DELETION_REQUEST: '/v1/users/{{param}}/data-deletion-request',
-    CREATE_USER_DATA_DELETION_REQUEST: '/v1/users/{{param}}/data-deletion-request'
+    CREATE_USER_DATA_DELETION_REQUEST: '/v1/users/{{param}}/data-deletion-request',
+    UPDATE_USER_PASSWORD: '/v1/users/{{param}}/reset-password',
+    //UPDATE_USER_PASSWORD: '/v1/auth/reset-password',
 };

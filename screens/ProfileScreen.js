@@ -20,10 +20,13 @@ import * as Notifications from "expo-notifications";
 import * as Linking from "expo-linking";
 import {genders} from "../utils";
 import ModalEditGender from "./Modals/ModalEditGender";
+import ModalChangePassword from "./Modals/ModalChangePassword";
+import {loggedOutAction} from "../redux/ducks/appDuck";
+import { fontSize } from "styled-system";
 
 
 
-const ProfileScreen = ({navigation, appDuck, route}) => {
+const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
     const appState = useRef(AppState.currentState);
 
     const [data, setData] = useState(null);
@@ -34,6 +37,7 @@ const ProfileScreen = ({navigation, appDuck, route}) => {
     const [ghin, setGhin] = useState(null)
     const [gender, setGender] = useState(null)
     const [modalEditGender, setModalEditGender] = useState(false)
+    const [modalChangePassword, setModalChangePassword] = useState(false)
     const toast = useToast();
     const [isActive, setIsActive] = useState(null)
     const [modalDeleteInfoUser, setModalDeleteInfoUser] = useState(false)
@@ -139,6 +143,21 @@ const ProfileScreen = ({navigation, appDuck, route}) => {
             console.log('Set notifications denied')
             setAllowNotifications(false)
         }
+    }
+
+    const loggedOut = async() => {
+
+        const {pushToken} = appDuck.user
+        try {
+            setAttribute('notificationExist', false)
+            const response = await logOut('', [pushToken])
+            console.log(response.data)
+            loggedOutAction()
+        } catch (e) {
+            console.log(JSON.stringify(e))
+            // alert(JSON.stringify(e))
+            loggedOutAction()
+        }    
     }
 
     useEffect(() => {
@@ -257,7 +276,7 @@ const ProfileScreen = ({navigation, appDuck, route}) => {
                         loading === true ?
                             <Skeleton height={50} mb={10}></Skeleton> :
                             loading === false &&
-                            <View mb={10} justifyContent={'center'} alignItems={'center'} flexDirection={'row'}>
+                            <View mb={3} justifyContent={'center'} alignItems={'center'} flexDirection={'row'}>
                             <Text mr={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
                             {ghin? ghin : 'El valor aún no se ha especificado'}
                             </Text>
@@ -306,7 +325,11 @@ const ProfileScreen = ({navigation, appDuck, route}) => {
                     { Constants.manifest.extra.eCommerce && <Button onPress={() => navigation.navigate('BuysScreen')} mb={3}>Mis compras</Button> }
                     { !allowNotifications && <Button onPress={() => askPermission()} mb={3}>Activar notificaciones</Button> }
 
-                    <Button variant="link" textDecoration={'underline'}>Cambiar contraseña</Button>
+                    <TouchableOpacity onPress={async()=>{ setModalChangePassword(true) }}>
+                        <Text mr={2} textAlign={'center'} style={{textDecorationLine: 'underline'}} color={Colors.green} fontFamily={'titleConfortaaRegular'}>
+                            Cambiar contraseña
+                        </Text>
+                    </TouchableOpacity>
 
                     <Button colorScheme={'red'} isLoading={creatingRequest} mt={10}
                             onPress={() => {
@@ -367,6 +390,26 @@ const ProfileScreen = ({navigation, appDuck, route}) => {
                     }
                 }}
                 />
+                <ModalChangePassword
+                    partner={data}
+                    visible={modalChangePassword}
+                    setVisible={setModalChangePassword}
+                    action={(v) =>{
+                        if  (v === true) {
+                        
+                            toast.show({
+                                description: "Contraseña actualizada con éxito, por favor inicie sesión nuevamente."
+                            })
+
+                            loggedOut()
+                        } else {
+                            setModalChangePassword(false)
+                            toast.show({
+                                description: "Hubo un error intenta más tarde"
+                            })
+                        }
+                    }}
+                />
 
             <ModalAsk
                 visible={modalDeleteInfoUser}
@@ -401,4 +444,4 @@ const mapState = (state) => {
 }
 
 
-export default connect(mapState)(ProfileScreen);
+export default connect(mapState, {loggedOutAction})(ProfileScreen);

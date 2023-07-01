@@ -16,18 +16,15 @@ const RegistryTableHead = ()=>{
                   elevation:3
               }}>
             <View flex={1} flexDirection={'column'} px={1} justifyItems={'center'}>
-                <Text numberOfLines={1} fontSize={'12'} textAlign={'center'} color={'white'}>Fecha</Text>
-            </View>
-            <View flex={1} flexDirection={'column'} px={1} justifyItems={'center'}>
                 <Text numberOfLines={1} fontSize={'12'} textAlign={'center'}>Nombre</Text>
             </View>
             <View flex={1} flexDirection={'column'} px={1} justifyItems={'center'}>
                 <Text numberOfLines={1} fontSize={'12'} textAlign={'center'}>Resultado</Text>
             </View>
             <View flex={1} flexDirection={'column'} px={1} justifyItems={'center'}>
-                <Text numberOfLines={1}fontSize={'12'} textAlign={'center'}>Puntos</Text>
+                <Text numberOfLines={1} fontSize={'12'} textAlign={'center'}>Puntos</Text>
             </View>
-            <View flex={.5} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} height={'60%'} alignSelf={'center'}>
+            <View flex={.6} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} height={'60%'} alignSelf={'center'}>
                <Text>&nbsp;</Text>
             </View>
         </View>
