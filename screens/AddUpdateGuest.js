@@ -17,6 +17,7 @@ const AddUpdateGuest = ({navigation, route}) => {
     const [textModal, setTextModal] = useState('Se agregó al usuario correctamente');
     const [success, setSuccess] = useState(false);
     const [isInvalidName ,setIsInvalidName] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -64,10 +65,12 @@ const AddUpdateGuest = ({navigation, route}) => {
 
     const addGuest = async () => {
         try {
+            setLoading(true);
             let regexName = new RegExp("^[a-zA-ZÀ-ÿ\u00f1\u00d1]{3}(([a-zA-ZÀ-ÿ\u00f1\u00d1\\s])+)?$");
                 if (!regexName.test(nameGuest)) {
                         setIsInvalidName(true)
                         setNameGuest(null)
+                        setLoading(false);
                         return
                 }
                 setIsInvalidName(false)
@@ -76,6 +79,7 @@ const AddUpdateGuest = ({navigation, route}) => {
                 setTextModal("Ya existe un invitado con ese nombre");
                 setSuccess(false);
                 setModalInfoVisible(true);
+                setLoading(false);
                 return;
             }
             const bodyString = {
@@ -87,6 +91,7 @@ const AddUpdateGuest = ({navigation, route}) => {
             console.log(response?.data);    
             setSuccess(true);
             setModalInfoVisible(true);
+            setLoading(false);
         } catch (error) {
             console.log(error);
             setTextModal(error.data.message);
@@ -97,17 +102,19 @@ const AddUpdateGuest = ({navigation, route}) => {
             }
             setSuccess(false);
             setModalInfoVisible(true);
-            
+            setLoading(false);
         }
     }
 
     const updateGuest = async () => {
         try {
+            setLoading(true);
             const guestFounded = route?.params?.guests?.find(guest => guest.name == nameGuest);
             if(guestFounded && editedName){
                 setTextModal("Ya existe un invitado con ese nombre");
                 setSuccess(false);
                 setModalInfoVisible(true);
+                setLoading(false);
                 return;
             }
             const bodyString = {}
@@ -123,7 +130,9 @@ const AddUpdateGuest = ({navigation, route}) => {
           //  console.log(response?.data);
             setSuccess(true);
             setModalInfoVisible(true);
+            setLoading(false);
         } catch (error) {
+            setLoading(false);
             console.log("ERR: ", error?.data);
             setTextModal(error.data.message);
             if(error.data.code === 400){
@@ -169,7 +178,7 @@ const AddUpdateGuest = ({navigation, route}) => {
                 </Text>
                 <Input mb={5} value={emailGuest} onChangeText={(v)=>{setEmailGuest(v); setEditedEmail(true);}}>
                 </Input>
-                <Button mb={5} opacity={(!nameGuest || !emailGuest) ? 0.5 : 1} disabled={!nameGuest || !emailGuest} 
+                <Button mb={5} isLoading={loading} opacity={(!nameGuest || !emailGuest) ? 0.5 : 1} disabled={!nameGuest || !emailGuest} 
                     onPress={() => {if(route.params.data) {
                                         updateGuest()} 
                                     else {
