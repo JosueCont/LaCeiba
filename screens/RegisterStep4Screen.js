@@ -12,6 +12,7 @@ import Constants from "expo-constants";
 import {Alert, TouchableOpacity} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
 import {errorCapture, genders} from "../utils";
+import * as Notifications from 'expo-notifications';
 
 const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) => {
     const [modalCompletedVisible, setModalCompletedVisible] = useState(null)
@@ -118,11 +119,23 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
                 gender: dataValues.gender,
             }
             const response = await signIn(data)
-            await AsyncStorage.setItem('@user', JSON.stringify(response.data))
-            await loggedAction(response.data)
+           // await AsyncStorage.setItem('@user', JSON.stringify(response.data))
+           // await loggedAction(response.data)
+            await askForPermissionPushNotifications(response.data)
         } catch (e) {
             let v = await errorCapture(e);
             alert(v.value)
+        }
+    }
+
+    const askForPermissionPushNotifications = async (loggedData) => {
+        const {status} = await Notifications.getPermissionsAsync();
+        console.log('Registesr noytification status:',status)
+        if (status === 'granted') {
+            await AsyncStorage.setItem('@user',JSON.stringify(loggedData))
+            await loggedAction(loggedData)
+        } else {
+            navigation.navigate('AskForPushNotificationsScreen', {loggedData, screenOk: 'HomeScreen', screenReject: 'HomeScreen'})
         }
     }
 

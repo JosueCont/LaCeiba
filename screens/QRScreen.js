@@ -34,6 +34,7 @@ const QRScreen = ({navigation, appDuck, route}) => {
         if (isFocused) {
           //  validatePermission()
         }
+        console.log(route.params)
     }, [isFocused])
 
     const validatePermission = async () => {

@@ -329,7 +329,7 @@ const getHoles = async() =>{
 
    const  tableData = [
       [elementButton1(1), elementButton2(2), elementButton3(3), elementButton4(4), elementButton5(5), elementButton6(6), elementButton7(7), elementButton8(8), elementButton9(9)],
-      ['4', '4', '4', '3', '5', '3', '4', '4', '5'],
+      ['4', '4', '5', '3', '4', '4', '5', '4', '3'],
     ]
     const  tableData2 = [
       [elementButton10(10), elementButton11(11), elementButton12(12), elementButton13(13), elementButton14(14), elementButton15(15), elementButton16(16), elementButton17(17), elementButton18(18)],
