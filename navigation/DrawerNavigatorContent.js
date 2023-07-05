@@ -204,6 +204,10 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
 
             </View>
 
+                <View flex={0.05} flexDirection={'row'} my={4} alignItems={'center'} justifyContent={'center'}>
+                    <Text>V. {Constants.manifest.version}</Text>
+                </View>
+
             <ModalAsk
                 visible={modalSessionVisible}
                 iconType={'exclamation'}
