@@ -84,6 +84,7 @@ const updateColorScoreCard = async(color) => {
             </View>
             <View flex={1} mx={6} mb={5}>
                 <Text textAlign={'center'} mt={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xl'}>TARJETA DE PUNTUACIÓN</Text>
+                {dataMatch && dataMatch.numHoles && dataMatch.booking && <Text textAlign={'center'} color={Colors.green} mb={3}>{dataMatch.numHoles} hoyos a jugar, iniciando en {dataMatch.booking.area.name}</Text>}
                 <View flexDirection={'row'} mt={5} mb={5} justifyContent={'space-between'} alignContent={'center'} alignItems={'center'}>
                     <Text mr={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>Marcas</Text>
                     <Button  onPress={() =>{

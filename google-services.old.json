@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "650599087695",
-    "project_id": "haciendaapp",
-    "storage_bucket": "haciendaapp.appspot.com"
+    "project_number": "16030388528",
+    "project_id": "clublahacienda",
+    "storage_bucket": "clublahacienda.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:650599087695:android:e2709e113632f1ecd1743a",
+        "mobilesdk_app_id": "1:16030388528:android:fea5b4eca5427895f638f5",
         "android_client_info": {
           "package_name": "com.hiumanlab.clublahacienda"
         }
       },
       "oauth_client": [
         {
-          "client_id": "650599087695-9f5tgct607ducqd2q1iq3ep54u9cqji4.apps.googleusercontent.com",
+          "client_id": "16030388528-3el0natj0mdb1p4i2odorcvgvadhsr0m.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBAiUb93_KCwEz1v4CePeoRXDqIyUNqR3M"
+          "current_key": "AIzaSyC1DaH6l4uaunQiPclEqTZttfY0XBn_PA8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "650599087695-9f5tgct607ducqd2q1iq3ep54u9cqji4.apps.googleusercontent.com",
+              "client_id": "16030388528-3el0natj0mdb1p4i2odorcvgvadhsr0m.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -85,7 +85,7 @@ const QRScreenInvitation = ({ navigation, route }) => {
 
                     <View>
                         <Text color={Colors.green} fontSize={'md'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={4}>
-                            Muestra este código en {'\n'}la entrada del club para {'\n'}poder ingresar
+                        Escanea este QR antes de iniciar el juego, es importante esta confirmación de todos los participantes de tu grupo.
                         </Text>
 
                         <Button onPress={async () => {

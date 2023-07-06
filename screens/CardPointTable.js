@@ -22,6 +22,7 @@ const CardPointTable = ({navigation, mb = 2, idHole=null, action}) => {
    const [matchData, setMatchData] = useState([])   
    const [numHoles, setNumHoles] = useState(null)
    const [area, setArea] = useState(null)
+   const [startAtHoleOne, setStartAtHoleOne] = useState(true)
 
 useEffect(() => {
   getHoles()
@@ -29,6 +30,7 @@ useEffect(() => {
 
 const getHoles = async() =>{
   const response = await getOnePartnersScoreCards('', [idHole])
+  
   let numHoles = response.data.numHoles
   let area = response.data.booking.area.name  
   setArea(area)
@@ -42,14 +44,16 @@ const getHoles = async() =>{
   else if (numHoles == 9 && area ==='Hoyo 10'){
     setShowTable1(false)
     setShowTable2(true)
+    setStartAtHoleOne(false)
   }
   else if(numHoles == 18 && area === 'Hoyo 1'){
     setShowTable1(true)
     setShowTable2(true)
   }
   else if(numHoles == 18 && area ==='Hoyo 10'){
-    setShowTable1(false)
+    setShowTable1(true)
     setShowTable2(true)
+    setStartAtHoleOne(false)
   }
 
   let newHole = response.data.holes.sort((a, b) => parseFloat(a.hole) - parseFloat(b.hole));
@@ -329,7 +333,7 @@ const getHoles = async() =>{
 
    const  tableData = [
       [elementButton1(1), elementButton2(2), elementButton3(3), elementButton4(4), elementButton5(5), elementButton6(6), elementButton7(7), elementButton8(8), elementButton9(9)],
-      ['4', '4', '4', '3', '5', '3', '4', '4', '5'],
+      ['4', '4', '5', '3', '4', '4', '5', '4', '3'],
     ]
     const  tableData2 = [
       [elementButton10(10), elementButton11(11), elementButton12(12), elementButton13(13), elementButton14(14), elementButton15(15), elementButton16(16), elementButton17(17), elementButton18(18)],
@@ -348,10 +352,8 @@ const getHoles = async() =>{
 
       });
 
-    return (
-        <View>
-          { showTable1 &&
-          <View mb={10}>
+      const TableOne = () =>{
+        return <View mb={10}>
         <Table borderStyle={{borderWidth: 1, borderColor: Colors.green}} color={Colors.green}>
           <Row data={tableHead} flexArr={[3.08, 1, 1, 1]} style={styles.head} textStyle={styles.text}/>
           <TableWrapper style={styles.wrapper}>
@@ -359,11 +361,10 @@ const getHoles = async() =>{
           <Rows data={tableData} flexArr={[1, 1,1,]} style={styles.row} textStyle={styles.textRow}/>
           </TableWrapper>
         </Table>
-        </View>
-          }
-         { showTable2 &&
-        <View mb={5}>
-
+      </View>
+      }
+      const TableTwo = () =>{
+        return <View mb={5}>
         <Table borderStyle={{borderWidth: 1, borderColor: Colors.green}} color={Colors.green}>
         <Row data={tableHead2} flexArr={[3.08, 1, 1, 1]} style={styles.head} textStyle={styles.text}/>
         <TableWrapper style={styles.wrapper}>
@@ -371,7 +372,18 @@ const getHoles = async() =>{
             <Rows data={tableData2} flexArr={[1, 1,1,]} style={styles.row} textStyle={styles.textRow}/>
         </TableWrapper>
         </Table>
-        </View>  
+      </View>
+      }
+
+    return (
+        <View>
+          { showTable1 
+            ? startAtHoleOne ? <TableOne/> : <TableTwo/> 
+            : null
+          }
+          { showTable2 
+            ? startAtHoleOne ? <TableTwo/> : <TableOne/> 
+            : null
           }
 
            <ModalAddScore

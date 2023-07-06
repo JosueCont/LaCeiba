@@ -74,7 +74,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                         </View>
                     </View>
                 </TouchableOpacity>
-                 <TouchableOpacity onPress={() => navigation.navigate('MembersScreen')}>
+                {/*  <TouchableOpacity onPress={() => navigation.navigate('MembersScreen')}>
                     <View flexDirection={'row'} mb={4}>
                         <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
                             <Image source={iconMembers} style={{width: 20, height: 20}}></Image>
@@ -83,7 +83,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Text fontSize={'md'}>Miembros adicionales</Text>
                         </View>
                     </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen')}>
 
                     <View flexDirection={'row'} mb={4}>
@@ -214,6 +214,10 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                 </TouchableOpacity>
 
             </View>
+
+                <View flex={0.05} flexDirection={'row'} my={4} alignItems={'center'} justifyContent={'center'}>
+                    <Text>V. {Constants.manifest.version}</Text>
+                </View>
 
             <ModalAsk
                 visible={modalSessionVisible}
