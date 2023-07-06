@@ -1,14 +1,14 @@
 ## Hacienda App
 ---------
 
-👋🏻 ¡Hola! Hacienda App es la aplicación oficial para el Club de Golf La Hacienda.
+¡Hola developer! 👋🏻 Hacienda App es la aplicación oficial para el [Club de Golf La Hacienda](https://clubdegolflahacienda.com/).
 
 ![Club de Golf La Hacienda](https://www.clubdegolflahacienda.com/images/captura%20de%20pantalla%202019-07-30%20a%20las%20112255.png?crc=467674511 "Club de Golf La Hacienda")
 
 ### Links oficiales a las tiendas.
 --------
 
-* Google Play Store: [https://apps.apple.com/mx/app/cgh/id1643970785?l=en-GB](https://apps.apple.com/mx/app/cgh/id1643970785?l=en-GB)
+* Google Play Store: [https://apps.apple.com/mx/app/cgh/id1643970785?l=en-GB](https://apps.apple.com/mx/app/cgh/id1643970785)
 * Apple AppStore: [https://apps.apple.com/mx/app/cgh/id1643970785](https://apps.apple.com/mx/app/cgh/id1643970785)
 
 
