@@ -14,6 +14,13 @@
 ## Versiones
 --------
 
+#### ⏲️ 1.0.5 En proceso...
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🥈| <span style="color:grey">Minor update</span>| Tabla de registros ahora soporta la captura de valores 0 y negativos (-1, -2, etc..) |
+|🐞| <span style="color:grey">Bug fixes</span>| Ajuste para soportar pantallas pequeñas en Android al momento de realizar una reservación |
+
 #### 🚀 [1.0.4](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.4) (06-Julio-2023)
 
 | | Change type | Descripción |
