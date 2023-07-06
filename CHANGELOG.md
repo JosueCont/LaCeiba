@@ -14,7 +14,7 @@
 ## Versiones
 --------
 
-#### 🚀 1.0.4 (06-Julio-2023)
+#### 🚀 [1.0.4](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.4) (06-Julio-2023)
 
 | | Change type | Descripción |
 |:--| :------------| :----------- |
@@ -22,7 +22,7 @@
 |🥈| <span style="color:grey">Minor update</span>| Ajustes a textos |
 |🐞| <span style="color:grey">Bug fixes</span>| Fix en la navegación cuando se solicitan permisos para descargar QR de Checkin. |
 
-#### 🚀 1.0.3 (06-Julio-2023)
+#### 🚀 [1.0.3](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.3) (04-Julio-2023)
 
 | | Change type | Description |
 |:--| :------------| :----------- |
@@ -34,7 +34,7 @@
 |🐞| <span style="color:grey">Bug fixes</span>| Solución de errores al enviar pases de acceso a usuarios sin costo.    |
 |🐞| <span style="color:grey">Bug fixes</span>| Solución en el envío de notificaciones en Android |
 
-#### 🚀 1.0.2 (27-Junio-2023)
+#### 🚀 [1.0.2](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.2) (27-Junio-2023)
 
 | | Change type | Description |
 |:--| :------------| :----------- |
