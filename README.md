@@ -19,11 +19,10 @@ A continuación presentamos la lista de las tecnologías utilizadas para su cons
 | :------------| :----------- |
 | <span style="color:grey">NodeJs</span>| 16.1.8 |
 | <span style="color:grey">React</span>| 18.1.0 |
+| <span style="color:grey">Native Base</span>| 3.4.23 |
 | <span style="color:grey">React Native</span>| 0.70.5 |
 | <span style="color:grey">Redux</span>| 4.1.0 |
 | <span style="color:grey">Expo</span>| 47.0.0 |
-| <span style="color:grey">Native Base</span>| 3.4.23 |
-| <span style="color:grey">React Native</span>| 0.70.5 |
 
 > Nota: Si deseas conocer el detalle de las librerías te invitamos a consultar el archivo [package.json](https://bitbucket.org/grupohiuman/hacienda-app/src/master/package.json)
 
