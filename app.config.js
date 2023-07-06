@@ -1,5 +1,5 @@
 const commonConfig = {
-    name: "Club La Hacienda",
+    name: "CGH",
     orientation: "portrait",
     icon: "./assets/icon.png",
     splash: {
