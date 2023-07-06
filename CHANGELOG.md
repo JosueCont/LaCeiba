@@ -6,8 +6,8 @@
 ## Links oficiales a las tiendas.
 --------
 
-Google Play Store: [https://apps.apple.com/mx/app/cgh/id1643970785?l=en-GB](https://apps.apple.com/mx/app/cgh/id1643970785?l=en-GB)
-Apple AppStore: [https://apps.apple.com/mx/app/cgh/id1643970785](https://apps.apple.com/mx/app/cgh/id1643970785)
+* Google Play Store: [https://apps.apple.com/mx/app/cgh/id1643970785?l=en-GB](https://apps.apple.com/mx/app/cgh/id1643970785?l=en-GB)
+* Apple AppStore: [https://apps.apple.com/mx/app/cgh/id1643970785](https://apps.apple.com/mx/app/cgh/id1643970785)
 
 ***Made with 💜 by [Hiumanlab](https://www.hiumanlab.com)***
 
