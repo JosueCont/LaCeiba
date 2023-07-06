@@ -76,6 +76,7 @@ import {NOTIFICATION_TYPES} from "../utils";
 import appDuck from "../redux/ducks/appDuck";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
+import BalanceScreen from "../screens/BalanceScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -366,6 +367,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'ProductsCartScreen'} component={ProductsCartScreen} options={{title: ''}}/>
             <Drawer.Screen name={'BuysScreen'} component={BuysScreen} options={{title: ''}}/>
             <Drawer.Screen name={'BuysItemDetailScreen'} component={BuysItemDetailScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'BalanceScreen'} component={BalanceScreen} options={{title: ''}}/>
         </Drawer.Navigator>
     );
 }
