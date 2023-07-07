@@ -8,7 +8,7 @@ import {loggedAction} from "../redux/ducks/appDuck";
 import {connect} from "react-redux";
 import {useFormik} from 'formik';
 import * as Yup from 'yup'
-import {TouchableOpacity, Platform} from "react-native";
+import {TouchableOpacity, Platform, KeyboardAvoidingView} from "react-native";
 import ModalInfo from "./Modals/ModalInfo";
 import {MaterialIcons} from "@expo/vector-icons";
 import * as Notifications from 'expo-notifications';
@@ -93,68 +93,73 @@ const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) =
 
     return (
         <Layout overlay={true}>
-            <View flex={0.7} alignItems={'center'} justifyContent={'flex-end'}>
-                <Image source={imgLogo}/>
-            </View>
-            <View flex={1}>
-                <ScrollView contentContainerStyle={{flexGrow: 1}} >
-                <View mx={55} mt={10}>
-                    <Text fontSize={'5xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>Bienvenido</Text>
-
-
-                    <FormControl isInvalid={errors.email} mb={2}>
-                        <Text textAlign={'center'} mb={2}>Correo electrónico</Text>
-                        <Input
-                            autoCapitalize={'none'} mb={4}
-                            onChangeText={(v) => {
-                                setFieldValue('email', v)
-                                setFieldTouched('email', true)
-                            }}
-                            onBlur={()=> setFieldTouched('email', true)}
-                        />
-                        <FormControl.ErrorMessage>
-                            {errors.email && touched.email ? errors.email : ''}
-                        </FormControl.ErrorMessage>
-                    </FormControl>
-
-
-                    <FormControl isInvalid={errors.password} mb={2}>
-                        <Text textAlign={'center'} mb={2}>Contraseña</Text>
-                        <Input
-                            type={showPasssword ? "text" : "password"}
-                            onChangeText={(v) => setFieldValue('password', v)}
-                            onBlur={()=> setFieldTouched('password', true)}
-                            mb={4}
-                            InputRightElement={
-                                <TouchableOpacity onPress={() => setShowPassword(!showPasssword)}>
-                                    <Icon as={<MaterialIcons name={showPasssword ? "visibility" : "visibility-off"}/>} size={5} mr="2" color="muted.400"/>
-                                </TouchableOpacity>
-                            }
-                        />
-                        <FormControl.ErrorMessage>
-                            {errors.password && touched.password && errors.password}
-                        </FormControl.ErrorMessage>
-                    </FormControl>
-
-
-                    <TouchableOpacity onPress={() => navigation.navigate('RecoverPasswordScreen')}>
-
-                        <Text textAlign={'center'} mb={6}>¿Olvidaste tu contraseña?</Text>
-                    </TouchableOpacity>
-
-                    <Button mb={10} onPress={() => handleSubmit()}>Entrar</Button>
+            <KeyboardAvoidingView
+                style={{width:'100%', flex: 1}}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            >
+                <View flex={0.5} alignItems={'center'} justifyContent={'flex-end'}>
+                    <Image source={imgLogo} size={150}/>
                 </View>
-                </ScrollView>
-            </View>
-            <ModalInfo
-                close={true}
-                visible={modalInfoVisible}
-                setVisible={setModalInfoVisible}
-                title={'Aviso'}
-                text={'El nombre de usuario o la contraseña son incorrectos.'}
-                textButton={'Entendido'}
-                iconType={'exclamation'}
-            />
+                <View flex={1}>
+                    <ScrollView contentContainerStyle={{flexGrow: 1}} >
+                    <View mx={55} mt={5}>
+                        <Text fontSize={'5xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>Bienvenido</Text>
+
+
+                        <FormControl isInvalid={errors.email} mb={2}>
+                            <Text textAlign={'center'} mb={2}>Correo electrónico</Text>
+                            <Input
+                                autoCapitalize={'none'} mb={4}
+                                onChangeText={(v) => {
+                                    setFieldValue('email', v)
+                                    setFieldTouched('email', true)
+                                }}
+                                onBlur={()=> setFieldTouched('email', true)}
+                            />
+                            <FormControl.ErrorMessage>
+                                {errors.email && touched.email ? errors.email : ''}
+                            </FormControl.ErrorMessage>
+                        </FormControl>
+
+
+                        <FormControl isInvalid={errors.password} mb={2}>
+                            <Text textAlign={'center'} mb={2}>Contraseña</Text>
+                            <Input
+                                type={showPasssword ? "text" : "password"}
+                                onChangeText={(v) => setFieldValue('password', v)}
+                                onBlur={()=> setFieldTouched('password', true)}
+                                mb={4}
+                                InputRightElement={
+                                    <TouchableOpacity onPress={() => setShowPassword(!showPasssword)}>
+                                        <Icon as={<MaterialIcons name={showPasssword ? "visibility" : "visibility-off"}/>} size={5} mr="2" color="muted.400"/>
+                                    </TouchableOpacity>
+                                }
+                            />
+                            <FormControl.ErrorMessage>
+                                {errors.password && touched.password && errors.password}
+                            </FormControl.ErrorMessage>
+                        </FormControl>
+
+
+                        <TouchableOpacity onPress={() => navigation.navigate('RecoverPasswordScreen')}>
+
+                            <Text textAlign={'center'} mb={6}>¿Olvidaste tu contraseña?</Text>
+                        </TouchableOpacity>
+
+                        <Button mb={10} onPress={() => handleSubmit()}>Entrar</Button>
+                    </View>
+                    </ScrollView>
+                </View>
+            </KeyboardAvoidingView>
+                <ModalInfo
+                    close={true}
+                    visible={modalInfoVisible}
+                    setVisible={setModalInfoVisible}
+                    title={'Aviso'}
+                    text={'El nombre de usuario o la contraseña son incorrectos.'}
+                    textButton={'Entendido'}
+                    iconType={'exclamation'}
+                />
         </Layout>
     )
 }
