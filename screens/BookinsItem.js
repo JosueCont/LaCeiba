@@ -27,18 +27,18 @@ const BookinsItem = ({navigation, mb = 2, data, dataInvitation, dataBooking, app
                   shadowRadius: 2,
                   elevation:3
               }}>
-            <View flex={1} justifyContent={'center'} alignItems={'center'}>
+            <View flex={.75} justifyContent={'center'} alignItems={'center'}>
                 <ImageBackground source={bgButton} style={{width: 55, height: 55, alignItems: 'center', justifyContent: 'center'}} borderRadius={60}>
                     <Image source={dataInvitation.booking?.fixedGroupId ? pin : iconBooking} width={21} height={21}></Image>
                 </ImageBackground>
             </View>
 
             <View flex={1} justifyContent={'center'}>
-                <Text color={Colors.green} fontSize={'12'} bold={true} width={'90%'} numberOfLines={2}>{dataInvitation?.booking?.area.service.name}</Text>
-                <Text color={Colors.green} fontSize={'10'} width={'90%'}>
+                <Text color={Colors.green} fontSize={'12'} bold={true} width={'95%'} numberOfLines={2}>{dataInvitation?.booking?.area.service.name}</Text>
+                <Text color={Colors.green} fontSize={'10'} width={'95%'}>
                     {moment(dataInvitation?.booking?.dueDate, "YYYY-MM-DD").format("DD/MM/YYYY")}
                 </Text>
-                <Text color={Colors.green} fontSize={'10'} width={'90%'}>
+                <Text color={Colors.green} fontSize={'10'} width={'95%'}>
                     {moment(dataInvitation?.booking?.dueTime, "HH:mm").format("hh:mm a")}
                 </Text>
                 {
@@ -49,8 +49,8 @@ const BookinsItem = ({navigation, mb = 2, data, dataInvitation, dataBooking, app
                 }
 
             </View>
-            <View borderWidth={1} height={'60%'} alignSelf={'center'} borderColor={Colors.yellow}/>
-            <View flex={1} justifyContent={'center'} alignItems={'center'} pr={2}>
+            <View borderLeftWidth={1.5} height={'60%'} alignSelf={'center'} borderColor={Colors.yellow}/>
+            <View flex={1} justifyContent={'center'} alignItems={'center'} pr={1.5}>
                 {
                     dataBooking?.deletedAt || dataInvitation?.booking?.deletedAt ?
                         <Button bgColor={Colors.red} size={"xs"}>

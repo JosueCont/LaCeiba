@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {DrawerContentScrollView,} from "@react-navigation/drawer";
 import {connect} from "react-redux";
-import {Image, Text, View} from "native-base";
+import {Image, Text, View, ScrollView} from "native-base";
 import {Colors} from "../Colors";
 import iconHome from '../assets/iconHome.png';
 import iconProfile from '../assets/iconProfile.png';
@@ -53,6 +53,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                 <Text fontSize={'md'} mt={5} textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>
             </View>
             <View flex={1}>
+            <ScrollView flexGrow={1} showsVerticalScrollIndicator={false}>
                 <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
                     <View flexDirection={'row'} mb={4}>
                         <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
@@ -212,10 +213,11 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                         </View>
                     </View>
                 </TouchableOpacity>
+                </ScrollView>
 
             </View>
 
-                <View flex={0.05} flexDirection={'row'} my={4} alignItems={'center'} justifyContent={'center'}>
+                <View flex={0.1} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
                     <Text>V. {Constants.manifest.version}</Text>
                 </View>
 

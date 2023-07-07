@@ -10,7 +10,7 @@ const StartScreen = ({navigation}) => {
     return (
         <Layout>
             <View flex={0.7} alignItems={'center'} justifyContent={'flex-end'}>
-                <Image source={imgLogo}/>
+                <Image source={imgLogo} size={150}/>
             </View>
             <View flex={1}>
                 <View mx={20} mt={20}>
