@@ -6,6 +6,7 @@ import {
     ChevronDownIcon,
     ChevronUpIcon,
     CloseIcon,
+    Icon,
     Image,
     Select,
     Text,
@@ -18,6 +19,8 @@ import iconTrash from "../../assets/iconTrash.png";
 import moment from "moment";
 import 'moment/locale/es';
 import {Calendar} from "react-native-calendars";
+import {AntDesign} from "@expo/vector-icons";
+
 moment.locale('es');
 const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=>{
     const [showCalendar, setShowCalendar] = useState(false);
@@ -27,6 +30,7 @@ const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=
     const [status, setStatus] = useState('');
     const [points, setPoints] = useState('');
     const [dateOpacity, setDateOpacity] = useState(1);
+    const [markedDates, setMarkedDates] = useState({})
     const selectRef = useRef()
 
     const onAddRecord = () =>{
@@ -45,7 +49,9 @@ const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=
             setPlayerName(item.playerName)
             setStatus(item.status)
             setPoints(item.points.toString())
-
+            let arrayDays = {};
+            arrayDays[moment(item.date).format('YYYY-MM-DD')] = {selected:true, marked: true};
+            setMarkedDates(arrayDays)
         }
     },[item])
 
@@ -191,9 +197,11 @@ const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=
                 onRequestClose={() => {
                     setShowCalendar(false)
                 }}>
+                    <View flex={1}>
                 <Calendar
                     minDate={moment().subtract(1, 'weeks').format('YYYY-MM-DD')}
                     maxDate={moment().format('YYYY-MM-DD')}
+                    markedDates={markedDates}
                     hideExtraDays={true}
                     firstDay={1}
                     onPressArrowLeft={subtractMonth => subtractMonth()}
@@ -234,6 +242,15 @@ const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=
                         selectedDayTextColor: '#ffffff',
                     }}
                 />
+                </View>
+                <View flex={0.25} justifyContent={'center'} alignItems={'center'}>
+                <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 50, height: 50, backgroundColor: Colors.greenV4, borderRadius: 60}}
+                                      onPress={() =>{ 
+                                        setShowCalendar(false)
+                                      }}>
+                        <Icon as={AntDesign} name={'close'} color={'white'} size={'lg'}></Icon>
+                    </TouchableOpacity>
+                    </View>
             </Modal>
 </View>
     )
