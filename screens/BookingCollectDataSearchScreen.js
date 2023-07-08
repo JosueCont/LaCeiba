@@ -164,7 +164,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
     return (
 
-        <ScrollView _contentContainerStyle={{flex: 1}}>
+        <ScrollView flexGrow={1} showsVerticalScrollIndicator={false}>
             <View flex={1} mx={12} my={10}>
 
                 <View flex={1}>
@@ -239,7 +239,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                             {
                                 (textFilter.length > 0 && typeSelected) &&
                                 
-                                <ScrollView flexGrow={1} height={!noticeWrite ? 50 : 250} my={2}>
+                                <ScrollView flexGrow={1} height={!noticeWrite ? 50 : 250} my={2} showsVerticalScrollIndicator={false} nestedScrollEnabled>
                                    
                                 { 
                                 !noticeWrite ?

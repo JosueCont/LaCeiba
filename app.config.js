@@ -1,5 +1,5 @@
 const commonConfig = {
-    name: "Club La Hacienda",
+    name: "CGH",
     orientation: "portrait",
     icon: "./assets/icon.png",
     splash: {
@@ -44,13 +44,13 @@ const commonConfig = {
 };
 
 const ios = {
-    buildNumber: "49",
+    buildNumber: "50",
     supportsTablet: false,
     bundleIdentifier: "com.hiumanlab.clublahacienda"
 };
 
 const android = {
-    versionCode: 49,
+    versionCode: 50,
     adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundImage: "./assets/adaptive-icon-bg.png"
@@ -65,21 +65,21 @@ module.exports = () => {
         return {
             ...commonConfig,
             slug: "clublahacienda",
-            version: "1.0.3",
+            version: "1.0.4",
             ios: ios
         };
     } else if (process.env.APP_ENV === "android") {
         return {
             ...commonConfig,
             slug: "clublahacienda",
-            version: "1.0.3",
+            version: "1.0.4",
             android: android
         };
     } else if (process.env.APP_ENV === "expo") {
         return {
             ...commonConfig,
             slug: "clublahacienda-dev",
-            version: "1.0.3",
+            version: "1.0.4",
             ios: ios,
             android: android
         };
