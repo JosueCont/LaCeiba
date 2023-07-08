@@ -136,7 +136,7 @@ const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=
                         value={points}
                         maxLength={3}
                         onChangeText={text => {
-                            setPoints(old => text.replace(/[^0-9]/g, ''))
+                            setPoints(old => text.replace(/[^-0-9.]/g, ''))
                         }}
                         selectTextOnFocus={true}
                         style={{color:Colors.greenV2, fontSize:12, backgroundColor:'white', borderRadius:20, paddingHorizontal:3, textAlign:'center'}}/>
