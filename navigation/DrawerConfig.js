@@ -178,7 +178,7 @@ const DrawerConfig = () => {
 
                             </TouchableOpacity>
                         )
-                    }*/else if (route.name.includes('QRScreen')){
+                    }*/else if (route.name.includes('QRScreen') || route.name.includes('ReservationsScreen')){
                         return (
                             <TouchableOpacity onPress={async () => {
 
