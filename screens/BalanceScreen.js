@@ -106,20 +106,20 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                             </Text>
                     }
                     
-                   {/*  <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                     <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                         Saldo a favor
                     </Text>
-                    {
+                    {/*{
                         loading === true ?
                             <Skeleton height={50}></Skeleton> :
                             loading === false &&
                             <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
                                 {dataBalance?.saldoDeudor ? `$${parseFloat(dataBalance?.saldoDeudor)?.toFixed(2)}` : 'NI'}
                             </Text>
-                    } */}
+                    } 
                     <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                         Saldo deudor
-                    </Text>
+                    </Text>*/}
                     {
                         loading === true ?
                             <Skeleton height={50}></Skeleton> :
