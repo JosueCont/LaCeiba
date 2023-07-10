@@ -12,7 +12,7 @@ import * as MediaLibrary from 'expo-media-library';
 import {useIsFocused} from "@react-navigation/native";
 import googleWallet from '../assets/googleWallet.png';
 import addToAppleWalletBtn from '../assets/esmx_addtoapplewallet.png'
-import { GestureHandlerRootView, TapGestureHandler, TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { getTokenGoogleWallet } from "../api/Requests";
 import axios from "axios";
 import Constants from "expo-constants";
@@ -160,14 +160,9 @@ const QRScreen = ({navigation, appDuck, route}) => {
                                                 refreshing === true ?
                                                     <Skeleton width={150} height={150}/>
                                                     :
-                                                    <GestureHandlerRootView>
-                                                        <TapGestureHandler numberOfTaps={1} onActivated={()=>{
-                                                           // console.log('doubleTap')
-                                                           setModalQrPreview(true)
-                                                        }}>
-                                                            <Image source={{uri: imageQRCode}} width={150} height={150}/>
-                                                        </TapGestureHandler>
-                                                    </GestureHandlerRootView>
+                                                    <TouchableOpacity onPress={()=>{ setModalQrPreview(true) }}>
+                                                        <Image source={{uri: imageQRCode}} width={180} height={180}/>
+                                                    </TouchableOpacity>
                                             }
                                         </View>
                                         <View flexDir={'row'} p={3}>
@@ -189,7 +184,9 @@ const QRScreen = ({navigation, appDuck, route}) => {
                                             refreshing === true ?
                                                 <Skeleton width={150} height={150}/>
                                                 :
-                                                <Image source={{uri: imageQRCode}} width={250} height={250}/>
+                                                <TouchableOpacity onPress={()=>{ setModalQrPreview(true) }}>
+                                                     <Image source={{uri: imageQRCode}} width={250} height={250}/>
+                                                 </TouchableOpacity>
                                         }
                                     </View>
                                 </View>
@@ -247,9 +244,10 @@ const QRScreen = ({navigation, appDuck, route}) => {
                 }}
                 >
                     <View flex={1}
-            style={{
-                backgroundColor: Colors.greenLight
-            }}>
+                        style={{
+                            backgroundColor: Colors.greenLight
+                        }}
+                    >
                     <View flex={.95} alignItems={'center'} justifyContent={'center'}>
                         {
                             refreshing === true ?

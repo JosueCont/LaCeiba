@@ -73,7 +73,9 @@ const QRScreenInvitation = ({ navigation, route }) => {
 
                             <View flex={1} bgColor={Colors.green} borderBottomRadius={20}>
                                 <View flex={1} alignItems={'center'} justifyContent={'center'} mb={4}>
-                                    <Image source={{ uri: imageQRCode }} width={250} height={250} mb={4} />
+                                    <TouchableOpacity onPress={()=>{ setModalQrPreview(true) }}>
+                                            <Image source={{ uri: imageQRCode }} width={250} height={250} mb={4} />
+                                     </TouchableOpacity>
                                     <Text color={'white'} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'}>
                                         Código: {route?.params?.invitation?.qr?.accesCode}
                                     </Text>
