@@ -73,7 +73,7 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                     flex={1}>
 
                     <Text textAlign={'center'} mb={6} mt={6} color={Colors.green} bold fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
-                        INFORMACIÓN DE SALDOS
+                        INFORMACIÓN DE CONSUMOS PENDIENTES DE PAGO
                     </Text>
                     {
                         loading === true ?
@@ -102,11 +102,11 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                             <Skeleton height={50}></Skeleton> :
                             loading === false &&
                             <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
-                                {dataBalance?.saldo ? `$${parseFloat(dataBalance?.saldo)?.toFixed(2)}` : 'NA'}
+                                {dataBalance?.saldo ? `$${parseFloat(dataBalance?.saldo)?.toFixed(2)}` : 'NI'}
                             </Text>
                     }
                     
-                    <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                   {/*  <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                         Saldo a favor
                     </Text>
                     {
@@ -114,9 +114,9 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                             <Skeleton height={50}></Skeleton> :
                             loading === false &&
                             <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
-                                {dataBalance?.saldoDeudor ? `$${parseFloat(dataBalance?.saldoDeudor)?.toFixed(2)}` : 'NA'}
+                                {dataBalance?.saldoDeudor ? `$${parseFloat(dataBalance?.saldoDeudor)?.toFixed(2)}` : 'NI'}
                             </Text>
-                    }
+                    } */}
                     <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                         Saldo deudor
                     </Text>
@@ -129,7 +129,7 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                             </Text>
                     }
                     <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
-                        Saldo consumo de facturas
+                        Saldo de consumos pendientes de pago
                     </Text>
 
                     <Button isLoading={loading} color={Colors.green} mt={5}

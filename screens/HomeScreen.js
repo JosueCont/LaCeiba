@@ -3,12 +3,15 @@ import {Image, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import bgButton from "../assets/bgButton.png";
 import {Image as ImageRN, ImageBackground, TouchableOpacity} from "react-native";
+import imgLogo from '../assets/imgLogo.png';
 import iconAccess from '../assets/iconAccess.png';
 import iconReserve from '../assets/iconReserve.png'
 import iconGuests from '../assets/iconGuests.png'
 import iconBooking from '../assets/iconBooking.png';
 import iconFixedGroups from '../assets/iconFixedGroups.png';
 import iconStore from '../assets/iconStore.png'
+import iconMatches from '../assets/iconMatches2.png'
+import iconBalance from '../assets/iconBalance2.png'
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import LayoutV4 from "./Layouts/LayoutV4";
 import {getAllGF, getGFLeader, validatePartner} from "../api/Requests";
@@ -98,7 +101,7 @@ const HomeScreen = ({navigation, appDuck}) => {
     return (
         <LayoutV4 white={true} overlay={true}>
             <View flex={1}>
-                <View bgColor={Colors.green}>
+               {/*  <View bgColor={Colors.green}>
                     <SliderCustom
                         height={250}
                         items={[
@@ -110,6 +113,9 @@ const HomeScreen = ({navigation, appDuck}) => {
                         ]}
                         position={sliderPosition}
                         setPosition={setSliderPosition}/>
+                </View> */}
+                <View bgColor={Colors.green} height={130} justifyContent={'flex-start'} alignItems={'center'}>
+                    <Image source={imgLogo} size={130} resizeMode='contain' />
                 </View>
                 <View flex={1} pt={10}>
                     <View mb={4} flexDirection={'row'}>
@@ -196,6 +202,37 @@ const HomeScreen = ({navigation, appDuck}) => {
                             
                         </View>
     
+                    </View>
+                    
+                    
+                    <View mb={4} flexDirection={'row'}>
+                        <View flex={1}>
+                            <TouchableOpacity onPress={() => navigation.navigate('MatchesScreen')}>
+
+                                <View alignItems={'center'} mb={2}>
+                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                        <Image source={iconMatches} style={{width: 45, resizeMode: 'contain'}}/>
+                                    </ImageBackground>
+                                </View>
+                                <View>
+                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Partidos</Text>
+                                </View>
+                            </TouchableOpacity>                            
+                        </View>
+
+                        <View flex={1}>
+                            <TouchableOpacity onPress={() => navigation.navigate('BalanceScreen')}>
+
+                                <View alignItems={'center'} mb={2}>
+                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                        <Image source={iconBalance} style={{width: 45, resizeMode: 'contain'}}/>
+                                    </ImageBackground>
+                                </View>
+                                <View>
+                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Saldos</Text>
+                                </View>
+                            </TouchableOpacity>                            
+                        </View>
                     </View>
                     
                     <View mb={4} flexDirection={'row'}>
