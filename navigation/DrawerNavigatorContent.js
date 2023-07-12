@@ -184,7 +184,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconHelp} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'md'}>Ayuda</Text>
+                            <Text fontSize={'md'}>Club de Golf La Hacienda</Text>
                         </View>
                     </View>
                 </TouchableOpacity>

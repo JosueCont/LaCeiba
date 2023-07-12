@@ -43,7 +43,7 @@ const HelpScreen = ({navigation}) => {
                         />
                     }
                     flex={1}>
-                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={20} textTransform={'uppercase'}>Documentos de ayuda</Text>
+                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={20} textTransform={'uppercase'}>Club de Golf La Hacienda</Text>
 
                     <View flex={1} mx={20}>
                     {
