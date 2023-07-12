@@ -102,7 +102,7 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                             <Skeleton height={50}></Skeleton> :
                             loading === false &&
                             <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
-                                {dataBalance?.saldo ? `$${parseFloat(dataBalance?.saldo)?.toFixed(2)}` : 'NI'}
+                                {dataBalance?.saldo ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.saldo)?.toFixed(2))}` : 'NI'}
                             </Text>
                     }
                     
@@ -114,7 +114,7 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                             <Skeleton height={50}></Skeleton> :
                             loading === false &&
                             <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
-                                {dataBalance?.saldoDeudor ? `$${parseFloat(dataBalance?.saldoDeudor)?.toFixed(2)}` : 'NI'}
+                                {dataBalance?.saldoDeudor ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.saldoDeudor)?.toFixed(2))}` : 'NI'}
                             </Text>
                     } 
                     <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
@@ -125,7 +125,7 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                             <Skeleton height={50}></Skeleton> :
                             loading === false &&
                             <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
-                                {dataBalance?.saldoComsumoFacturas ? `$${parseFloat(dataBalance?.saldoComsumoFacturas)?.toFixed(2)}` : 'NA'}
+                                {dataBalance?.saldoConsumoFacturas ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.saldoComsumoFacturas)?.toFixed(2))}` : 'NI'}
                             </Text>
                     }
                     <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
