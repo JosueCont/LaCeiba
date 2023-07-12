@@ -125,7 +125,7 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                             <Skeleton height={50}></Skeleton> :
                             loading === false &&
                             <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
-                                {dataBalance?.saldoComsumoFacturas ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.saldoComsumoFacturas)?.toFixed(2))}` : 'NI'}
+                                {dataBalance?.saldoConsumoFacturas ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.saldoComsumoFacturas)?.toFixed(2))}` : 'NI'}
                             </Text>
                     }
                     <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
