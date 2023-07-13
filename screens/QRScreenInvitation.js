@@ -7,6 +7,7 @@ import imgLogo from '../assets/imgLogo.png'
 import ViewShot, { captureRef } from 'react-native-view-shot';
 import * as MediaLibrary from 'expo-media-library';
 import { useIsFocused } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const QRScreenInvitation = ({ navigation, route }) => {
     const [imageQRCode, setImageQRCode] = useState(null);
