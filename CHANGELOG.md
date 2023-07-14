@@ -14,7 +14,7 @@
 ## Versiones
 --------
 
-#### 🚀 [1.0.5](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.4) (13-Julio-2023)
+#### 🚀 [1.0.5](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.5) (13-Julio-2023)
 
 | | Change type | Descripción |
 |:--| :------------| :----------- |
