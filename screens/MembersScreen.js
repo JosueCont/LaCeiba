@@ -46,10 +46,10 @@ const MembersScreen = ({navigation, appDuck}) => {
                         loading === true ?
                             <Skeleton height={90} borderRadius={50}></Skeleton> :
                             loading === false &&
-                            data.map((item) => {
+                            data.map((item,idx) => {
                                 console.log(item)
                                 return (
-                                    <TouchableOpacity onPress={() => navigation.navigate('MemberEditScreen')}>
+                                    <TouchableOpacity key={idx} onPress={() => navigation.navigate('MemberEditScreen',{member:item})}>
                                         <MemberItem name={item.nombreSocio} mb={4}/>
                                     </TouchableOpacity>
                                 )
