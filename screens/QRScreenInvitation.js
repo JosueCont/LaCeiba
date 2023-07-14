@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Image, ScrollView, Skeleton, Text, useToast, View } from "native-base";
+import { Button, Icon, Image, ScrollView, Skeleton, Text, useToast, View } from "native-base";
 import LayoutV3 from "./Layouts/LayoutV3";
 import { Colors } from "../Colors";
 import ModalInfo from "./Modals/ModalInfo";
@@ -7,6 +7,7 @@ import imgLogo from '../assets/imgLogo.png'
 import ViewShot, { captureRef } from 'react-native-view-shot';
 import * as MediaLibrary from 'expo-media-library';
 import { useIsFocused } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const QRScreenInvitation = ({ navigation, route }) => {
     const [imageQRCode, setImageQRCode] = useState(null);
@@ -73,7 +74,7 @@ const QRScreenInvitation = ({ navigation, route }) => {
 
                             <View flex={1} bgColor={Colors.green} borderBottomRadius={20}>
                                 <View flex={1} alignItems={'center'} justifyContent={'center'} mb={4}>
-                                    <Image source={{ uri: imageQRCode }} width={250} height={250} mb={4} />
+                                            <Image source={{ uri: imageQRCode }} width={250} height={250} mb={4} />
                                     <Text color={'white'} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'}>
                                         Código: {route?.params?.invitation?.qr?.accesCode}
                                     </Text>

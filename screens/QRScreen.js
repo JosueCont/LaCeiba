@@ -1,10 +1,10 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Button, Image, ScrollView, Skeleton, Text, useToast, View} from "native-base";
+import {Button, Icon, Image, ScrollView, Skeleton, Text, useToast, View} from "native-base";
 import LayoutV3 from "./Layouts/LayoutV3";
 import {Colors} from "../Colors";
 import {request} from "../api/Methods";
 import {connect} from "react-redux";
-import {ImageBackground, Linking, Platform, RefreshControl} from "react-native";
+import {ImageBackground, Linking, Platform, RefreshControl, Modal} from "react-native";
 import ModalInfo from "./Modals/ModalInfo";
 import imgLogo from '../assets/imgLogo.png'
 import ViewShot, {captureRef} from 'react-native-view-shot';
@@ -18,11 +18,14 @@ import axios from "axios";
 import Constants from "expo-constants";
 import bgButton from "../assets/bgButton.png";
 import iconAccess from "../assets/iconAccess.png";
+import Animated from "react-native-reanimated";
+import {AntDesign} from "@expo/vector-icons";
 
 const QRScreen = ({navigation, appDuck, route}) => {
     const [refreshing, setRefreshing] = useState(null);
     const [imageQRCode, setImageQRCode] = useState(null);
     const [modalVisible, setModalVisible] = useState(null);
+    const [modalQRPreview, setModalQrPreview] = useState(null);
     const [modalText, setModalText] = useState(null);
     const isFocused = useIsFocused();
     const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
@@ -157,7 +160,9 @@ const QRScreen = ({navigation, appDuck, route}) => {
                                                 refreshing === true ?
                                                     <Skeleton width={150} height={150}/>
                                                     :
-                                                    <Image source={{uri: imageQRCode}} width={150} height={150}/>
+                                                    <TouchableOpacity onPress={()=>{ setModalQrPreview(true) }}>
+                                                        <Image source={{uri: imageQRCode}} width={180} height={180}/>
+                                                    </TouchableOpacity>
                                             }
                                         </View>
                                         <View flexDir={'row'} p={3}>
@@ -179,7 +184,9 @@ const QRScreen = ({navigation, appDuck, route}) => {
                                             refreshing === true ?
                                                 <Skeleton width={150} height={150}/>
                                                 :
-                                                <Image source={{uri: imageQRCode}} width={250} height={250}/>
+                                                <TouchableOpacity onPress={()=>{ setModalQrPreview(true) }}>
+                                                     <Image source={{uri: imageQRCode}} width={250} height={250}/>
+                                                 </TouchableOpacity>
                                         }
                                     </View>
                                 </View>
@@ -228,6 +235,36 @@ const QRScreen = ({navigation, appDuck, route}) => {
                 </View>
             </ScrollView>
             <ModalInfo text={modalText} visible={modalVisible} setVisible={setModalVisible} textButton={'Entendido'} iconType={'exclamation'} close={true}/>
+            <Modal 
+                visible={modalQRPreview} 
+                animationType="slide"
+                transparent={false}
+                onRequestClose={() => {
+                    setModalQrPreview(!modalQRPreview)
+                }}
+                >
+                    <View flex={1}
+                        style={{
+                            backgroundColor: Colors.greenLight
+                        }}
+                    >
+                    <View flex={.95} alignItems={'center'} justifyContent={'center'}>
+                        {
+                            refreshing === true ?
+                                <Skeleton width={150} height={150}/>
+                                :
+                                <Image source={{uri: imageQRCode}} width={280} height={280}/>
+                        }
+                    </View>
+                    <View flex={0.5} justifyContent={'center'} alignItems={'center'}>
+                        <Button
+                            style={{alignItems: 'center', justifyContent: 'center', width: 50, height: 50, backgroundColor: Colors.greenV4, borderRadius: 60}} 
+                            onPress={() =>{ setModalQrPreview(!modalQRPreview)  }}
+                        >
+                            <Icon as={AntDesign} name={'close'} color={'white'} size={'lg'}></Icon>
+                        </Button>
+                    </View></View>
+            </Modal>
         </LayoutV3>
     )
 }

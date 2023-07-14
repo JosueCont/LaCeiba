@@ -1,12 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {Button, Image, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import LayoutV4 from "./Layouts/LayoutV4";
 import {ImageBackground} from "react-native";
 import bgButton from "../assets/bgButton.png";
-import iconPersonEdit from "../assets/iconPersonEdit.png";
+import iconPerson from "../assets/iconPersonSmall.png";
+import { connect } from "react-redux";
+import { getPoints } from "../api/Requests";
 
-const MemberEditScreen = ({navigation}) => {
+const MemberEditScreen = ({navigation, appDuck, route}) => {
+    const {member} = route?.params
+    const [memberInfo, setMemberInfo] = useState(null)
+    const [loading, setLoading] = useState(null)
+    const [points, setPoints] = useState(null)
+
+    const getAvailablePoints = async (userId) =>{
+        
+        try {
+            setLoading(true)
+            const response2 = await getPoints('', [userId])
+            console.log(userId, response2?.data)
+            setPoints(response2?.data?.totalPoints)
+            setLoading(false)
+        } catch (e) {
+            console.log(e.status)
+        }
+    }
+
+    useEffect(()=>{
+        if(member){
+            console.log(member)
+            setMemberInfo(member)
+            if(member.user){
+                getAvailablePoints(member.user.id)
+            }
+        }
+    },[member])
 
 
     return (
@@ -15,41 +44,70 @@ const MemberEditScreen = ({navigation}) => {
 
                 <View alignItems={'center'} mt={10}>
                     <ImageBackground borderRadius={60} source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                        <Image source={iconPersonEdit}/>
+                        <Image source={iconPerson}/>
                     </ImageBackground>
                 </View>
 
                 <Text textAlign={'center'} mt={6} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
-                    Miembro adicional:
+                   Nombre:
                 </Text>
                 <Text textAlign={'center'} mb={6} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
-                    Raúl Rosas
+                    {memberInfo?.nombreSocio}
                 </Text>
                 <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
-                    Miembro de acción:
+                    Número de acción:
                 </Text>
                 <Text textAlign={'center'} mb={6} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
-                    123456789
+                    {appDuck.user.partner.accion}
                 </Text>
                 <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
-                    Fecha de nacimiento:
+                    Parentesco:
                 </Text>
                 <Text textAlign={'center'} mb={6} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
-                    18 / septiembre / 1989
+                    {memberInfo?.parentesco}
+                </Text>
+                <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                    Clave socio:
+                </Text>
+                <Text textAlign={'center'} mb={6} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                    {memberInfo?.claveSocio}
+                </Text>
+                <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                    Tipo socio:
+                </Text>
+                <Text textAlign={'center'} mb={6} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                    {memberInfo?.tipoSocio}
+                </Text>
+                <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                    Correo electrónico de facturación:
+                </Text>
+                <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                    {memberInfo?.user?.email || '---'}
                 </Text>
                 <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                     Correo electrónico:
                 </Text>
                 <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
-                    dani89@gmail.com
+                    {memberInfo?.email}
                 </Text>
                 <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                     Teléfono:
                 </Text>
                 <Text textAlign={'center'} mb={10} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
-                    55 123 456 789
+                    {memberInfo?.telefono || '---'}
                 </Text>
-                <Button onPress={() => navigation.goBack()} mb={10}>Guardar</Button>
+                <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                    Celular:
+                </Text>
+                <Text textAlign={'center'} mb={10} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                    {memberInfo?.celular || '---'}
+                </Text>
+                <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                    Puntos disponibles:
+                </Text>
+                <Text textAlign={'center'} mb={6} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                    {points !== null ? points : '---'}
+                </Text>
 
 
             </View>
@@ -59,4 +117,10 @@ const MemberEditScreen = ({navigation}) => {
 }
 
 
-export default MemberEditScreen;
+const mapState = (state) => {
+    return {
+        appDuck: state.appDuck
+    }
+}
+
+export default connect(mapState)(MemberEditScreen);

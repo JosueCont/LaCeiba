@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
-import {Button, Checkbox, ScrollView, Skeleton, Spinner, Text, View} from "native-base";
+import {Button, Checkbox, Icon, ScrollView, Skeleton, Spinner, Text, View} from "native-base";
 import {Colors} from "../Colors";
-import {Image as ImageRN} from "react-native";
+import {Image as ImageRN, StyleSheet} from "react-native";
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import ModalConfirmRejectBook from './Modals/ModalConfirmRejectBook';
 import moment from 'moment-timezone'
@@ -11,6 +11,8 @@ import {useIsFocused} from "@react-navigation/native";
 import _ from "lodash";
 import ModalAsk from "./Modals/ModalAsk";
 import ModalInfo from "./Modals/ModalInfo";
+import { Table, Row } from 'react-native-table-component';
+import {AntDesign} from "@expo/vector-icons";
 
 moment.tz.setDefault("America/Mexico_City");
 
@@ -129,6 +131,30 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
         }
     }
 
+    const styles = StyleSheet.create({
+        container: { width: '100%',backgroundColor: 'transparent' },
+        head: {  height: 40,  backgroundColor: 'transparent'},
+        wrapper: { flexDirection: 'row' },
+        title: {backgroundColor: 'transparent',},
+        row: {  height: 120 },
+        textHead: {textAlign: 'center' ,color: Colors.green, fontWeight:'bold' },
+        text: { textAlign: 'center' ,color: Colors.green, fontWeight:'normal', fontSize: 10 },
+        textRow: { textAlign: 'center' ,color: Colors.green }
+
+      });
+
+      const statusCell = (status) => {
+        const statusText = status == "PENDING" ? "Pendiente" : status == "CONFIRMED" ? "Confirmado" : "Rechazado";
+        const icon = status == "PENDING" ? "exclamationcircleo" : status == "CONFIRMED" ? "checkcircleo" : "close";
+        const color = status == "PENDING" ? Colors.yellow : status == "CONFIRMED" ? Colors.green : Colors.red;
+        return (
+            <View style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
+                <Icon as={AntDesign} name={icon} color={color} size={'sm'} mr={2} />
+                <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={12} textAlign={'center'}>{statusText}</Text>
+            </View>
+        )
+      }
+
     return (
         <View flex={1}>
             <View bgColor={Colors.green}>
@@ -169,23 +195,30 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                     <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>SOCIOS</Text>
                                 }
                                 {
-                                    invitation?.booking?.invitations.map((currentBooking, index) => {
-
-                                        return (
-                                            currentBooking.user &&
-                                            <Text key={index} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
-                                                - {currentBooking?.user?.firstName.toUpperCase()} {currentBooking?.user?.lastName.toUpperCase()}
-                                            </Text>
-
-                                        );
-                                    })
+                                    <View style={{width: '100%'}}>
+                                        <View style={{width: '100%'}} mt={5} mb={10}>
+                                    <Table style={styles.container} borderStyle={{borderWidth: 1, borderColor: Colors.green}} color={Colors.green}>
+                                      <Row data={['Estatus', 'Socio']} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.textHead}/>
+                                      {
+                                            invitation?.booking?.invitations?.map((currentBooking, index) => {
+                                                console.log('complete invitation: ', currentBooking?.status);
+                                                const partner = currentBooking?.user?.firstName.toUpperCase() + currentBooking?.user?.lastName.toUpperCase();
+                                                return (
+                                                    currentBooking.user &&
+                                                    <Row data={[statusCell(currentBooking?.status), partner]} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.text}/>
+                                                );
+                                            })
+                                    }
+                                    </Table>
+                                  </View>
+                                    </View>
                                 }
                                 {
                                     invitation?.booking?.invitations.filter((currentBooking) => currentBooking.user == null).length > 0 &&
                                     <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>INVITADOS</Text>
                                 }
                                 {
-                                    invitation?.booking?.invitations.map((currentBooking, index) => {
+                                    invitation?.booking?.invitations?.map((currentBooking, index) => {
 
                                         return (
                                             currentBooking.guestName &&
@@ -279,10 +312,10 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                         <Button
                                             colorScheme={'red'}
                                             onPress={() => {
-                                                if ( dateNow <= dueDate) {
-                                                    setModalCancelInformationVisible(true)
-                                                } else {
+                                                if ( dueDate > dateNow) {
                                                     setModalCancelVisible(true)
+                                                } else {
+                                                    setModalCancelInformationVisible(true)
                                                 }
 
 
