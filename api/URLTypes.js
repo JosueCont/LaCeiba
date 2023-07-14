@@ -16,7 +16,7 @@ export const URLTypes = {
     GET_CATEGORIES: '/v1/content-management/categories',
     GET_CATEGORIES_DETAIL: '/v1/content-management/categories',
     GET_CATEGORY_DETAIL: '/v1/content-management',
-    GET_ALL_SERVICES: '/v1/bookings/services',//?isGolf=true
+    GET_ALL_SERVICES: '/v1/bookings/services?isActive=true',//?isGolf=true
     GET_INTERVALS: '/v1/bookings/areas/{{param}}/intervals',
     BOOK_SERVICE: '/v1/bookings/users/{{param}}',
     CACHE_BOOKING: '/v1/bookings/users/{{param}}/areas/{{param}}/reserved',
@@ -45,9 +45,10 @@ export const URLTypes = {
     GET_ONE_GF: '/v1/fixed-groups/{{param}}',
     GET_GF_NEXTBOOKING : '/v1/fixed-groups/users/{{param}}/next-booking',
     CREATE_GF_BOOKING : '/v1/fixed-groups/{{param}}/users/{{param}}/booking',
-    GET_ALL_NOTIFICATIONS: '/v1/notifications',
+    GET_ALL_NOTIFICATIONS: '/v1/notifications?isDeleted=false',
     GET_ONE_NOTIFICATION: '/v1/notifications/{{param}}',
     SET_NOTIFICATION_READ: '/v1/notifications/{{param}}',
+    DELETE_NOTIFICATION: '/v1/notifications/{{param}}',
     GET_GOOGLE_WALLET_TOKEN: '/v1/wallets/users/{{param}}/google',
     GET_ALL_PARTNERS_SCORE_CARDS: '/v1/score-card/user/{{param}}',
     GET_ONE_PARTNERS_SOCRE_CARD: '/v1/score-card/{{param}}',

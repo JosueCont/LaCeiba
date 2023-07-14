@@ -5,10 +5,12 @@ import NotificationItem from "./NotificationItem";
 import LayoutV5 from "./Layouts/LayoutV5";
 import { useFocusEffect } from "@react-navigation/native";
 import { connect } from "react-redux";
-import { getAllNotifications } from "../api/Requests";
+import { deletetNotification, getAllNotifications } from "../api/Requests";
 import { useState } from "react";
 import { FlatList } from "react-native";
 import { useEffect } from "react";
+import ModalAsk from "./Modals/ModalAsk";
+import ModalInfo from "./Modals/ModalInfo";
 
 const NotificationsScreen = ({navigation, appDuck}) => {
 
@@ -17,6 +19,10 @@ const NotificationsScreen = ({navigation, appDuck}) => {
     const [typesNotifications, setTypesNotifications] = useState([{label: 'Todas las notificaciones', value: 'ALL'}, {label: 'Promoción', value: 'PROMOTION'}, {label: 'Recordatorio', value: 'REMINDER'},{label: 'Aviso', value: 'NOTICE'}]);
     const [typeSelected, setTypeSelected] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [currentNotification, setCurrentNotification] = useState(null)
+    const [modalAskVisible, setModalAskVisible] = useState(false)
+    const [modalInfoVisible, setModalInfoVisible] = useState(false)
+    const [textModal, setTextModal] = useState('')
 
     useFocusEffect(
         React.useCallback(() => {
@@ -55,8 +61,30 @@ const NotificationsScreen = ({navigation, appDuck}) => {
     }
     
     const renderItem = (item, index) => {
-        return  (<NotificationItem navigation={navigation} mb={4} notification={item.item} />)
+        return  (<NotificationItem navigation={navigation} mb={4} notification={item.item} onDelete={onDelete} />)
     }
+    const onDelete = (user) => {
+        console.log(user);
+        setCurrentNotification(user);
+        setModalAskVisible(true);
+    }
+    
+    const deleteNotificationAction = async () => {
+        try {
+            const response = await deletetNotification('', [currentNotification?.id]);
+            console.log(response);
+            setTextModal('Se eliminó la notificación correctamente');
+            setModalInfoVisible(true);
+        } catch (error) {
+            console.log(error);
+            setTextModal('No se pudo la notificación. Intenta más tarde.');
+            setModalInfoVisible(true);
+        }
+    }
+
+    const deletedSuccessfully = () => {
+        getNotifications()
+    }     
 
     return (
         <LayoutV5>
@@ -118,7 +146,29 @@ const NotificationsScreen = ({navigation, appDuck}) => {
                 <NotificationItem navigation={navigation} mb={4}/>
                 <NotificationItem navigation={navigation} mb={4}/> */}
             </View>
-
+            <ModalAsk
+                setVisible={setModalAskVisible}
+                visible={modalAskVisible}
+                text={`¿Estás seguro que deseas eliminar esta notificación?`}
+                title={'Eliminar notificación'}
+                textButton={'Sī'}
+                textNoButton={'No'}
+                iconType={'exclamation'}
+                close={true}
+                action={() => {
+                    deleteNotificationAction();
+                    setModalAskVisible(false);
+                }}/>
+            
+            <ModalInfo 
+                setVisible={setModalInfoVisible} 
+                visible={modalInfoVisible} 
+                close={true} 
+                iconType={'exclamation'} 
+                textButton={'Aceptar'} 
+                text={textModal} 
+                action={deletedSuccessfully}
+            />
         </LayoutV5>
     )
 }
