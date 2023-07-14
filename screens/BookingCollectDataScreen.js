@@ -17,6 +17,7 @@ import _ from "lodash";
 import {useIsFocused} from "@react-navigation/native";
 import LayoutV3 from "./Layouts/LayoutV3";
 import HolesItemSelected from "../components/HolesItemSelected"
+import { alignItems } from "styled-system";
 
 moment.locale('es');
 
@@ -30,7 +31,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const [disabledDays, setDisabledDays] = useState([])
     const [loading, setLoading] = useState(null);
     const [showCalendar, setShowCalendar] = useState(false);
-    const [hours, setHours] = useState([]);
+    const [hours, setHours] = useState(null);
     const [hourSelected, setHourSelected] = useState(null);
     const [people, setPeople] = useState([]);
     const [timeLeft, setTimeLeft] = useState(null);
@@ -280,6 +281,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         setAreaId(null);
         setArea(null);
         setHoles(null)
+        setHours(null)
     }
 
     const sendConfirmationBooking = async (values) => {
@@ -483,6 +485,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
                                             setDate(day.dateString)
                                             setFieldValue("date", day.dateString)
+                                            getHoursFunction(day.dateString)
                                             setShowCalendar(false)
                                         }}
                                         onDayLongPress={day => {
@@ -553,7 +556,11 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                             {
                                 loading === true ?
                                     <Skeleton height={45} borderRadius={30}></Skeleton> :
-                                    loading === false &&
+                                    hours === null ?
+                                    <View  bg={'rgba(255,255, 255,0.3)'} p={4} borderRadius={8} justifyContent={'center'} alignItems={'center'}>
+                                        <Text fontSize={14} color={Colors.green}>"Seleccionar una fecha para ver los horarios disponibles."</Text>
+                                    </View>
+                                 : (hours && hours?.length > 0) ? 
                                     <FormControl isInvalid={errors.hourSelected}>
                                         <Select
 
@@ -579,7 +586,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                             }}
                                             placeholder="Seleccionar">
                                             {
-                                                hours.map((item) => {
+                                                hours && hours.map((item) => {
                                                     return (
                                                         <Select.Item label={item} value={item}/>
                                                     )
@@ -590,6 +597,11 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                             {errors.hourSelected}
                                         </FormControl.ErrorMessage>
                                     </FormControl>
+                                    :
+                                    
+                                    <View  bg={'rgba(255,255, 255,0.3)'} p={4} borderRadius={8} justifyContent={'center'} alignItems={'center'}>
+                                        <Text fontSize={14} color={Colors.green}>"No encontramos horarios disponibles para el día seleccionado."</Text>
+                                    </View>
                             }
                         </View>
                         {
