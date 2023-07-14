@@ -54,6 +54,7 @@ export const logOut = async (params, queryStringParams = []) => await request(UR
 export const getAllNotifications = async (params) => await request(URLTypes.GET_ALL_NOTIFICATIONS, params, 'get');
 export const getOneNotification = async (params, queryStringParams = []) => await request(URLTypes.GET_ONE_NOTIFICATION, params, 'get', null, queryStringParams);
 export const setNotificationRead = async (params, queryStringParams = []) => await request(URLTypes.SET_NOTIFICATION_READ, params, 'put', null, queryStringParams);
+export const deletetNotification = async (params, queryStringParams = []) => await request(URLTypes.DELETE_NOTIFICATION, params, 'delete', null, queryStringParams);
 export const getTokenGoogleWallet = async (params, queryStringParams = []) => await request(URLTypes.GET_GOOGLE_WALLET_TOKEN, params, 'get', null, queryStringParams);
 export const getAllPartnersScoreCards = async (params, queryStringParams = []) => await request(URLTypes.GET_ALL_PARTNERS_SCORE_CARDS, params, 'get', null, queryStringParams);
 export const getOnePartnersScoreCards = async (params, queryStringParams = []) => await request(URLTypes.GET_ONE_PARTNERS_SOCRE_CARD, params, 'get', null, queryStringParams);

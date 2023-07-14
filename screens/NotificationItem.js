@@ -8,9 +8,10 @@ import iconGolfHit from "../assets/iconsReservations/iconGolfHit.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import IconNotificationRead from '../assets/IconNotificationRead.png'
 import iconRead from '../assets/iconRead.png';
+import iconTrash from '../assets/iconTrash.png';
 
 
-const NotificationItem = ({navigation, mb = 5, notification}) => {
+const NotificationItem = ({navigation, mb = 5, notification, onDelete}) => {
 
     const [isRead, setIsRead] = useState(false);
 
@@ -30,25 +31,28 @@ const NotificationItem = ({navigation, mb = 5, notification}) => {
 
     return (
         <TouchableOpacity onPress={()=>{navigation.navigate('NotificationDetail', {notification: notification.id});}}>
-            <View flexDirection={'row'} justifyContent={'center'} padding={2} bgColor={'#fff'} borderRadius={50} mb={5}>
-          
-            <View justifyContent={'center'} alignItems={'center'}>
+            <View flexDirection={'row'} height={70} justifyContent={'center'} alignItems={'center'} bgColor={'#fff'} borderRadius={50} paddingX={4} mb={mb}
+              style={{
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 3 },
+                  shadowOpacity: 0.5,
+                  shadowRadius: 2,
+                  elevation:3
+        }}>
+            <View flex={1} justifyContent={'center'} alignItems={'center'}>
                 <Text textAlign={'center'}  mb={1} color={Colors.green} fontSize={'md'}>{notification?.template?.title.length<=18? notification?.template?.title : `${notification?.template?.title.slice(0,18)}...`}</Text>
                 <Text  color={Colors.green} fontSize={'xs'}>{typeCategory(notification?.template?.category)}</Text>
                 {/* <Text color={Colors.green} fontSize={'xs'} width={'90%'}>{detail}</Text> */}
             </View>
-            {!isRead &&
-            <View position={'absolute'} right={'5'} top={'5'} justifyContent={'center'} alignItems={'center'}>
-                    <Image source={IconNotificationRead}></Image>
-            </View>
-            }
-            {
-                isRead && 
-                <View position={'absolute'} right={'5'} top={'5'} justifyContent={'center'} alignItems={'center'}>
-                    <Image source={iconRead}></Image>
-                </View>
-            }
+ 
+            <View flex={.3} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} height={'60%'} alignSelf={'center'} >
+                {!isRead && <Image source={IconNotificationRead}/> || <Image source={iconRead}/>}
+                <TouchableOpacity onPress={()=>onDelete(notification)}>
+                            <Image source={iconTrash} style={{width: 25, height: 25}}/>
+                </TouchableOpacity>
+                
 
+            </View>
         </View>
         </TouchableOpacity>
         
