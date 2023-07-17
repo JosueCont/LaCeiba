@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Button, Image, Text, View} from "native-base";
+import {Button, CircleIcon, Image, Text, View} from "native-base";
 import {Colors} from "../Colors";
 
 import bgButton from "../assets/bgButton.png";
@@ -31,7 +31,7 @@ const NotificationItem = ({navigation, mb = 5, notification, onDelete}) => {
 
     return (
         <TouchableOpacity onPress={()=>{navigation.navigate('NotificationDetail', {notification: notification.id});}}>
-            <View flexDirection={'row'} height={70} justifyContent={'center'} alignItems={'center'} bgColor={'#fff'} borderRadius={50} paddingX={4} mb={mb}
+            <View flexDirection={'row'} height={70} justifyContent={'center'} alignItems={'center'} bgColor={isRead ? '#fff' : Colors.grayLight} borderRadius={50} paddingX={4} mx={1} mb={mb}
               style={{
                   shadowColor: '#000',
                   shadowOffset: { width: 0, height: 3 },
@@ -39,14 +39,17 @@ const NotificationItem = ({navigation, mb = 5, notification, onDelete}) => {
                   shadowRadius: 2,
                   elevation:3
         }}>
+ 
+        <View flex={.1} flexDirection={'row'} justifyContent={'flex-end'} alignItems={'center'} height={'60%'} alignSelf={'center'} >
+            {!isRead && <CircleIcon color={Colors.yellow} mx={1}/>}
+            </View>
             <View flex={1} justifyContent={'center'} alignItems={'center'}>
                 <Text textAlign={'center'}  mb={1} color={Colors.green} fontSize={'md'}>{notification?.template?.title.length<=18? notification?.template?.title : `${notification?.template?.title.slice(0,18)}...`}</Text>
                 <Text  color={Colors.green} fontSize={'xs'}>{typeCategory(notification?.template?.category)}</Text>
                 {/* <Text color={Colors.green} fontSize={'xs'} width={'90%'}>{detail}</Text> */}
             </View>
  
-            <View flex={.3} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} height={'60%'} alignSelf={'center'} >
-                {!isRead && <Image source={IconNotificationRead}/> || <Image source={iconRead}/>}
+            <View flex={.2} flexDirection={'row'} justifyContent={'flex-end'} alignItems={'center'} height={'60%'} alignSelf={'center'} >
                 <TouchableOpacity onPress={()=>onDelete(notification)}>
                             <Image source={iconTrash} style={{width: 25, height: 25}}/>
                 </TouchableOpacity>

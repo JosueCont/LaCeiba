@@ -102,7 +102,7 @@ const NotificationDetail = ({navigation, route}) => {
                 <View mt={10} mb={10} flexDirection={'row'} justifyContent={'center'}>
                 <View>
                    <Button width={'100%'} style={{borderRadius:60}} padding={3} mt={5} onPress={()=>{navigation.goBack();}}>
-                    De acuerdo
+                    Regresar
                 </Button>                   
                 </View>
                 </View>

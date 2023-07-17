@@ -73,8 +73,9 @@ const NotificationsScreen = ({navigation, appDuck}) => {
         try {
             const response = await deletetNotification('', [currentNotification?.id]);
             console.log(response);
-            setTextModal('Se eliminó la notificación correctamente');
-            setModalInfoVisible(true);
+            // setTextModal('Se eliminó la notificación correctamente');
+            // setModalInfoVisible(true);
+            getNotifications()
         } catch (error) {
             console.log(error);
             setTextModal('No se pudo la notificación. Intenta más tarde.');

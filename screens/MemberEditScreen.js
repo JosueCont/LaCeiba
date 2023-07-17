@@ -82,13 +82,13 @@ const MemberEditScreen = ({navigation, appDuck, route}) => {
                     Correo electrónico de facturación:
                 </Text>
                 <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
-                    {memberInfo?.user?.email || '---'}
+                    {memberInfo?.email}
                 </Text>
                 <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
-                    Correo electrónico:
+                    Correo electrónico App:
                 </Text>
                 <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
-                    {memberInfo?.email}
+                    {memberInfo?.user?.email || '---'}
                 </Text>
                 <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                     Teléfono:
