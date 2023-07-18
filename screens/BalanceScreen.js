@@ -3,7 +3,7 @@ import {Button, ScrollView, Skeleton, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import { AppState, RefreshControl} from "react-native";
 import {connect} from "react-redux";
-import {getBalanceInfo, getProfile} from "../api/Requests";
+import {getBalanceInfo, getProfile, getTotalBalance} from "../api/Requests";
 import {useIsFocused} from "@react-navigation/native";
 import _ from "lodash";
 import LayoutV3 from "./Layouts/LayoutV3";
@@ -30,16 +30,15 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
             setLoading(true)
             const response = await getProfile('', [appDuck.user.id])
             let params = {
-                "action": response?.data?.accion,
-                "partnerType": response?.data?.tipoSocio
+                "accion": response?.data?.accion,
+                "claveSocio": response?.data?.claveSocio
               }
-            const balanceInfo = await getBalanceInfo(params);
+            const totalBalance = await getTotalBalance(params);
             setData(response?.data)
             setLoading(false)
-            if(!balanceInfo?.data)
+            if(!totalBalance?.data)
               return;
-            const dataFounded = balanceInfo?.data?.filter(info => info.claveSocio == response?.data?.claveSocio);
-            setDataBalance(dataFounded ? dataFounded[0] : null);
+            setDataBalance(totalBalance?.data);
         } catch (e) {
             setLoading(false)
             console.log(e.status)
@@ -84,31 +83,30 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                             </Text>
                     }
 
-                    {
+                    {/* {
                         loading === true ?
                             <Skeleton height={50}></Skeleton> :
                             loading === false &&
                             <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'md'}>
                                 Certificado: {dataBalance?.certificado ?? ''}
                             </Text>
-                    }
+                    } */}
                     <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                         {data?.tipoSocio}
                     </Text>
                     
                     
-                    {
+                    {/*{
                         loading === true ?
                             <Skeleton height={50}></Skeleton> :
                             loading === false &&
                             <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
                                 {dataBalance?.saldo ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.saldo)?.toFixed(2))}` : 'NI'}
                             </Text>
-                    }
-                    
+                    } 
                      <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                         Saldo a favor
-                    </Text>
+                    </Text>*/}
                     {/*{
                         loading === true ?
                             <Skeleton height={50}></Skeleton> :
@@ -125,7 +123,7 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                             <Skeleton height={50}></Skeleton> :
                             loading === false &&
                             <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
-                                {dataBalance?.saldoConsumoFacturas ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.saldoConsumoFacturas)?.toFixed(2))}` : 'NI'}
+                                {dataBalance?.saldoConsumoRestaurante ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.saldoConsumoRestaurante)?.toFixed(2))}` : 'NI'}
                             </Text>
                     }
                     <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>

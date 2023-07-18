@@ -33,6 +33,7 @@ export const cancelBooking = async (params, queryStringParams = []) => await req
 export const transferPoints = async (params) => await request(URLTypes.TRASNFER_POINTS, params, 'post');
 export const editUser = async (params, queryStringParams = []) => await request(URLTypes.EDIT_USER, params, 'put', null, queryStringParams);
 export const getBalanceInfo = async(params) => await request(URLTypes.GET_BALANCE_INFO, params, 'post');
+export const getTotalBalance = async(params) => await request(URLTypes.GET_TOTAL_BALANCE, params, 'post');
 
 export const registerSendConfirmEmail = async (params) => await request(URLTypes.REGISTER_SEND_CONFIRM_EMAIL, params, 'post');
 export const registerConfirmEmail = async (params) => await request(URLTypes.REGISTER_CONFIRM_EMAIL, params, 'post');
