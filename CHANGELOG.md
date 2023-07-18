@@ -14,6 +14,15 @@
 ## Versiones
 --------
 
+#### 🚀 [1.0.6](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.6) (17 Julio 2023)
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🥈| <span style="color:grey">Minor update</span>| Se habilita la lista de miembros adicionales |
+|🥈| <span style="color:grey">Minor update</span>| Actualización visual de la lista de notificaciones |
+🥈| <span style="color:grey">Minor update</span>| En la lista de servicios se visualizan aquellos que están activos |
+🥈| <span style="color:grey">Minor update</span>| Si no existen horarios disponibles para reservar un servicio en una fecha específica, la app muestra un mensaje para notificarle al socio |
+
 #### 🚀 [1.0.5](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.5) (13-Julio-2023)
 
 | | Change type | Descripción |
