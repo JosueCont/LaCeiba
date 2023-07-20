@@ -174,7 +174,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                             <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={22} textAlign={'center'}>{invitation.booking?.area?.service?.name}</Text>
                             {!invitation?.booking?.area?.service?.isGolf &&  <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={17} textAlign={'center'}>({invitation.booking.area.name})</Text> }
                             {invitation?.booking?.numHoles &&  <>
-                                <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={17} textAlign={'center'}>{invitation.booking.numHoles} HOYOS, INICIANDO EN EL HOYO {invitation.booking.numHoles - 8}  </Text>
+                                <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={17} textAlign={'center'}>{invitation.booking.numHoles} HOYOS, INICIANDO EN EL {invitation.booking.area?.name?.toUpperCase()}  </Text>
                                 <View borderWidth={1} borderColor={Colors.yellow} my={4}/>
                             </> }
                             <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={16} textAlign={'center'}>ID DE RESERVACIÓN: {invitation.booking.id}</Text>
@@ -202,7 +202,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                       {
                                             invitation?.booking?.invitations?.map((currentBooking, index) => {
                                                 console.log('complete invitation: ', currentBooking?.status);
-                                                const partner = currentBooking?.user?.firstName.toUpperCase() + currentBooking?.user?.lastName.toUpperCase();
+                                                const partner = currentBooking?.user?.firstName.toUpperCase() + " " + currentBooking?.user?.lastName.toUpperCase();
                                                 return (
                                                     currentBooking.user &&
                                                     <Row data={[statusCell(currentBooking?.status), partner]} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.text}/>
