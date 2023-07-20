@@ -14,6 +14,12 @@
 ## Versiones
 --------
 
+#### 🚀 [1.0.7](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.7) (20 Julio 2023)
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🥈| <span style="color:grey">Minor update</span>| Ajustes en la consulta de los saldos para socios |
+
 #### 🚀 [1.0.6](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.6) (17 Julio 2023)
 
 | | Change type | Descripción |
