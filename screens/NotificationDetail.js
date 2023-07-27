@@ -63,17 +63,17 @@ const NotificationDetail = ({navigation, route}) => {
                 </ImageBackground>
                 </View>
 
-                <View mt={10} flexDirection={'row'} justifyContent={'center'}>
+                {/* <View mt={10} mb={5} flexDirection={'row'} justifyContent={'center'}>
                     <Text color={Colors.green}>Contenido:</Text>
-                </View>
+                </View> */}
                 
-                <View flex={1}>
+                <View flex={1} mt={10} mx={4} style={{ backgroundColor: 'white', borderRadius: 10}}>
                     <WebView
                         automaticallyAdjustContentInsets={false}
                         bounces={false}
                         startInLoadingState={true}
                         mixedContentMode={'always'}
-                        style={{width: '100%', backgroundColor: 'transparent'}}
+                        style={{width: '100%', backgroundColor: 'transparent', borderRadius: 10}}
                         allowsFullscreenVideo={true}
                         javaScriptEnabled={true}
                         renderLoading={() => (
@@ -84,7 +84,7 @@ const NotificationDetail = ({navigation, route}) => {
                         source={{html: `<html><head><style>
                         body {color: #146842; text-align:justify; padding: 5px; line-height: 20px;}
                         </style><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body> 
-                        ${notificationDetail?.template?.content} 
+                        ${notificationDetail?.template?.content}
                         </body></html>`}}
                         scalesPageToFit={true}
                         originWhitelist={['*']}
@@ -93,13 +93,11 @@ const NotificationDetail = ({navigation, route}) => {
                         contentMode={'mobile'}
                         >
                     </WebView>
-
-                
                 </View>
                 
              
 
-                <View mt={10} mb={10} flexDirection={'row'} justifyContent={'center'}>
+                <View mt={5} mb={10} flexDirection={'row'} justifyContent={'center'}>
                 <View>
                    <Button width={'100%'} style={{borderRadius:60}} padding={3} mt={5} onPress={()=>{navigation.goBack();}}>
                     Regresar a la lista
