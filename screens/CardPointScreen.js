@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Icon, Text, View, Image, Spinner } from "native-base";
+import { Button, Icon, Text, View, Spinner } from "native-base";
 import { Colors } from "../Colors";
 import LayoutV4 from "./Layouts/LayoutV4";
 import bannerCardPoints from "../assets/bannerCardPoints.png"
@@ -11,6 +11,8 @@ import {connect} from "react-redux";
 import {useIsFocused} from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {getOnePartnersScoreCards,editColorScoreCard} from "../api/Requests";
+import ImageZoom from "react-native-image-pan-zoom";
+import { Dimensions, Image } from "react-native";
 
 
 
@@ -80,7 +82,6 @@ const updateColorScoreCard = async(color) => {
                         <Text width={'50%'} color={'#ffff'} fontFamily={'titleComfortaaBold'} numberOfLines={2} fontSize={'md'}>{ghin ? `GHIN: ${ghin}` : 'No especificado'}</Text>
                     </View>
                 </View>
-
             </View>
             <View flex={1} mx={6} mb={5}>
                 <Text textAlign={'center'} mt={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xl'}>TARJETA DE PUNTUACIÓN</Text>
