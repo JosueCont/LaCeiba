@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.8)'
     },
     modalView: {
-        width: '90%',
+        width: '95%',
         //backgroundColor: Colors.greenV5,
         borderRadius: 20,
         alignItems: "center",

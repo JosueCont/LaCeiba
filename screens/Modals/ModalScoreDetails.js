@@ -44,11 +44,13 @@ const ModalScoreDetails = ({visible, setVisible}) => {
                         <Icon as={AntDesign} name={'close'} color={'white'} size={'xs'}></Icon>
                     </TouchableOpacity>
                    
-                    <View height={300} width={350}>
+                    <View height={230} style={{width: '120%'}}>
                         <SliderCustomScoreCard 
-                             height={300}
+                             height={230}
                              items={[
-                                {image: ImageRN.resolveAssetSource(require('../../assets/pointsDetailsScore.png')).uri}                            ]}
+                                {image: ImageRN.resolveAssetSource(require('../../assets/scoreCard9.png')).uri},
+                                {image: ImageRN.resolveAssetSource(require('../../assets/scoreCard18.png')).uri}
+                            ]}
                             position={sliderPosition}
                             setPosition={setSliderPosition}/>
                            
