@@ -2,7 +2,7 @@ import LayoutV4 from "./Layouts/LayoutV4"
 import LayoutV3 from "./Layouts/LayoutV3";
 import bgButton from "../assets/bgButton.png";
 import {Image as ImageRN, ImageBackground, RefreshControl, TouchableOpacity} from "react-native";
-import {Button, Image, ScrollView, Text, View} from "native-base";
+import {Button, Image, ScrollView, Text, View, useToast} from "native-base";
 import React, {useState, useEffect} from "react";
 import {Colors} from "../Colors";
 import {connect} from "react-redux";
@@ -10,11 +10,13 @@ import {useFocusEffect} from "@react-navigation/native";
 import iconBooking from "../assets/iconBooking.png";
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import { getAllGF, getOneGF } from "../api/Requests";
+import { loggedOutAction } from "../redux/ducks/appDuck";
 
-const FixedGroupList = ({appDuck, navigation, route}) => {
+const FixedGroupList = ({appDuck, loggedOutAction, navigation, route}) => {
 
     const [groupsFoundedDetail, setGroupsFoundedDetail] = useState([]);
     const {groupsFounded} = route?.params;
+    const toast = useToast();
 
     useFocusEffect(
         React.useCallback(() => {
@@ -31,8 +33,13 @@ const FixedGroupList = ({appDuck, navigation, route}) => {
             }    
         } catch (error) {
             console.log('error: ', error);
+            if(error?.data?.message == 'Unauthorized'){
+                toast.show({
+                    description: "Sin autorización. Inicie sesión nuevamente"
+                })
+                loggedOutAction()
+            }
         }
-        
     }
 
     return (
@@ -98,4 +105,4 @@ const mapState = (state) => {
         appDuck: state.appDuck
     }
 }
-export default connect(mapState)(FixedGroupList)
+export default connect(mapState, {loggedOutAction})(FixedGroupList)

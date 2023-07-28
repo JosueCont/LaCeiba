@@ -72,6 +72,12 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
             setLoading(false)
         } catch (e) {
             console.log(e.status)
+            if(e?.data?.message == 'Unauthorized'){
+                toast.show({
+                    description: "Sin autorización. Inicie sesión nuevamente"
+                })
+                loggedOutAction();
+            }
         } finally {
         }
     }
