@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Input, ScrollView, Text, View} from "native-base";
+import {Button, Input, ScrollView, Text, View, useToast} from "native-base";
 import {Colors} from "../Colors";
 import GuestItem from "./GuestItem";
 import {RefreshControl, TouchableOpacity} from "react-native";
@@ -11,8 +11,9 @@ import {errorCapture} from "../utils";
 import ModalAsk from "./Modals/ModalAsk";
 import ModalInfo from "./Modals/ModalInfo";
 import { useFocusEffect } from "@react-navigation/native";
+import { loggedOutAction } from "../redux/ducks/appDuck";
 
-const GuestsScreen = ({navigation, appDuck}) => {
+const GuestsScreen = ({navigation, loggedOutAction, appDuck}) => {
 
     const [loading, setLoading] = useState(null);
     const [allGuests, setAllGuests] = useState([]);
@@ -25,6 +26,7 @@ const GuestsScreen = ({navigation, appDuck}) => {
     const [valor, setValue] = useState('');
     const [isValidPartnert, setIsValidPartner] = useState(true);
     const [reasonInvalid, setReasonInvalid] = useState(null);
+    const toast = useToast();
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             setQuestsFiltered([])
@@ -66,6 +68,12 @@ const GuestsScreen = ({navigation, appDuck}) => {
         } catch (e) {
             console.log(e)
             alert(e.data.message)
+            if(e?.data?.message == 'Unauthorized'){
+                toast.show({
+                    description: "Sin autorización. Inicie sesión nuevamente"
+                })
+                loggedOutAction()
+            }
         } finally {
             setLoading(false)
         }
@@ -225,4 +233,4 @@ const mapState = (state) => {
     }
 }
 
-export default connect(mapState)(GuestsScreen)
+export default connect(mapState, {loggedOutAction})(GuestsScreen)
