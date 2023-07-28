@@ -24,7 +24,6 @@ const ModalEditGender = ({visible, setVisible, appDuck,action, partner}) => {
 
     useEffect(() => {
         if(visible && partner){
-            console.log(partner)
             const gender = partner.user.gender || 'NE';
             setValue(gender);
             setSelectKey(prevKey => prevKey + 1); 
