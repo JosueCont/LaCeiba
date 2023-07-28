@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Button, ScrollView, Skeleton, Text, View} from "native-base";
+import {Button, ScrollView, Skeleton, Text, View, useToast} from "native-base";
 import {Colors} from "../Colors";
 import { AppState, RefreshControl} from "react-native";
 import {connect} from "react-redux";
@@ -7,6 +7,7 @@ import {getBalanceInfo, getProfile, getTotalBalance} from "../api/Requests";
 import {useIsFocused} from "@react-navigation/native";
 import _ from "lodash";
 import LayoutV3 from "./Layouts/LayoutV3";
+import { loggedOutAction } from "../redux/ducks/appDuck";
 
 
 
@@ -17,6 +18,7 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
     const [loading, setLoading] = useState(null);
     const isFocused = useIsFocused();
     const [dataBalance, setDataBalance] = useState(null);
+    const toast = useToast();
 
     useEffect(() => {
         if (isFocused) {
@@ -42,6 +44,12 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
         } catch (e) {
             setLoading(false)
             console.log(e.status)
+            if(e?.data?.message == 'Unauthorized'){
+                toast.show({
+                    description: "Sin autorización. Inicie sesión nuevamente"
+                })
+                loggedOutAction()
+            }
         } finally {
         }
     }
@@ -157,4 +165,4 @@ const mapState = (state) => {
 }
 
 
-export default connect(mapState)(BalanceScreen);
+export default connect(mapState, {loggedOutAction})(BalanceScreen);

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Image, Text, View} from "native-base";
+import {Image, Text, View, useToast} from "native-base";
 import {Colors} from "../Colors";
 import bgButton from "../assets/bgButton.png";
 import {Image as ImageRN, ImageBackground, TouchableOpacity} from "react-native";
@@ -19,14 +19,16 @@ import {connect} from "react-redux";
 import ModalInfo from "./Modals/ModalInfo";
 import { useFocusEffect } from '@react-navigation/native';
 import Constants from "expo-constants";
+import { loggedOutAction } from '../redux/ducks/appDuck';
 
-const HomeScreen = ({navigation, appDuck}) => {
+const HomeScreen = ({navigation, loggedOutAction, appDuck}) => {
     const [sliderPosition, setSliderPosition] = useState(0);
     const [text, setText] = useState(null);
     const [modalInfoVisible, setModalInfoVisible] = useState(null);
     const [fixedGroups, setFixedGroups] = useState(0);
     const [allGroups, setAllGroups] = useState([]);
     const [groupsFounded, setGroupsFounded] = useState([]);
+    const toast = useToast();
 
     useFocusEffect(
         React.useCallback(() => {
@@ -46,7 +48,7 @@ const HomeScreen = ({navigation, appDuck}) => {
             if(screen.includes('QRScreen')){
                 navigation.navigate(screen, {card: true})
             }else {
-                const response = await validatePartner(`/${appDuck.user.id}/partners/validate`)
+                const response = {data: {status: true}};// await validatePartner(`/${appDuck.user.id}/partners/validate`)
 
                 console.log(response.data)
                 if (response.data.status === true) {
@@ -84,6 +86,12 @@ const HomeScreen = ({navigation, appDuck}) => {
                 }
             }
         } catch (error) {
+            if(error?.data?.message == 'Unauthorized'){
+                toast.show({
+                    description: "Sin autorización. Inicie sesión nuevamente"
+                })
+                loggedOutAction()
+            }
             console.log(error?.data);
         }
     }
@@ -284,4 +292,4 @@ const mapState = (state) => {
     }
 }
 
-export default connect(mapState)(HomeScreen)
+export default connect(mapState, {loggedOutAction})(HomeScreen)

@@ -1,18 +1,19 @@
 import React from "react";
-import {Select, Text, View} from "native-base";
+import {Select, Text, View, useToast} from "native-base";
 import {Colors} from "../Colors";
 import NotificationItem from "./NotificationItem";
 import LayoutV5 from "./Layouts/LayoutV5";
 import { useFocusEffect } from "@react-navigation/native";
 import { connect } from "react-redux";
-import { deletetNotification, getAllNotifications } from "../api/Requests";
+import { deletetNotification, getAllNotifications, logOut } from "../api/Requests";
 import { useState } from "react";
 import { FlatList } from "react-native";
 import { useEffect } from "react";
 import ModalAsk from "./Modals/ModalAsk";
 import ModalInfo from "./Modals/ModalInfo";
+import { loggedOutAction } from "../redux/ducks/appDuck";
 
-const NotificationsScreen = ({navigation, appDuck}) => {
+const NotificationsScreen = ({navigation, loggedOutAction, appDuck}) => {
 
     const [notifications, setNotifications] = useState([]);
     const [notificationsFiltered, setNotificationsFiltered] = useState([]);
@@ -23,6 +24,7 @@ const NotificationsScreen = ({navigation, appDuck}) => {
     const [modalAskVisible, setModalAskVisible] = useState(false)
     const [modalInfoVisible, setModalInfoVisible] = useState(false)
     const [textModal, setTextModal] = useState('')
+    const toast = useToast();
 
     useFocusEffect(
         React.useCallback(() => {
@@ -39,14 +41,18 @@ const NotificationsScreen = ({navigation, appDuck}) => {
     const getNotifications = async () => {
         setLoading(true)
         try {
-            const queryString = `?userId=${appDuck.user.id}`;
+            const queryString = `&userId=${appDuck.user.id.toString()}`;
             const response = await getAllNotifications(queryString);
             setNotifications(response?.data?.items);
             setNotificationsFiltered(response?.data?.items);
-            //console.log(appDuck?.user?.id);
         } catch (error) {
-            console.log(error?.data);
-        }finally{
+            if(error?.data?.message == 'Unauthorized'){
+                toast.show({
+                    description: "Sin autorización. Inicie sesión nuevamente"
+                })
+                loggedOutAction();
+            }
+        }finally{ 
          setLoading(false)
         }
     
@@ -72,7 +78,6 @@ const NotificationsScreen = ({navigation, appDuck}) => {
     const deleteNotificationAction = async () => {
         try {
             const response = await deletetNotification('', [currentNotification?.id]);
-            console.log(response);
             // setTextModal('Se eliminó la notificación correctamente');
             // setModalInfoVisible(true);
             getNotifications()
@@ -180,4 +185,4 @@ const mapState = (state) => {
     }
 }
 
-export default connect (mapState)(NotificationsScreen);
+export default connect (mapState, {loggedOutAction})(NotificationsScreen);
