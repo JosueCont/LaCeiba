@@ -60,7 +60,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconHome} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'md'}>Home</Text>
+                            <Text fontSize={'sm'}>Home</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -71,7 +71,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconProfile} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'md'}>Mi perfil</Text>
+                            <Text fontSize={'sm'}>Mi perfil</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -81,7 +81,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconMembers} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'md'}>Miembros adicionales</Text>
+                            <Text fontSize={'sm'}>Miembros adicionales</Text>
                         </View>
                     </View>
                 </TouchableOpacity> 
@@ -92,7 +92,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconBooking} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'md'}>Mis reservaciones</Text>
+                            <Text fontSize={'sm'}>Mis reservaciones</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -103,7 +103,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconGuestsSmall} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'md'}>Invitados</Text>
+                            <Text fontSize={'sm'}>Invitados</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -113,7 +113,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                            <Image source={iconMatches} style={{width: 20, height: 20}}></Image>
                        </View>
                        <View flex={1} justifyContent={'center'}>
-                           <Text fontSize={'md'}>Partidos</Text>
+                           <Text fontSize={'sm'}>Partidos</Text>
                        </View>
                    </View>
                 </TouchableOpacity>
@@ -164,7 +164,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconBalance} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'md'}>Saldos</Text>
+                            <Text fontSize={'sm'}>Saldos</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -174,7 +174,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconNotifications} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'md'}>Notificaciones</Text>
+                            <Text fontSize={'sm'}>Notificaciones</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -184,7 +184,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconHelp} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'md'}>Club de Golf La Hacienda</Text>
+                            <Text fontSize={'sm'}>Club de Golf La Hacienda</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -196,7 +196,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                                 <Image source={iconStore} style={{width: 20, height: 20}}></Image>
                             </View>
                             <View flex={1} justifyContent={'center'}>
-                                <Text fontSize={'md'}>Mis compras</Text>
+                                <Text fontSize={'sm'}>Mis compras</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -209,7 +209,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconLogout} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'md'}>Cerrar sesión</Text>
+                            <Text fontSize={'sm'}>Cerrar sesión</Text>
                         </View>
                     </View>
                 </TouchableOpacity>

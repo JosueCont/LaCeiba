@@ -14,6 +14,13 @@
 ## Versiones
 --------
 
+#### 🚀 [1.0.8](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.8) (27 Julio 2023)
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🥈| <span style="color:grey">Minor update</span>| Ajustes visuales en notificaciones de los socios |
+|🥈| <span style="color:grey">Minor update</span>| Actualización de imágenes de información de las yardas por colores en score cards |
+
 #### 🚀 [1.0.7](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.7) (20 Julio 2023)
 
 | | Change type | Descripción |

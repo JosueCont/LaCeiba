@@ -32,7 +32,7 @@ const ModalScoreDetails = ({visible, setVisible}) => {
             }}
         >
             <View style={styles.centeredView}>
-                <View style={styles.modalView} onLayout={(event) => {
+                <View style={{...styles.modalView, height: '100%'}} onLayout={(event) => {
                     const {x, y, height, width} = event.nativeEvent.layout;
                     setHeightGradient(height)
                 }}>
@@ -44,14 +44,16 @@ const ModalScoreDetails = ({visible, setVisible}) => {
                         <Icon as={AntDesign} name={'close'} color={'white'} size={'xs'}></Icon>
                     </TouchableOpacity>
                    
-                    <View height={300} width={350}>
+                    <View flex={1} justifyContent={'center'} alignItems={'center'} height={230} style={{height: '100%'}}>
                         <SliderCustomScoreCard 
-                             height={300}
+                             height={'100%'}
                              items={[
-                                {image: ImageRN.resolveAssetSource(require('../../assets/pointsDetailsScore.png')).uri}                            ]}
+                                {image: ImageRN.resolveAssetSource(require('../../assets/scoreCard9.png')).uri},
+                                {image: ImageRN.resolveAssetSource(require('../../assets/scoreCard18.png')).uri}
+                            ]}
                             position={sliderPosition}
-                            setPosition={setSliderPosition}/>
-                           
+                            setPosition={setSliderPosition}
+                        />
                     </View>
                 </View>
             </View>

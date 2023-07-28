@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Icon, Text, View, Image, Spinner } from "native-base";
+import { Button, Icon, Text, View, Spinner } from "native-base";
 import { Colors } from "../Colors";
 import LayoutV4 from "./Layouts/LayoutV4";
 import bannerCardPoints from "../assets/bannerCardPoints.png"
@@ -11,6 +11,8 @@ import {connect} from "react-redux";
 import {useIsFocused} from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {getOnePartnersScoreCards,editColorScoreCard} from "../api/Requests";
+import ImageZoom from "react-native-image-pan-zoom";
+import { Dimensions, Image } from "react-native";
 
 
 
@@ -30,7 +32,7 @@ const [loading, setLoading] = useState(null);
 useEffect(() => {
     if (isFocused) {
         getProfileFunction()
-        getMatch()
+       // getMatch()
     }
 }, [isFocused])
 
@@ -75,12 +77,11 @@ const updateColorScoreCard = async(color) => {
                     </View>
                     <View justifyContent={'space-between'} width={'150px'}>
                         <Text color={'#ffff'} fontFamily={'titleComfortaaBold'} fontSize={'md'}>{appDuck.user.fullName}</Text>
-                        <Text color={'#ffff'} fontFamily={'titleLight'} fontSize={'md'}>{moment(route.params.dataScore.booking?.dueDate, "YYYY-MM-DD").format('DD/MMM/YY')}</Text>
-                        <Text color={'#ffff'} fontFamily={'titleLight'} fontSize={'md'}>{moment(route.params.dataScore.booking.dueTime, "HH:mm").format("hh:mm a")}</Text>
+                       {/*  <Text color={'#ffff'} fontFamily={'titleLight'} fontSize={'md'}>{moment(route.params.dataScore.booking?.dueDate, "YYYY-MM-DD").format('DD/MMM/YY')}</Text>
+                        <Text color={'#ffff'} fontFamily={'titleLight'} fontSize={'md'}>{moment(route.params.dataScore.booking.dueTime, "HH:mm").format("hh:mm a")}</Text> */}
                         <Text width={'50%'} color={'#ffff'} fontFamily={'titleComfortaaBold'} numberOfLines={2} fontSize={'md'}>{ghin ? `GHIN: ${ghin}` : 'No especificado'}</Text>
                     </View>
                 </View>
-
             </View>
             <View flex={1} mx={6} mb={5}>
                 <Text textAlign={'center'} mt={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xl'}>TARJETA DE PUNTUACIÓN</Text>
@@ -113,14 +114,14 @@ const updateColorScoreCard = async(color) => {
                         setColorSelected(color)
                         updateColorScoreCard(color)
                     }} 
-                     p={2} mr={2} height={6} width={6} style={colorSelected ==='Doradas' ? {backgroundColor:'Doradas', borderColor:'black', borderWidth:2} : {backgroundColor:'gold'}}>
+                     p={2} mr={2} height={6} width={6} style={colorSelected ==='Doradas' ? {backgroundColor:'gold', borderColor:'black', borderWidth:2} : {backgroundColor:'gold'}}>
                     </Button>
                     <Button  onPress={() =>{
                         let color = 'Rojas'
                         setColorSelected(color)
                         updateColorScoreCard(color)
                     }} 
-                     p={2} mr={2} height={6} width={6} style={colorSelected ==='Rojas' ? {backgroundColor:'Rojas', borderColor:'black', borderWidth:2} : {backgroundColor:'red'}}>
+                     p={2} mr={2} height={6} width={6} style={colorSelected ==='Rojas' ? {backgroundColor:'red', borderColor:'black', borderWidth:2} : {backgroundColor:'red'}}>
                     </Button>
                     <Button onPress={()=>setOpenModal(true)} borderRadius={'3xl'} px={4} py={2} textAlign={'center'} justifyContent={'center'} alignItems={'center'}>
                         Ver mas
@@ -136,7 +137,7 @@ const updateColorScoreCard = async(color) => {
                 loading === false &&
                 <View>
                 <CardPointTable 
-                idHole={route.params.dataScore.id}
+                idHole={1}
                 action={(v) => {
                     if (v === true) {
                         getMatch()
