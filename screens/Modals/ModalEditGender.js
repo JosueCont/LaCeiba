@@ -24,7 +24,7 @@ const ModalEditGender = ({visible, setVisible, appDuck,action, partner}) => {
 
     useEffect(() => {
         if(visible && partner){
-            const gender = partner.user.gender ?? 'NE';
+            const gender = partner.user.gender || 'NE';
             setValue(gender);
             setSelectKey(prevKey => prevKey + 1); 
             
@@ -57,7 +57,6 @@ const ModalEditGender = ({visible, setVisible, appDuck,action, partner}) => {
             transparent={true}
             visible={visible}
             onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
                 setVisible(!visible);
             }}
         >
