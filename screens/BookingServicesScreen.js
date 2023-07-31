@@ -9,6 +9,7 @@ import _ from "lodash";
 import {errorCapture} from "../utils";
 import ModalInfo from "./Modals/ModalInfo";
 import { loggedOutAction } from '../redux/ducks/appDuck';
+import {connect} from "react-redux";
 
 const BookingServicesScreen = ({navigation, loggedOutAction}) => {
     const [services, setServices] = useState([]);
