@@ -164,24 +164,26 @@ const GuestGeneratePass = ({navigation, route}) => {
                                             selectedDayTextColor: '#ffffff',
                                         }}
                                     />
-                <Text color={Colors.green} fontSize={'sm'} textAlign={'left'} fontFamily={'titleComfortaaBold'} mt={5}>
+                <Text color={Colors.green} fontSize={'md'} textAlign={'left'} fontFamily={'titleComfortaaBold'} mt={5}>
                     Área sin restricción
                 </Text>
 
                 <View pr={8}>
                         <Checkbox.Group
-                            onChange={setGroupValues}
+                            onChange={values => setGroupValues(()=>values || [])}
                             flexDirection={'column'}
                             alignItems={'flex-start'}
                             justifyContent={'center'}
                             mt={3}
-                            value={groupValues}    
+                            defaultValue={groupValues}    
                             _checkbox={{
                                 bgColor: 'white',
+                                borderRadius: 3,
                                 borderWidth: 0.5,
                                 _checked: {
                                     bgColor: Colors.green,
-                                    borderColor: Colors.green
+                                    borderColor: Colors.green,
+                                    borderWidth: 0.5,
                                 },
                                 _icon: {
                                     color: '#fff'
@@ -191,8 +193,8 @@ const GuestGeneratePass = ({navigation, route}) => {
                                 freeServices.map((item, index) => {
                                     return (
                                         item.isActive === true &&
-                                            <Checkbox mx={3} mb={2} value={item.id} _text={{color: '#000'}} >
-                                                <Text color={Colors.green} numberOfLines={2}>{item.name}</Text>
+                                            <Checkbox mx={3} mb={3} value={item.id} _text={{color: '#000'}} >
+                                                <Text size={'md'} color={Colors.green} numberOfLines={2}>{item.name}</Text>
                                             </Checkbox>
 
                                     )
