@@ -23,6 +23,7 @@ import ModalEditGender from "./Modals/ModalEditGender";
 import ModalChangePassword from "./Modals/ModalChangePassword";
 import {loggedOutAction} from "../redux/ducks/appDuck";
 import { fontSize } from "styled-system";
+import ModalTransferPoint from "./Modals/ModalTransferPoint";
 
 
 
@@ -46,7 +47,7 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
     const [requestDeletionInfo, setRequestDeletionInfo] = useState(false);
     const [messageRequest, setMessageRequest] = useState('');
     const [allowNotifications, setAllowNotifications] = useState(false)
-
+    const [modalTransferPoint, setModalTransferPoint] = useState(false)
 
     useEffect(() => {
         if (isFocused) {
@@ -322,7 +323,7 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                     loading === true ?
                     <Skeleton height={50} mb={10}></Skeleton> :
                     loading === false && isActive ?
-                     <Button onPress={() => navigation.navigate('AddPointsPartnesScreen')} mb={3}>Transferir Puntos</Button>
+                     <Button onPress={() => {setModalTransferPoint(true);}} mb={3}>Transferir Puntos</Button>
                      :
                      <Text mb={5} mr={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
                       *No puedes transferir puntos porque tu usuario está desactivado
@@ -375,6 +376,24 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                         })
                     }
                 }}
+            />
+
+            <ModalTransferPoint
+                partner={data}
+                visible={modalTransferPoint}
+                setVisible={setModalTransferPoint}
+                actionNormalTransfer={
+                    ()=> {
+                        setModalTransferPoint(false);
+                        navigation.navigate('AddPointsPartnesScreen', {accion: null});
+                    }
+                }
+                actionMembersTransfer={
+                    ()=> {
+                        setModalTransferPoint(false);
+                        navigation.navigate('AddPointsPartnesScreen', {accion: appDuck.user.partner.accion});
+                    }
+                }
             />
 
             <ModalEditGender

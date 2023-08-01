@@ -5,12 +5,12 @@ import {Button, Icon, Text, View, Input,FormControl, WarningOutlineIcon} from "n
 import {AntDesign} from "@expo/vector-icons";
 import {Colors} from "../../Colors";
 import {LinearGradient} from "expo-linear-gradient";
-import {getPoints,transferPoints} from "../../api/Requests";
+import {getPoints,transferPoints, transferPointsMembers} from "../../api/Requests";
 import {connect} from "react-redux";
 
 
 
-const ModalAddPoints = ({visible, error=false, setVisible, points, textButton = 'Enviar', people, textButtonCancel = 'Cancelar', action, appDuck}) => {
+const ModalAddPoints = ({visible, error=false, setVisible, partnerAccion, points, textButton = 'Enviar', people, textButtonCancel = 'Cancelar', action, appDuck}) => {
     const [heightGradient, setHeightGradient] = useState(null);
     const [value, setValue] = useState('')
     const [validateEmpty, setValidateEmpty] = useState(false)
@@ -36,6 +36,24 @@ const ModalAddPoints = ({visible, error=false, setVisible, points, textButton = 
     const validate = async(people) => {
     
         if(value>0 && value<=pointsUser){
+            if(partnerAccion){
+                setValidateEmpty(false);
+                setValue('')
+
+                let params = {
+                    "fromId": appDuck.user.id,
+                    "toId": people.user.id,
+                    "points": parseInt(value)
+                }
+                const response = await transferPointsMembers(params);
+                if (response?.data?.status) {
+                    action(true)
+                } else {
+                    action(false)
+                    error(true)
+                }
+                return;
+            }
             setValidateEmpty(false);
             setValue('')
             let params = {
