@@ -32,12 +32,12 @@ const PartnerItem = ({navigation, mb = 2, item, onEdit, onDelete}) => {
                 <Text numberOfLines={1} color={Colors.green} textTransform={'capitalize'} fontSize={'14'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>{item?.nombreSocio}</Text>
                 <Text numberOfLines={1} color={Colors.green} fontSize={'12'} justifyItems={'center'}>{item.email}</Text>
             </View>
-            <View flex={.5} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} height={'60%'} alignSelf={'center'} borderLeftWidth={2} borderColor={Colors.yellow}>
+            {/* <View flex={.5} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} height={'60%'} alignSelf={'center'} borderLeftWidth={2} borderColor={Colors.yellow}>
                     <View flex={0.3} justifyContent={'center'} alignItems={'center'}>
                             <Text fontWeight={'bold'} color={Colors.green} >{item?.user.pointsReceivedCount}</Text>
                             <Text textAlign={'center'} color={Colors.green} >pts</Text>
                     </View>
-            </View>
+            </View> */}
         </View>
     )
 }
