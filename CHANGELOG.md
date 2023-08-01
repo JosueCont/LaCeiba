@@ -14,6 +14,14 @@
 ## Versiones
 --------
 
+#### 🚀 [1.0.9](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.9) (01 Agosto 2023)
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🥈| <span style="color:grey">Minor update</span>| Transferencia de puntos entre socios de la misma acción. |
+|🥈| <span style="color:grey">Minor update</span>| Ajustes visuales en reservaciones de invitados sin costo. |
+|🥈| <span style="color:grey">Minor update</span>| Sesiones expiradas ahora redirigen a los usuarios a la pantalla login. |
+
 #### 🚀 [1.0.8](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.8) (27 Julio 2023)
 
 | | Change type | Descripción |
