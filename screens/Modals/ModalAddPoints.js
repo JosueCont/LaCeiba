@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from "react";
 import {Alert, Modal, TouchableOpacity} from "react-native";
 import {styles} from './ModalInfoStyleSheet';
-import {Button, Icon, Text, View, Input,FormControl, WarningOutlineIcon} from "native-base";
+import {Button, Icon, Text, View, Input,FormControl, WarningOutlineIcon, Toast, useToast} from "native-base";
 import {AntDesign} from "@expo/vector-icons";
 import {Colors} from "../../Colors";
 import {LinearGradient} from "expo-linear-gradient";
@@ -15,6 +15,8 @@ const ModalAddPoints = ({visible, error=false, setVisible, partnerAccion, points
     const [value, setValue] = useState('')
     const [validateEmpty, setValidateEmpty] = useState(false)
     const [pointsUser, setPointsUser] = useState(null)
+    const toast = useToast();
+    const [messageError, setMessageError] = useState(null);
 
     useEffect(() => {
             getPointsFunction()
@@ -61,13 +63,25 @@ const ModalAddPoints = ({visible, error=false, setVisible, partnerAccion, points
                 "toId": people.user.id,
                 "points": parseInt(value)
               }
-              const response = await transferPoints(params);
-              if(response?.data?.status){
-                action(true)
-              }else{
-                action(false)
-                error(true)
+              try {
+                const response = await transferPoints(params);
+                console.log('res: ', response?.data);
+                if(response?.data?.status){
+                    action(true)
+                }else{
+                    toast.show({
+                        description: response?.data?.message
+                    });
+                    action(false)
+                    error(true)
+                }  
+              } catch (error) {
+                setMessageError(error?.data?.message);
+                setTimeout(() => {
+                    setMessageError(null);
+                }, 4000);
               }
+              
               
         }else{
             setValidateEmpty(true)   
@@ -124,6 +138,10 @@ const ModalAddPoints = ({visible, error=false, setVisible, partnerAccion, points
                                 El valor no puede ser vacío y debe ser mayor a 0 y máximo {pointsUser} puntos
                             </FormControl.ErrorMessage>
                         </FormControl>
+                        {
+                            messageError && 
+                            <Text style={styles.modalText} mb={8} fontSize={'xs'} >{messageError} </Text>
+                        }
                         <Button colorScheme={'green'} onPress={() => validate(people)} mb={4}>{textButton}</Button>
                         <Button colorScheme={'green'} onPress={() => {
                             action(false)

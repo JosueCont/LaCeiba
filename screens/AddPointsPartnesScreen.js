@@ -109,6 +109,10 @@ const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
                     <View mx={10} mb={5}>
                         <Input value={textFilter} textAlign={'center'} placeholder={'Buscar'} onChangeText={(v) =>search(v)}/>
                     </View>
+                    {
+                        !accion && 
+                        <Text textAlign={'center'} mt={0} ml={5} mr={5} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>El límite de puntos para transferir por día a cada socio es: 12</Text>
+                    }
 
                     <ScrollView
                         mt={5}
