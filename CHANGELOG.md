@@ -14,6 +14,13 @@
 ## Versiones
 --------
 
+#### 🚀 [1.0.10](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.10) (07 Agosto 2023)
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🥈| <span style="color:grey">Minor update</span>| Transferir puntos a socios limitado a 12. Socios de la misma acción no tiene límite. |
+|🥈| <span style="color:grey">Minor update</span>| Un socio no puede reservar dos veces un servicio el mismo día. |
+
 #### 🚀 [1.0.9](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.9) (01 Agosto 2023)
 
 | | Change type | Descripción |
