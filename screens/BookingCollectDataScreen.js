@@ -1,4 +1,4 @@
-import {Button, Checkbox, FormControl, Icon, ScrollView, Select, Skeleton, Text, View, useToast} from "native-base";
+import {Button, Checkbox, Divider, FormControl, Icon, InfoIcon, ScrollView, Select, Skeleton, Text, View, useToast} from "native-base";
 import {Colors} from "../Colors";
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
@@ -50,7 +50,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const todayPlus7 = new Date()
     todayPlus7.setDate(new Date().getDate() + 5)
     const [holes,setHoles] = useState(null)
-    const toast = useToast();
+    const [hoursMessageInfo, setHoursMessageInfo] = useState('')
 
 
     const {touched, handleSubmit, errors, setFieldValue, resetForm} = useFormik({
@@ -178,11 +178,18 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         const queryString = `?date=${dateString}&userId=${appDuck.user.id}`;
         try {
             const response = await getIntervalsTime(queryString, [areaId]);
-            setHours(response.data);    
+            setHourSelected(null)   
+            setHours(response.data)
+            if(response.data.length === 0){
+                setHoursMessageInfo("No encontramos horarios disponibles para el día seleccionado.")
+            }
         } catch (error) {
-            toast.show({
-                description: error?.data?.message
-            })
+            console.log(error)
+            if(error?.data?.code === 400){
+                setHoursMessageInfo(error?.data?.message)
+            }else{
+                setHoursMessageInfo('No se pudo recuperar la lista de horarios.')
+            }
             setHours(null);
             setHourSelected(null);
         }
@@ -497,6 +504,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                             setFieldValue("date", day.dateString)
                                             getHoursFunction(day.dateString)
                                             setShowCalendar(false)
+                                            setTimeLeft(null)
                                         }}
                                         onDayLongPress={day => {
                                             //console.log('selected day', day);
@@ -560,17 +568,20 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                         </View>
 
                         <View mb={4}>
-                            <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
-                                Horario
-                            </Text>
                             {
                                 loading === true ?
                                     <Skeleton height={45} borderRadius={30}></Skeleton> :
-                                    hours === null ?
-                                    <View  bg={'rgba(255,255, 255,0.3)'} p={4} borderRadius={8} justifyContent={'center'} alignItems={'center'}>
-                                        <Text fontSize={14} color={Colors.green}>"Seleccionar una fecha para ver los horarios disponibles."</Text>
+                                    !date ?
+                                    <View bg={'rgba(255,255, 255,0.3)'} p={4} borderRadius={8} justifyContent={'center'} alignItems={'center'}>
+                                        <View flex={1} flexDirection={'row'} alignItems={'center'} mx={3} >
+                                            <InfoIcon size={'md'} color={Colors.yellow} mr={3}/>
+                                            <Text fontSize={14} color={Colors.green}>Seleccionar una fecha para ver los horarios disponibles</Text>
+                                        </View>
                                     </View>
-                                 : (hours && hours?.length > 0) ? 
+                                 : (hours && hours?.length > 0) ? <View>
+                                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                        Horario
+                                    </Text>
                                     <FormControl isInvalid={errors.hourSelected}>
                                         <Select
 
@@ -607,10 +618,14 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                             {errors.hourSelected}
                                         </FormControl.ErrorMessage>
                                     </FormControl>
+                                    </View>
                                     :
                                     
-                                    <View  bg={'rgba(255,255, 255,0.3)'} p={4} borderRadius={8} justifyContent={'center'} alignItems={'center'}>
-                                        <Text fontSize={14} color={Colors.green}>"No encontramos horarios disponibles para el día seleccionado."</Text>
+                                    <View bg={'rgba(255,255, 255,0.3)'} p={4} borderRadius={8} justifyContent={'center'} alignItems={'center'}>
+                                        <View flex={1} flexDirection={'row'} alignItems={'center'} mx={3} >
+                                            <InfoIcon size={'md'} color={Colors.yellow} mr={3}/>
+                                            <Text fontSize={14} color={Colors.green}>{hoursMessageInfo}</Text>
+                                        </View>
                                     </View>
                             }
                         </View>
@@ -768,7 +783,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 </View>
 
                 <View>
-                <Button disabled={points < 0 || (route?.params?.service?.isGolf && !holes)} onPress={() =>handleSubmit()} isLoading={sending}>Reservar</Button>
+                <Button disabled={points < 0 || (route?.params?.service?.isGolf && !holes) || !hourSelected} onPress={() =>handleSubmit()} isLoading={sending}>Reservar</Button>
                 </View>
             </View>
             <ModalBookingConfirmation
