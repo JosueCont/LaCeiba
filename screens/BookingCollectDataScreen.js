@@ -1,4 +1,4 @@
-import {Button, Checkbox, FormControl, Icon, ScrollView, Select, Skeleton, Text, View} from "native-base";
+import {Button, Checkbox, FormControl, Icon, ScrollView, Select, Skeleton, Text, View, useToast} from "native-base";
 import {Colors} from "../Colors";
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
@@ -50,6 +50,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const todayPlus7 = new Date()
     todayPlus7.setDate(new Date().getDate() + 5)
     const [holes,setHoles] = useState(null)
+    const toast = useToast();
 
 
     const {touched, handleSubmit, errors, setFieldValue, resetForm} = useFormik({
@@ -174,9 +175,18 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     }
 
     const getHoursFunction = async (dateString) => {
-        const queryString = `?date=${dateString}`;
-        const response = await getIntervalsTime(queryString, [areaId]);
-        setHours(response.data);
+        const queryString = `?date=${dateString}&userId=${appDuck.user.id}`;
+        try {
+            const response = await getIntervalsTime(queryString, [areaId]);
+            setHours(response.data);    
+        } catch (error) {
+            toast.show({
+                description: error?.data?.message
+            })
+            setHours(null);
+            setHourSelected(null);
+        }
+        
     }
 
     const validateHour = async (hour) => {
