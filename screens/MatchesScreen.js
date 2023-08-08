@@ -1,4 +1,4 @@
-import {Button, Icon, Text, View, Image, ScrollView} from "native-base";
+import {Button, Icon, Text, View, Image, ScrollView, useToast} from "native-base";
 import iconGroupSmall from "../assets/iconGroupSmall.png";
 import {Colors} from "../Colors";
 import LayoutV4 from "./Layouts/LayoutV4";
@@ -11,16 +11,18 @@ import {useIsFocused} from "@react-navigation/native";
 import {connect} from "react-redux";
 import {getAllPartnersScoreCards} from "../api/Requests";
 import moment from "moment";
+import { loggedOutAction } from "../redux/ducks/appDuck";
 
 
 
 
-const MatchesScreen = ({navigation, appDuck}) => {
+const MatchesScreen = ({navigation, loggedOutAction, appDuck}) => {
 
     const [todayMatches,setTodayMatches] = useState([])
     const [pastMatches,setPastMatches] = useState([])
     const [loading, setLoading] = useState(null);
     const isFocused = useIsFocused();
+    const toast = useToast();
 
 
     useEffect(() => {
@@ -49,6 +51,12 @@ const MatchesScreen = ({navigation, appDuck}) => {
             //console.log(moment(date).format('YYYY-MM-DD'));
         } catch (e) {
             console.log(e);
+            if(e?.data?.message == 'Unauthorized'){
+                toast.show({
+                    description: "Sin autorización. Inicie sesión nuevamente"
+                })
+                loggedOutAction()
+            }
         } finally {
             setLoading(false)
         }
@@ -129,4 +137,4 @@ const mapState = (state) => {
 }
 
 
-export default connect(mapState)(MatchesScreen);
+export default connect(mapState, {loggedOutAction})(MatchesScreen);

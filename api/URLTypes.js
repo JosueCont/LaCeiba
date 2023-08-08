@@ -31,6 +31,7 @@ export const URLTypes = {
     GET_ADDITIONALS: '/v1/users/{{param}}/partners/additionals',
     CANCEL_BOOKING: '/v1/bookings/{{param}}/cancel',
     TRASNFER_POINTS: '/v1/transfer-points',
+    TRASNFER_POINTS_MEMBERS: '/v1/transfer-points/members',
     REGISTER_SEND_CONFIRM_EMAIL: '/v1/auth/partner/send-confirm-email',
     REGISTER_CONFIRM_EMAIL: '/v1/auth/partner/confirm-email',
     GET_ALL_GUESTS: '/v1/free-services/users/guests', //?userId=

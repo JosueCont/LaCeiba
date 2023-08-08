@@ -1,4 +1,4 @@
-import {Button, ScrollView, Text, View} from "native-base";
+import {Button, ScrollView, Text, View, useToast} from "native-base";
 import React, {useEffect, useState} from "react";
 import {ImageBackground, RefreshControl} from "react-native";
 import {getAllServices} from "../api/Requests";
@@ -8,14 +8,17 @@ import {useFocusEffect, useIsFocused} from "@react-navigation/native";
 import _ from "lodash";
 import {errorCapture} from "../utils";
 import ModalInfo from "./Modals/ModalInfo";
+import { loggedOutAction } from '../redux/ducks/appDuck';
+import {connect} from "react-redux";
 
-const BookingServicesScreen = ({navigation}) => {
+const BookingServicesScreen = ({navigation, loggedOutAction}) => {
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(null);
     const [getActiveStatus, setGetActiveStatus] = useState({isActive: true, reason: "Esta es una razón"});
     const [textModalInfo, setTextModalInfo] = useState("");
     const [modalInfo, setModalInfo] = useState(null);
     const isFocused = useIsFocused();
+    const toast = useToast();
 
     useFocusEffect(
         React.useCallback(() => {
@@ -44,6 +47,12 @@ const BookingServicesScreen = ({navigation}) => {
         } catch (e) {
             let v = await errorCapture(e);
             alert(v.value)
+            if(e?.data?.message == 'Unauthorized'){
+                toast.show({
+                    description: "Sin autorización. Inicie sesión nuevamente"
+                })
+                loggedOutAction();
+            }
 
         }
 
@@ -117,4 +126,10 @@ const BookingServicesScreen = ({navigation}) => {
     )
 }
 
-export default BookingServicesScreen;
+const mapState = (state) => {
+    return {
+        appDuck: state.appDuck
+    }
+}
+
+export default connect(mapState, {loggedOutAction}) (BookingServicesScreen);

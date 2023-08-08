@@ -13,6 +13,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
 
+    const {accion} = route?.params;
     const [loading, setLoading] = useState(null);
     const [modalAddPoints, setModalAddPoints] = useState(null);
     const [allGuests, setAllGuests] = useState([]);
@@ -29,21 +30,27 @@ const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
      useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             setValue('');
-            getPartnersFunction()
+            // getPartnersFunction()
         });
         return unsubscribe;
      }, [navigation]);
 
     useEffect(() => {
-        getPartnersFunction()
+        getPartnersFunction();
     }, [])
+
+    useEffect(()=> {
+        setPeople([]);
+        setPeopleSearch([]);
+        getPartnersFunction();
+    }, [route?.params]);
 
     useFocusEffect(
         React.useCallback(() => {
-          const getGuests = async () =>{
-            await getQuestsFunction();
-          }
-          getGuests();
+        //   const getGuests = async () =>{
+        //     await getQuestsFunction();
+        //   }
+        //   getGuests();
           return () => {
             setAllGuests([]);
           };
@@ -57,8 +64,15 @@ const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
             const queryString = `?userId=not_null&isActive=true`;
             const response = await findPartnerQuery(queryString);
             const data = response.data.items.filter(x => x.user.id !== appDuck.user.id);
+            if(accion){
+                const members = data.filter(d => d.accion == appDuck.user.partner.accion.toString());
+                setPeople(members);
+                setPeopleSearch(members);
+                return;
+            }
             setPeople(data);
             setPeopleSearch(data);
+            
         } catch (e) {
             console.log(e);
         }finally{
@@ -95,6 +109,10 @@ const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
                     <View mx={10} mb={5}>
                         <Input value={textFilter} textAlign={'center'} placeholder={'Buscar'} onChangeText={(v) =>search(v)}/>
                     </View>
+                    {
+                        !accion && 
+                        <Text textAlign={'center'} mt={0} ml={5} mr={5} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>El límite de puntos para transferir por día a cada socio es: 12</Text>
+                    }
 
                     <ScrollView
                         mt={5}
@@ -131,6 +149,7 @@ const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
             </View>
             <ModalAddPoints
                 visible={modalAddPoints}
+                partnerAccion={accion}
                 setVisible={setModalAddPoints}
                 textButton={'Enviar'}
                 people={selectedPeople}
@@ -154,7 +173,7 @@ const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
             iconType={'check'}
             title={'Asignación de puntos'}
             textButton={'Aceptar'} text={'Los puntos han sido asignados correctamente'}
-            textDescription={'NOTA: Estos puntos podrán ser utilizados en un lapso no mayor a 48 horas'}
+            textDescription={accion ? '' : 'NOTA: Estos puntos podrán ser utilizados en un lapso no mayor a 48 horas'}
             action={(v) => {
                 if (v === true) {
                     setModalInfoVisible(false)

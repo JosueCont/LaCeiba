@@ -13,15 +13,16 @@ import {useIsFocused} from "@react-navigation/native";
 import googleWallet from '../assets/googleWallet.png';
 import addToAppleWalletBtn from '../assets/esmx_addtoapplewallet.png'
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { getTokenGoogleWallet } from "../api/Requests";
+import { getTokenGoogleWallet, logOut } from "../api/Requests";
 import axios from "axios";
 import Constants from "expo-constants";
 import bgButton from "../assets/bgButton.png";
 import iconAccess from "../assets/iconAccess.png";
 import Animated from "react-native-reanimated";
 import {AntDesign} from "@expo/vector-icons";
+import { loggedOutAction } from "../redux/ducks/appDuck";
 
-const QRScreen = ({navigation, appDuck, route}) => {
+const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
     const [refreshing, setRefreshing] = useState(null);
     const [imageQRCode, setImageQRCode] = useState(null);
     const [modalVisible, setModalVisible] = useState(null);
@@ -68,6 +69,12 @@ const QRScreen = ({navigation, appDuck, route}) => {
             setModalText(e.data.message);
             setModalVisible(true);
             console.log(e)
+            if(error?.data?.message == 'Unauthorized'){
+                toast.show({
+                    description: "Sin autorización. Inicie sesión nuevamente"
+                })
+                loggedOutAction()
+            }
         } finally {
             setRefreshing(false)
         }
@@ -276,4 +283,4 @@ const mapState = (state) => {
 }
 
 
-export default connect(mapState)(QRScreen);
+export default connect(mapState, {loggedOutAction})(QRScreen);

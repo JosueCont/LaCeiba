@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {ScrollView, Text, View} from "native-base";
+import {ScrollView, Text, View, useToast} from "native-base";
 import {Colors} from "../Colors";
 import BookinsItem from "./BookinsItem";
 import {RefreshControl, TouchableOpacity} from "react-native";
@@ -8,14 +8,16 @@ import {getAllBookings, getAllInvitations} from "../api/Requests";
 import LayoutV3 from "./Layouts/LayoutV3";
 import {useIsFocused} from "@react-navigation/native";
 import moment from "moment";
+import { loggedOutAction } from "../redux/ducks/appDuck";
 
-const BookingsScreen = ({navigation, appDuck}) => {
+const BookingsScreen = ({navigation, loggedOutAction, appDuck}) => {
 
     const [invitations, setInvitations] = useState([]);
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(null);
     const isFocused = useIsFocused();
     const [emptyBookings, setEmptyBookings] = useState(null)
+    const toast = useToast();
 
     useEffect(() => {
         if (isFocused) {
@@ -61,6 +63,12 @@ const BookingsScreen = ({navigation, appDuck}) => {
             //console.log(moment(date).format('YYYY-MM-DD'));
         } catch (e) {
             console.log(e);
+            if(e?.data?.message == 'Unauthorized'){
+                toast.show({
+                    description: "Sin autorización. Inicie sesión nuevamente"
+                })
+                loggedOutAction()
+            }
         } finally {
             setLoading(false)
         }
@@ -117,4 +125,4 @@ const mapState = (state) => {
 }
 
 
-export default connect(mapState)(BookingsScreen);
+export default connect(mapState, {loggedOutAction})(BookingsScreen);
