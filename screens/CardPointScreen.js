@@ -32,7 +32,7 @@ const [loading, setLoading] = useState(null);
 useEffect(() => {
     if (isFocused) {
         getProfileFunction()
-       // getMatch()
+       getMatch()
     }
 }, [isFocused])
 
@@ -44,6 +44,7 @@ const getMatch = async() =>{
     setColorSelected(response.data.color)
     setLoading(false)
     } catch (e) {
+        setLoading(false)
         alert(e)
     }
   }
@@ -137,7 +138,7 @@ const updateColorScoreCard = async(color) => {
                 loading === false &&
                 <View>
                 <CardPointTable 
-                idHole={1}
+                idHole={route.params.dataScore.id}
                 action={(v) => {
                     if (v === true) {
                         getMatch()
