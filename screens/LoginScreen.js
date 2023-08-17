@@ -93,10 +93,10 @@ const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) =
 
     return (
         <Layout overlay={true}>
-            <KeyboardAvoidingView
+            {/* <KeyboardAvoidingView
                 style={{width:'100%', flex: 1}}
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            >
+            > */}
                 <View flex={0.5} alignItems={'center'} justifyContent={'flex-end'}>
                     <Image source={imgLogo} size={150}/>
                 </View>
@@ -150,7 +150,7 @@ const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) =
                     </View>
                     </ScrollView>
                 </View>
-            </KeyboardAvoidingView>
+            {/* </KeyboardAvoidingView> */}
                 <ModalInfo
                     close={true}
                     visible={modalInfoVisible}
