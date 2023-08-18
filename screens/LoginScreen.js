@@ -14,6 +14,7 @@ import {MaterialIcons} from "@expo/vector-icons";
 import * as Notifications from 'expo-notifications';
 import {setAttribute} from "../redux/ducks/navigationDuck";
 import _ from "lodash";
+import Constants from 'expo-constants';
 
 const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) => {
     const [modalInfoVisible, setModalInfoVisible] = useState(null);
@@ -42,7 +43,8 @@ const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) =
     const loginFunction = async (data) => {
         try {
             data['refresh'] = true;
-            if (_.has(navigationDuck, 'pushToken')) {
+            
+            if (_.has(navigationDuck, 'pushToken') && Constants?.manifest?.extra?.sendDeviceToken) {
 
                 const deviceData = {
                     token: navigationDuck.pushToken
