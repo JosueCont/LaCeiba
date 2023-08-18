@@ -14,6 +14,15 @@
 ## Versiones
 --------
 
+#### 🚀 [1.0.11](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.11) (17 Agosto 2023)
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🥈| <span style="color:grey">Minor update</span>| Optimización de mensaje cuando un socio ya tiene dos reservaciones del mismo servicio en el día |
+|🥈| <span style="color:grey">Minor update</span>| Optimización de pantalla de inicio de sesión |
+|🐞| <span style="color:grey">Bug fixes</span>| Corrección de error presentado en la vista de score cards |
+
+
 #### 🚀 [1.0.10](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.10) (07 Agosto 2023)
 
 | | Change type | Descripción |
