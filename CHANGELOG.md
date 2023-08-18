@@ -19,7 +19,7 @@
 | | Change type | Descripción |
 |:--| :------------| :----------- |
 |🥈| <span style="color:grey">Minor update</span>| Optimización de mensaje cuando un socio ya tiene dos reservaciones del mismo servicio en el día |
-|🥈| <span style="color:grey">Minor update</span>| Optimización de pantalla de inicio de seión |
+|🥈| <span style="color:grey">Minor update</span>| Optimización de pantalla de inicio de sesión |
 |🐞| <span style="color:grey">Bug fixes</span>| Corrección de error presentado en la vista de score cards |
 
 
