@@ -36,7 +36,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
         if (isFocused) {
             console.log('getInvitation')
             setInvitation(null)
-                getInvitation()
+            getInvitation()
         }
     }, [isFocused])
 
@@ -199,16 +199,17 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                         <View style={{width: '100%'}} mt={5} mb={10}>
                                     <Table style={styles.container} borderStyle={{borderWidth: 1, borderColor: Colors.green}} color={Colors.green}>
                                       <Row data={['Estatus', 'Socio']} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.textHead}/>
-                                      {
+                                        {
                                             invitation?.booking?.invitations?.map((currentBooking, index) => {
-                                                console.log('complete invitation: ', currentBooking?.status);
                                                 const partner = currentBooking?.user?.firstName.toUpperCase() + " " + currentBooking?.user?.lastName.toUpperCase();
                                                 return (
-                                                    currentBooking.user &&
+                                                    currentBooking?.user ?
                                                     <Row data={[statusCell(currentBooking?.status), partner]} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.text}/>
+                                                    :
+                                                    <></>
                                                 );
                                             })
-                                    }
+                                        }
                                     </Table>
                                   </View>
                                     </View>
