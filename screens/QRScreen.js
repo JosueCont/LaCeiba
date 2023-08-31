@@ -151,7 +151,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
 
                         {
                             route.params?.card === true ?
-                                <View height={450} borderColor={Colors.green} borderWidth={0.5} borderRadius={20} overflow={'hidden'} mb={10}>
+                                <View height={450} borderColor={Colors.green} borderWidth={0.5} borderRadius={20} overflow={'hidden'}>
                                     <View flex={0.7} bgColor={Colors.green}>
                                         <View flex={1} justifyContent={'center'} alignItems={'center'}>
                                             <Image source={imgLogo} width={100} height={100}></Image>
@@ -185,7 +185,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                                     </View>
                                 </View>
                                 :
-                                <View height={400} borderColor={Colors.green} borderRadius={20} overflow={'hidden'} mb={10}>
+                                <View height={400} borderColor={Colors.green} borderRadius={20} overflow={'hidden'}>
                                     <View flex={1} alignItems={'center'} justifyContent={'center'}>
                                         {
                                             refreshing === true ?
@@ -203,7 +203,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                     </ViewShot>
 
 
-                    <View>
+                    <View mt={10}>
                         {
                             route.params?.card === true ?
                                 <Text color={Colors.green} fontSize={'md'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={6}>

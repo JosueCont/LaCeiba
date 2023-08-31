@@ -56,17 +56,19 @@ const GuestGeneratePass = ({navigation, route}) => {
 
     const generatePassAction = async()=>{
         try {
-            if(loading) return;
+             if(loading) return;
             setLoading(true);
        
             const bodyString = {
                 expirationDate: dateSelected,
-                freeServices: groupValues
+                freeServices: groupValues,
+                sendQrGenerated:true
             }
             const response = await generatePass(bodyString, [route?.params?.data?.user?.id, route?.params?.data?.id]);
-            console.log(response?.data);
-            setLoading(false);
-            navigation.navigate("GuestGeneratePassSuccessScreen");    
+            console.log(bodyString, response?.data);
+            setLoading(false); 
+            //navigation.navigate("GuestGeneratePassSuccessScreen");  
+            navigation.navigate('GuestGeneratePassQRScreen', {qrPass:response.data })  
         } catch (error) {
             console.log(error?.data);
             setLoading(false);

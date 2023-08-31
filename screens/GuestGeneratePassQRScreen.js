@@ -1,0 +1,99 @@
+import React, { useEffect, useRef, useState } from "react";
+import { Button, Icon, Image, ScrollView, Skeleton, Text, useToast, View } from "native-base";
+import LayoutV3 from "./Layouts/LayoutV3";
+import { Colors } from "../Colors";
+import ModalInfo from "./Modals/ModalInfo";
+import imgLogo from '../assets/imgLogo.png'
+import ViewShot, { captureRef } from 'react-native-view-shot';
+import * as MediaLibrary from 'expo-media-library';
+import { useIsFocused } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import * as Sharing from "expo-sharing"
+import moment from "moment";
+
+const GuestGeneratePassQRScreen = ({ navigation, route }) => {
+    const [imageQRCode, setImageQRCode] = useState(null);
+    const [qrPass, setQrPass] = useState(null);
+    const isFocused = useIsFocused();
+    const toast = useToast();
+    const imgRef = useRef();
+
+    useEffect(() => {
+        if (isFocused) {
+          //  validatePermission()
+        }
+    }, [isFocused])
+
+    const shareImage = async () =>{
+        try{
+            const uri = await captureRef(imgRef,{
+                format:'png',
+                quality: 0.9
+            })
+            console.log('uri', uri)
+            
+            Sharing.shareAsync("file://" +uri)
+        }catch(e){
+
+        }
+    }
+
+    useEffect(() => {
+        setImageQrFunction()
+    }, [])
+
+    const setImageQrFunction = () => {
+        setQrPass(route?.params?.qrPass)
+        setImageQRCode(route?.params?.qrPass?.qrGenerated)
+    }
+
+    return (
+        <LayoutV3 backgroundColor={'#fff'}>
+            <ScrollView>
+                <View mx={10} mt={10}>
+
+                    <ViewShot ref={imgRef}>
+
+                        <View height={500} borderColor={Colors.green} borderWidth={0.5} borderRadius={20} overflow={'hidden'}>
+                        
+                            <View flex={0.65} bgColor={Colors.green}>
+                                <View flex={1} justifyContent={'center'} alignItems={'center'}>
+                                    <Image source={imgLogo} width={100} height={100}></Image>
+                                </View>
+                                <View bgColor={Colors.greenV4} height={55} justifyContent={'center'} p={1}>
+                                    <Text textAlign={'center'} fontSize="2xl" fontFamily={'titleComfortaaBold'}>PASE DE INVITADO</Text>
+                                    <Text textAlign={'center'} fontSize="xs">
+                                        Válido únicamente el {qrPass ? moment(qrPass?.expirationDate).format('LL') : ''}
+                                    </Text>
+                                </View>
+                            </View>
+
+                            <View flex={1} bgColor={'white'} borderBottomRadius={20}>
+                                <View flex={1} alignItems={'center'} justifyContent={'center'}>
+                                    <Image source={{uri: imageQRCode}} width={180} height={180}/>
+                                </View>
+                                <View flexDir={'row'} p={3}>
+                                    <View flex={1}>
+                                        <Text color={Colors.green} textAlign={'center'} fontSize="xl" fontFamily={'titleComfortaaBold'}>{qrPass?.guestName}</Text>
+                                        <Text color={Colors.green} textAlign={'center'} fontSize={'xs'}>
+                                            <Text fontFamily={'titleComfortaaBold'}>Acceso exclusivo a:</Text> {qrPass && qrPass?.metadata?.freeServices && qrPass?.metadata?.freeServices.map(({ name }) => name).join(', ')}
+                                        </Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                    </ViewShot>
+
+
+                    <View>
+                        <Button mt={6} mb={4} onPress={shareImage}>Compartir</Button>
+                        <Button mb={4} onPress={() => navigation.goBack()}>Regresar</Button>
+                    </View>
+
+                </View>
+            </ScrollView>
+        </LayoutV3>
+    )
+}
+
+export default GuestGeneratePassQRScreen;
