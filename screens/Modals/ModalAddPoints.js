@@ -13,7 +13,8 @@ import {connect} from "react-redux";
 const ModalAddPoints = ({visible, error=false, setVisible, partnerAccion, points, textButton = 'Enviar', people, textButtonCancel = 'Cancelar', action, appDuck}) => {
     const [heightGradient, setHeightGradient] = useState(null);
     const [value, setValue] = useState('')
-    const [validateEmpty, setValidateEmpty] = useState(false)
+    const [validateEmpty, setValidateEmpty] = useState(false);
+    const [validateEnoughtPoints, setValidateEnoughtPoints] = useState(false);
     const [pointsUser, setPointsUser] = useState(null)
     const toast = useToast();
     const [messageError, setMessageError] = useState(null);
@@ -36,10 +37,16 @@ const ModalAddPoints = ({visible, error=false, setVisible, partnerAccion, points
 
 
     const validate = async(people) => {
+
+        if(pointsUser == 0 || pointsUser < value){
+            setValidateEnoughtPoints(true);
+            return;
+        }
     
         if(value>0 && value<=pointsUser){
             if(partnerAccion){
                 setValidateEmpty(false);
+                setValidateEnoughtPoints(false);
                 setValue('')
 
                 let params = {
@@ -120,6 +127,7 @@ const ModalAddPoints = ({visible, error=false, setVisible, partnerAccion, points
                                         setVisible(false)
                                         setValue('')
                                         setValidateEmpty(false)
+                                        setValidateEnoughtPoints(false)
                                       }}>
                         <Icon as={AntDesign} name={'close'} color={'white'} size={'xs'}></Icon>
                     </TouchableOpacity>
@@ -133,9 +141,14 @@ const ModalAddPoints = ({visible, error=false, setVisible, partnerAccion, points
                             setValue(formatNumber)
                              points(parseInt(val))
                         }} keyboardType="numeric" mx="3" placeholder="Puntos a transferir" w="100%" />
+                        <FormControl isInvalid={validateEnoughtPoints} mb={6}>
+                            <FormControl.ErrorMessage _text={{color: "white"}} leftIcon={<WarningOutlineIcon  size="xs" />}>
+                                No tienes suficientes puntos
+                            </FormControl.ErrorMessage>
+                        </FormControl>
                         <FormControl isInvalid={validateEmpty} mb={6}>
                             <FormControl.ErrorMessage _text={{color: "white"}} leftIcon={<WarningOutlineIcon  size="xs" />}>
-                                El valor no puede ser vacío y debe ser mayor a 0 y máximo {pointsUser} puntos
+                                El valor no puede ser vacío y debe ser mayor a 0 y máximo 12 puntos
                             </FormControl.ErrorMessage>
                         </FormControl>
                         {
@@ -147,6 +160,7 @@ const ModalAddPoints = ({visible, error=false, setVisible, partnerAccion, points
                             action(false)
                             setValue('')
                             setValidateEmpty(false)
+                            setValidateEnoughtPoints(false)
                         }}>{textButtonCancel}</Button>
 
                     </View>

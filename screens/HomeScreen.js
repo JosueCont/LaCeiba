@@ -14,14 +14,15 @@ import iconMatches from '../assets/iconMatches2.png'
 import iconBalance from '../assets/iconBalance2.png'
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import LayoutV4 from "./Layouts/LayoutV4";
-import {getAllGF, getGFLeader, validatePartner} from "../api/Requests";
+import {getAllGF, getGFLeader, sendPushToken, validatePartner} from "../api/Requests";
 import {connect} from "react-redux";
 import ModalInfo from "./Modals/ModalInfo";
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import Constants from "expo-constants";
 import { loggedOutAction } from '../redux/ducks/appDuck';
+import { Platform } from "react-native";
 
-const HomeScreen = ({navigation, loggedOutAction, appDuck}) => {
+const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
     const [sliderPosition, setSliderPosition] = useState(0);
     const [text, setText] = useState(null);
     const [modalInfoVisible, setModalInfoVisible] = useState(null);
@@ -29,6 +30,14 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck}) => {
     const [allGroups, setAllGroups] = useState([]);
     const [groupsFounded, setGroupsFounded] = useState([]);
     const toast = useToast();
+
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+        if (isFocused) {
+            sendExpoToken();
+        }
+    }, [isFocused])
 
     useFocusEffect(
         React.useCallback(() => {
@@ -41,6 +50,23 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck}) => {
               };
         }, [])
     );
+
+    const sendExpoToken = async () => {
+        try {
+            if(Constants?.manifest?.extra?.sendDeviceToken){
+                let data = {
+                    os: Platform.OS=== 'ios' ?  'ios' :  'android',
+                    token: navigationDuck?.pushToken?.toString(),
+                    userId: appDuck?.user?.id?.toString()
+                };
+                await sendPushToken(data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+       
+        return;
+    }
 
     const validatePartnerFunction = async (screen) => {
         try {
@@ -288,7 +314,8 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck}) => {
 
 const mapState = (state) => {
     return {
-        appDuck: state.appDuck
+        appDuck: state.appDuck,
+        navigationDuck: state.navigationDuck
     }
 }
 
