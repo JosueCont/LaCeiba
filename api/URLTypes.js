@@ -65,6 +65,7 @@ export const URLTypes = {
     CREATE_USER_DATA_DELETION_REQUEST: '/v1/users/{{param}}/data-deletion-request',
     UPDATE_USER_PASSWORD: '/v1/users/{{param}}/reset-password',
     GET_BALANCE_INFO: '/v1/users/print/ticket',
-    GET_TOTAL_BALANCE: '/v1/users/print/total'
+    GET_TOTAL_BALANCE: '/v1/users/print/total',
+    UPDATE_DEVICE: '/v1/notifications/device'
     //UPDATE_USER_PASSWORD: '/v1/auth/reset-password',
 };

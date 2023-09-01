@@ -77,6 +77,7 @@ import appDuck from "../redux/ducks/appDuck";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
 import BalanceScreen from "../screens/BalanceScreen";
+import GuestGeneratePassQRScreen from "../screens/GuestGeneratePassQRScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -337,6 +338,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'MembershipsScreen'} component={MembershipsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'GuestGeneratePass'} component={GuestGeneratePass} options={{title: ''}}/>
             <Drawer.Screen name={'GuestGeneratePassScreen'} component={GuestGeneratePassScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'GuestGeneratePassQRScreen'} component={GuestGeneratePassQRScreen} options={{title: ''}}/>
             <Drawer.Screen name={'GuestGeneratePassSuccessScreen'} component={GuestGeneratePassSuccessScreen} options={{title: ''}}/>
             <Drawer.Screen name={'MemberEditScreen'} component={MemberEditScreen} options={{title: ''}}/>
             <Drawer.Screen name={'BookingsDetailScreen'} component={BookingsDetailScreen} options={{title: ''}}/>

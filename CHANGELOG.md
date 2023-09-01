@@ -14,6 +14,21 @@
 ## Versiones
 --------
 
+#### 🚀 [1.0.13](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.13) (31 Agosto 2023)
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🐞| <span style="color:grey">Bug fixes</span>| Corrección de error presentado en la vista de detalle de reservaciones |
+
+
+#### 🚀 [1.0.12](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.12) (21 Agosto 2023)
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🥈| <span style="color:grey">Minor update</span>| Se habilita lectura del token del dispositivo en el home de la app. |
+|🐞| <span style="color:grey">Bug fixes</span>| Corrección de error presentado en la vista de score cards |
+
+
 #### 🚀 [1.0.11](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.11) (17 Agosto 2023)
 
 | | Change type | Descripción |

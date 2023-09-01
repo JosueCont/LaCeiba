@@ -29,6 +29,7 @@ const commonConfig = {
     extra: {
         debug: false, //Colocar a false para no generar correos dummy al registro del socio
         production: true,
+        sendDeviceToken: true, //Colocar false para no enviar el token device
         URL: "https://api.clubdegolflahacienda.com",
         URL_DEV: "https://api.hacienda.hiumanlab.com",
         //URL_DEV: "https://qa.api.hacienda.hiumanlab.com",
@@ -44,13 +45,13 @@ const commonConfig = {
 };
 
 const ios = {
-    buildNumber: "57",
+    buildNumber: "59",
     supportsTablet: false,
     bundleIdentifier: "com.hiumanlab.clublahacienda"
 };
 
 const android = {
-    versionCode: 57,
+    versionCode: 59,
     adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundImage: "./assets/adaptive-icon-bg.png"
@@ -65,21 +66,21 @@ module.exports = () => {
         return {
             ...commonConfig,
             slug: "clublahacienda",
-            version: "1.0.11",
+            version: "1.0.13",
             ios: ios
         };
     } else if (process.env.APP_ENV === "android") {
         return {
             ...commonConfig,
             slug: "clublahacienda",
-            version: "1.0.11",
+            version: "1.0.13",
             android: android
         };
     } else if (process.env.APP_ENV === "expo") {
         return {
             ...commonConfig,
             slug: "clublahacienda-dev",
-            version: "1.0.11",
+            version: "1.0.13",
             ios: ios,
             android: android
         };
