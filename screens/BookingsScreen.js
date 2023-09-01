@@ -33,7 +33,7 @@ const BookingsScreen = ({navigation, loggedOutAction, appDuck}) => {
     }
 
     const getInvitations = async () => {
-        const queryString = `?userId=${appDuck.user.id}&limit=50`;
+        const queryString = `?userId=${appDuck.user.id}&limit=50&estatus=1`;
 
         const response = await getAllInvitations(queryString);
         setInvitations(response?.data?.items);
