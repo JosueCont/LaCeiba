@@ -125,7 +125,7 @@ const updateColorScoreCard = async(color) => {
                      p={2} mr={2} height={6} width={6} style={colorSelected ==='Rojas' ? {backgroundColor:'red', borderColor:'black', borderWidth:2} : {backgroundColor:'red'}}>
                     </Button>
                     <Button onPress={()=>setOpenModal(true)} borderRadius={'3xl'} px={4} py={2} textAlign={'center'} justifyContent={'center'} alignItems={'center'}>
-                        Ver mas
+                        Ver más
                     </Button>
                 </View>
                 <Text colo mb={4}  color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xs'} textAlign={'center'}>

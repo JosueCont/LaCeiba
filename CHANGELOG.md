@@ -14,6 +14,45 @@
 ## Versiones
 --------
 
+#### 🚀 [1.0.13](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.13) (31 Agosto 2023)
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🐞| <span style="color:grey">Bug fixes</span>| Corrección de error presentado en la vista de detalle de reservaciones |
+
+
+#### 🚀 [1.0.12](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.12) (21 Agosto 2023)
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🥈| <span style="color:grey">Minor update</span>| Se habilita lectura del token del dispositivo en el home de la app. |
+|🐞| <span style="color:grey">Bug fixes</span>| Corrección de error presentado en la vista de score cards |
+
+
+#### 🚀 [1.0.11](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.11) (17 Agosto 2023)
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🥈| <span style="color:grey">Minor update</span>| Optimización de mensaje cuando un socio ya tiene dos reservaciones del mismo servicio en el día |
+|🥈| <span style="color:grey">Minor update</span>| Optimización de pantalla de inicio de sesión |
+|🐞| <span style="color:grey">Bug fixes</span>| Corrección de error presentado en la vista de score cards |
+
+
+#### 🚀 [1.0.10](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.10) (07 Agosto 2023)
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🥈| <span style="color:grey">Minor update</span>| Transferir puntos a socios limitado a 12. Socios de la misma acción no tiene límite. |
+|🥈| <span style="color:grey">Minor update</span>| Un socio no puede reservar dos veces un servicio el mismo día. |
+
+#### 🚀 [1.0.9](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.9) (01 Agosto 2023)
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🥈| <span style="color:grey">Minor update</span>| Transferencia de puntos entre socios de la misma acción. |
+|🥈| <span style="color:grey">Minor update</span>| Ajustes visuales en reservaciones de invitados sin costo. |
+|🥈| <span style="color:grey">Minor update</span>| Sesiones expiradas ahora redirigen a los usuarios a la pantalla login. |
+
 #### 🚀 [1.0.8](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.8) (27 Julio 2023)
 
 | | Change type | Descripción |
