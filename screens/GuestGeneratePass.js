@@ -204,13 +204,7 @@ const GuestGeneratePass = ({navigation, route}) => {
                             }
                         </Checkbox.Group>
                     </View>
-                <Button mb={5} mt={5} isDisabled={groupValues.length===0 || dateSelected === null} onPress={() => {generatePassAction();}}>{loading ? <Spinner size={'sm'} color={'white'}></Spinner> : 'Generar pase y enviar'}</Button>
-                <Text color={Colors.green} fontSize={'sm'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={1}>
-                    Este pase será enviado a
-                </Text>
-                <Text color={Colors.green} underline={true} fontSize={'sm'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={5}>
-                    {route?.params?.data?.email}
-                </Text>
+                <Button mb={5} mt={5} isDisabled={groupValues.length===0 || dateSelected === null} onPress={() => {generatePassAction();}}>{loading ? <Spinner size={'sm'} color={'white'}></Spinner> : 'Generar pase'}</Button>
             </View>
             <ModalInfo setVisible={setModalInfoVisible} visible={modalInfoVisible} close={true} iconType={'exclamation'} textButton={'Aceptar'} text={textModal}>
 
