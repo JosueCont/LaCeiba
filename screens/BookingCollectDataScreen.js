@@ -30,6 +30,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const [markedDate, setMarkedDate] = useState(null);
     const [disabledDays, setDisabledDays] = useState([])
     const [loading, setLoading] = useState(null);
+    const [loadingHours, setLoadingHours] = useState(false);
+    const [blockingHours, setBlockingHours] = useState(false);
     const [showCalendar, setShowCalendar] = useState(false);
     const [hours, setHours] = useState(null);
     const [hourSelected, setHourSelected] = useState(null);
@@ -91,7 +93,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             setSecondsLeft('00');
             setHourSelected(null);
             setFieldValue('hourSelected', '')
-            
+            //setModalConfirmBooking(false)
         }
         if (!timeLeft) {
             setMinutesLeft(null);
@@ -176,13 +178,15 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
     const getHoursFunction = async (dateString) => {
         const queryString = `?date=${dateString}&userId=${appDuck.user.id}`;
+        setLoadingHours(true)
         try {
             const response = await getIntervalsTime(queryString, [areaId]);
-            setHourSelected(null)   
+            setHourSelected(old =>null)   
             setHours(response.data)
             if(response.data.length === 0){
                 setHoursMessageInfo("No encontramos horarios disponibles para el día seleccionado.")
             }
+            setLoadingHours(false)
         } catch (error) {
             console.log(error)
             if(error?.data?.code === 400){
@@ -191,38 +195,57 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 setHoursMessageInfo('No se pudo recuperar la lista de horarios.')
             }
             setHours(null);
-            setHourSelected(null);
+            setHourSelected(old =>null);
+            setLoadingHours(false)
         }
         
     }
 
     const validateHour = async (hour) => {
+        setBlockingHours(true)
         try {
             const params = {
                 dueDate: date,
                 dueTime: hour
             }
-            const response = await cacheBookHour(params, [appDuck.user.id, areaId])
-            if (response) {
-                setFieldValue("hourSelected", hour);
-                setTimeLeft(route?.params?.service?.timeToConfirm * 60);
+            // Intenetamos desbloquear la hora previamente seleccionada
+            if (hourSelected) {
+                let r = await unBlockHourFunction(hourSelected)
             }
+            
+            // Reservamos el nuevo horario
+            const response = await cacheBookHour(params, [appDuck.user.id, areaId])
+            if (response.status === 201) {
+                setFieldValue("hourSelected", hour);
+                setHourSelected(hour)
+                setTimeLeft(route?.params?.service?.timeToConfirm * 60);
+            }else{
+                setFieldValue("hourSelected", '');
+                setHourSelected('')
+                alert('No fue posible desbloquear la hora.')
+            }
+            setBlockingHours(false)
         } catch (e) {
             let v = await errorCapture(e);
             setModalInfo(true);
-            setHourSelected(null);
+            setHourSelected(old => null);
             setTimeLeft(null);
+            setBlockingHours(false)
         }
 
     }
 
-    const confirmBooking = async () => {
+    const confirmBooking = async (specificEmail = null) => {
         try {
             setSending(true)
             let params = {
                 dueDate: date,
                 dueTime: hourSelected,
                 areaId: areaId,
+            }
+        console.log('specificEmail',specificEmail)
+            if(specificEmail !== null){
+                params['specificEmail'] = specificEmail
             }
 
             if (groupValues.length > 0) {
@@ -270,8 +293,11 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
             if (peopleArray.length > 0) {
                 params['users'] = peopleArray;
             }
+            console.log('confirmBooking', appDuck.user.id, params)
 
             const response = await bookService(params, [appDuck.user.id]);
+            
+            console.log(response)
             if (!response.data?.message) {
                 setModalConfirmBooking(false);
                 resetForm();
@@ -280,6 +306,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 navigation.navigate('BookingConfirmScreenSuccess', {people: people, date: date, hour: hourSelected})
             }
         } catch (e) {
+            console.log(e)
             let v = await errorCapture(e);
             alert(v.value)
             setSending(false)
@@ -569,7 +596,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
                         <View mb={4}>
                             {
-                                loading === true ?
+                                loadingHours === true ?
                                     <Skeleton height={45} borderRadius={30}></Skeleton> :
                                     !date ?
                                     <View bg={'rgba(255,255, 255,0.3)'} p={4} borderRadius={8} justifyContent={'center'} alignItems={'center'}>
@@ -578,50 +605,51 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                             <Text fontSize={14} color={Colors.green}>Seleccionar una fecha para ver los horarios disponibles</Text>
                                         </View>
                                     </View>
-                                 : (hours && hours?.length > 0) ? <View>
-                                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
-                                        Horario
-                                    </Text>
-                                    <FormControl isInvalid={errors.hourSelected}>
-                                        <Select
+                                 : (hours && hours?.length > 0) ?
+                                    <View>
+                                        <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                            Horario
+                                        </Text>
+                                        <FormControl isInvalid={errors.hourSelected}>
+                                            <Select
 
-                                            isDisabled={date == null}
-                                            selectedValue={hourSelected ? hourSelected : ''}
-                                            onOpen={() => {
-                                                getHoursFunction(date)
-                                            }}
-                                            onValueChange={async (v) => {
-                                                if (hourSelected) {
-                                                    let r = await unBlockHourFunction(v)
-                                                    console.log(r, 503)
-                                                    if (r) {
-                                                        setHourSelected(v);
-                                                        validateHour(v);
+                                                isDisabled={date == null}
+                                                selectedValue={hourSelected ? hourSelected : ''}
+                                                onOpen={() => {
+                                                // getHoursFunction(date)
+                                                }}
+                                                onValueChange={async (v) => {
+                                                /*  if (hourSelected) {
+                                                        let r = await unBlockHourFunction(v)
+                                                        console.log(r, 503)
+                                                        if (r) {
+                                                            setHourSelected(old =>v);
+                                                            validateHour(v);
+                                                        } else {
+                                                            alert('No fue posible desbloquear la hora.')
+                                                        }
                                                     } else {
-                                                        alert('No fue posible desbloquear la hora.')
-                                                    }
-                                                } else {
-                                                    setHourSelected(v);
+                                                        setHourSelected(old =>v);
+                                                        validateHour(v);
+                                                    } */
                                                     validateHour(v);
+                                                }}
+                                                placeholder="Seleccionar">
+                                                {
+                                                    hours && hours.map((item, idx) => {
+                                                        return (
+                                                            <Select.Item key={idx} label={item} value={item}/>
+                                                        )
+                                                    })
                                                 }
-                                            }}
-                                            placeholder="Seleccionar">
-                                            {
-                                                hours && hours.map((item) => {
-                                                    return (
-                                                        <Select.Item label={item} value={item}/>
-                                                    )
-                                                })
-                                            }
-                                        </Select>
-                                        <FormControl.ErrorMessage alignSelf={'center'}>
-                                            {errors.hourSelected}
-                                        </FormControl.ErrorMessage>
-                                    </FormControl>
+                                            </Select>
+                                            {!blockingHours &&<FormControl.ErrorMessage alignSelf={'center'}>
+                                                {errors.hourSelected}
+                                            </FormControl.ErrorMessage>
+}
+                                        </FormControl>
                                     </View>
-                                    :
-                                    
-                                    <View bg={'rgba(255,255, 255,0.3)'} p={4} borderRadius={8} justifyContent={'center'} alignItems={'center'}>
+                                    :<View bg={'rgba(255,255, 255,0.3)'} p={4} borderRadius={8} justifyContent={'center'} alignItems={'center'}>
                                         <View flex={1} flexDirection={'row'} alignItems={'center'} mx={3} >
                                             <InfoIcon size={'md'} color={Colors.yellow} mr={3}/>
                                             <Text fontSize={14} color={Colors.green}>{hoursMessageInfo}</Text>
@@ -630,7 +658,19 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                             }
                         </View>
                         {
-                            minutesLeft &&
+                            loadingHours &&
+                            <View mb={2}>
+                                <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>Consultando horarios disponibles...</Text>
+                            </View>
+                        }
+                        {
+                            blockingHours &&
+                            <View mb={2}>
+                                <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>Apartando horario seleccionado...</Text>
+                            </View>
+                        }
+                        {
+                            !blockingHours && minutesLeft &&
                             <View mb={2}>
                                 <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>Tiempo para reservar {minutesLeft}:{secondsLeft}</Text>
                             </View>
@@ -786,15 +826,21 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 <Button disabled={points < 0 || (route?.params?.service?.isGolf && !holes) || !hourSelected} onPress={() =>handleSubmit()} isLoading={sending}>Reservar</Button>
                 </View>
             </View>
-            <ModalBookingConfirmation
-                visible={modalConfirmBooking}
-                date={date}
-                hour={hourSelected}
-                people={people}
-                setVisible={setModalConfirmBooking}
-                onConfirm={confirmBooking}>
+            {modalConfirmBooking && 
+                <ModalBookingConfirmation
+                    visible={modalConfirmBooking}
+                    date={date}
+                    hour={hourSelected}
+                    people={people}
+                    partnerHost={appDuck.user}
+                    timeLeft={<View mb={2}>
+                    <Text textAlign={'center'} mb={2}  fontFamily={'titleComfortaaBold'} color={Colors.yellow} fontSize={'xs'}>Tiempo para reservar {minutesLeft}:{secondsLeft}</Text>
+                </View>}
+                    setVisible={setModalConfirmBooking}
+                    onConfirm={confirmBooking}>
 
-            </ModalBookingConfirmation>
+                </ModalBookingConfirmation>
+            }
             <ModalInfo
                 setVisible={setModalInfo}
                 visible={modalInfo}

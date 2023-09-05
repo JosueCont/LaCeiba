@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.8)'
     },
     modalView: {
-        width: '80%',
+        width: '90%',
         //backgroundColor: Colors.greenV5,
         borderRadius: 20,
         alignItems: "center",
@@ -21,13 +21,15 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        padding: 30
+        paddingVertical: 30,
+        paddingHorizontal: 20
 
     },
     button: {
         borderRadius: 20,
         padding: 10,
-        elevation: 2
+        elevation: 2,
+        textAlign: 'center'
     },
     buttonOpen: {
         backgroundColor: "#F194FF",

@@ -50,18 +50,18 @@ const GuestGeneratePassQRScreen = ({ navigation, route }) => {
     return (
         <LayoutV3 backgroundColor={'#fff'}>
             <ScrollView>
-                <View mx={10} mt={10}>
+                <View alignItems={'center'} mt={10}>
 
                     <ViewShot ref={imgRef}>
 
-                        <View height={500} borderColor={Colors.green} borderWidth={0.5} borderRadius={20} overflow={'hidden'}>
+                        <View height={500} width={310} borderColor={Colors.green} borderWidth={0.5} borderRadius={20} overflow={'hidden'}>
                         
                             <View flex={0.65} bgColor={Colors.green}>
                                 <View flex={1} justifyContent={'center'} alignItems={'center'}>
                                     <Image source={imgLogo} width={100} height={100}></Image>
                                 </View>
-                                <View bgColor={Colors.greenV4} height={55} justifyContent={'center'} p={1}>
-                                    <Text textAlign={'center'} fontSize="2xl" fontFamily={'titleComfortaaBold'}>PASE DE INVITADO</Text>
+                                <View bgColor={Colors.greenV4} height={65} justifyContent={'center'} p={1}>
+                                    <Text textAlign={'center'} fontSize="xl" fontFamily={'titleComfortaaBold'}>PASE DE INVITADO</Text>
                                     <Text textAlign={'center'} fontSize="xs">
                                         Válido únicamente el {qrPass ? moment(qrPass?.expirationDate).format('LL') : ''}
                                     </Text>
@@ -85,7 +85,7 @@ const GuestGeneratePassQRScreen = ({ navigation, route }) => {
                     </ViewShot>
 
 
-                    <View>
+                    <View width={300}>
                         <Button mt={6} mb={4} onPress={shareImage}>Compartir</Button>
                         <Button mb={4} onPress={() => navigation.goBack()}>Regresar</Button>
                     </View>
