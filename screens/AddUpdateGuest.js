@@ -178,7 +178,7 @@ const AddUpdateGuest = ({navigation, route}) => {
                 </Text>
                 <Input mb={5} value={emailGuest} onChangeText={(v)=>{setEmailGuest(v); setEditedEmail(true);}}>
                 </Input>
-                <Button mb={5} isLoading={loading} opacity={(!nameGuest || !emailGuest) ? 0.5 : 1} disabled={!nameGuest || !emailGuest} 
+                <Button mb={5} isLoading={loading} opacity={(!nameGuest) ? 0.5 : 1} disabled={!nameGuest} 
                     onPress={() => {if(route.params.data) {
                                         updateGuest()} 
                                     else {
