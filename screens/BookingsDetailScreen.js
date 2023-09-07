@@ -273,33 +273,36 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                 }
                                 {
                                     invitation?.booking?.invitations.filter((currentBooking) => currentBooking.user == null).length > 0 &&
-                                    <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>INVITADOS</Text>
-                                }
-                                <View style={{width: '100%'}}>
-                                    <View style={{width: '100%'}} mt={5} mb={10}>
-                                        <Table style={styles.container} borderStyle={{borderWidth: 1, borderColor: Colors.green}} color={Colors.green}>
-                                            <Row data={['Invitado', 'Qr']} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.textHead}/>
-                                            {
-                                                invitation?.booking?.invitations?.map((currentBooking, index) => {
+                                    <View>
+                                        <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>INVITADOS</Text>
+                                    
+                                        <View style={{width: '100%'}}>
+                                            <View style={{width: '100%'}} mt={5} mb={10}>
+                                                <Table style={styles.container} borderStyle={{borderWidth: 1, borderColor: Colors.green}} color={Colors.green}>
+                                                    <Row data={['Invitado', 'Qr']} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.textHead}/>
+                                                    {
+                                                        invitation?.booking?.invitations?.map((currentBooking, index) => {
 
-                                                    return (
-                                                        currentBooking.guestName ?
-                                                        <Row data={[currentBooking?.guestName, qrCell(currentBooking)]} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.text}/>
-                                                        :
-                                                        <></>
-                                                    );
-                                                   /*  return (
-                                                        currentBooking.guestName &&
-                                                        <Text key={index} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
-                                                            {currentBooking?.guestName}
-                                                        </Text>
+                                                            return (
+                                                                currentBooking.guestName ?
+                                                                <Row data={[currentBooking?.guestName, qrCell(currentBooking)]} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.text}/>
+                                                                :
+                                                                <></>
+                                                            );
+                                                        /*  return (
+                                                                currentBooking.guestName &&
+                                                                <Text key={index} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
+                                                                    {currentBooking?.guestName}
+                                                                </Text>
 
-                                                    ); */
-                                                })
-                                            }
-                                        </Table>
+                                                            ); */
+                                                        })
+                                                    }
+                                                </Table>
+                                            </View>
+                                        </View>
                                     </View>
-                                </View>
+                                }
 
                             {
                                 invitation?.status === 'PENDING' && additionals.length > 0  && !invitation?.booking?.deletedAt &&
@@ -404,7 +407,6 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                             mb={4}>Reservación cancelada</Button>                        
                                 </View>
                             }
-                            <Button onPress={() => navigation.navigate('ReservationsScreen')} mb={'20'}>Regresar</Button>
 
 
                         </ScrollView>
