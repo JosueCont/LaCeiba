@@ -50,7 +50,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const tomorrow = new Date().setDate(new Date().getDate() + 1)
     const today = new Date().setDate(new Date().getDate())
     const todayPlus7 = new Date()
-    todayPlus7.setDate(new Date().getDate() + 5)
+    todayPlus7.setDate(todayPlus7.getDate() + 5)
     const [holes,setHoles] = useState(null)
     const [hoursMessageInfo, setHoursMessageInfo] = useState('')
 
@@ -477,7 +477,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                                 {
                                                     _.sortBy(route?.params?.service?.areas, ['name'], ['asc']).map((item) => {
                                                         return (
-                                                            <Select.Item label={item.name} value={item.id}/>
+                                                            <Select.Item key={item.id} label={item.name} value={item.id}/>
                                                         )
                                                     })
                                                 }
@@ -750,7 +750,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                     {
                                         people.map((person, index) => {
                                             return (
-                                                <View height={75} bg={'#fff'} mb={2} flexDirection={'row'}>
+                                                <View key={index} height={75} bg={'#fff'} mb={2} flexDirection={'row'}>
                                                     <View width={65} alignItems={'center'} justifyContent={'center'}>
                                                         <Icon as={MaterialIcons} name={'check-circle'} size={'2xl'} color={'#50C878'}></Icon>
                                                     </View>
@@ -807,7 +807,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                                 {
                                                     additionals.map((item, index) => {
                                                         return (
-                                                            <Checkbox value={item} my={2} _text={{color: '#000'}}>
+                                                            <Checkbox key={index} value={item} my={2} _text={{color: '#000'}}>
                                                                 {_.upperFirst(item.descServicio.toLowerCase())}
                                                             </Checkbox>
                                                         )
