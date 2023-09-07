@@ -100,12 +100,12 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
 
         if (typeSelected == 'g') {
-            setNoticeWrite(false)
+                        setNoticeWrite(false)
             if(v.length >=3){
                 setNoticeWrite(true)
                 setPeopleSearch( () => {
                     return people.filter((item) =>{
-                        let fullname = `${item.nombre.toLowerCase()} ${item.apellidoPaterno.toLowerCase()} ${item.apellidoMaterno.toLowerCase()} `
+                        let fullname = `${item.nombre.toLowerCase()} ${(item?.apellidoPaterno || '').toLowerCase()} ${(item?.apellidoMaterno || '').toLowerCase()} `
                         return fullname.includes(v.toLowerCase())
                     } )
                 })
@@ -253,10 +253,10 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
                                             {
                                                 (textFilter.length > 0) &&
-                                                peopleSearch.map((item) => {
+                                                peopleSearch.map((item, idx) => {
                                                     let selected = _.has(personSelected, 'idStandard') ? (_.get(personSelected, 'idStandard') === item.idInvitado || _.get(personSelected, 'idStandard') === item.id) ? true : false : false;
                                                     return (
-                                                        <TouchableOpacity style={{borderWidth: 0.5, borderColor: Colors.green, marginBottom: 10, borderRadius: 10, backgroundColor: 'white'}} onPress={() => {
+                                                        <TouchableOpacity key={idx} style={{borderWidth: 0.5, borderColor: Colors.green, marginBottom: 10, borderRadius: 10, backgroundColor: 'white'}} onPress={() => {
                                                             people.map(async (itemSub) => {
                                                                 if (typeSelected == 'g') {
                                                                     if (itemSub.idInvitado == item.idInvitado) {

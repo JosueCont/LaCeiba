@@ -104,7 +104,7 @@ const ModalBookingConfirmation = ({visible, setVisible, date, hour, people, onCo
                                     <Button colorScheme={'green'} variant={'link'} rightIcon={<Icon as={MaterialIcons} name={'arrow-forward-ios'} color={'white'} />} onPress={() => {
                                         setCustomSend(true);
                                     }}>
-                                        <Text textAlign={'center'}>Enviar todo a un correo</Text>
+                                        <Text textAlign={'center'}>Enviar invitaciones a mi correo</Text>
                                     </Button>
                                     {/* <Button mb={2} colorScheme={'green'} onPress={() => setVisible(false)}>Regresar</Button> */}
                                 </View>
