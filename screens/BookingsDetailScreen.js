@@ -225,8 +225,8 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
             </View>
             {!invitation && <Spinner color={Colors.green} size={'lg'} /> ||
                 <View flex={1}>
-                    <View flex={1} mx={10}>
-                        <ScrollView flexGrow={1} pt={10} showsVerticalScrollIndicator={false}>
+                    <ScrollView flexGrow={1} pt={10} showsVerticalScrollIndicator={false}>
+                        <View flex={1} mx={10} mb={'20'}>
                             <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={22} textAlign={'center'}>{invitation.booking?.area?.service?.name}</Text>
                             {!invitation?.booking?.area?.service?.isGolf &&  <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={17} textAlign={'center'}>({invitation.booking.area.name})</Text> }
                             {invitation?.booking?.numHoles &&  <>
@@ -408,10 +408,8 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                 </View>
                             }
 
-
-                        </ScrollView>
-
-                    </View>
+                        </View>
+                    </ScrollView>
                     <ModalConfirmRejectBook
                         visible={openModal}
                         setVisible={setOpenModal}
