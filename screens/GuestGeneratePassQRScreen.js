@@ -20,7 +20,7 @@ const GuestGeneratePassQRScreen = ({ navigation, route }) => {
 
     useEffect(() => {
         if (isFocused) {
-          //  validatePermission()
+            setImageQrFunction()
         }
     }, [isFocused])
 
@@ -37,10 +37,6 @@ const GuestGeneratePassQRScreen = ({ navigation, route }) => {
 
         }
     }
-
-    useEffect(() => {
-        setImageQrFunction()
-    }, [])
 
     const setImageQrFunction = () => {
         setQrPass(route?.params?.qrPass)
