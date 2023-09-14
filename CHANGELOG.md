@@ -14,6 +14,17 @@
 ## Versiones
 --------
 
+#### 🚀 [1.0.14](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.14) (07 Septiembre 2023)
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🏆| <span style="color:grey">New feature</span>| Se agregó una nueva forma para compartir códigos QR de invitados sin costo. |
+|🏆| <span style="color:grey">New feature</span>| Es posible enviar códigos QR de reservaciones con costo a un mismo email |
+|🏆| <span style="color:grey">New feature</span>| En la vista del detalle de la reservación es posible consultar y compartir el QR de los invitados |
+|🥈| <span style="color:grey">Major update</span>| Actualización del SDK Expo a versión 48 |
+|🐞| <span style="color:grey">Bug fixes</span>| Corrección de error presentado en la vista de selección de horario en reservaciones |
+|🐞| <span style="color:grey">Bug fixes</span>| Corrección de error presentado en la vista de selección de invitados SAP |
+
 #### 🚀 [1.0.13](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.13) (31 Agosto 2023)
 
 | | Change type | Descripción |

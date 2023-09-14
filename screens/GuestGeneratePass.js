@@ -6,7 +6,7 @@ import { createGuest, generatePass, getFreeServices } from "../api/Requests";
 import { useEffect } from "react";
 import { Calendar } from "react-native-calendars";
 import ModalInfo from "./Modals/ModalInfo";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 
 const GuestGeneratePass = ({navigation, route}) => {
 
@@ -21,17 +21,24 @@ const GuestGeneratePass = ({navigation, route}) => {
     const today = new Date().setDate(new Date().getDate())
     const todayPlus7 = new Date()
     todayPlus7.setDate(new Date().getDate() + 5)
+    const isFocused = useIsFocused();
 
     
 
-    useFocusEffect(
+   /*  useFocusEffect(
         React.useCallback(() => {
           cleanData();
             getFS();
         }, [])
-    );
-
+    ); */
     useEffect(()=>{
+        if(isFocused){
+            cleanData();
+            getFS();
+        }
+    },[isFocused])
+
+   /*  useEffect(()=>{
         const getFS = async () =>{
             const response = await getFreeServices();
             setFreeServices(response.data);
@@ -39,12 +46,11 @@ const GuestGeneratePass = ({navigation, route}) => {
         }
         const result = getFS()
         .catch(console.error);
-    }, [])
+    }, []) */
 
     const getFS = async () =>{
         const response = await getFreeServices();
         setFreeServices(response.data);
-        console.log(response.data);
     }
 
     const cleanData = ()=>{
@@ -61,12 +67,12 @@ const GuestGeneratePass = ({navigation, route}) => {
        
             const bodyString = {
                 expirationDate: dateSelected,
-                freeServices: groupValues,
+                freeServices: [...groupValues],
                 sendQrGenerated:true
             }
             const response = await generatePass(bodyString, [route?.params?.data?.user?.id, route?.params?.data?.id]);
             console.log(bodyString, response?.data);
-            setLoading(false); 
+            setLoading(false);
             //navigation.navigate("GuestGeneratePassSuccessScreen");  
             navigation.navigate('GuestGeneratePassQRScreen', {qrPass:response.data })  
         } catch (error) {
@@ -171,7 +177,7 @@ const GuestGeneratePass = ({navigation, route}) => {
                 </Text>
 
                 <View pr={8}>
-                        <Checkbox.Group
+                        {freeServices.length > 0 && <Checkbox.Group
                             onChange={values => setGroupValues(()=>values || [])}
                             flexDirection={'column'}
                             alignItems={'flex-start'}
@@ -190,12 +196,13 @@ const GuestGeneratePass = ({navigation, route}) => {
                                 _icon: {
                                     color: '#fff'
                                 }
-                            }}>
+                            }}
+                            >
                             {
                                 freeServices.map((item, index) => {
                                     return (
                                         item.isActive === true &&
-                                            <Checkbox mx={3} mb={3} value={item.id} _text={{color: '#000'}} >
+                                            <Checkbox key={index} mx={3} mb={3} value={(item.id).toString()} _text={{color: '#000'}} >
                                                 <Text size={'md'} color={Colors.green} numberOfLines={2}>{item.name}</Text>
                                             </Checkbox>
 
@@ -203,14 +210,9 @@ const GuestGeneratePass = ({navigation, route}) => {
                                 })
                             }
                         </Checkbox.Group>
+}
                     </View>
-                <Button mb={5} mt={5} isDisabled={groupValues.length===0 || dateSelected === null} onPress={() => {generatePassAction();}}>{loading ? <Spinner size={'sm'} color={'white'}></Spinner> : 'Generar pase y enviar'}</Button>
-                <Text color={Colors.green} fontSize={'sm'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={1}>
-                    Este pase será enviado a
-                </Text>
-                <Text color={Colors.green} underline={true} fontSize={'sm'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={5}>
-                    {route?.params?.data?.email}
-                </Text>
+                <Button mb={5} mt={5} isDisabled={groupValues.length===0 || dateSelected === null} onPress={() => {generatePassAction();}}>{loading ? <Spinner size={'sm'} color={'white'}></Spinner> : 'Generar pase'}</Button>
             </View>
             <ModalInfo setVisible={setModalInfoVisible} visible={modalInfoVisible} close={true} iconType={'exclamation'} textButton={'Aceptar'} text={textModal}>
 

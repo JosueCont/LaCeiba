@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react'
-import {Button, Checkbox, Icon, ScrollView, Skeleton, Spinner, Text, View} from "native-base";
+import React, {useEffect, useRef, useState} from 'react'
+import {Button, Checkbox, Icon, Image, ScrollView, Skeleton, Spinner, Text, View} from "native-base";
 import {Colors} from "../Colors";
-import {Image as ImageRN, StyleSheet} from "react-native";
+import {Image as ImageRN, Modal, StyleSheet} from "react-native";
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import ModalConfirmRejectBook from './Modals/ModalConfirmRejectBook';
 import moment from 'moment-timezone'
@@ -13,6 +13,9 @@ import ModalAsk from "./Modals/ModalAsk";
 import ModalInfo from "./Modals/ModalInfo";
 import { Table, Row } from 'react-native-table-component';
 import {AntDesign} from "@expo/vector-icons";
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import ViewShot, { captureRef } from 'react-native-view-shot';
+import * as Sharing from "expo-sharing"
 
 moment.tz.setDefault("America/Mexico_City");
 
@@ -30,13 +33,19 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
     const [modalCancelSucess, setModalCancelSucess] = useState(false);
     const [dueDate, setDueDate] = useState(null)
     const [dateNow, setDateNow] = useState(null)
+    const [modalQRPreview, setModalQrPreview] = useState(null)
+    const [imageQRCode, setImageQRCode] = useState(null)
+    const [qrCode, setQrCode] = useState('')
+    const [qrOwnerName, setQrOwnerName] = useState('')
     const isFocused = useIsFocused();
+
+    const imgRef = useRef();
 
     useEffect(() => {
         if (isFocused) {
             console.log('getInvitation')
             setInvitation(null)
-                getInvitation()
+            getInvitation()
         }
     }, [isFocused])
 
@@ -155,6 +164,53 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
         )
       }
 
+      const qrCell = (bookingInvitation) => {
+        return (
+            <View style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
+                <TouchableOpacity onPress={()=>{onModalQrPreview(bookingInvitation)}}>
+                    <Icon as={AntDesign} name={'qrcode'} color={Colors.green} size={'sm'} />
+                </TouchableOpacity>
+            </View>
+        )
+      }
+
+      const onModalQrPreview = (bookingInvitation) =>{
+        if(bookingInvitation.user){
+            if(bookingInvitation.user.id === invitation.booking.hostedBy.id){
+                navigation.navigate("QRScreenInvitation", {invitation:invitation })
+            }else{
+                const qr = invitation.qrs.find(qr => qr.userId === bookingInvitation.user.id)
+                if(qr){
+                    setImageQRCode(qr.url)
+                    setQrCode(qr.accesCode)
+                    setQrOwnerName(bookingInvitation.user.fullName)
+                    setModalQrPreview(true)
+                }
+            }
+        }else if(bookingInvitation.guestId){
+            const qr = invitation.qrs.find(qr => qr.idInvitado === bookingInvitation.guestId && qr.qrType === 1)
+            if(qr){
+                setImageQRCode(qr.url)
+                setQrCode(qr.accesCode)
+                setQrOwnerName(bookingInvitation.guestName)
+                setModalQrPreview(true)
+            }
+        }
+      }
+
+      const shareQr = async () =>{
+        try{
+            const uri = await captureRef(imgRef,{
+                format:'png',
+                quality: 0.9
+            })
+            
+            Sharing.shareAsync("file://" +uri)
+        }catch(e){
+
+        }
+    }
+
     return (
         <View flex={1}>
             <View bgColor={Colors.green}>
@@ -169,8 +225,8 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
             </View>
             {!invitation && <Spinner color={Colors.green} size={'lg'} /> ||
                 <View flex={1}>
-                    <View flex={1} mx={10}>
-                        <ScrollView flexGrow={1} pt={10} showsVerticalScrollIndicator={false}>
+                    <ScrollView flexGrow={1} pt={10} showsVerticalScrollIndicator={false}>
+                        <View flex={1} mx={10} mb={'20'}>
                             <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={22} textAlign={'center'}>{invitation.booking?.area?.service?.name}</Text>
                             {!invitation?.booking?.area?.service?.isGolf &&  <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={17} textAlign={'center'}>({invitation.booking.area.name})</Text> }
                             {invitation?.booking?.numHoles &&  <>
@@ -190,6 +246,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                 <Text color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
                                     {moment(invitation?.booking?.dueTime, "HH:mm").format("hh:mm a")}
                                 </Text>
+                            </View>
                                 {
                                     invitation?.booking?.invitations.filter((currentBooking) => currentBooking.user != null).length > 0 &&
                                     <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>SOCIOS</Text>
@@ -197,39 +254,55 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                 {
                                     <View style={{width: '100%'}}>
                                         <View style={{width: '100%'}} mt={5} mb={10}>
-                                    <Table style={styles.container} borderStyle={{borderWidth: 1, borderColor: Colors.green}} color={Colors.green}>
-                                      <Row data={['Estatus', 'Socio']} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.textHead}/>
-                                      {
-                                            invitation?.booking?.invitations?.map((currentBooking, index) => {
-                                                console.log('complete invitation: ', currentBooking?.status);
-                                                const partner = currentBooking?.user?.firstName.toUpperCase() + " " + currentBooking?.user?.lastName.toUpperCase();
-                                                return (
-                                                    currentBooking.user &&
-                                                    <Row data={[statusCell(currentBooking?.status), partner]} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.text}/>
-                                                );
-                                            })
-                                    }
-                                    </Table>
-                                  </View>
+                                            <Table style={styles.container} borderStyle={{borderWidth: 1, borderColor: Colors.green}} color={Colors.green}>
+                                                <Row data={['Estatus', 'Socio', 'Qr']} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.textHead}/>
+                                                {
+                                                    invitation?.booking?.invitations?.map((currentBooking, index) => {
+                                                        const partner = currentBooking?.user?.firstName.toUpperCase() + " " + currentBooking?.user?.lastName.toUpperCase();
+                                                        return (
+                                                            currentBooking?.user ?
+                                                            <Row data={[statusCell(currentBooking?.status), partner, qrCell(currentBooking)]} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.text}/>
+                                                            :
+                                                            <></>
+                                                        );
+                                                    })
+                                                }
+                                            </Table>
+                                        </View>
                                     </View>
                                 }
                                 {
                                     invitation?.booking?.invitations.filter((currentBooking) => currentBooking.user == null).length > 0 &&
-                                    <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>INVITADOS</Text>
-                                }
-                                {
-                                    invitation?.booking?.invitations?.map((currentBooking, index) => {
+                                    <View>
+                                        <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>INVITADOS</Text>
+                                    
+                                        <View style={{width: '100%'}}>
+                                            <View style={{width: '100%'}} mt={5} mb={10}>
+                                                <Table style={styles.container} borderStyle={{borderWidth: 1, borderColor: Colors.green}} color={Colors.green}>
+                                                    <Row data={['Invitado', 'Qr']} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.textHead}/>
+                                                    {
+                                                        invitation?.booking?.invitations?.map((currentBooking, index) => {
 
-                                        return (
-                                            currentBooking.guestName &&
-                                            <Text key={index} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
-                                                {currentBooking?.guestName}
-                                            </Text>
+                                                            return (
+                                                                currentBooking.guestName ?
+                                                                <Row data={[currentBooking?.guestName, qrCell(currentBooking)]} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.text}/>
+                                                                :
+                                                                <></>
+                                                            );
+                                                        /*  return (
+                                                                currentBooking.guestName &&
+                                                                <Text key={index} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
+                                                                    {currentBooking?.guestName}
+                                                                </Text>
 
-                                        );
-                                    })
+                                                            ); */
+                                                        })
+                                                    }
+                                                </Table>
+                                            </View>
+                                        </View>
+                                    </View>
                                 }
-                            </View>
 
                             {
                                 invitation?.status === 'PENDING' && additionals.length > 0  && !invitation?.booking?.deletedAt &&
@@ -334,12 +407,9 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                             mb={4}>Reservación cancelada</Button>                        
                                 </View>
                             }
-                            <Button onPress={() => navigation.navigate('ReservationsScreen')} mb={'20'}>Regresar</Button>
 
-
-                        </ScrollView>
-
-                    </View>
+                        </View>
+                    </ScrollView>
                     <ModalConfirmRejectBook
                         visible={openModal}
                         setVisible={setOpenModal}
@@ -370,6 +440,44 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                             navigation.goBack()
                         }}>
                     </ModalInfo>
+                    <Modal 
+                        visible={modalQRPreview} 
+                        animationType="slide"
+                        transparent={false}
+                        onRequestClose={() => {
+                            setModalQrPreview(!modalQRPreview)
+                        }}
+                        >
+                        <View pt={10} pb={10} flex={1} style={{ backgroundColor: Colors.greenLight }}>
+                            <View flex={1} alignItems={'center'} justifyContent={'center'}>
+                                <ViewShot ref={imgRef}>
+                                    <View padding={2} style={{ backgroundColor: Colors.greenLight }}>
+                                        <Text color={Colors.green} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'}>
+                                            {qrOwnerName}
+                                        </Text>
+                                        {
+                                            !imageQRCode === true ?
+                                                <Skeleton width={150} height={150}/>
+                                                :
+                                                <Image source={{uri: imageQRCode}} width={280} height={280}/>
+                                        }
+                                        <Text color={Colors.green} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'}>
+                                            Código: {qrCode}
+                                        </Text>
+                                    </View>
+                                </ViewShot>
+                                <Button width={280} mt={6} mb={4} onPress={shareQr}>Compartir</Button>
+                            </View>
+                            <View flex={0.25} justifyContent={'center'} alignItems={'center'}>
+                                <Button
+                                    style={{alignItems: 'center', justifyContent: 'center', width: 50, height: 50, backgroundColor: Colors.greenV4, borderRadius: 60}} 
+                                    onPress={() =>{ setModalQrPreview(!modalQRPreview)  }}
+                                >
+                                    <Icon as={AntDesign} name={'close'} color={'white'} size={'lg'}></Icon>
+                                </Button>
+                            </View>
+                        </View>
+                    </Modal>
                 </View>
             }
         </View>
