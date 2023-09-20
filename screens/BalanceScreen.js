@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 import {getBalanceInfo, getProfile, getTotalBalance} from "../api/Requests";
 import {useIsFocused} from "@react-navigation/native";
 import _ from "lodash";
-import LayoutV3 from "./Layouts/LayoutV3";
+import LayoutV4 from "./Layouts/LayoutV4";
 import { loggedOutAction } from "../redux/ducks/appDuck";
 
 
@@ -40,6 +40,7 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
             setLoading(false)
             if(!totalBalance?.data)
               return;
+            console.log('totalBalance?.data', totalBalance?.data)
             setDataBalance(totalBalance?.data);
         } catch (e) {
             setLoading(false)
@@ -65,7 +66,7 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
     }, []);
 
     return (
-        <LayoutV3>
+        <LayoutV4 white>
             <View flex={1} mx={8}>
 
                 <ScrollView
@@ -80,63 +81,61 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                     flex={1}>
 
                     <Text textAlign={'center'} mb={6} mt={6} color={Colors.green} bold fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
-                        INFORMACIÓN DE CONSUMOS PENDIENTES DE PAGO
+                        SALDO PENDIENTE DE PAGO
                     </Text>
                     {
                         loading === true ?
                             <Skeleton height={50}></Skeleton> :
                             loading === false &&
-                            <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'md'}>
+                            <Text textAlign={'center'} mb={1} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                                 {_.startCase(data?.nombreSocio?.toLowerCase())}
                             </Text>
                     }
 
-                    {/* {
-                        loading === true ?
-                            <Skeleton height={50}></Skeleton> :
-                            loading === false &&
-                            <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'md'}>
-                                Certificado: {dataBalance?.certificado ?? ''}
-                            </Text>
-                    } */}
-                    <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
-                        {data?.tipoSocio}
+                    <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'md'}>
+                        ({data?.tipoSocio})
                     </Text>
                     
-                    
-                    {/*{
-                        loading === true ?
-                            <Skeleton height={50}></Skeleton> :
-                            loading === false &&
-                            <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
-                                {dataBalance?.saldo ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.saldo)?.toFixed(2))}` : 'NI'}
-                            </Text>
-                    } 
-                     <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
-                        Saldo a favor
-                    </Text>*/}
-                    {/*{
-                        loading === true ?
-                            <Skeleton height={50}></Skeleton> :
-                            loading === false &&
-                            <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
-                                {dataBalance?.saldoDeudor ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.saldoDeudor)?.toFixed(2))}` : 'NI'}
-                            </Text>
-                    } 
-                    <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
-                        Saldo deudor
-                    </Text>*/}
-                    {
-                        loading === true ?
-                            <Skeleton height={50}></Skeleton> :
-                            loading === false &&
-                            <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
-                                {dataBalance?.saldoConsumoRestaurante ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.saldoConsumoRestaurante)?.toFixed(2))}` : 'NI'}
-                            </Text>
-                    }
-                    <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
-                        Saldo de consumos pendientes de pago
-                    </Text>
+                    <View mb={3} >
+                        {
+                            loading === true ?
+                                <Skeleton height={50}></Skeleton> :
+                                loading === false &&
+                                <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
+                                    {`$${parseFloat(dataBalance?.totalBalance?.saldoConsumoRestaurante ? dataBalance?.totalBalance?.saldoConsumoRestaurante : 0)+parseFloat(dataBalance?.serviceBalance?.saldoServiciosFactura ? dataBalance?.serviceBalance?.saldoServiciosFactura : 0)} M.N.`}
+                                </Text>
+                        }
+                        <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                            TOTAL
+                        </Text>
+                    </View>
+            
+                    <View mb={3} style={{ borderColor: Colors.green, borderWidth: 1.5, borderRadius: 8, backgroundColor: Colors.grayLight }}>
+                        {
+                            loading === true ?
+                                <Skeleton height={50}></Skeleton> :
+                                loading === false &&
+                                <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
+                                    {dataBalance?.serviceBalance?.saldoServiciosFactura ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.serviceBalance?.saldoServiciosFactura)?.toFixed(2))}` : 'NI'}
+                                </Text>
+                        }
+                        <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                            Cuotas y servicios
+                        </Text>
+                    </View>
+                    <View style={{ borderColor: Colors.green, borderWidth: 1.5, borderRadius: 8, backgroundColor: Colors.grayLight }}>
+                        {
+                            loading === true ?
+                                <Skeleton height={50}></Skeleton> :
+                                loading === false &&
+                                <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
+                                    {dataBalance?.totalBalance?.saldoConsumoRestaurante ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.totalBalance?.saldoConsumoRestaurante)?.toFixed(2))}` : 'NI'}
+                                </Text>
+                        }
+                        <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                           Consumos
+                        </Text>
+                    </View>
 
                     <Button isLoading={loading} color={Colors.green} mt={5}
                             onPress={() => {
@@ -153,7 +152,7 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
 
             </View>
 
-        </LayoutV3>
+        </LayoutV4>
     )
 }
 
