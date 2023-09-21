@@ -14,6 +14,12 @@
 ## Versiones
 --------
 
+#### 🚀 [1.0.15](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.15) (20 Septiembre 2023)
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🏆| <span style="color:grey">New feature</span>| Integración de nuevo dato de saldo coutas y servicios |
+
 #### 🚀 [1.0.14](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.14) (07 Septiembre 2023)
 
 | | Change type | Descripción |
