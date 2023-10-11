@@ -45,13 +45,13 @@ const commonConfig = {
 };
 
 const ios = {
-    buildNumber: "61",
+    buildNumber: "62",
     supportsTablet: false,
     bundleIdentifier: "com.hiumanlab.clublahacienda"
 };
 
 const android = {
-    versionCode: 61,
+    versionCode: 62,
     adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundImage: "./assets/adaptive-icon-bg.png"
@@ -66,21 +66,21 @@ module.exports = () => {
         return {
             ...commonConfig,
             slug: "clublahacienda",
-            version: "1.0.15",
+            version: "1.0.16",
             ios: ios
         };
     } else if (process.env.APP_ENV === "android") {
         return {
             ...commonConfig,
             slug: "clublahacienda",
-            version: "1.0.15",
+            version: "1.0.16",
             android: android
         };
     } else if (process.env.APP_ENV === "expo") {
         return {
             ...commonConfig,
             slug: "clublahacienda-dev",
-            version: "1.0.15",
+            version: "1.0.16",
             ios: ios,
             android: android
         };

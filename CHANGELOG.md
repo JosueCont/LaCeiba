@@ -14,6 +14,14 @@
 ## Versiones
 --------
 
+
+#### 🚀 [1.0.16](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.16) (10 Octubre 2023)
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🥈| <span style="color:grey">Minor update</span>| Monto total de saldos ahora se redondea a 2 decimales para evitar desborde en centavos|
+
+
 #### 🚀 [1.0.15](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.15) (20 Septiembre 2023)
 
 | | Change type | Descripción |
