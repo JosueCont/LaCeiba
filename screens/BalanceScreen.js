@@ -102,7 +102,12 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                                 <Skeleton height={50}></Skeleton> :
                                 loading === false &&
                                 <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
-                                    {`$${parseFloat(dataBalance?.totalBalance?.saldoConsumoRestaurante ? dataBalance?.totalBalance?.saldoConsumoRestaurante : 0)+parseFloat(dataBalance?.serviceBalance?.saldoServiciosFactura ? dataBalance?.serviceBalance?.saldoServiciosFactura : 0)} M.N.`}
+                                    {`$${new Intl.NumberFormat('es-MX')
+                                    .format(
+                                        (parseFloat(dataBalance?.totalBalance?.saldoConsumoRestaurante ? dataBalance?.totalBalance?.saldoConsumoRestaurante : 0)
+                                        +parseFloat(dataBalance?.serviceBalance?.saldoServiciosFactura ? dataBalance?.serviceBalance?.saldoServiciosFactura : 0)
+                                        ).toFixed(2)
+                                    )}`}<Text fontSize={'2xl'}> M.N.</Text>
                                 </Text>
                         }
                         <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
@@ -116,7 +121,7 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                                 <Skeleton height={50}></Skeleton> :
                                 loading === false &&
                                 <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
-                                    {dataBalance?.serviceBalance?.saldoServiciosFactura ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.serviceBalance?.saldoServiciosFactura)?.toFixed(2))}` : 'NI'}
+                                    {dataBalance?.serviceBalance?.saldoServiciosFactura ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.serviceBalance?.saldoServiciosFactura)?.toFixed(2))}` : 'NI'}<Text fontSize={'2xl'}> M.N.</Text>
                                 </Text>
                         }
                         <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
@@ -129,7 +134,7 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                                 <Skeleton height={50}></Skeleton> :
                                 loading === false &&
                                 <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
-                                    {dataBalance?.totalBalance?.saldoConsumoRestaurante ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.totalBalance?.saldoConsumoRestaurante)?.toFixed(2))}` : 'NI'}
+                                    {dataBalance?.totalBalance?.saldoConsumoRestaurante ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.totalBalance?.saldoConsumoRestaurante)?.toFixed(2))}` : 'NI'}<Text fontSize={'2xl'}> M.N.</Text>
                                 </Text>
                         }
                         <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
