@@ -216,7 +216,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                                     </ImageBackground>
                                 </View>
                                 <View>
-                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Invitados</Text>
+                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Invitados a Restaurantes</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -249,7 +249,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                                     </ImageBackground>
                                 </View>
                                 <View>
-                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Partidos</Text>
+                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Juegos</Text>
                                 </View>
                             </TouchableOpacity>                            
                         </View>

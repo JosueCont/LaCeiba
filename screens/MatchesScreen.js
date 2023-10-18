@@ -103,11 +103,11 @@ const MatchesScreen = ({navigation, loggedOutAction, appDuck}) => {
                         })
                     }
                     { todayMatches.length === 0 &&
-                        <Text textAlign={'center'} mb={4} color={Colors.green} fontSize={'sm'}>No hay proximos partidos</Text>
+                        <Text textAlign={'center'} mb={4} color={Colors.green} fontSize={'sm'}>No hay proximos juegos</Text>
                     }
                 <View mt={4} flexDirection={'row'} justifyContent='center' mb={4}>
                 <View mt={3} mr={2} width={'15%'} background={Colors.green} height={'2px'}/>
-                <Text textAlign={'center'} mb={4} color={Colors.green} fontSize={'md'}>PARTIDOS FINALIZADOS</Text>
+                <Text textAlign={'center'} mb={4} color={Colors.green} fontSize={'md'}>JUEGOS FINALIZADOS</Text>
                 <View mt={3} ml={2} width={'15%'} background={Colors.green} height={'2px'}/>
 
                 </View>
@@ -121,7 +121,7 @@ const MatchesScreen = ({navigation, loggedOutAction, appDuck}) => {
                         })
                 }
                 { pastMatches.length === 0 &&
-                <Text textAlign={'center'} mb={4} color={Colors.green} fontSize={'sm'}>No hay proximos partidos</Text>
+                <Text textAlign={'center'} mb={4} color={Colors.green} fontSize={'sm'}>No hay proximos juegos</Text>
                 }
                 </ScrollView>  
             </View>
