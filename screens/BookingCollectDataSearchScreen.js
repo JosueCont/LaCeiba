@@ -331,7 +331,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                             ((textFilter !== '' && peopleSearch.length === 0)) &&
                                             <>
                                                 <Text textAlign={'center'} color={'red.500'} mb={2}>Sin resultados</Text>
-                                                {typeSelected ==='g' && <Button mt={2} onPress={() => {setModalAddPartnerSap(true)}}>Agregar invitado con costo</Button>}
+                                                {/* {typeSelected ==='g' && <Button mt={2} onPress={() => {setModalAddPartnerSap(true)}}>Agregar invitado con costo</Button>} */}
                                             </>
                                             
                                         }
