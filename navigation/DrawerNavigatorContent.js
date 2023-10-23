@@ -103,7 +103,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconGuestsSmall} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Invitados</Text>
+                            <Text fontSize={'sm'}>Invitados a Restaurantes</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -113,7 +113,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                            <Image source={iconMatches} style={{width: 20, height: 20}}></Image>
                        </View>
                        <View flex={1} justifyContent={'center'}>
-                           <Text fontSize={'sm'}>Partidos</Text>
+                           <Text fontSize={'sm'}>Juegos</Text>
                        </View>
                    </View>
                 </TouchableOpacity>

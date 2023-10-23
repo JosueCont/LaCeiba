@@ -1,4 +1,4 @@
-import {Button, FormControl, Icon, Input, ScrollView, Select, Skeleton, Text, View, Spinner} from "native-base";
+import {Button, FormControl, Icon, Input, ScrollView, Select, Skeleton, Text, View, Spinner, useToast} from "native-base";
 import {Colors} from "../Colors";
 import React, {useEffect, useState} from "react";
 import {useFocusEffect} from '@react-navigation/native';
@@ -9,6 +9,7 @@ import _, { set } from "lodash";
 import {TouchableOpacity} from "react-native";
 import {connect} from "react-redux";
 import {MaterialIcons} from "@expo/vector-icons";
+import ModalAddPartnerSap from "./Modals/ModalAddPartnerSap";
 
 moment.locale('es');
 
@@ -25,6 +26,10 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
     const [peopleSearch, setPeopleSearch] = useState([]);
     const [points, setPoints] = useState(route.params.points || null);
     const [noticeWrite, setNoticeWrite] = useState(false)
+
+    const [modalAddPartnerSap, setModalAddPartnerSap] = useState(false);
+
+    const toast = useToast();
 
     useEffect(() => {
         setLoading(true)
@@ -324,7 +329,11 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
                                         {
                                             ((textFilter !== '' && peopleSearch.length === 0)) &&
-                                            <Text textAlign={'center'} color={'red.500'} mb={2}>Sin resultados</Text>
+                                            <>
+                                                <Text textAlign={'center'} color={'red.500'} mb={2}>Sin resultados</Text>
+                                                {/* {typeSelected ==='g' && <Button mt={2} onPress={() => {setModalAddPartnerSap(true)}}>Agregar invitado con costo</Button>} */}
+                                            </>
+                                            
                                         }
                                         </View>
                                 }
@@ -356,6 +365,25 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                     </View>
 
                 </View>
+
+                <ModalAddPartnerSap
+                    visible={modalAddPartnerSap}
+                    setVisible={setModalAddPartnerSap}
+                    action={(v) => {
+                        if  (v === true) {
+                            toast.show({
+                                description: "Socio agregado con éxito"
+                            })
+                            getGuestsFunction()
+                            search(textFilter);
+                        } else {
+                            setModalAddPartnerSap(false)
+                            toast.show({
+                                description: "Hubo un error intenta más tarde"
+                            })
+                        }
+                    }}
+                />
             </View>
 
         </ScrollView>

@@ -54,13 +54,18 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const [holes,setHoles] = useState(null)
     const [hoursMessageInfo, setHoursMessageInfo] = useState('')
 
+    const [errorNumPeople, setErrorNumPeople] = useState('');
+    const [hasErrorNumPeople, setHasErrorNumPeople] = useState(false);
 
-    const {touched, handleSubmit, errors, setFieldValue, resetForm} = useFormik({
+    const [numPeople, setNumPeople] = useState(null);
+
+    const {touched, handleSubmit, errors, setFieldValue, resetForm, values} = useFormik({
         initialValues: {
             date: '',
             hourSelected: '',
             peopleArray: [],
             areaSelected: 0,
+            numPeople: -1,
             },
             validateOnChange: true,
             enableReinitialize: true,
@@ -76,16 +81,40 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                     .string()
                     .trim()
                     .required("La hora es obligatoria"),
-                peopleArray: Yup
-                    .array()
-                    //.required('Los invitados son obligatorios')
-                    .min(area?.minPeople - 1, `Seleccione al menos ${area?.minPeople - 1} persona(s)`)
+                // peopleArray: Yup
+                //     .array()
+                //     .required('Los invitados son obligatorios')
+                //     .min(numPeople, `Seleccione ${numPeople-(people.length + 1)} persona(s) más para poder realizar la reservación`),
+                    // .min(area?.minPeople - 1, `Seleccione al menos ${area?.minPeople - 1} persona(s)`),
+                numPeople: Yup
+                    .number()
+                    .min(1, 'El número de personas es obligatorio')
+                    .required('El número de personas es obligatorio')
             }),
         onSubmit: (formValue) => {
             
             sendConfirmationBooking(formValue)
         },
     });
+
+    useEffect(() => {
+        
+        if(people.length < numPeople - 1){
+            setHasErrorNumPeople(true);
+            setErrorNumPeople(`Seleccione ${numPeople-(people.length + 1)} persona(s) más para poder realizar la reservación`);
+        }
+        else if(people.length > numPeople-1){
+            setHasErrorNumPeople(true);
+            setErrorNumPeople(`Las personas agregadas no coinciden con el número de personas seleccionadas`);
+        }else{
+            setHasErrorNumPeople(false);
+            setErrorNumPeople('');
+        }
+    }, [numPeople, people])
+
+    useEffect(() => {
+        setFieldValue('peopleArray', values.peopleArray);
+      }, [values.numPeople, values.peopleArray, setFieldValue]);
 
     useEffect(() => {
         if (timeLeft == 0) {
@@ -242,6 +271,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 dueDate: date,
                 dueTime: hourSelected,
                 areaId: areaId,
+                numPeople: numPeople
             }
         console.log('specificEmail',specificEmail)
             if(specificEmail !== null){
@@ -325,7 +355,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
         setAreaId(null);
         setArea(null);
         setHoles(null)
-        setHours(null)
+        setHours(null);
+        setNumPeople(null);
     }
 
     const sendConfirmationBooking = async (values) => {
@@ -503,6 +534,46 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
                                  }
                              </View>
+                        }
+                        {
+                           
+                            <View mb={4}>
+                                <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                    Número de personas
+                                </Text>
+
+                                {!area && <TouchableOpacity style={{opacity: area == null ? 0.5 : 1}} disabled={area == null} onPress={() => {
+                                            setShowCalendar(!showCalendar)
+                                        }}>
+                                    <View height={50} bgColor={'#fff'} borderRadius={30} alignItems={'center'} justifyContent={'center'}>
+                                        <Text color={'#000'}>{ 'Seleccionar'}</Text>
+                                     </View>
+                                </TouchableOpacity>}
+                                {area &&
+
+                                <FormControl isInvalid={errors.numPeople}>
+                                   <Select
+                                        mb={4}
+                                        defaultValue={""}
+                                        selectedValue={numPeople ? numPeople : "Seleccionar"}
+                                        onValueChange={(v) => {
+                                            setNumPeople(v)
+                                            setFieldValue("numPeople", v)
+                                        }}
+                                        placeholder="Seleccionar">
+                                        {
+                                            Array.from({ length: area?.maxPeople - area?.minPeople + 1 }, (_, index) => (
+                                                <Select.Item label={(area?.minPeople + index).toString()} value={(area?.minPeople + index).toString()} />
+                                            ))
+                                        }
+                                    </Select>                                         
+                                    <FormControl.ErrorMessage alignSelf={'center'}>
+                                        {errors.numPeople}
+                                    </FormControl.ErrorMessage>
+                                </FormControl>
+                                }
+                            </View>
+                            
                         }
                         <View mb={6}>
                             <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
@@ -715,8 +786,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                 </Text>
 
                                 {
-                                    (pointsDay && (people.length < area?.maxPeople - 1) && area?.maxPeople > 1) &&
-                                    <FormControl mb={2} isInvalid={errors.peopleArray}>
+                                    (pointsDay && (people.length < area?.maxPeople - 1) && area?.maxPeople > 1 && people != numPeople -1) &&
+                                    <FormControl mb={2} isInvalid={hasErrorNumPeople}>
                                         <TouchableOpacity onPress={() => {
                                             let invitados = _.filter(people, function (o) {
                                                 if (o.type === 'INVITADO') return o
@@ -731,7 +802,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                             </View>
                                         </TouchableOpacity>
                                         <FormControl.ErrorMessage alignSelf={'center'}>
-                                            {errors.peopleArray}
+                                            {errorNumPeople}
                                         </FormControl.ErrorMessage>
                                     </FormControl>
                                 }
@@ -823,7 +894,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 </View>
 
                 <View>
-                <Button disabled={points < 0 || (route?.params?.service?.isGolf && !holes) || !hourSelected} onPress={() =>handleSubmit()} isLoading={sending}>Reservar</Button>
+                <Button disabled={points < 0 || (route?.params?.service?.isGolf && !holes) || !hourSelected || hasErrorNumPeople} 
+                opacity={points < 0 || (route?.params?.service?.isGolf && !holes) || !hourSelected || hasErrorNumPeople ? 0.5 : 1} onPress={() =>{if(hasErrorNumPeople) return; handleSubmit();}} isLoading={sending}>Reservar</Button>
                 </View>
             </View>
             {modalConfirmBooking && 
