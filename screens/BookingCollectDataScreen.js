@@ -787,7 +787,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
                                 {
                                     (pointsDay && (people.length < area?.maxPeople - 1) && area?.maxPeople > 1 && people != numPeople -1) &&
-                                    <FormControl mb={2} isInvalid={hasErrorNumPeople}>
+                                    <FormControl mb={2} isInvalid={false}>
+                                        {/* isInvalid={hasErrorNumPeople} */}
                                         <TouchableOpacity onPress={() => {
                                             let invitados = _.filter(people, function (o) {
                                                 if (o.type === 'INVITADO') return o
@@ -802,7 +803,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                             </View>
                                         </TouchableOpacity>
                                         <FormControl.ErrorMessage alignSelf={'center'}>
-                                            {errorNumPeople}
+                                            {/* {errorNumPeople} */}
                                         </FormControl.ErrorMessage>
                                     </FormControl>
                                 }
@@ -894,8 +895,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 </View>
 
                 <View>
-                <Button disabled={points < 0 || (route?.params?.service?.isGolf && !holes) || !hourSelected || hasErrorNumPeople} 
-                opacity={points < 0 || (route?.params?.service?.isGolf && !holes) || !hourSelected || hasErrorNumPeople ? 0.5 : 1} onPress={() =>{if(hasErrorNumPeople) return; handleSubmit();}} isLoading={sending}>Reservar</Button>
+                <Button disabled={points < 0 || (route?.params?.service?.isGolf && !holes) || !hourSelected } 
+                opacity={points < 0 || (route?.params?.service?.isGolf && !holes) || !hourSelected ? 0.5 : 1} onPress={() =>{/*if(hasErrorNumPeople) return; */handleSubmit();}} isLoading={sending}>Reservar</Button>
                 </View>
             </View>
             {modalConfirmBooking && 
