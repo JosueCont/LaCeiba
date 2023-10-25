@@ -555,9 +555,9 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                    <Select
                                         mb={4}
                                         defaultValue={""}
-                                        selectedValue={numPeople ? numPeople : "Seleccionar"}
+                                        selectedValue={numPeople ? numPeople.toString() : "Seleccionar"}
                                         onValueChange={(v) => {
-                                            setNumPeople(v)
+                                            setNumPeople(parseInt(v))
                                             setFieldValue("numPeople", v)
                                         }}
                                         placeholder="Seleccionar">
