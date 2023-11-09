@@ -44,7 +44,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
             setAllGroups([]);
             setGroupsFounded([]);
             getAllFixedGroups();
-            checkFixedGroups();
+            // checkFixedGroups();
             return () => {
                 setFixedGroups(0);
               };
@@ -54,6 +54,9 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
     const sendExpoToken = async () => {
         try {
             if(Constants?.manifest?.extra?.sendDeviceToken){
+                if (!navigationDuck?.pushToken){
+                    return;
+                }
                 let data = {
                     os: Platform.OS=== 'ios' ?  'ios' :  'android',
                     token: navigationDuck?.pushToken?.toString(),
