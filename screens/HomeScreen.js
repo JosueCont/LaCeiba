@@ -21,6 +21,8 @@ import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import Constants from "expo-constants";
 import { loggedOutAction } from '../redux/ducks/appDuck';
 import { Platform } from "react-native";
+import * as Notifications from 'expo-notifications';
+import {setAttribute} from "../redux/ducks/navigationDuck";
 
 const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
     const [sliderPosition, setSliderPosition] = useState(0);
@@ -54,12 +56,14 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
     const sendExpoToken = async () => {
         try {
             if(Constants?.manifest?.extra?.sendDeviceToken){
-                if (!navigationDuck?.pushToken){
-                    return;
+                let token = navigationDuck?.pushToken;
+                if (!token){
+                    token = await Notifications.getExpoPushTokenAsync();
+                    setAttribute('pushToken', token.data)
                 }
                 let data = {
                     os: Platform.OS=== 'ios' ?  'ios' :  'android',
-                    token: navigationDuck?.pushToken?.toString(),
+                    token: token.data ?? '',
                     userId: appDuck?.user?.id?.toString()
                 };
                 await sendPushToken(data);
