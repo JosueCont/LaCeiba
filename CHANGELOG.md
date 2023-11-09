@@ -15,6 +15,14 @@
 --------
 
 
+#### 🚀 [1.0.17](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.17) (24 Octubre 2023)
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🥈| <span style="color:grey">Minor update</span>| Ajustes en etiquetas de la app |
+|🥈| <span style="color:grey">Minor update</span>| Número de personas ahora es solicitado en el proceso de reservaciones de servicios con costo |
+
+
 #### 🚀 [1.0.16](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.16) (10 Octubre 2023)
 
 | | Change type | Descripción |

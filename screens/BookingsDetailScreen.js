@@ -213,16 +213,16 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
 
     return (
         <View flex={1}>
-            <View bgColor={Colors.green}>
+            {/* <View bgColor={Colors.green}>
                 <SliderCustom
-                    height={200}
+                    height={190}
                     items={[
                         {image: ImageRN.resolveAssetSource(require('../assets/imageGolf2.png')).uri},
 
                     ]}
                     position={sliderPosition}
                     setPosition={setSliderPosition}/>
-            </View>
+            </View> */}
             {!invitation && <Spinner color={Colors.green} size={'lg'} /> ||
                 <View flex={1}>
                     <ScrollView flexGrow={1} pt={10} showsVerticalScrollIndicator={false}>

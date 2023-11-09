@@ -44,7 +44,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
             setAllGroups([]);
             setGroupsFounded([]);
             getAllFixedGroups();
-            checkFixedGroups();
+            // checkFixedGroups();
             return () => {
                 setFixedGroups(0);
               };
@@ -54,6 +54,9 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
     const sendExpoToken = async () => {
         try {
             if(Constants?.manifest?.extra?.sendDeviceToken){
+                if (!navigationDuck?.pushToken){
+                    return;
+                }
                 let data = {
                     os: Platform.OS=== 'ios' ?  'ios' :  'android',
                     token: navigationDuck?.pushToken?.toString(),
@@ -216,7 +219,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                                     </ImageBackground>
                                 </View>
                                 <View>
-                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Invitados</Text>
+                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Invitados a Restaurantes</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -249,7 +252,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                                     </ImageBackground>
                                 </View>
                                 <View>
-                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Partidos</Text>
+                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Juegos</Text>
                                 </View>
                             </TouchableOpacity>                            
                         </View>
