@@ -153,7 +153,7 @@ const DrawerConfig = () => {
 
     return (
         <Drawer.Navigator
-            useLegacyImplementation={true}
+            // useLegacyImplementation={true}
             backBehavior={'history'}
             screenOptions={({navigation, route}) => ({
                 drawerPosition: 'right',
