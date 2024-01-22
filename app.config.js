@@ -26,6 +26,7 @@ const commonConfig = {
           }
         ]   
       ],
+    "jsEngine": "hermes",
     extra: {
         debug: false, //Colocar a false para no generar correos dummy al registro del socio
         production: true,

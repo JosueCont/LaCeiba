@@ -4,7 +4,6 @@ import {Colors} from "../Colors";
 import LayoutV4 from "./Layouts/LayoutV4";
 import MatchItem from "./MatchItem";
 import {MaterialIcons} from "@expo/vector-icons";
-import { color } from "react-native-reanimated";
 import {TouchableOpacity, RefreshControl} from "react-native";
 import React, { useEffect, useState } from "react";
 import {useIsFocused} from "@react-navigation/native";

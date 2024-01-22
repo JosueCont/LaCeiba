@@ -18,7 +18,6 @@ import axios from "axios";
 import Constants from "expo-constants";
 import bgButton from "../assets/bgButton.png";
 import iconAccess from "../assets/iconAccess.png";
-import Animated from "react-native-reanimated";
 import {AntDesign} from "@expo/vector-icons";
 import { loggedOutAction } from "../redux/ducks/appDuck";
 
