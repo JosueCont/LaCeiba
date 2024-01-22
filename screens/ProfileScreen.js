@@ -329,7 +329,7 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                       *No puedes transferir puntos porque tu usuario está desactivado
                      </Text>
                     }
-                    { Constants.manifest.extra.eCommerce && <Button onPress={() => navigation.navigate('BuysScreen')} mb={3}>Mis compras</Button> }
+                    { Constants.expoConfig.extra.eCommerce && <Button onPress={() => navigation.navigate('BuysScreen')} mb={3}>Mis compras</Button> }
                     { !allowNotifications && <Button onPress={() => askPermission()} mb={3}>Activar notificaciones</Button> }
 
                     <TouchableOpacity onPress={async()=>{ setModalChangePassword(true) }}>

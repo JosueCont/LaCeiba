@@ -57,7 +57,7 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
             let data = {
                 firstName: navigationDuck.user.firstName,
                 lastName: navigationDuck.user.lastName,
-                email: values.email,//Constants.manifest.extra.debug === true ? aliasGenerate(Constants.manifest.extra.debugEmail) : navigationDuck.user.email,
+                email: values.email,//Constants.expoConfig.extra.debug === true ? aliasGenerate(Constants.expoConfig.extra.debugEmail) : navigationDuck.user.email,
                 password: values.password,
                 confirm: values.passwordConfirm,
                 claveSocio: navigationDuck.user.claveSocio,
@@ -95,7 +95,7 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
             const response = await registerPartner(data, {headers: headers});
 
             console.log('registerPartnerFuncion', response.data)
-         /*   if (Constants.manifest.extra.debug === true) {
+         /*   if (Constants.expoConfig.extra.debug === true) {
                 alert(data['email'].toString())
             }*/
 

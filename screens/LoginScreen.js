@@ -44,7 +44,7 @@ const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) =
         try {
             data['refresh'] = true;
             
-            if (_.has(navigationDuck, 'pushToken') && Constants?.manifest?.extra?.sendDeviceToken) {
+            if (_.has(navigationDuck, 'pushToken') && Constants?.expoConfig?.extra?.sendDeviceToken) {
 
                 const deviceData = {
                     token: navigationDuck.pushToken

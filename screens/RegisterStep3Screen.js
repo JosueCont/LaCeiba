@@ -42,7 +42,7 @@ const RegisterStep3Screen = ({navigation, route, navigationDuck}) => {
             // }
 
             let data = {
-                email: Constants.manifest.extra.debug === true ? Constants.manifest.extra.debugEmail : navigationDuck.user.email,
+                email: Constants.expoConfig.extra.debug === true ? Constants.expoConfig.extra.debugEmail : navigationDuck.user.email,
                 code: values.code
             }
             const response = await registerConfirmEmail(data);
@@ -67,7 +67,7 @@ const RegisterStep3Screen = ({navigation, route, navigationDuck}) => {
         try {
             let data = {
                 name: navigationDuck.user.firstName + ' ' + navigationDuck.user.lastName,
-                email: Constants.manifest.extra.debug === true ? Constants.manifest.extra.debugEmail : navigationDuck.user.email,
+                email: Constants.expoConfig.extra.debug === true ? Constants.expoConfig.extra.debugEmail : navigationDuck.user.email,
             }
             const response = await registerSendConfirmEmail(data);
             console.log(data, response)

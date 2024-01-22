@@ -189,7 +189,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                     </View>
                 </TouchableOpacity>
 
-                { Constants.manifest.extra.eCommerce &&
+                { Constants.expoConfig.extra.eCommerce &&
                     <TouchableOpacity onPress={() => navigation.navigate('BuysScreen')}>
                         <View flexDirection={'row'} mb={4}>
                             <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
@@ -218,7 +218,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
             </View>
 
                 <View flex={0.1} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
-                    <Text>V. {Constants.manifest.version}</Text>
+                    <Text>V. {Constants.expoConfig.version}</Text>
                 </View>
 
             <ModalAsk

@@ -270,7 +270,7 @@ const DrawerConfig = () => {
                        } 
 
                     </TouchableOpacity>
-                    { Constants.manifest.extra.eCommerce &&
+                    { Constants.expoConfig.extra.eCommerce &&
                         <TouchableOpacity onPress={() => navigation.navigate('ProductsCartScreen')}
                         style={{
                             width: 40,

@@ -41,7 +41,7 @@ const RegisterStep2Screen = ({navigation, navigationDuck, setAttribute}) => {
 
             let data = {
                 name: navigationDuck.user.firstName + ' ' + navigationDuck.user.lastName,
-                email: Constants.manifest.extra.debug === true ? Constants.manifest.extra.debugEmail : navigationDuck.user.email,
+                email: Constants.expoConfig.extra.debug === true ? Constants.expoConfig.extra.debugEmail : navigationDuck.user.email,
             }
 
             const response = await registerSendConfirmEmail(data)

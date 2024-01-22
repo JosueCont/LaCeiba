@@ -101,7 +101,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
     }
     const addToAppleWallet = async () => {
         try {
-            let baseURL = Constants.manifest.extra.production ? Constants.manifest.extra.URL : Constants.manifest.extra.URL_DEV;
+            let baseURL = Constants.expoConfig.extra.production ? Constants.expoConfig.extra.URL : Constants.expoConfig.extra.URL_DEV;
             const url = `${baseURL}/v1/wallets/users/${appDuck.user.id}/apple`
             const supported = await Linking.canOpenURL(url); //To check if URL is supported or not.
             if (supported) {
@@ -223,14 +223,14 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
 
                         <Button mt={2} mb={4} onPress={() => navigation.navigate('HomeScreen')}>Terminar</Button>
 
-                        { Platform.OS == 'android' && Constants.manifest.extra.googleWallet &&
+                        { Platform.OS == 'android' && Constants.expoConfig.extra.googleWallet &&
                             <View flexDirection={'column'} justifyContent={'center'} alignItems={'center'} mt={2}>
                             <TouchableOpacity onPress={()=>{saveToGoogleWallet();}}>
                                 <Image source={googleWallet}></Image>
                             </TouchableOpacity>
                         </View>
                         }
-                        { Platform.OS == 'ios' && Constants.manifest.extra.appleWallet &&
+                        { Platform.OS == 'ios' && Constants.expoConfig.extra.appleWallet &&
                             <View flex={1} mt={2}>
                                 <TouchableOpacity onPress={() => addToAppleWallet()}>
                                     <Image source={addToAppleWalletBtn} style={{width: '100%', resizeMode: 'contain', height:64}}/>

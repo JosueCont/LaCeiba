@@ -55,7 +55,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
 
     const sendExpoToken = async () => {
         try {
-            if(Constants?.manifest?.extra?.sendDeviceToken){
+            if(Constants?.expoConfig?.extra?.sendDeviceToken){
                 let token = navigationDuck?.pushToken;
                 if (!token){
                     token = await Notifications.getExpoPushTokenAsync();
@@ -293,7 +293,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                                 </View>
                         }
 
-                        { Constants.manifest.extra.eCommerce &&
+                        { Constants.expoConfig.extra.eCommerce &&
                             <View flex={1} alignItems={'center'}>
                                 <TouchableOpacity onPress={() => navigation.navigate('StoreScreen')}>
 

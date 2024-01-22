@@ -35,7 +35,7 @@ const GuestGeneratePassScreen = ({navigation, route, appDuck}) => {
             const data = {
                 "idInvitado": route.params.guest.idInvitado,
                 "guestName": route.params.guest.nombre + ' ' + route.params.guest.apellidoPaterno + ' ' + route.params.guest.apellidoMaterno,
-                "guestEmail": Constants.manifest.extra.debug === true ? Constants.manifest.extra.debugEmail : route.params.guest.mail,
+                "guestEmail": Constants.expoConfig.extra.debug === true ? Constants.expoConfig.extra.debugEmail : route.params.guest.mail,
                 "expirationDate": date
             }
             const response = await generateGuestsQR(data, [appDuck.user.id])
