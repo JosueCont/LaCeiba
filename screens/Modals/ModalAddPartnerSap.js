@@ -114,7 +114,7 @@ const ModalAddPartnerSap = ({visible, setVisible, appDuck, action}) => {
                 }}>
                     <LinearGradient
                         // Background Linear Gradient
-                        colors={[Colors.greenV5, Colors.greenV2]}
+                        colors={[Colors.lightPrimary, Colors.darkPrimary]}
                         style={{
                             position: 'absolute',
                             left: 0,
@@ -124,12 +124,12 @@ const ModalAddPartnerSap = ({visible, setVisible, appDuck, action}) => {
                             borderRadius: 20
                         }}
                     />
-                    <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.greenV4, borderRadius: 60}}
+                    <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.darkPrimary, borderRadius: 60}}
                                       onPress={() =>{ 
                                         resetValues();
                                         setVisible(false)
                                       }}>
-                        <Icon as={AntDesign} name={'close'} color={'white'} size={'xs'}></Icon>
+                        <Icon as={AntDesign} name={'close'} color={Colors.bgPrimaryText} size={'xs'}></Icon>
                     </TouchableOpacity>
                    
                     <View>
@@ -139,7 +139,7 @@ const ModalAddPartnerSap = ({visible, setVisible, appDuck, action}) => {
                             setName(val.toUpperCase())
                         }}/>
                         <FormControl isInvalid={validateEmptyName} mb={3}>
-                            <FormControl.ErrorMessage _text={{color: "white"}} leftIcon={<WarningOutlineIcon  size="xs" />}>
+                            <FormControl.ErrorMessage _text={{color: Colors.textWhite}} leftIcon={<WarningOutlineIcon  size="xs" />}>
                                 El valor no puede ser vacio
                             </FormControl.ErrorMessage>
                         </FormControl>
@@ -151,7 +151,7 @@ const ModalAddPartnerSap = ({visible, setVisible, appDuck, action}) => {
                             setLastNameFather(val.toUpperCase())
                         }}/>
                         <FormControl isInvalid={validateEmptyLastNameFather} mb={3}>
-                            <FormControl.ErrorMessage _text={{color: "white"}} leftIcon={<WarningOutlineIcon  size="xs" />}>
+                            <FormControl.ErrorMessage _text={{color: Colors.textWhite}} leftIcon={<WarningOutlineIcon  size="xs" />}>
                                 El valor no puede ser vacio
                             </FormControl.ErrorMessage>
                         </FormControl>
@@ -163,7 +163,7 @@ const ModalAddPartnerSap = ({visible, setVisible, appDuck, action}) => {
                             setLastNameMother(val.toUpperCase())
                         }}/>
                         <FormControl isInvalid={validateEmptyLastNameMother} mb={3}>
-                            <FormControl.ErrorMessage _text={{color: "white"}} leftIcon={<WarningOutlineIcon  size="xs" />}>
+                            <FormControl.ErrorMessage _text={{color: Colors.textWhite}} leftIcon={<WarningOutlineIcon  size="xs" />}>
                                 El valor no puede ser vacio
                             </FormControl.ErrorMessage>
                         </FormControl>
@@ -174,11 +174,11 @@ const ModalAddPartnerSap = ({visible, setVisible, appDuck, action}) => {
                             setEmail(val)
                         }}/>
                         <FormControl isInvalid={validateEmptyEmail} mb={3}>
-                            <FormControl.ErrorMessage _text={{color: "white"}} leftIcon={<WarningOutlineIcon  size="xs" />}>
+                            <FormControl.ErrorMessage _text={{color: Colors.textWhite}} leftIcon={<WarningOutlineIcon  size="xs" />}>
                                 El valor no puede ser vacio
                             </FormControl.ErrorMessage>
                         </FormControl>
-                        <Button colorScheme={'green'} isLoading={isLoading} onPress={() => {
+                        <Button isLoading={isLoading} onPress={() => {
                             setValidateEmptyName(false);
                             setValidateEmptyLastNameFather(false);
                             setValidateEmptyLastNameMother(false);

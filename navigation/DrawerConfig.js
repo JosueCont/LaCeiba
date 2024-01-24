@@ -175,7 +175,7 @@ const DrawerConfig = () => {
                                 borderRadius: 5,
                                 marginLeft: 10
                             }}>
-                                <Icon as={MaterialIcons} name={'arrow-back-ios'} color={'white'} size={'md'}/>
+                                <Icon as={MaterialIcons} name={'arrow-back-ios'} color={Colors.bgPrimaryText} size={'md'}/>
 
                             </TouchableOpacity>
                         )
@@ -194,7 +194,7 @@ const DrawerConfig = () => {
                                 borderRadius: 5,
                                 marginLeft: 10
                             }}>
-                                <Icon as={MaterialIcons} name={'arrow-back-ios'} color={'white'} size={'md'}/>
+                                <Icon as={MaterialIcons} name={'arrow-back-ios'} color={Colors.bgPrimaryText} size={'md'}/>
 
                             </TouchableOpacity>
                         )
@@ -213,7 +213,7 @@ const DrawerConfig = () => {
                                 borderRadius: 5,
                                 marginLeft: 10
                             }}>
-                                <Icon as={MaterialIcons} name={'arrow-back-ios'} color={'white'} size={'md'}/>
+                                <Icon as={MaterialIcons} name={'arrow-back-ios'} color={Colors.bgPrimaryText} size={'md'}/>
 
                             </TouchableOpacity>
                         )
@@ -232,7 +232,7 @@ const DrawerConfig = () => {
                                 borderRadius: 5,
                                 marginLeft: 10
                             }}>
-                                <Icon as={MaterialIcons} name={'arrow-back-ios'} color={'white'} size={'md'}/>
+                                <Icon as={MaterialIcons} name={'arrow-back-ios'} color={Colors.bgPrimaryText} size={'md'}/>
 
                             </TouchableOpacity>
                         )
@@ -240,7 +240,7 @@ const DrawerConfig = () => {
                     }
 
                 },
-                headerStyle: {backgroundColor: Colors.green},
+                headerStyle: {backgroundColor: Colors.primary},
                 headerTitleAlign: 'center',
                 headerTitleStyle: {color: 'black'},
                 headerTitle: () => {
@@ -281,7 +281,7 @@ const DrawerConfig = () => {
                             {
                             products?.length > 0 &&
                             <View position={'relative'}>
-                            <Text position={'absolute'} bottom={'12px'} ml={2} color={Colors.yellow} fontSize={'10px'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>{products.length}</Text>
+                            <Text position={'absolute'} bottom={'12px'} ml={2} color={Colors.secondary} fontSize={'10px'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>{products.length}</Text>
                             <Image source={IconCartWithItems} style={{width: 20, height: 20}}></Image>
                             </View>
 
@@ -299,7 +299,7 @@ const DrawerConfig = () => {
                         justifyContent: 'center',
                         marginRight: 5
                     }}>
-                        <Icon as={MaterialIcons} color={'white'} name={'menu'} size={'md'}></Icon>
+                        <Icon as={MaterialIcons} color={Colors.bgPrimaryText} name={'menu'} size={'md'}></Icon>
                     </TouchableOpacity>
                 </View>
                 

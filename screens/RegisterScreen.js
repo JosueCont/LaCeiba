@@ -12,6 +12,7 @@ import _ from 'lodash';
 import * as Notifications from "expo-notifications";
 import { Alert} from 'react-native';
 import Constants from "expo-constants";
+import { Colors } from "../Colors";
 
 const RegisterScreen = ({navigation, setAttribute}) => {
     const [modalErrorVisible, setModalErrorVisible] = useState(null);
@@ -120,7 +121,7 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                     <View flex={1}>
                         <View mx={55} mt={10}>
                             <Text fontSize={'5xl'} textAlign={'center'} fontFamily={'titleLight'} mb={4}>Registro</Text>
-                            <View alignSelf={'center'} width={'100%'} borderWidth={1} borderColor={'#FFB718'} mb={8}/>
+                            <View alignSelf={'center'} width={'100%'} borderWidth={1} borderColor={Colors.secondary} mb={8}/>
                             <FormControl isInvalid={errors.numberAction} mb={4}>
                                 <Text textAlign={'center'} mb={2}>Número de acción</Text>
                                 <Input

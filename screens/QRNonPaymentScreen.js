@@ -10,17 +10,17 @@ const QRNonPaymentScreen = ({navigation, route}) => {
         <LayoutV3>
             <View flex={1} mx={20} justifyContent={'center'}>
                 <View mb={10} alignItems={'center'} justifyContent={'center'}>
-                    <Icon as={AntDesign} name={'exclamationcircleo'} color={Colors.yellow} size={'6xl'}/>
+                    <Icon as={AntDesign} name={'exclamationcircleo'} color={Colors.secondary} size={'6xl'}/>
                 </View>
 
-                <Text color={Colors.green} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={10}>
+                <Text color={Colors.primary} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={10}>
                     {route?.params?.message}
                 </Text>
-                <Text color={Colors.green} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={10}>
+                <Text color={Colors.primary} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={10}>
                     {route?.params?.responseError?.message}
                 </Text>
                 
-                <Text color={Colors.green} fontSize={'sm'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={10}>
+                <Text color={Colors.primary} fontSize={'sm'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={10}>
                     Le invitamos a contactar a la administración
                 </Text>
 

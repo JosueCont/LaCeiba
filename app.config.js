@@ -31,8 +31,10 @@ const commonConfig = {
         debug: false, //Colocar a false para no generar correos dummy al registro del socio
         production: true,
         sendDeviceToken: true, //Colocar false para no enviar el token device
-        URL: "https://api.clubdegolflahacienda.com",
-        URL_DEV: "https://api.hacienda.hiumanlab.com",
+        //URL: "https://api.clubdegolflahacienda.com",
+        //URL_DEV: "https://api.hacienda.hiumanlab.com",
+        URL: "https://laceiba.api.hiumanlab.mx",
+        URL_DEV: "https://laceiba.api.hiumanlab.mx",
         //URL_DEV: "https://qa.api.hacienda.hiumanlab.com",
         eas: {
             projectId: "c16e312d-b8ac-495f-b1bc-39e309569e13"

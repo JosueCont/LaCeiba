@@ -142,7 +142,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
     return (
         <LayoutV4 white={true} overlay={true}>
             <View flex={1}>
-               {/*  <View bgColor={Colors.green}>
+               {/*  <View bgColor={Colors.primary}>
                     <SliderCustom
                         height={250}
                         items={[
@@ -155,7 +155,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                         position={sliderPosition}
                         setPosition={setSliderPosition}/>
                 </View> */}
-                <View bgColor={Colors.green} height={130} justifyContent={'flex-start'} alignItems={'center'}>
+                <View bgColor={Colors.primary} height={130} justifyContent={'flex-start'} alignItems={'center'}>
                     <Image source={imgLogo} size={130} resizeMode='contain' />
                 </View>
                 <View flex={1} pt={10}>
@@ -169,7 +169,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                                     </ImageBackground>
                                 </View>
                                 <View>
-                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Ingresar al club</Text>
+                                    <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Ingresar al club</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -181,7 +181,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                                     </ImageBackground>
                                 </View>
                                 <View>
-                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Reservar</Text>
+                                    <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Reservar</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -195,7 +195,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                     {/*                </ImageBackground>*/}
                     {/*            </View>*/}
                     {/*            <View>*/}
-                    {/*                <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Instalaciones</Text>*/}
+                    {/*                <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Instalaciones</Text>*/}
                     {/*            </View>*/}
                     {/*        </TouchableOpacity>*/}
                     {/*    </View>*/}
@@ -208,7 +208,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                     {/*                </ImageBackground>*/}
                     {/*            </View>*/}
                     {/*            <View>*/}
-                    {/*                <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Servicios</Text>*/}
+                    {/*                <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Servicios</Text>*/}
                     {/*            </View>*/}
                     {/*        </TouchableOpacity>*/}
                     {/*    </View>*/}
@@ -223,7 +223,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                                     </ImageBackground>
                                 </View>
                                 <View>
-                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Invitados a Restaurantes</Text>
+                                    <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Invitados a Restaurantes</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -236,7 +236,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                                     </ImageBackground>
                                 </View>
                                 <View>
-                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Mis reservaciones</Text>
+                                    <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Mis reservaciones</Text>
                                 </View>
                             </TouchableOpacity>
 
@@ -256,7 +256,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                                     </ImageBackground>
                                 </View>
                                 <View>
-                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Juegos</Text>
+                                    <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Juegos</Text>
                                 </View>
                             </TouchableOpacity>                            
                         </View>
@@ -270,7 +270,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                                     </ImageBackground>
                                 </View>
                                 <View>
-                                    <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Saldos</Text>
+                                    <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Saldos</Text>
                                 </View>
                             </TouchableOpacity>                            
                         </View>
@@ -287,7 +287,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                                             </ImageBackground>
                                         </View>
                                         <View>
-                                            <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Grupos fijos</Text>
+                                            <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Grupos fijos</Text>
                                         </View>
                                     </TouchableOpacity>
                                 </View>
@@ -303,7 +303,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                                         </ImageBackground>
                                     </View>
                                     <View>
-                                        <Text textAlign={'center'} color={Colors.green} fontSize={'lg'}>Tienda</Text>
+                                        <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Tienda</Text>
                                     </View>
                                 </TouchableOpacity>
                             </View>

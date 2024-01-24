@@ -50,28 +50,28 @@ const GuestGeneratePassQRScreen = ({ navigation, route }) => {
 
                     <ViewShot ref={imgRef}>
 
-                        <View height={500} width={310} borderColor={Colors.green} borderWidth={0.5} borderRadius={20} overflow={'hidden'}>
+                        <View height={500} width={310} bgColor={Colors.partnerCard.bg} borderRadius={20} overflow={'hidden'}>
                         
-                            <View flex={0.65} bgColor={Colors.green}>
+                            <View flex={0.65} bgColor={Colors.partnerCard.photoBg}>
                                 <View flex={1} justifyContent={'center'} alignItems={'center'}>
                                     <Image source={imgLogo} width={100} height={100}></Image>
                                 </View>
-                                <View bgColor={Colors.greenV4} height={65} justifyContent={'center'} p={1}>
-                                    <Text textAlign={'center'} fontSize="xl" fontFamily={'titleComfortaaBold'}>PASE DE INVITADO</Text>
-                                    <Text textAlign={'center'} fontSize="xs">
+                                <View bgColor={Colors.partnerCard.nameBg} height={65} justifyContent={'center'} p={1}>
+                                    <Text color={Colors.partnerCard.nameTextColor} textAlign={'center'} fontSize="xl" fontFamily={'titleComfortaaBold'}>PASE DE INVITADO</Text>
+                                    <Text color={Colors.partnerCard.nameTextColor} textAlign={'center'} fontSize="xs">
                                         Válido únicamente el {qrPass ? moment(qrPass?.expirationDate).format('LL') : ''}
                                     </Text>
                                 </View>
                             </View>
 
-                            <View flex={1} bgColor={'white'} borderBottomRadius={20}>
+                            <View flex={1} borderBottomRadius={20}>
                                 <View flex={1} alignItems={'center'} justifyContent={'center'}>
                                     <Image source={{uri: imageQRCode}} width={180} height={180}/>
                                 </View>
                                 <View flexDir={'row'} p={3}>
                                     <View flex={1}>
-                                        <Text color={Colors.green} textAlign={'center'} fontSize="xl" fontFamily={'titleComfortaaBold'}>{qrPass?.guestName}</Text>
-                                        <Text color={Colors.green} textAlign={'center'} fontSize={'xs'}>
+                                        <Text color={Colors.partnerCard.nameTextColor} textAlign={'center'} fontSize="xl" fontFamily={'titleComfortaaBold'}>{qrPass?.guestName}</Text>
+                                        <Text color={Colors.red} textAlign={'center'} fontSize={'xs'}>
                                             <Text fontFamily={'titleComfortaaBold'}>Acceso exclusivo a:</Text> {qrPass && qrPass?.metadata?.freeServices && qrPass?.metadata?.freeServices.map(({ name }) => name).join(', ')}
                                         </Text>
                                     </View>

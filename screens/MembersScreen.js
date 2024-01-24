@@ -33,13 +33,13 @@ const MembersScreen = ({navigation, appDuck}) => {
                 <ScrollView
                     refreshControl={
                         <RefreshControl
-                            tintColor={Colors.green}
+                            tintColor={Colors.primary}
                             refreshing={loading}
                             onRefresh={getMembersFunction}
                         />
                     }
                     flex={1}>
-                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Miembros adicionales</Text>
+                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Miembros adicionales</Text>
 
 
                     {

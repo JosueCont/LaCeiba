@@ -56,15 +56,15 @@ const NotificationDetail = ({navigation, route}) => {
         <LayoutV3>
             {notificationDetail && <View flex={1}>
 
-                <Text textAlign={'center'} mt={10} mb={10} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'3xl'}>{notificationDetail?.template?.title.toUpperCase()}</Text>
+                <Text textAlign={'center'} mt={10} mb={10} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'3xl'}>{notificationDetail?.template?.title.toUpperCase()}</Text>
                 <View flexDirection={'row'} alignContent={'center'} justifyContent={'center'}>
-                <ImageBackground  style={{width: 175, height: 45, borderRadius:60, alignItems: 'center', justifyContent: 'center', backgroundColor:'#FFB718'}}>
+                <ImageBackground  style={{width: 175, height: 45, borderRadius:60, alignItems: 'center', justifyContent: 'center', backgroundColor:Colors.secondary}}>
                     <Text color={'#0A5839'} fontSize={'md'}>{typeCategory(notificationDetail?.template?.category)}</Text>
                 </ImageBackground>
                 </View>
 
                 {/* <View mt={10} mb={5} flexDirection={'row'} justifyContent={'center'}>
-                    <Text color={Colors.green}>Contenido:</Text>
+                    <Text color={Colors.primary}>Contenido:</Text>
                 </View> */}
                 
                 <View flex={1} mt={10} mx={4} style={{ backgroundColor: 'white', borderRadius: 10}}>
@@ -78,11 +78,11 @@ const NotificationDetail = ({navigation, route}) => {
                         javaScriptEnabled={true}
                         renderLoading={() => (
                             <View width={'100%'} height={'100%'} alignItems={'center'} justifyContent={'center'}>
-                                <Spinner size={'lg'} key={'abc'} color={Colors.green}/>
+                                <Spinner size={'lg'} key={'abc'} color={Colors.primary}/>
                             </View>
                         )}
                         source={{html: `<html><head><style>
-                        body {color: #146842; text-align:justify; padding: 5px; line-height: 20px;}
+                        body {color: ${Colors.primary}; text-align:justify; padding: 5px; line-height: 20px;}
                         </style><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body> 
                         ${notificationDetail?.template?.content}
                         </body></html>`}}

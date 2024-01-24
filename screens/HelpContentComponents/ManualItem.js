@@ -46,7 +46,7 @@ const ManualItem = ({navigation, mb = 2, id, title = 'Title', url = '', type = '
     return (
         <View flexDirection={'row'} height={50} bgColor={'#fff'} borderRadius={50} mb={mb}>
             <View flex={1} justifyContent={'center'} pl={5}>
-                <Text color={Colors.green} fontSize={'xs'}>{title}</Text>
+                <Text color={Colors.primary} fontSize={'xs'}>{title}</Text>
             </View>
             <View flex={0.4} mx={5} flexDirection={'row'} justifyContent={'flex-end'} alignSelf={'flex-end'} alignItems={'flex-end'} alignContent={'flex-end'}>
                 {

@@ -38,8 +38,8 @@ const DirectoryScreen = ({navigation}) => {
     return (
         <LayoutV4>
             <View flex={1} mx={8}>
-                <Text textAlign={'center'} mt={10} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Directorio</Text>
-                <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>Contáctanos</Text>
+                <Text textAlign={'center'} mt={10} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Directorio</Text>
+                <Text textAlign={'center'} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>Contáctanos</Text>
 
                 <DirectoryItem mb={4}/>
                 <DirectoryItem mb={4}/>

@@ -19,21 +19,21 @@ const BookingConfirmScreen = ({navigation}) => {
                         </ImageBackground>
                     </View>
 
-                    <Text mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'lg'}>NOMBRE DE USUARIO</Text>
-                    <Text mb={5} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>¡Tu reservación está lista!</Text>
-                    <View my={5} width={'90%'} alignSelf={'center'} borderWidth={1} borderColor={Colors.yellow}/>
-                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'lg'}>ID DE RESERVACIÓN: H5L36</Text>
-                    <View my={5} width={'90%'} alignSelf={'center'} borderWidth={1} borderColor={Colors.yellow}/>
+                    <Text mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={'lg'}>NOMBRE DE USUARIO</Text>
+                    <Text mb={5} textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>¡Tu reservación está lista!</Text>
+                    <View my={5} width={'90%'} alignSelf={'center'} borderWidth={1} borderColor={Colors.secondary}/>
+                    <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={'lg'}>ID DE RESERVACIÓN: H5L36</Text>
+                    <View my={5} width={'90%'} alignSelf={'center'} borderWidth={1} borderColor={Colors.secondary}/>
 
-                    <Text mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>Campo de golf</Text>
-                    <Text mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>Martes 27 de agosto</Text>
-                    <Text mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>9:00 am a 11:00 am</Text>
-                    <Text mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>2 socios y 2 invitados</Text>
-                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>Profesor: Nombre y apellido</Text>
-                    <View width={'90%'} alignSelf={'center'} borderWidth={1} my={5} borderColor={Colors.yellow}/>
+                    <Text mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>Campo de golf</Text>
+                    <Text mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>Martes 27 de agosto</Text>
+                    <Text mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>9:00 am a 11:00 am</Text>
+                    <Text mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>2 socios y 2 invitados</Text>
+                    <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>Profesor: Nombre y apellido</Text>
+                    <View width={'90%'} alignSelf={'center'} borderWidth={1} my={5} borderColor={Colors.secondary}/>
 
-                    <Text mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>Puedes consultar los detalles de tu reservación en tu correo y en la sección</Text>
-                    <Text mb={10} textAlign={'center'} color={Colors.yellow} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>“Mis reservaciones”</Text>
+                    <Text mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>Puedes consultar los detalles de tu reservación en tu correo y en la sección</Text>
+                    <Text mb={10} textAlign={'center'} color={Colors.secondary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>“Mis reservaciones”</Text>
                     <Button onPress={() => navigation.navigate('BookingConfirmScreen')}>Reservar</Button>
                 </View>
 

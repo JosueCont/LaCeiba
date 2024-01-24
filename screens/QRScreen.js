@@ -138,7 +138,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
             <ScrollView
                 refreshControl={
                     <RefreshControl
-                        tintColor={Colors.green}
+                        tintColor={Colors.primary}
                         refreshing={refreshing}
                         onRefresh={generateQRCodeFunction}
                     />
@@ -150,17 +150,17 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
 
                         {
                             route.params?.card === true ?
-                                <View height={450} borderColor={Colors.green} borderWidth={0.5} borderRadius={20} overflow={'hidden'}>
-                                    <View flex={0.7} bgColor={Colors.green}>
+                                <View height={450} bgColor={Colors.partnerCard.bg} borderRadius={20} overflow={'hidden'}>
+                                    <View flex={0.7} bgColor={Colors.partnerCard.photoBg}>
                                         <View flex={1} justifyContent={'center'} alignItems={'center'}>
                                             <Image source={imgLogo} width={100} height={100}></Image>
                                         </View>
-                                        <View bgColor={Colors.greenV4} height={50} justifyContent={'center'}>
-                                            <Text textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>
+                                        <View bgColor={Colors.partnerCard.nameBg} height={50} justifyContent={'center'}>
+                                            <Text color={Colors.partnerCard.nameTextColor} textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>
                                         </View>
 
                                     </View>
-                                    <View flex={1} bgColor={'white'} borderBottomRadius={20}>
+                                    <View flex={1} borderBottomRadius={20}>
                                         <View flex={1} alignItems={'center'} justifyContent={'center'}>
                                             {
                                                 refreshing === true ?
@@ -173,18 +173,18 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                                         </View>
                                         <View flexDir={'row'} p={3}>
                                             <View flex={1}>
-                                                <Text color={Colors.green} textAlign={'center'} fontSize={'xs'}>No. de acción</Text>
-                                                <Text color={Colors.green} textAlign={'center'} fontSize={'md'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.accion}</Text>
+                                                <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'xs'}>No. de acción</Text>
+                                                <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'md'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.accion}</Text>
                                             </View>
                                             <View flex={1}>
-                                                <Text color={Colors.green} textAlign={'center'} fontSize={'xs'}>Tipo de acción</Text>
-                                                <Text color={Colors.green} textAlign={'center'} fontSize={'md'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.parentesco}</Text>
+                                                <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'xs'}>Tipo de acción</Text>
+                                                <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'md'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.parentesco}</Text>
                                             </View>
                                         </View>
                                     </View>
                                 </View>
                                 :
-                                <View height={400} borderColor={Colors.green} borderRadius={20} overflow={'hidden'}>
+                                <View height={400} borderColor={Colors.primary} borderRadius={20} overflow={'hidden'}>
                                     <View flex={1} alignItems={'center'} justifyContent={'center'}>
                                         {
                                             refreshing === true ?
@@ -205,10 +205,10 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                     <View mt={10}>
                         {
                             route.params?.card === true ?
-                                <Text color={Colors.green} fontSize={'md'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={6}>
+                                <Text color={Colors.primary} fontSize={'md'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={6}>
                                     Muestra este código en {'\n'}la entrada del club para {'\n'}poder ingresar
                                 </Text> :
-                                <Text color={Colors.green} fontSize={'md'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={6}>
+                                <Text color={Colors.primary} fontSize={'md'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={6}>
                                     Muestra este código en {'\n'}la entrada del área que reservó
                                 </Text>
                         }
@@ -251,7 +251,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                 >
                     <View flex={1}
                         style={{
-                            backgroundColor: Colors.greenLight
+                            backgroundColor: Colors.gray
                         }}
                     >
                     <View flex={.95} alignItems={'center'} justifyContent={'center'}>
@@ -264,10 +264,10 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                     </View>
                     <View flex={0.5} justifyContent={'center'} alignItems={'center'}>
                         <Button
-                            style={{alignItems: 'center', justifyContent: 'center', width: 50, height: 50, backgroundColor: Colors.greenV4, borderRadius: 60}} 
+                            style={{alignItems: 'center', justifyContent: 'center', width: 50, height: 50, backgroundColor: Colors.darkPrimary, borderRadius: 60}} 
                             onPress={() =>{ setModalQrPreview(!modalQRPreview)  }}
                         >
-                            <Icon as={AntDesign} name={'close'} color={'white'} size={'lg'}></Icon>
+                            <Icon as={AntDesign} name={'close'} color={Colors.bgPrimaryText} size={'lg'}></Icon>
                         </Button>
                     </View></View>
             </Modal>

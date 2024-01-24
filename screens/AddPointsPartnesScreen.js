@@ -102,16 +102,16 @@ const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
         <LayoutV5>
             <View flex={1}>
                 <View flex={1}>{/*
-                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Invitados</Text>*/}
+                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Invitados</Text>*/}
 
-                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'capitalize'}>Buscar socio</Text>
+                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'capitalize'}>Buscar socio</Text>
                    
                     <View mx={10} mb={5}>
                         <Input value={textFilter} textAlign={'center'} placeholder={'Buscar'} onChangeText={(v) =>search(v)}/>
                     </View>
                     {
                         !accion && 
-                        <Text textAlign={'center'} mt={0} ml={5} mr={5} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>El límite de puntos para transferir por día a cada socio es: 12</Text>
+                        <Text textAlign={'center'} mt={0} ml={5} mr={5} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>El límite de puntos para transferir por día a cada socio es: 12</Text>
                     }
 
                     <ScrollView
@@ -120,7 +120,7 @@ const AddPointsPartnesScreen = ({route,navigation, appDuck}) => {
                         ScrollEnabled={true}
                         refreshControl={
                             <RefreshControl
-                                tintColor={Colors.green}
+                                tintColor={Colors.primary}
                                 refreshing={loading}
                                 onRefresh={getPartnersFunction}
                             />

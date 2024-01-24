@@ -87,10 +87,10 @@ const AskForPushNotificationsScreen = ({loggedAction, navigation, route}) => {
         <LayoutV3>
             <View flex={1} mx={20} justifyContent={'center'}>
                 <View mb={10} alignItems={'center'} justifyContent={'center'}>
-                    <Icon as={AntDesign} name={'Safety'} color={Colors.yellow} size={'6xl'}/>
+                    <Icon as={AntDesign} name={'Safety'} color={Colors.secondary} size={'6xl'}/>
                 </View>
 
-                <Text color={Colors.green} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={10}>
+                <Text color={Colors.primary} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={10}>
                     ¿Desea activar las notificaciones? Puede realizar esta acción más tarde desde "Mi perfil".
                 </Text>
 

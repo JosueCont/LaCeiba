@@ -38,7 +38,7 @@ const ModalInfo = ({
                 }}>
                     <LinearGradient
                         // Background Linear Gradient
-                        colors={[Colors.greenV5, Colors.greenV2]}
+                        colors={[Colors.lightPrimary, Colors.darkPrimary]}
                         style={{
                             position: 'absolute',
                             left: 0,
@@ -51,18 +51,18 @@ const ModalInfo = ({
 
                     {
                         close === true &&
-                        <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.greenV4, borderRadius: 60}}
+                        <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.darkPrimary, borderRadius: 60}}
                                           onPress={() => setVisible(false)}>
-                            <Icon as={AntDesign} name={'close'} color={'white'} size={'xs'}></Icon>
+                            <Icon as={AntDesign} name={'close'} color={Colors.bgPrimaryText} size={'xs'}></Icon>
                         </TouchableOpacity>
                     }
 
                     <View mb={10} width={'100%'} alignItems={'center'} justifyContent={'center'}>
                         {
                             iconType === 'exclamation' ?
-                                <Icon as={AntDesign} name={'exclamationcircleo'} color={Colors.yellow} size={'2xl'}/> :
+                                <Icon as={AntDesign} name={'exclamationcircleo'} color={Colors.secondary} size={'2xl'}/> :
                                 iconType === 'check' &&
-                                <Icon as={AntDesign} name={'checkcircleo'} color={Colors.yellow} size={'2xl'}/>
+                                <Icon as={AntDesign} name={'checkcircleo'} color={Colors.secondary} size={'2xl'}/>
                         }
 
 
@@ -84,7 +84,7 @@ const ModalInfo = ({
                                 </View>
                         }
 
-                        <Button colorScheme={'green'} onPress={() => {if(action){action();} setVisible(false)}}>{textButton}</Button>
+                        <Button onPress={() => {if(action){action();} setVisible(false)}}>{textButton}</Button>
                     </View>
 
                 </View>

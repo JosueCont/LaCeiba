@@ -15,9 +15,9 @@ const MemberItem = ({navigation, mb = 2, name = 'Name'}) => {
             {/*</View>*/}
 
             <View flex={1} justifyContent={'center'} pl={10}>
-                <Text color={Colors.green} fontSize={'sm'}>{_.startCase(name.toLowerCase())}</Text>
+                <Text color={Colors.primary} fontSize={'sm'}>{_.startCase(name.toLowerCase())}</Text>
             </View>
-            <View borderWidth={1} height={'60%'} alignSelf={'center'} mr={3} borderColor={Colors.yellow}/>
+            <View borderWidth={1} height={'60%'} alignSelf={'center'} mr={3} borderColor={Colors.secondary}/>
             <View flex={1} justifyContent={'center'} alignItems={'center'}>
                 <Image source={iconDetail} style={{width: 30, height: 30}}></Image>
             </View>

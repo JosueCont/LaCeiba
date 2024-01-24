@@ -68,107 +68,107 @@ const getHoles = async() =>{
 
 
    const elementButton1 = (value) => (
-    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: Colors.darkGray, justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
       setOpenModalScore(true)
      }
       }}>
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[0]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[0]}</Text>
     </TouchableOpacity>
     
   );
   const elementButton2 = (value) => (
-    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: Colors.darkGray, justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
       setOpenModalScore(true)
      }
       }}>
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[1]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[1]}</Text>
     </TouchableOpacity>
   );
   const elementButton3 = (value) => (
-    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: Colors.darkGray, justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
       if(todayDate === matchData.booking.dueDate){
        setHoleScore(value)
        setOpenModalScore(true)
       }
       }}>
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[2]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[2]}</Text>
     </TouchableOpacity>
   );
   const elementButton4 = (value) => (
-    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: Colors.darkGray, justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
       setOpenModalScore(true)
      }
       }}>
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[3]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[3]}</Text>
     </TouchableOpacity>
   );
   const elementButton5 = (value) => (
-    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: Colors.darkGray, justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
       setOpenModalScore(true)
      }
       }}>
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[4]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[4]}</Text>
     </TouchableOpacity>
   );
   const elementButton6 = (value) => (
-    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: Colors.darkGray, justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
       if(todayDate === matchData.booking.dueDate){
        setHoleScore(value)
        setOpenModalScore(true)
       }
       }}>
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[5]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[5]}</Text>
     </TouchableOpacity>
   );
   const elementButton7 = (value) => (
-    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: Colors.darkGray, justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
       if(todayDate === matchData.booking.dueDate){
        setHoleScore(value)
        setOpenModalScore(true)
       }
       }}>
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[6]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[6]}</Text>
     </TouchableOpacity>
   );
   const elementButton8 = (value) => (
-    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: Colors.darkGray, justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
       if(todayDate === matchData.booking.dueDate){
        setHoleScore(value)
        setOpenModalScore(true)
       }
       }}>
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[7]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[7]}</Text>
     </TouchableOpacity>
   );
   const elementButton9 = (value) => (
-    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: Colors.darkGray, justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
       if(todayDate === matchData.booking.dueDate){
        setHoleScore(value)
        setOpenModalScore(true)
       }
       }}>
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[8]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[8]}</Text>
     </TouchableOpacity>
   );
   const elementButton10 = (value) => (
-    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: Colors.darkGray, justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
@@ -176,15 +176,15 @@ const getHoles = async() =>{
      }
       }}>
         { numHoles === 9 && area ==='Hoyo 10' &&
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[0]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[0]}</Text>
         }
           { numHoles === 18 &&
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[9]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[9]}</Text>
         }
     </TouchableOpacity>
   );
   const elementButton11 = (value) => (
-    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: Colors.darkGray, justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
@@ -192,15 +192,15 @@ const getHoles = async() =>{
      }
       }}>
          { numHoles === 9 && area ==='Hoyo 10' &&
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[1]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[1]}</Text>
         }
           { numHoles === 18 &&
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[10]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[10]}</Text>
         }
     </TouchableOpacity>
   );
   const elementButton12 = (value) => (
-    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: Colors.darkGray, justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
@@ -208,15 +208,15 @@ const getHoles = async() =>{
      }
       }}>
          { numHoles === 9 && area ==='Hoyo 10' &&
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[2]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[2]}</Text>
         }
           { numHoles === 18 &&
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[11]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[11]}</Text>
         }
     </TouchableOpacity>
   );
   const elementButton13 = (value) => (
-    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: Colors.darkGray, justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
@@ -224,15 +224,15 @@ const getHoles = async() =>{
      }
       }}>
          { numHoles === 9 && area ==='Hoyo 10' &&
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[3]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[3]}</Text>
         }
           { numHoles === 18 &&
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[12]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[12]}</Text>
         }
     </TouchableOpacity>
   );
   const elementButton14 = (value) => (
-    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: Colors.darkGray, justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
       if(todayDate === matchData.booking.dueDate){
        setHoleScore(value)
@@ -240,15 +240,15 @@ const getHoles = async() =>{
       }
       }}>
          { numHoles === 9 && area ==='Hoyo 10' &&
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[4]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[4]}</Text>
         }
           { numHoles === 18 &&
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[13]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[13]}</Text>
         }
     </TouchableOpacity>
   );
   const elementButton15 = (value) => (
-    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: Colors.darkGray, justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
@@ -256,15 +256,15 @@ const getHoles = async() =>{
      }
       }}>
          { numHoles === 9 && area ==='Hoyo 10' &&
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[5]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[5]}</Text>
         }
           { numHoles === 18 &&
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[14]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[14]}</Text>
         }
     </TouchableOpacity>
   );
   const elementButton16 = (value) => (
-    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: Colors.darkGray, justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
       if(todayDate === matchData.booking.dueDate){
        setHoleScore(value)
@@ -272,15 +272,15 @@ const getHoles = async() =>{
       }
       }}>
          { numHoles === 9 && area ==='Hoyo 10' &&
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[6]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[6]}</Text>
         }
           { numHoles === 18 &&
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[15]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[15]}</Text>
         }
     </TouchableOpacity>
   );
   const elementButton17 = (value) => (
-    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: Colors.darkGray, justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
      if(todayDate === matchData.booking.dueDate){
       setHoleScore(value)
@@ -288,15 +288,15 @@ const getHoles = async() =>{
      }
       }}>
          { numHoles === 9 && area ==='Hoyo 10' &&
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[7]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[7]}</Text>
         }
           { numHoles === 18 &&
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[16]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[16]}</Text>
         }
     </TouchableOpacity>
   );
   const elementButton18 = (value) => (
-    <TouchableOpacity style={{ backgroundColor: '#bfc9c5', justifyContent:'center' ,height:'100%' }} onPress={() => {
+    <TouchableOpacity style={{ backgroundColor: Colors.darkGray, justifyContent:'center' ,height:'100%' }} onPress={() => {
       let todayDate = moment().format('YYYY-MM-DD')
       if(todayDate === matchData.booking.dueDate){
        setHoleScore(value)
@@ -304,10 +304,10 @@ const getHoles = async() =>{
       }
       }}>
          { numHoles === 9 && area ==='Hoyo 10' &&
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[8]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[8]}</Text>
         }
           { numHoles === 18 &&
-      <Text textAlign={'center'} color={Colors.green}>{holeScorePoints[17]}</Text>
+      <Text textAlign={'center'} color={Colors.primary}>{holeScorePoints[17]}</Text>
         }
     </TouchableOpacity>
   );
@@ -347,14 +347,14 @@ const getHoles = async() =>{
         wrapper: { flexDirection: 'row' },
         title: {backgroundColor: 'transparent',},
         row: {  height: 40 },
-        text: { textAlign: 'center' ,color: Colors.green, fontWeight:'bold' },
-        textRow: { textAlign: 'center' ,color: Colors.green }
+        text: { textAlign: 'center' ,color: Colors.primary, fontWeight:'bold' },
+        textRow: { textAlign: 'center' ,color: Colors.primary }
 
       });
 
       const TableOne = () =>{
         return <View mb={10}>
-        <Table borderStyle={{borderWidth: 1, borderColor: Colors.green}} color={Colors.green}>
+        <Table borderStyle={{borderWidth: 1, borderColor: Colors.primary}} color={Colors.primary}>
           <Row data={tableHead} flexArr={[3.08, 1, 1, 1]} style={styles.head} textStyle={styles.text}/>
           <TableWrapper style={styles.wrapper}>
           <Col data={tableTitle} style={styles.title} heightArr={[40,40]}  textStyle={styles.textRow}/>
@@ -365,7 +365,7 @@ const getHoles = async() =>{
       }
       const TableTwo = () =>{
         return <View mb={5}>
-        <Table borderStyle={{borderWidth: 1, borderColor: Colors.green}} color={Colors.green}>
+        <Table borderStyle={{borderWidth: 1, borderColor: Colors.primary}} color={Colors.primary}>
         <Row data={tableHead2} flexArr={[3.08, 1, 1, 1]} style={styles.head} textStyle={styles.text}/>
         <TableWrapper style={styles.wrapper}>
             <Col data={tableTitle} style={styles.title} heightArr={[40,40]}  textStyle={styles.textRow}/>

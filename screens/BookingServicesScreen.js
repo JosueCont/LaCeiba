@@ -67,7 +67,7 @@ const BookingServicesScreen = ({navigation, loggedOutAction}) => {
                     mt={6}
                     refreshControl={
                         <RefreshControl
-                            tintColor={Colors.green}
+                            tintColor={Colors.primary}
                             refreshing={loading}
                             onRefresh={getServices}
                         />

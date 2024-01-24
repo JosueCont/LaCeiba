@@ -34,29 +34,29 @@ const BookinsItem = ({navigation, mb = 2, data, dataInvitation, dataBooking, app
             </View>
 
             <View flex={1} justifyContent={'center'}>
-                <Text color={Colors.green} fontSize={'12'} bold={true} width={'95%'} numberOfLines={2}>{dataInvitation?.booking?.area.service.name}</Text>
-                <Text color={Colors.green} fontSize={'10'} width={'95%'}>
+                <Text color={Colors.primary} fontSize={'12'} bold={true} width={'95%'} numberOfLines={2}>{dataInvitation?.booking?.area.service.name}</Text>
+                <Text color={Colors.primary} fontSize={'10'} width={'95%'}>
                     {moment(dataInvitation?.booking?.dueDate, "YYYY-MM-DD").format("DD/MM/YYYY")}
                 </Text>
-                <Text color={Colors.green} fontSize={'10'} width={'95%'}>
+                <Text color={Colors.primary} fontSize={'10'} width={'95%'}>
                     {moment(dataInvitation?.booking?.dueTime, "HH:mm").format("hh:mm a")}
                 </Text>
                 {
                     dataBooking?.hostedBy?.id !== appDuck.user.id &&
-                    <Text color={Colors.green} fontSize={'8'}>
+                    <Text color={Colors.primary} fontSize={'8'}>
                         Invitado por {dataBooking?.hostedBy?.firstName}
                     </Text>
                 }
 
             </View>
-            <View borderLeftWidth={1.5} height={'60%'} alignSelf={'center'} borderColor={Colors.yellow}/>
+            <View borderLeftWidth={1.5} height={'60%'} alignSelf={'center'} borderColor={Colors.secondary}/>
             <View flex={1} justifyContent={'center'} alignItems={'center'} pr={1.5}>
                 {
                     dataBooking?.deletedAt || dataInvitation?.booking?.deletedAt ?
                         <Button bgColor={Colors.red} size={"xs"}>
                             Cancelado
                         </Button> :
-                        <Button bgColor={dataInvitation.booking?.fixedGroupId ? Colors.black : dataInvitation.status == "PENDING" ? Colors.yellow : dataInvitation.status == "CONFIRMED" ? Colors.green : Colors.orange} size={"xs"}>
+                        <Button bgColor={dataInvitation.booking?.fixedGroupId ? Colors.black : dataInvitation.status == "PENDING" ? Colors.secondary : dataInvitation.status == "CONFIRMED" ? Colors.primary : Colors.orange} size={"xs"}>
                             {dataInvitation.booking?.fixedGroupId ? "    Fijo    " : dataInvitation.status == 'PENDING' ? "Pendiente" : dataInvitation.status == 'CONFIRMED' ? "Confirmado" : "Rechazado"}
                         </Button>
                 }

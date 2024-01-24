@@ -14,7 +14,7 @@ const StatisticsScreen = ({navigation}) => {
     return (
         <LayoutV4>
             <View flex={1} mx={8}>
-                <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Estadísticas</Text>
+                <Text textAlign={'center'} mt={10} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Estadísticas</Text>
                 <View flex={1} pt={5}>
 
                     <View mb={6} flexDirection={'row'}>
@@ -26,7 +26,7 @@ const StatisticsScreen = ({navigation}) => {
                                     </ImageBackground>
                                 </View>
                                 <View>
-                                    <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Estadística 1</Text>
+                                    <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Estadística 1</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -40,7 +40,7 @@ const StatisticsScreen = ({navigation}) => {
                                 </ImageBackground>
                             </View>
                             <View>
-                                <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Estadística 2</Text>
+                                <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Estadística 2</Text>
                             </View>
                         </View>
 
@@ -53,7 +53,7 @@ const StatisticsScreen = ({navigation}) => {
                                 </ImageBackground>
                             </View>
                             <View>
-                                <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Estadística 3</Text>
+                                <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Estadística 3</Text>
                             </View>
                         </View>
                     </View>

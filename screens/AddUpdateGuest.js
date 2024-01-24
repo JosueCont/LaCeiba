@@ -160,10 +160,10 @@ const AddUpdateGuest = ({navigation, route}) => {
             <View flex={1} mx={20} justifyContent={'center'}>
                 
 
-                <Text color={Colors.green} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={5} textTransform={'uppercase'}>
+                <Text color={Colors.primary} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={5} textTransform={'uppercase'}>
                     {route.params.data ? 'Editar invitado' : 'Nuevo invitado'}
                 </Text>
-                <Text color={Colors.green} fontSize={'sm'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={5}>
+                <Text color={Colors.primary} fontSize={'sm'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={5}>
                     Nombre completo
                 </Text>
                 <Input mb={0} value={nameGuest} onChangeText={(v)=>{setNameGuest(v); setEditedName(true);}}>
@@ -173,7 +173,7 @@ const AddUpdateGuest = ({navigation, route}) => {
                Ingrese un nombre valido sin espacios y al menos 3 caracteres
                 </FormControl.ErrorMessage>
                 </FormControl>
-                <Text color={Colors.green} fontSize={'sm'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mt={5} mb={5}>
+                <Text color={Colors.primary} fontSize={'sm'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mt={5} mb={5}>
                     Correo electrónico
                 </Text>
                 <Input mb={5} value={emailGuest} onChangeText={(v)=>{setEmailGuest(v); setEditedEmail(true);}}>

@@ -45,12 +45,12 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
         <DrawerContentScrollView
             bounces={false}
             nestedScrollEnabled={true}
-            contentContainerStyle={{flex: 1, backgroundColor: Colors.greenV4}}>
+            contentContainerStyle={{flex: 1, backgroundColor: Colors.sideMenu.bg}}>
 
 
             <View my={10} alignItems={'center'} justifyContent={'center'}>
                 <Image source={imgLogo} width={161} height={120} borderRadius={60} resizeMode={'stretch'}></Image>
-                <Text fontSize={'md'} mt={5} textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>
+                <Text color={Colors.sideMenu.textColor} fontSize={'md'} mt={5} textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>
             </View>
             <View flex={1}>
             <ScrollView flexGrow={1} showsVerticalScrollIndicator={false}>
@@ -60,7 +60,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconHome} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Home</Text>
+                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Home</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -71,7 +71,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconProfile} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Mi perfil</Text>
+                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Mi perfil</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -81,7 +81,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconMembers} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Miembros adicionales</Text>
+                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Miembros adicionales</Text>
                         </View>
                     </View>
                 </TouchableOpacity> 
@@ -92,7 +92,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconBooking} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Mis reservaciones</Text>
+                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Mis reservaciones</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -103,7 +103,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconGuestsSmall} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Invitados a Restaurantes</Text>
+                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Invitados a Restaurantes</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -113,7 +113,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                            <Image source={iconMatches} style={{width: 20, height: 20}}></Image>
                        </View>
                        <View flex={1} justifyContent={'center'}>
-                           <Text fontSize={'sm'}>Juegos</Text>
+                           <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Juegos</Text>
                        </View>
                    </View>
                 </TouchableOpacity>
@@ -123,7 +123,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                 {/*            <Image source={iconGroupPermanent} style={{width: 20, height: 20}}></Image>*/}
                 {/*        </View>*/}
                 {/*        <View flex={1} justifyContent={'center'}>*/}
-                {/*            <Text fontSize={'md'}>Grupos fijos</Text>*/}
+                {/*            <Text color={Colors.sideMenu.textColor} fontSize={'md'}>Grupos fijos</Text>*/}
                 {/*        </View>*/}
                 {/*    </View>*/}
                 {/*</TouchableOpacity>*/}
@@ -133,7 +133,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                 {/*            <Image source={iconTransactions} style={{width: 20, height: 20}}></Image>*/}
                 {/*        </View>*/}
                 {/*        <View flex={1} justifyContent={'center'}>*/}
-                {/*            <Text fontSize={'md'}>Transacciones</Text>*/}
+                {/*            <Text color={Colors.sideMenu.textColor} fontSize={'md'}>Transacciones</Text>*/}
                 {/*        </View>*/}
                 {/*    </View>*/}
                 {/*</TouchableOpacity>*/}
@@ -143,7 +143,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                 {/*            <Image source={iconStatistics} style={{width: 20, height: 20}}></Image>*/}
                 {/*        </View>*/}
                 {/*        <View flex={1} justifyContent={'center'}>*/}
-                {/*            <Text fontSize={'md'}>Estadísticas</Text>*/}
+                {/*            <Text color={Colors.sideMenu.textColor} fontSize={'md'}>Estadísticas</Text>*/}
                 {/*        </View>*/}
                 {/*    </View>*/}
                 {/*</TouchableOpacity>*/}
@@ -154,7 +154,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                 {/*            <Image source={iconsInvocing} style={{width: 20, height: 20}}></Image>*/}
                 {/*        </View>*/}
                 {/*        <View flex={1} justifyContent={'center'}>*/}
-                {/*            <Text fontSize={'md'}>Facturación</Text>*/}
+                {/*            <Text color={Colors.sideMenu.textColor} fontSize={'md'}>Facturación</Text>*/}
                 {/*        </View>*/}
                 {/*    </View>*/}
                 {/*</TouchableOpacity>*/}
@@ -164,7 +164,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconBalance} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Saldos</Text>
+                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Saldos</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -174,7 +174,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconNotifications} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Notificaciones</Text>
+                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Notificaciones</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -184,7 +184,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconHelp} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Club de Golf La Hacienda</Text>
+                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Club de Golf La Hacienda</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -196,7 +196,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                                 <Image source={iconStore} style={{width: 20, height: 20}}></Image>
                             </View>
                             <View flex={1} justifyContent={'center'}>
-                                <Text fontSize={'sm'}>Mis compras</Text>
+                                <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Mis compras</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -209,7 +209,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconLogout} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Cerrar sesión</Text>
+                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Cerrar sesión</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -218,7 +218,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
             </View>
 
                 <View flex={0.1} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
-                    <Text>V. {Constants.expoConfig.version}</Text>
+                    <Text color={Colors.sideMenu.textColor}>V. {Constants.expoConfig.version}</Text>
                 </View>
 
             <ModalAsk

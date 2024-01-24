@@ -96,10 +96,10 @@ const NotificationsScreen = ({navigation, loggedOutAction, appDuck}) => {
         <LayoutV5>
             <View flex={1} mx={8}>
 
-                <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>NOTIFICACIONES</Text>
+                <Text textAlign={'center'} mt={10} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>NOTIFICACIONES</Text>
 
                 <View mb={10}>
-                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                    <Text textAlign={'center'} mb={2} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                         Filtro
                     </Text>
                     <Select
@@ -138,7 +138,7 @@ const NotificationsScreen = ({navigation, loggedOutAction, appDuck}) => {
                     
                     :
                     <View mt={10} flexDirection={'row'} alignContent={'center'} justifyContent={'center'} >
-                        <Text color={Colors.green}> No se encontraron notificaciones </Text>
+                        <Text color={Colors.primary}> No se encontraron notificaciones </Text>
                     </View>
                 }
 
@@ -146,7 +146,7 @@ const NotificationsScreen = ({navigation, loggedOutAction, appDuck}) => {
 
                 <NotificationItem navigation={navigation} mb={4}/>
                 <NotificationItem navigation={navigation} mb={4}/>
-                <Text textAlign={'center'} mb={4} color={Colors.green} fontSize={'sm'}>Ayer</Text>
+                <Text textAlign={'center'} mb={4} color={Colors.primary} fontSize={'sm'}>Ayer</Text>
 
                 <NotificationItem navigation={navigation} mb={4}/>
                 <NotificationItem navigation={navigation} mb={4}/>

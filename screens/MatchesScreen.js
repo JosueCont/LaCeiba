@@ -78,16 +78,16 @@ const MatchesScreen = ({navigation, loggedOutAction, appDuck}) => {
                     showsVerticalScrollIndicator={false}
                     refreshControl={
                         <RefreshControl
-                            tintColor={Colors.green}
+                            tintColor={Colors.primary}
                             refreshing={loading}
                             onRefresh={getData}
                         />
                     }
                     flexGrow={1}>
-                <Text textAlign={'center'} mt={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>JUEGOS DEL DÍA</Text>
+                <Text textAlign={'center'} mt={2} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>JUEGOS DEL DÍA</Text>
                 <View mt={1} alignItems={'center'} flexDirection={'row'} justifyContent='center' mb={4}>
                 {/* <Image mr={1} source={iconGroupSmall} style={{width: 15, height: 15}}></Image> */}
-                {/* <Text textAlign={'center'} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xs'}>GRUPO FIJO</Text> */}
+                {/* <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'xs'}>GRUPO FIJO</Text> */}
                 </View>
                     {
                         
@@ -102,12 +102,12 @@ const MatchesScreen = ({navigation, loggedOutAction, appDuck}) => {
                         })
                     }
                     { todayMatches.length === 0 &&
-                        <Text textAlign={'center'} mb={4} color={Colors.green} fontSize={'sm'}>No hay proximos juegos</Text>
+                        <Text textAlign={'center'} mb={4} color={Colors.primary} fontSize={'sm'}>No hay proximos juegos</Text>
                     }
                 <View mt={4} flexDirection={'row'} justifyContent='center' mb={4}>
-                <View mt={3} mr={2} width={'15%'} background={Colors.green} height={'2px'}/>
-                <Text textAlign={'center'} mb={4} color={Colors.green} fontSize={'md'}>JUEGOS FINALIZADOS</Text>
-                <View mt={3} ml={2} width={'15%'} background={Colors.green} height={'2px'}/>
+                <View mt={3} mr={2} width={'15%'} background={Colors.primary} height={'2px'}/>
+                <Text textAlign={'center'} mb={4} color={Colors.primary} fontSize={'md'}>JUEGOS FINALIZADOS</Text>
+                <View mt={3} ml={2} width={'15%'} background={Colors.primary} height={'2px'}/>
 
                 </View>
                 { pastMatches.length > 0 &&
@@ -120,7 +120,7 @@ const MatchesScreen = ({navigation, loggedOutAction, appDuck}) => {
                         })
                 }
                 { pastMatches.length === 0 &&
-                <Text textAlign={'center'} mb={4} color={Colors.green} fontSize={'sm'}>No hay proximos juegos</Text>
+                <Text textAlign={'center'} mb={4} color={Colors.primary} fontSize={'sm'}>No hay proximos juegos</Text>
                 }
                 </ScrollView>  
             </View>

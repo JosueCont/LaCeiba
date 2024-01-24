@@ -168,7 +168,7 @@ const GuestsScreen = ({navigation, loggedOutAction, appDuck}) => {
             <View flex={1}>
                 <View flex={1}>
 
-                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'15px'} textTransform={'uppercase'}>Invitados a restaurantes</Text>
+                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'15px'} textTransform={'uppercase'}>Invitados a restaurantes</Text>
                     <View mb={5} flexDirection={'row'} justifyContent={'center'} mx={8}>
                         <Button onPress={()=>{addGuest();}}>+ Agregar invitado</Button>
                     </View>
@@ -182,7 +182,7 @@ const GuestsScreen = ({navigation, loggedOutAction, appDuck}) => {
                         ScrollEnabled={true}
                         refreshControl={
                             <RefreshControl
-                                tintColor={Colors.green}
+                                tintColor={Colors.primary}
                                 refreshing={loading}
                                 onRefresh={getQuestsFunction}
                             />

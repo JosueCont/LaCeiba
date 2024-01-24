@@ -128,29 +128,21 @@ const ScoreCardRegistryTableScreen = ({navigation, appDuck})=>{
         }
     }, [isFocused]);
 
-    const element = (data, index) => (
-        <TouchableOpacity onPress={() => this._alertIndex(index)}>
-            <View style={styles.btn}>
-                <Text style={styles.btnText}>button</Text>
-            </View>
-        </TouchableOpacity>
-    );
-
     return (
         <LayoutV5 white={true}>
             <View flex={1}>
                 <View flexDirection={'row'} justifyContent={'center'} mx={4} mt={8} mb={5} >
-                    <Text color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Tabla de registro</Text>
-                    {!showSectionAdd && <Button onPress={()=>{ setShowSectionAdd(true)}} borderRadius={30} width={30} height={30} ml={4} isDisabled={registryTable.length === maxItems}><AddIcon color='white'/></Button>}
+                    <Text color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Tabla de registro</Text>
+                    {!showSectionAdd && <Button onPress={()=>{ setShowSectionAdd(true)}} borderRadius={30} width={30} height={30} ml={4} isDisabled={registryTable.length === maxItems}><AddIcon color={Colors.bgPrimaryText}/></Button>}
                     {showSectionAdd && <Button onPress={()=>{
                         // Evitar cerrar hasta que se termine de cargar
                         if(loading) return
                         setShowSectionAdd(false)
                         selectedItem && setSelectedItem(null)
-                    }} borderRadius={30} width={30} height={30} ml={4} backgroundColor={Colors.yellow}><CloseIcon color='white'/></Button>}
+                    }} borderRadius={30} width={30} height={30} ml={4} backgroundColor={Colors.secondary}><CloseIcon color={Colors.bgSecondaryText}/></Button>}
                 </View>
 
-                {registryTable.length === maxItems && <Text textAlign={'center'} color={'red.500'} fontSize={'xs'} mb={4}>No se pueden agregar más de {maxItems} registros. Elimine algún elemento para continuar.</Text>}
+                {registryTable.length === maxItems && <Text textAlign={'center'} color={Colors.red} fontSize={'xs'} mb={4}>No se pueden agregar más de {maxItems} registros. Elimine algún elemento para continuar.</Text>}
                 {showSectionAdd && <RegistryTableItemAdd
                     loading={loading}
                     item={selectedItem}
@@ -169,7 +161,7 @@ const ScoreCardRegistryTableScreen = ({navigation, appDuck})=>{
                     ScrollEnabled={true}
                     >
                    {/* { loading ?
-                            <Spinner color={Colors.green} size={'lg'} />
+                            <Spinner color={Colors.primary} size={'lg'} />
                         :*/}
                     <View mx={4}>
                         {
@@ -203,14 +195,6 @@ const ScoreCardRegistryTableScreen = ({navigation, appDuck})=>{
         </LayoutV5>
     )
 }
-const styles = StyleSheet.create({
-    container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
-    head: { height: 33, backgroundColor: Colors.greenV2},
-    text: { margin: 6, color:'white' },
-    row: { flexDirection: 'row', backgroundColor: '#FFF1C1' },
-    btn: { width: 58, height: 18, backgroundColor: '#78B7BB',  borderRadius: 2 },
-    btnText: { textAlign: 'center', color: '#fff' }
-});
 
 const mapState = (state) => {
     return {

@@ -13,6 +13,7 @@ import {Alert, TouchableOpacity} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
 import {errorCapture, genders} from "../utils";
 import * as Notifications from 'expo-notifications';
+import { Colors } from "../Colors";
 
 const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) => {
     const [modalCompletedVisible, setModalCompletedVisible] = useState(null)
@@ -146,7 +147,7 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
             <View flex={1}>
                 <View mx={20} mt={10}>
                     <Text fontSize={'5xl'} textAlign={'center'} fontFamily={'titleLight'} mb={4}>Registro</Text>
-                    <View alignSelf={'center'} width={'100%'} borderWidth={1} borderColor={'#FFB718'} mb={8}/>
+                    <View alignSelf={'center'} width={'100%'} borderWidth={1} borderColor={Colors.secondary} mb={8}/>
                     <FormControl isInvalid={errors.email} mb={4}>
                         <Text textAlign={'center'} mb={2}>Correo electrónico</Text>
                         <Input

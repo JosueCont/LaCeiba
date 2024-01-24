@@ -17,24 +17,24 @@ const BookingConfirmScreenSuccess = ({route, navigation, appDuck}) => {
                         {/* <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                             <Image source={iconPersonSmall} width={'50%'} resizeMode={'contain'}/>
                         </ImageBackground> */}
-                        <Icon as={AntDesign} name={'checkcircleo'} color={Colors.yellow} size={'6xl'}/>
+                        <Icon as={AntDesign} name={'checkcircleo'} color={Colors.secondary} size={'6xl'}/>
                     </View>
 
-                    <Text mb={5} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'xl'}>LA RESERVACIÓN HA SIDO GENERADA CON ÉXITO</Text>
+                    <Text mb={5} textAlign={'center'} color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={'xl'}>LA RESERVACIÓN HA SIDO GENERADA CON ÉXITO</Text>
                     
 
-                    <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>FECHA Y HORA</Text>
-                    <Text mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                    <Text my={5} mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>FECHA Y HORA</Text>
+                    <Text mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                         {moment(route?.params?.date,"YYYY-MM-DD").format("DD-MM-YYYY")} a las</Text>
-                    <Text mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                    <Text mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                         {moment(route?.params?.hour,"HH:mm").format("hh:mm a")}
                     </Text>
-                    <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>SOCIOS</Text>
-                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>{appDuck.user.firstName.toString().toUpperCase()} {appDuck.user.lastName.toString().toUpperCase()}</Text>
+                    <Text my={5} mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>SOCIOS</Text>
+                    <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>{appDuck.user.firstName.toString().toUpperCase()} {appDuck.user.lastName.toString().toUpperCase()}</Text>
                     {
                         route?.params?.people.map((person, index)=>{
                             return(
-                                person.data.type == 'p' && <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>{person.name.toUpperCase()}</Text>
+                                person.data.type == 'p' && <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>{person.name.toUpperCase()}</Text>
                             )
                         })
                     }
@@ -42,13 +42,13 @@ const BookingConfirmScreenSuccess = ({route, navigation, appDuck}) => {
 
                     {
                         route?.params.people.some(person => person.data.type == 'g') &&
-                        <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>INVITADOS</Text>
+                        <Text my={5} mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>INVITADOS</Text>
                         // &&
                     }
                     {
                         route?.params?.people.map((person, index)=>{
                             return(
-                                person.data.type == 'g' && <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>{person.name.toUpperCase()}</Text>
+                                person.data.type == 'g' && <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>{person.name.toUpperCase()}</Text>
                             )
                         })
                     }

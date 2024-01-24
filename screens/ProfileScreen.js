@@ -192,7 +192,7 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                     showsVerticalScrollIndicator={false}
                     refreshControl={
                         <RefreshControl
-                            tintColor={Colors.green}
+                            tintColor={Colors.primary}
                             refreshing={loading}
                             onRefresh={getProfileFunction}
                         />
@@ -204,78 +204,78 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                         </ImageBackground>
                     </View>
 
-                    <Text textAlign={'center'} mt={6} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                    <Text textAlign={'center'} mt={6} color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                         Titular:
                     </Text>
                     {
                         loading === true ?
                             <Skeleton height={50}></Skeleton> :
                             loading === false &&
-                            <Text textAlign={'center'} mb={6} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                            <Text textAlign={'center'} mb={6} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
                                 {_.startCase(data.nombreSocio.toLowerCase())}
                             </Text>
                     }
 
-                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                    <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                         Fecha de nacimiento:
                     </Text>
                     {
                         loading === true ?
                             <Skeleton height={50}></Skeleton> :
                             loading === false &&
-                            <Text textAlign={'center'} mb={6} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                            <Text textAlign={'center'} mb={6} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
                                 {moment(data.nacimiento).format('LL')}
                             </Text>
                     }
 
-                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                    <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                         Correo electrónico de facturación:
                     </Text>
                     {
                         loading === true ?
                             <Skeleton height={50}></Skeleton> :
                             loading === false &&
-                            <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                            <Text textAlign={'center'} mb={5} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
                                 {data.email}
                             </Text>
                     }
 
-                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                    <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                         Correo electrónico:
                     </Text>
                     {
                         loading === true ?
                             <Skeleton height={50}></Skeleton> :
                             loading === false &&
-                            <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                            <Text textAlign={'center'} mb={5} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
                                 {data?.user.email}
                             </Text>
                     }
 
-                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                    <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                         Teléfono:
                     </Text>
                     {
                         loading === true ?
                             <Skeleton height={50} mb={5}></Skeleton> :
                             loading === false &&
-                            <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                            <Text textAlign={'center'} mb={5} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
                                 {data.celular}
                             </Text>
                     }
 
-                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                    <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                         Puntos disponibles:
                     </Text>
                     {
                         loading === true ?
                             <Skeleton height={50}></Skeleton> :
                             loading === false &&
-                            <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                            <Text textAlign={'center'} mb={5} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
                                 {points}
                             </Text>
                     }
-                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                    <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                         GHIN:
                     </Text>
 
@@ -284,7 +284,7 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                             <Skeleton height={50} mb={10}></Skeleton> :
                             loading === false &&
                             <View mb={3} justifyContent={'center'} alignItems={'center'} flexDirection={'row'}>
-                            <Text mr={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                            <Text mr={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
                             {ghin? ghin : 'El valor aún no se ha especificado'}
                             </Text>
                             <TouchableOpacity onPress={async()=>{
@@ -298,7 +298,7 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                             </TouchableOpacity>
                             </View>
                     }
-                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                    <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                         Género:
                     </Text>
 
@@ -307,7 +307,7 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                             <Skeleton height={50} mb={10}></Skeleton> :
                             loading === false &&
                             <View mb={10} justifyContent={'center'} alignItems={'center'} flexDirection={'row'}>
-                                <Text mr={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                                <Text mr={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
                                     {data?.user?.gender && data?.user?.gender.length > 0 ? genders[data.user.gender] : 'No especificado'}
                                 </Text>
                                 <TouchableOpacity onPress={async()=>{
@@ -325,7 +325,7 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                     loading === false && isActive ?
                      <Button onPress={() => {setModalTransferPoint(true);}} mb={3}>Transferir Puntos</Button>
                      :
-                     <Text mb={5} mr={2} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                     <Text mb={5} mr={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
                       *No puedes transferir puntos porque tu usuario está desactivado
                      </Text>
                     }
@@ -333,12 +333,12 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                     { !allowNotifications && <Button onPress={() => askPermission()} mb={3}>Activar notificaciones</Button> }
 
                     <TouchableOpacity onPress={async()=>{ setModalChangePassword(true) }}>
-                        <Text mr={2} textAlign={'center'} style={{textDecorationLine: 'underline'}} color={Colors.green} fontFamily={'titleConfortaaRegular'}>
+                        <Text mr={2} textAlign={'center'} style={{textDecorationLine: 'underline'}} color={Colors.primary} fontFamily={'titleConfortaaRegular'}>
                             Cambiar contraseña
                         </Text>
                     </TouchableOpacity>
 
-                    <Button colorScheme={'red'} isLoading={creatingRequest} mt={10}
+                    <Button bgColor={Colors.red} isLoading={creatingRequest} mt={10}
                             onPress={() => {
                                 if(!requestDeletionVisible) {
                                     setMessageRequest('Ya tienes una solicitud en progreso');
@@ -347,10 +347,10 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                                 }
                             setModalDeleteInfoUser(true)}} 
                     mb={10}>Solicitar eliminación de datos</Button>
-                    {/*<Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>*/}
+                    {/*<Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>*/}
                     {/*    Datos de facturación*/}
                     {/*</Text>*/}
-                    {/*<Text textAlign={'center'} mb={6} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>*/}
+                    {/*<Text textAlign={'center'} mb={6} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>*/}
                     {/*    Día de corte: 7 de agosto de 2022*/}
                     {/*</Text>*/}
 

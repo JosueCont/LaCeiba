@@ -99,14 +99,14 @@ const GuestGeneratePass = ({navigation, route}) => {
                 showsVerticalScrollIndicator={false}
                 flexGrow={1}>
             <View flex={1} mx={10} mt={8} justifyContent={'center'}>
-                <Text color={Colors.green} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={2}>
+                <Text color={Colors.primary} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={2}>
                     {route?.params?.data?.name}
                 </Text>
 
-                <Text color={Colors.green} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={5}>
+                <Text color={Colors.primary} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={5}>
                     Generar pase de acceso
                 </Text>
-                <Text color={Colors.green} fontSize={'sm'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={5}>
+                <Text color={Colors.primary} fontSize={'sm'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={5}>
                     Seleccione la fecha que desea asignar el acceso a este invitado
                 </Text>
 
@@ -148,7 +148,7 @@ const GuestGeneratePass = ({navigation, route}) => {
                                         theme={{
                                             'stylesheet.calendar.header': {
                                                 monthText: {
-                                                    color: Colors.gray,
+                                                    color: Colors.darkGray,
                                                     fontWeight: '700',
                                                     fontSize: 20,
                                                 },
@@ -159,20 +159,20 @@ const GuestGeneratePass = ({navigation, route}) => {
                                                     textAlign: 'center',
                                                     fontSize: 11,
                                                     fontWeight: 'bold',
-                                                    color: Colors.green
+                                                    color: Colors.primary
                                                 },
                                             },
-                                            todayBackgroundColor: Colors.gray,
-                                            todayTextColor: '#ffffff',
-                                            dayTextColor: Colors.green,
+                                            todayBackgroundColor: 'transparent',
+                                            todayTextColor: Colors.primary,
+                                            dayTextColor: Colors.primary,
                                             textDayFontSize: 14,
-                                            arrowColor: Colors.yellow,
+                                            arrowColor: Colors.secondary,
                                             width: '100%',
-                                            selectedDayBackgroundColor: Colors.green,
+                                            selectedDayBackgroundColor: Colors.primary,
                                             selectedDayTextColor: '#ffffff',
                                         }}
                                     />
-                <Text color={Colors.green} fontSize={'md'} textAlign={'left'} fontFamily={'titleComfortaaBold'} mt={5}>
+                <Text color={Colors.primary} fontSize={'md'} textAlign={'left'} fontFamily={'titleComfortaaBold'} mt={5}>
                     Área sin restricción
                 </Text>
 
@@ -189,8 +189,8 @@ const GuestGeneratePass = ({navigation, route}) => {
                                 borderRadius: 3,
                                 borderWidth: 0.5,
                                 _checked: {
-                                    bgColor: Colors.green,
-                                    borderColor: Colors.green,
+                                    bgColor: Colors.primary,
+                                    borderColor: Colors.primary,
                                     borderWidth: 0.5,
                                 },
                                 _icon: {
@@ -203,7 +203,7 @@ const GuestGeneratePass = ({navigation, route}) => {
                                     return (
                                         item.isActive === true &&
                                             <Checkbox key={index} mx={3} mb={3} value={(item.id).toString()} _text={{color: '#000'}} >
-                                                <Text size={'md'} color={Colors.green} numberOfLines={2}>{item.name}</Text>
+                                                <Text size={'md'} color={Colors.primary} numberOfLines={2}>{item.name}</Text>
                                             </Checkbox>
 
                                     )
@@ -212,7 +212,7 @@ const GuestGeneratePass = ({navigation, route}) => {
                         </Checkbox.Group>
 }
                     </View>
-                <Button mb={5} mt={5} isDisabled={groupValues.length===0 || dateSelected === null} onPress={() => {generatePassAction();}}>{loading ? <Spinner size={'sm'} color={'white'}></Spinner> : 'Generar pase'}</Button>
+                <Button mb={5} mt={5} isDisabled={groupValues.length===0 || dateSelected === null} onPress={() => {generatePassAction();}}>{loading ? <Spinner size={'sm'} color={Colors.bgPrimaryText}></Spinner> : 'Generar pase'}</Button>
             </View>
             <ModalInfo setVisible={setModalInfoVisible} visible={modalInfoVisible} close={true} iconType={'exclamation'} textButton={'Aceptar'} text={textModal}>
 

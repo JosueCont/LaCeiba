@@ -112,7 +112,7 @@ const ModalAddPoints = ({visible, error=false, setVisible, partnerAccion, points
                 }}>
                     <LinearGradient
                         // Background Linear Gradient
-                        colors={[Colors.greenV5, Colors.greenV2]}
+                        colors={[Colors.lightPrimary, Colors.darkPrimary]}
                         style={{
                             position: 'absolute',
                             left: 0,
@@ -122,14 +122,14 @@ const ModalAddPoints = ({visible, error=false, setVisible, partnerAccion, points
                             borderRadius: 20
                         }}
                     />
-                    <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.greenV4, borderRadius: 60}}
+                    <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.darkPrimary, borderRadius: 60}}
                                       onPress={() =>{ 
                                         setVisible(false)
                                         setValue('')
                                         setValidateEmpty(false)
                                         setValidateEnoughtPoints(false)
                                       }}>
-                        <Icon as={AntDesign} name={'close'} color={'white'} size={'xs'}></Icon>
+                        <Icon as={AntDesign} name={'close'} color={Colors.bgPrimaryText} size={'xs'}></Icon>
                     </TouchableOpacity>
                    
                     <View>
@@ -142,12 +142,12 @@ const ModalAddPoints = ({visible, error=false, setVisible, partnerAccion, points
                              points(parseInt(val))
                         }} keyboardType="numeric" mx="3" placeholder="Puntos a transferir" w="100%" />
                         <FormControl isInvalid={validateEnoughtPoints} mb={6}>
-                            <FormControl.ErrorMessage _text={{color: "white"}} leftIcon={<WarningOutlineIcon  size="xs" />}>
+                            <FormControl.ErrorMessage _text={{color: Colors.textWhite}} leftIcon={<WarningOutlineIcon  size="xs" />}>
                                 No tienes suficientes puntos
                             </FormControl.ErrorMessage>
                         </FormControl>
                         <FormControl isInvalid={validateEmpty} mb={6}>
-                            <FormControl.ErrorMessage _text={{color: "white"}} leftIcon={<WarningOutlineIcon  size="xs" />}>
+                            <FormControl.ErrorMessage _text={{color: Colors.textWhite}} leftIcon={<WarningOutlineIcon  size="xs" />}>
                                 El valor no puede ser vacío y debe ser mayor a 0 y máximo 12 puntos
                             </FormControl.ErrorMessage>
                         </FormControl>

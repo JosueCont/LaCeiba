@@ -45,8 +45,8 @@ const NavigatorContainerMain = ({appDuck,setAttribute}) => {
         <NavigationContainer>
             {
                 loading ?
-                    <View flex={1} backgroundColor={Colors.green} alignItems={'center'} justifyContent={'center'}>
-                        <Spinner size={'sm'} color={'white'}></Spinner>
+                    <View flex={1} backgroundColor={Colors.primary} alignItems={'center'} justifyContent={'center'}>
+                        <Spinner size={'sm'} color={Colors.bgPrimaryText}></Spinner>
                     </View> :
                     status === true ? <DrawerConfig/> : <StackNavigatorSecurity/>
             }

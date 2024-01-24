@@ -11,7 +11,7 @@ const GroupEditScreen = ({navigation}) => {
         <LayoutV4>
             <View flex={1} mx={8}>
 
-                <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Grupo fijo de golf</Text>
+                <Text textAlign={'center'} mt={10} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Grupo fijo de golf</Text>
 
 
                 <GroupEditItem mb={4}/>

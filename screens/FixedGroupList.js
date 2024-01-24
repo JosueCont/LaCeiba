@@ -52,7 +52,7 @@ const FixedGroupList = ({appDuck, loggedOutAction, navigation, route}) => {
                         style={{height: 180}}/>
                 </View>
                 <View flex={1} mx={10}>
-                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Grupos fijos</Text>
+                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Grupos fijos</Text>
 
                     <ScrollView
                         showsVerticalScrollIndicator={false}
