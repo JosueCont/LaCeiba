@@ -4,7 +4,6 @@ import {Colors} from "../Colors";
 import NotificationItem from "./NotificationItem";
 import LayoutV3 from "./Layouts/LayoutV3";
 
-import bgButton from "../assets/bgButton.png";
 import {ImageBackground} from "react-native";
 import { getOneNotification, setNotificationRead } from "../api/Requests";
 import { useState } from "react";
@@ -56,10 +55,10 @@ const NotificationDetail = ({navigation, route}) => {
         <LayoutV3>
             {notificationDetail && <View flex={1}>
 
-                <Text textAlign={'center'} mt={10} mb={10} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'3xl'}>{notificationDetail?.template?.title.toUpperCase()}</Text>
+                <Text textAlign={'center'} mt={10} mb={10} color={Colors.textColor} fontFamily={'titleComfortaaBold'} fontSize={'3xl'}>{notificationDetail?.template?.title.toUpperCase()}</Text>
                 <View flexDirection={'row'} alignContent={'center'} justifyContent={'center'}>
                 <ImageBackground  style={{width: 175, height: 45, borderRadius:60, alignItems: 'center', justifyContent: 'center', backgroundColor:Colors.secondary}}>
-                    <Text color={'#0A5839'} fontSize={'md'}>{typeCategory(notificationDetail?.template?.category)}</Text>
+                    <Text color={Colors.bgSecondaryTextColor} fontSize={'md'}>{typeCategory(notificationDetail?.template?.category)}</Text>
                 </ImageBackground>
                 </View>
 

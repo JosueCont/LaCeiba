@@ -18,6 +18,7 @@ import {useIsFocused} from "@react-navigation/native";
 import LayoutV3 from "./Layouts/LayoutV3";
 import HolesItemSelected from "../components/HolesItemSelected"
 import { alignItems } from "styled-system";
+import Constants from "expo-constants"
 
 moment.locale('es');
 
@@ -638,8 +639,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                                 },
                                             },
                                             todayBackgroundColor: Colors.darkGray,
-                                            todayTextColor: '#ffffff',
-                                            dayTextColor: Colors.primary,
+                                            todayTextColor:Colors.textColor,
+                                            dayTextColor: Colors.textColor,
                                             textDayFontSize: 14,
                                             arrowColor: Colors.secondary,
                                             width: '100%',

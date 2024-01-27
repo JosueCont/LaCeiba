@@ -15,6 +15,7 @@ import * as Notifications from 'expo-notifications';
 import {setAttribute} from "../redux/ducks/navigationDuck";
 import _ from "lodash";
 import Constants from 'expo-constants';
+import { imageImport } from "../organizations/assets/ImageImporter";
 
 const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) => {
     const [modalInfoVisible, setModalInfoVisible] = useState(null);
@@ -100,7 +101,7 @@ const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) =
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             > */}
                 <View flex={0.5} alignItems={'center'} justifyContent={'flex-end'}>
-                    <Image source={imgLogo} size={150}/>
+                    <Image source={imageImport(Constants.expoConfig.slug).logo} size={150}/>
                 </View>
                 <View flex={1}>
                     <ScrollView contentContainerStyle={{flexGrow: 1}} >

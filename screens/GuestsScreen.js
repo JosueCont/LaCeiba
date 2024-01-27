@@ -12,6 +12,7 @@ import ModalAsk from "./Modals/ModalAsk";
 import ModalInfo from "./Modals/ModalInfo";
 import { useFocusEffect } from "@react-navigation/native";
 import { loggedOutAction } from "../redux/ducks/appDuck";
+import Constants from "expo-constants"
 
 const GuestsScreen = ({navigation, loggedOutAction, appDuck}) => {
 
@@ -168,7 +169,7 @@ const GuestsScreen = ({navigation, loggedOutAction, appDuck}) => {
             <View flex={1}>
                 <View flex={1}>
 
-                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'15px'} textTransform={'uppercase'}>Invitados a restaurantes</Text>
+                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'15px'} textTransform={'uppercase'}>{Constants.expoConfig.extra.freeGuestsName || 'Invitados sin costo'}</Text>
                     <View mb={5} flexDirection={'row'} justifyContent={'center'} mx={8}>
                         <Button onPress={()=>{addGuest();}}>+ Agregar invitado</Button>
                     </View>

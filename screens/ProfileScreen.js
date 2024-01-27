@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from "react";
 import {Button, Image, ScrollView, Skeleton, Text, View, useToast, Select} from "native-base";
 import {Colors} from "../Colors";
 import {Alert, AppState, ImageBackground, RefreshControl, TouchableOpacity} from "react-native";
-import bgButton from "../assets/bgButton.png";
 import iconPersonEdit from "../assets/iconPersonEdit.png";
 import {connect, useSelector} from "react-redux";
 import {createUserDataDeletionRequest, getPoints, getProfile, getUserDataDeletionRequest, validatePartner} from "../api/Requests";
@@ -24,6 +23,7 @@ import ModalChangePassword from "./Modals/ModalChangePassword";
 import {loggedOutAction} from "../redux/ducks/appDuck";
 import { fontSize } from "styled-system";
 import ModalTransferPoint from "./Modals/ModalTransferPoint";
+import { imageImport } from "../organizations/assets/ImageImporter";
 
 
 
@@ -32,6 +32,7 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
 
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(null);
+    const [loadingValidate, setLoadingValidate] = useState(null);
     const isFocused = useIsFocused();
     const [points, setPoints] = useState(null)
     const [modalEditGhin, setModalEditGhin] = useState(false)
@@ -54,6 +55,7 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
             getProfileFunction();
             getUserDeleteRequest();
             checkNotificationsPermission()
+            partnerValidate()
         }
     }, [isFocused])
 
@@ -66,11 +68,10 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
             setLoading(true)
             const response = await getProfile('', [appDuck.user.id])
             const response2 = await getPoints('', [appDuck.user.id]);
-            const response3 = await validatePartner(`/${appDuck.user.id}/partners/validate`)
-            setIsActive(response3?.data?.status)
+            // const response3 = await validatePartner(`/${appDuck.user.id}/partners/validate`)
+            // setIsActive(response3?.data?.status)
             setPoints(response2?.data?.totalPoints)
             setData(response?.data)
-            setLoading(false)
         } catch (e) {
             console.log(e.status)
             if(e?.data?.message == 'Unauthorized'){
@@ -80,6 +81,25 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                 loggedOutAction();
             }
         } finally {
+            setLoading(false)
+        }
+    }
+
+    const partnerValidate = async()=>{
+        try {
+            setLoadingValidate(true)
+            const response3 = await validatePartner(`/${appDuck.user.id}/partners/validate`)
+            setIsActive(response3?.data?.status)
+        } catch (e) {
+            console.log(e.status)
+            if(e?.data?.message == 'Unauthorized'){
+                toast.show({
+                    description: "Sin autorización. Inicie sesión nuevamente"
+                })
+                loggedOutAction();
+            }
+        } finally {
+            setLoadingValidate(false)
         }
     }
 
@@ -199,7 +219,7 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                     }
                     flex={1}>
                     <View alignItems={'center'} mt={10}>
-                        <ImageBackground borderRadius={60} source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                        <ImageBackground borderRadius={60} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                             <Image source={iconPersonEdit}/>
                         </ImageBackground>
                     </View>
@@ -322,7 +342,7 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                     {
                     loading === true ?
                     <Skeleton height={50} mb={10}></Skeleton> :
-                    loading === false && isActive ?
+                    loadingValidate === false && isActive ?
                      <Button onPress={() => {setModalTransferPoint(true);}} mb={3}>Transferir Puntos</Button>
                      :
                      <Text mb={5} mr={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>

@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {Image, Text, View, useToast} from "native-base";
 import {Colors} from "../Colors";
-import bgButton from "../assets/bgButton.png";
 import {Image as ImageRN, ImageBackground, TouchableOpacity} from "react-native";
 import imgLogo from '../assets/imgLogo.png';
 import iconAccess from '../assets/iconAccess.png';
@@ -23,6 +22,7 @@ import { loggedOutAction } from '../redux/ducks/appDuck';
 import { Platform } from "react-native";
 import * as Notifications from 'expo-notifications';
 import {setAttribute} from "../redux/ducks/navigationDuck";
+import { imageImport } from '../organizations/assets/ImageImporter';
 
 const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
     const [sliderPosition, setSliderPosition] = useState(0);
@@ -156,7 +156,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                         setPosition={setSliderPosition}/>
                 </View> */}
                 <View bgColor={Colors.primary} height={130} justifyContent={'flex-start'} alignItems={'center'}>
-                    <Image source={imgLogo} size={130} resizeMode='contain' />
+                    <Image source={imageImport(Constants.expoConfig.slug).logo} size={130} resizeMode='contain' />
                 </View>
                 <View flex={1} pt={10}>
                     <View mb={4} flexDirection={'row'}>
@@ -164,7 +164,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                             <TouchableOpacity onPress={() => validatePartnerFunction('QRScreen')}>
                                 <View alignItems={'center'} mb={2}>
                                     {/*<View borderRadius={60} height={120} width={120} bgColor={'#ccc'}></View>*/}
-                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                    <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                         <Image source={iconAccess} style={{width: 45, resizeMode: 'contain'}}/>
                                     </ImageBackground>
                                 </View>
@@ -176,7 +176,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                         <View flex={1}>
                             <TouchableOpacity onPress={() => validatePartnerFunction('BookingServicesScreen')}>
                                 <View alignItems={'center'} mb={2}>
-                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                    <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                         <Image source={iconReserve} style={{width: 45, resizeMode: 'contain'}}/>
                                     </ImageBackground>
                                 </View>
@@ -190,7 +190,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                     {/*    <View flex={1}>*/}
                     {/*        <TouchableOpacity onPress={() => navigation.navigate('InstallationsScreen')}>*/}
                     {/*            <View alignItems={'center'} mb={2}>*/}
-                    {/*                <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>*/}
+                    {/*                <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>*/}
                     {/*                    <Image source={iconLocations} style={{width: 45, resizeMode: 'contain'}}/>*/}
                     {/*                </ImageBackground>*/}
                     {/*            </View>*/}
@@ -203,7 +203,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                     {/*        <TouchableOpacity onPress={() => navigation.navigate('ServicesScreen')}>*/}
 
                     {/*            <View alignItems={'center'} mb={2}>*/}
-                    {/*                <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>*/}
+                    {/*                <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>*/}
                     {/*                    <Image source={iconServices} style={{width: 45, resizeMode: 'contain'}}/>*/}
                     {/*                </ImageBackground>*/}
                     {/*            </View>*/}
@@ -218,12 +218,12 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                             <TouchableOpacity onPress={() => navigation.navigate('GuestsScreen')}>
 
                                 <View alignItems={'center'} mb={2}>
-                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                    <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                         <Image source={iconGuests} style={{width: 45, resizeMode: 'contain'}}/>
                                     </ImageBackground>
                                 </View>
                                 <View>
-                                    <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Invitados a Restaurantes</Text>
+                                    <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>{Constants.expoConfig.extra.freeGuestsName || 'Invitados sin costo'}</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -231,7 +231,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                             <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen')}>
 
                                 <View alignItems={'center'} mb={2}>
-                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                    <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                         <Image source={iconBooking} style={{width: 45, resizeMode: 'contain'}}/>
                                     </ImageBackground>
                                 </View>
@@ -251,7 +251,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                             <TouchableOpacity onPress={() => navigation.navigate('MatchesScreen')}>
 
                                 <View alignItems={'center'} mb={2}>
-                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                    <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                         <Image source={iconMatches} style={{width: 45, resizeMode: 'contain'}}/>
                                     </ImageBackground>
                                 </View>
@@ -260,20 +260,21 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                                 </View>
                             </TouchableOpacity>                            
                         </View>
+                        { Constants.expoConfig.extra.balance &&
+                            <View flex={1}>
+                                <TouchableOpacity onPress={() => navigation.navigate('BalanceScreen')}>
 
-                        <View flex={1}>
-                            <TouchableOpacity onPress={() => navigation.navigate('BalanceScreen')}>
-
-                                <View alignItems={'center'} mb={2}>
-                                    <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                        <Image source={iconBalance} style={{width: 45, resizeMode: 'contain'}}/>
-                                    </ImageBackground>
-                                </View>
-                                <View>
-                                    <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Saldos</Text>
-                                </View>
-                            </TouchableOpacity>                            
-                        </View>
+                                    <View alignItems={'center'} mb={2}>
+                                        <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                            <Image source={iconBalance} style={{width: 45, resizeMode: 'contain'}}/>
+                                        </ImageBackground>
+                                    </View>
+                                    <View>
+                                        <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Saldos</Text>
+                                    </View>
+                                </TouchableOpacity>                            
+                            </View>
+                        }
                     </View>
                     
                     <View mb={4} flexDirection={'row'}>
@@ -282,7 +283,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                                 <View flex={1}>
                                     <TouchableOpacity onPress={() => navigation.navigate('FixedGroupList', {user: appDuck.user.id, groupsFounded: groupsFounded})}>
                                         <View alignItems={'center'} mb={2}>
-                                            <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                            <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                                 <Image source={iconFixedGroups} style={{width: 45, resizeMode: 'contain'}}/>
                                             </ImageBackground>
                                         </View>
@@ -298,7 +299,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                                 <TouchableOpacity onPress={() => navigation.navigate('StoreScreen')}>
 
                                     <View alignItems={'center'} mb={2}>
-                                        <ImageBackground borderRadius={50} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                        <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                             <Image source={iconStore} style={{width: 45, resizeMode: 'contain'}}/>
                                         </ImageBackground>
                                     </View>

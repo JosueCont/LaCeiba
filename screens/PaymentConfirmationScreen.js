@@ -14,9 +14,6 @@ const PaymentConfirmationScreen = ({navigation}) => {
 
                 <View flex={1}>
                     <View mt={15} mb={10} alignItems={'center'}>
-                        {/* <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                            <Image source={iconPersonSmall} width={'50%'} resizeMode={'contain'}/>
-                        </ImageBackground> */}
                         <Icon as={AntDesign} name={'checkcircleo'} color={Colors.secondary} size={'100px'}/>
                     </View>
 

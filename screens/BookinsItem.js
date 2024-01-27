@@ -2,13 +2,15 @@ import React, {useEffect} from "react";
 import {Button, Image, Text, View} from "native-base";
 import {Colors} from "../Colors";
 
-import bgButton from "../assets/bgButton.png";
 import {ImageBackground} from "react-native";
 import iconBooking from '../assets/iconBooking.png';
 import pin from '../assets/pin.png';
 
 import moment from "moment";
 import {connect} from "react-redux";
+
+import { imageImport } from "../organizations/assets/ImageImporter";
+import Constants from "expo-constants";
 
 const BookinsItem = ({navigation, mb = 2, data, dataInvitation, dataBooking, appDuck}) => {
 
@@ -28,7 +30,7 @@ const BookinsItem = ({navigation, mb = 2, data, dataInvitation, dataBooking, app
                   elevation:3
               }}>
             <View flex={.75} justifyContent={'center'} alignItems={'center'}>
-                <ImageBackground source={bgButton} style={{width: 55, height: 55, alignItems: 'center', justifyContent: 'center'}} borderRadius={60}>
+                <ImageBackground source={imageImport(Constants.expoConfig.slug).bgButton} style={{width: 55, height: 55, alignItems: 'center', justifyContent: 'center'}} borderRadius={60}>
                     <Image source={dataInvitation.booking?.fixedGroupId ? pin : iconBooking} width={21} height={21}></Image>
                 </ImageBackground>
             </View>

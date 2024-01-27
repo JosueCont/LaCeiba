@@ -8,11 +8,14 @@ import ViewShot, { captureRef } from 'react-native-view-shot';
 import * as MediaLibrary from 'expo-media-library';
 import { useIsFocused } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { getConfig } from "../api/Requests";
 
 const QRScreenInvitation = ({ navigation, route }) => {
     const [imageQRCode, setImageQRCode] = useState(null);
     const [modalVisible, setModalVisible] = useState(null);
     const [modalText, setModalText] = useState(null);
+    const [refreshingLogo, setRefreshingLogo] = useState(null);
+    const [imageLogo, setImageLogo] = useState(null);
     const isFocused = useIsFocused();
     const toast = useToast();
     const imgRef = useRef();
@@ -20,8 +23,21 @@ const QRScreenInvitation = ({ navigation, route }) => {
     useEffect(() => {
         if (isFocused) {
           //  validatePermission()
+          getConfiguration()
         }
     }, [isFocused])
+
+    const getConfiguration = async()=>{
+        try{
+            setRefreshingLogo(true)
+            const response =  await getConfig()
+            setImageLogo(response.data.logoBase64)
+        }catch(e){
+            console.log(e)
+        } finally {
+            setRefreshingLogo(false)
+        }
+    }
 
     const validatePermission = async () => {
         const { status } = await MediaLibrary.getPermissionsAsync();
@@ -68,7 +84,12 @@ const QRScreenInvitation = ({ navigation, route }) => {
                         <View height={450} bgColor={Colors.partnerCard.bg} borderRadius={20} overflow={'hidden'} mb={6}>
                             <View flex={0.4} bgColor={Colors.partnerCard.photoBg}>
                                 <View mt={4} flex={1} justifyContent={'center'} alignItems={'center'} mb={2}>
-                                    <Image source={imgLogo} width={100} height={100}></Image>
+                                    {
+                                        refreshingLogo === true ?
+                                            <Skeleton width={100} height={100}/>
+                                            :
+                                            <Image source={{uri: imageLogo}} width={100} height={100}/>
+                                    }
                                 </View>
                             </View>
 

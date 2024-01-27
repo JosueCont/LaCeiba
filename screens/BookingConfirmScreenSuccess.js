@@ -14,9 +14,6 @@ const BookingConfirmScreenSuccess = ({route, navigation, appDuck}) => {
 
                 <View flex={1}>
                     <View alignItems={'center'} mb={10}>
-                        {/* <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                            <Image source={iconPersonSmall} width={'50%'} resizeMode={'contain'}/>
-                        </ImageBackground> */}
                         <Icon as={AntDesign} name={'checkcircleo'} color={Colors.secondary} size={'6xl'}/>
                     </View>
 

@@ -16,6 +16,7 @@ import {AntDesign} from "@expo/vector-icons";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ViewShot, { captureRef } from 'react-native-view-shot';
 import * as Sharing from "expo-sharing"
+import Constants from 'expo-constants';
 
 moment.tz.setDefault("America/Mexico_City");
 
@@ -165,6 +166,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
       }
 
       const qrCell = (bookingInvitation) => {
+        console.log(bookingInvitation)
         return (
             <View style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
                 <TouchableOpacity onPress={()=>{onModalQrPreview(bookingInvitation)}}>

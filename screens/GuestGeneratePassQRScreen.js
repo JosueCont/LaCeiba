@@ -10,8 +10,12 @@ import { useIsFocused } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as Sharing from "expo-sharing"
 import moment from "moment";
+import { imageImport } from "../organizations/assets/ImageImporter";
+import Constants from "expo-constants";
 
 const GuestGeneratePassQRScreen = ({ navigation, route }) => {
+    const [refreshingLogo, setRefreshingLogo] = useState(null);
+    const [imageLogo, setImageLogo] = useState(null);
     const [imageQRCode, setImageQRCode] = useState(null);
     const [qrPass, setQrPass] = useState(null);
     const isFocused = useIsFocused();
@@ -21,6 +25,7 @@ const GuestGeneratePassQRScreen = ({ navigation, route }) => {
     useEffect(() => {
         if (isFocused) {
             setImageQrFunction()
+            getConfiguration()
         }
     }, [isFocused])
 
@@ -43,6 +48,18 @@ const GuestGeneratePassQRScreen = ({ navigation, route }) => {
         setImageQRCode(route?.params?.qrPass?.qrGenerated)
     }
 
+    const getConfiguration = async()=>{
+        try{
+            setRefreshingLogo(true)
+            const response =  await getConfig()
+            setImageLogo(response.data.logoBase64)
+        }catch(e){
+            console.log(e)
+        } finally {
+            setRefreshingLogo(false)
+        }
+    }
+
     return (
         <LayoutV3 backgroundColor={'#fff'}>
             <ScrollView>
@@ -54,7 +71,13 @@ const GuestGeneratePassQRScreen = ({ navigation, route }) => {
                         
                             <View flex={0.65} bgColor={Colors.partnerCard.photoBg}>
                                 <View flex={1} justifyContent={'center'} alignItems={'center'}>
-                                    <Image source={imgLogo} width={100} height={100}></Image>
+                                    {/* <Image source={imgLogo} width={100} height={100}></Image> */}
+                                    {
+                                        refreshingLogo === true ?
+                                            <Skeleton width={100} height={100}/>
+                                            :
+                                            <Image source={imageImport(Constants.expoConfig.slug).logo} width={100} height={100}/>
+                                    }
                                 </View>
                                 <View bgColor={Colors.partnerCard.nameBg} height={65} justifyContent={'center'} p={1}>
                                     <Text color={Colors.partnerCard.nameTextColor} textAlign={'center'} fontSize="xl" fontFamily={'titleComfortaaBold'}>PASE DE INVITADO</Text>

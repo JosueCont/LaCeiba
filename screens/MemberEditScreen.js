@@ -3,10 +3,12 @@ import {Button, Image, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import LayoutV4 from "./Layouts/LayoutV4";
 import {ImageBackground} from "react-native";
-import bgButton from "../assets/bgButton.png";
 import iconPerson from "../assets/iconPersonSmall.png";
 import { connect } from "react-redux";
 import { getPoints } from "../api/Requests";
+
+import { imageImport } from "../organizations/assets/ImageImporter";
+import Constants from "expo-constants";
 
 const MemberEditScreen = ({navigation, appDuck, route}) => {
     const {member} = route?.params
@@ -43,7 +45,7 @@ const MemberEditScreen = ({navigation, appDuck, route}) => {
             <View flex={1} mx={8}>
 
                 <View alignItems={'center'} mt={10}>
-                    <ImageBackground borderRadius={60} source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                    <ImageBackground borderRadius={60} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                         <Image source={iconPerson}/>
                     </ImageBackground>
                 </View>

@@ -80,3 +80,4 @@ export const updateUserPassword =  async (data, queryStringParams = []) => {
 export const sendPushToken = async (params, queryStringParams = []) => await request(URLTypes.UPDATE_DEVICE, params, 'post', null, queryStringParams);
 
 export const addPartnerSap = async(params) => await request(URLTypes.ADD_PARTNER_SAP, params, 'post', null);
+export const getConfig = async () => await request(URLTypes.GET_CONFIG, '', 'get')

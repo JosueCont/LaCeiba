@@ -1,6 +1,4 @@
 import LayoutV4 from "./Layouts/LayoutV4"
-import LayoutV3 from "./Layouts/LayoutV3";
-import bgButton from "../assets/bgButton.png";
 import { ImageBackground, TouchableOpacity } from "react-native";
 import { Button, Image, Spinner, Switch, Text, View } from "native-base";
 import React, { useState } from "react";
@@ -236,23 +234,6 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                 
 
                 <View flex={1} mb={10} mt={5} px={10}>
-                    {/*<TouchableOpacity onPress={() => {
-                        if(loading || membersInvite.length<groupData.area.minPeople -1) return false
-                        sendBooking()
-                    }}>
-                        <ImageBackground resizeMode={'contain'} source={bgButton} style={{
-                            height: 49,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexDirection: 'column',
-                            opacity:(loading || membersInvite.length < groupData.area.minPeople -1 ? 0.5 : 1)
-                        }} borderRadius={60}>
-                            {loading
-                                ? <Spinner size={'sm'} color={'white'}></Spinner>
-                                : <Text fontSize={'md'}>Aplicar</Text>
-                            }
-                        </ImageBackground>
-                    </TouchableOpacity>*/}
                     <Button size={'lg'} disabled={loading || membersInvite.length<minPeople} opacity={loading || membersInvite.length < minPeople ? 0.5 : 1} onPress={sendBooking} mt={5}>{loading ? <Spinner size={'sm'} color={Colors.bgPrimaryText}></Spinner> : 'Aplicar'}</Button>
                 </View>
 

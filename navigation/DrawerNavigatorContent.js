@@ -21,6 +21,7 @@ import imgLogo from "../assets/imgLogo.png";
 import {logOut} from "../api/Requests";
 import { setAttribute } from '../redux/ducks/navigationDuck';
 import Constants from "expo-constants";
+import { imageImport } from "../organizations/assets/ImageImporter";
 
 
 const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
@@ -49,7 +50,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
 
 
             <View my={10} alignItems={'center'} justifyContent={'center'}>
-                <Image source={imgLogo} width={161} height={120} borderRadius={60} resizeMode={'stretch'}></Image>
+                <Image source={imageImport(Constants.expoConfig.slug).logo} width={161} height={120} borderRadius={60} resizeMode={'stretch'}></Image>
                 <Text color={Colors.sideMenu.textColor} fontSize={'md'} mt={5} textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>
             </View>
             <View flex={1}>
@@ -103,7 +104,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconGuestsSmall} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Invitados a Restaurantes</Text>
+                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>{Constants.expoConfig.extra.freeGuestsName || 'Invitados sin costo'}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -158,16 +159,19 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                 {/*        </View>*/}
                 {/*    </View>*/}
                 {/*</TouchableOpacity>*/}
-                <TouchableOpacity onPress={() => navigation.navigate('BalanceScreen')}>
-                    <View flexDirection={'row'} mb={4}>
-                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                            <Image source={iconBalance} style={{width: 20, height: 20}}></Image>
+
+                { Constants.expoConfig.extra.balance &&
+                    <TouchableOpacity onPress={() => navigation.navigate('BalanceScreen')}>
+                        <View flexDirection={'row'} mb={4}>
+                            <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                                <Image source={iconBalance} style={{width: 20, height: 20}}></Image>
+                            </View>
+                            <View flex={1} justifyContent={'center'}>
+                                <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Saldos</Text>
+                            </View>
                         </View>
-                        <View flex={1} justifyContent={'center'}>
-                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Saldos</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
+                    </TouchableOpacity>
+                }
                 <TouchableOpacity onPress={() => navigation.navigate('NotificationsScreen')}>
                     <View flexDirection={'row'} mb={4}>
                         <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
@@ -184,7 +188,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconHelp} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Club de Golf La Hacienda</Text>
+                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>{Constants.expoConfig.extra.helpContentName || 'Ayuda'}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>

@@ -6,24 +6,23 @@ import {request} from "../api/Methods";
 import {connect} from "react-redux";
 import {ImageBackground, Linking, Platform, RefreshControl, Modal} from "react-native";
 import ModalInfo from "./Modals/ModalInfo";
-import imgLogo from '../assets/imgLogo.png'
 import ViewShot, {captureRef} from 'react-native-view-shot';
 import * as MediaLibrary from 'expo-media-library';
 import {useIsFocused} from "@react-navigation/native";
 import googleWallet from '../assets/googleWallet.png';
 import addToAppleWalletBtn from '../assets/esmx_addtoapplewallet.png'
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { getTokenGoogleWallet, logOut } from "../api/Requests";
+import { getConfig, getTokenGoogleWallet, logOut } from "../api/Requests";
 import axios from "axios";
 import Constants from "expo-constants";
-import bgButton from "../assets/bgButton.png";
-import iconAccess from "../assets/iconAccess.png";
 import {AntDesign} from "@expo/vector-icons";
 import { loggedOutAction } from "../redux/ducks/appDuck";
 
 const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
     const [refreshing, setRefreshing] = useState(null);
     const [imageQRCode, setImageQRCode] = useState(null);
+    const [refreshingLogo, setRefreshingLogo] = useState(null);
+    const [imageLogo, setImageLogo] = useState(null);
     const [modalVisible, setModalVisible] = useState(null);
     const [modalQRPreview, setModalQrPreview] = useState(null);
     const [modalText, setModalText] = useState(null);
@@ -56,6 +55,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
     }
 
     useEffect(() => {
+        getConfiguration()
         generateQRCodeFunction()
     }, [])
 
@@ -78,6 +78,18 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
             setRefreshing(false)
         }
 
+    }
+
+    const getConfiguration = async()=>{
+        try{
+            setRefreshingLogo(true)
+            const response =  await getConfig()
+            setImageLogo(response.data.logoBase64)
+        }catch(e){
+            console.log(e)
+        } finally {
+            setRefreshingLogo(false)
+        }
     }
 
     const captureScreenFunction = () => {
@@ -153,7 +165,12 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                                 <View height={450} bgColor={Colors.partnerCard.bg} borderRadius={20} overflow={'hidden'}>
                                     <View flex={0.7} bgColor={Colors.partnerCard.photoBg}>
                                         <View flex={1} justifyContent={'center'} alignItems={'center'}>
-                                            <Image source={imgLogo} width={100} height={100}></Image>
+                                            {
+                                                refreshingLogo === true ?
+                                                    <Skeleton width={100} height={100}/>
+                                                    :
+                                                    <Image source={{uri: imageLogo}} width={100} height={100}/>
+                                            }
                                         </View>
                                         <View bgColor={Colors.partnerCard.nameBg} height={50} justifyContent={'center'}>
                                             <Text color={Colors.partnerCard.nameTextColor} textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>

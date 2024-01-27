@@ -3,10 +3,12 @@ import {Image, Text, View} from "native-base";
 import {Colors} from "../Colors";
 import LayoutV4 from "./Layouts/LayoutV4";
 import {ImageBackground, TouchableOpacity} from "react-native";
-import bgButton from "../assets/bgButton.png";
 import iconStatisticBars from '../assets/iconStatisticBars.png'
 import iconStatisticPoints from '../assets/iconStatisticPoints.png'
 import iconStatisticsCalendar from '../assets/iconStatisticsCalendar.png'
+
+import { imageImport } from "../organizations/assets/ImageImporter";
+import Constants from "expo-constants";
 
 const StatisticsScreen = ({navigation}) => {
 
@@ -21,7 +23,7 @@ const StatisticsScreen = ({navigation}) => {
                         <View flex={1}>
                             <TouchableOpacity onPress={() => navigation.navigate('ServicesDetailScreen')}>
                                 <View alignItems={'center'} mb={2}>
-                                    <ImageBackground source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}} borderRadius={60}>
+                                    <ImageBackground source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}} borderRadius={60}>
                                         <Image source={iconStatisticBars}></Image>
                                     </ImageBackground>
                                 </View>
@@ -35,7 +37,7 @@ const StatisticsScreen = ({navigation}) => {
                     <View mb={6} flexDirection={'row'}>
                         <View flex={1}>
                             <View alignItems={'center'} mb={2}>
-                                <ImageBackground source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}} borderRadius={60}>
+                                <ImageBackground source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}} borderRadius={60}>
                                     <Image source={iconStatisticsCalendar}></Image>
                                 </ImageBackground>
                             </View>
@@ -48,7 +50,7 @@ const StatisticsScreen = ({navigation}) => {
                     <View mb={6} flexDirection={'row'}>
                         <View flex={1}>
                             <View alignItems={'center'} mb={2}>
-                                <ImageBackground source={bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}} borderRadius={60}>
+                                <ImageBackground source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}} borderRadius={60}>
                                     <Image source={iconStatisticPoints}></Image>
                                 </ImageBackground>
                             </View>

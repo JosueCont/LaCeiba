@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {Button, CircleIcon, Image, Text, View} from "native-base";
 import {Colors} from "../Colors";
-
-import bgButton from "../assets/bgButton.png";
-import {ImageBackground} from "react-native";
-import iconGolfHit from "../assets/iconsReservations/iconGolfHit.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import IconNotificationRead from '../assets/IconNotificationRead.png'
-import iconRead from '../assets/iconRead.png';
 import iconTrash from '../assets/iconTrash.png';
 
 
@@ -44,8 +38,8 @@ const NotificationItem = ({navigation, mb = 5, notification, onDelete}) => {
             {!isRead && <CircleIcon color={Colors.secondary} mx={1}/>}
             </View>
             <View flex={1} justifyContent={'center'} alignItems={'center'}>
-                <Text textAlign={'center'}  mb={1} color={Colors.primary} fontSize={'md'}>{notification?.template?.title.length<=18? notification?.template?.title : `${notification?.template?.title.slice(0,18)}...`}</Text>
-                <Text  color={Colors.primary} fontSize={'xs'}>{typeCategory(notification?.template?.category)}</Text>
+                <Text textAlign={'center'}  mb={1} color={Colors.textColor} fontSize={'md'}>{notification?.template?.title.length<=18? notification?.template?.title : `${notification?.template?.title.slice(0,18)}...`}</Text>
+                <Text  color={Colors.textColor} fontSize={'xs'}>{typeCategory(notification?.template?.category)}</Text>
                 {/* <Text color={Colors.primary} fontSize={'xs'} width={'90%'}>{detail}</Text> */}
             </View>
  

@@ -3,8 +3,9 @@ import {Button, Image, Text, View} from "native-base";
 import React from "react";
 import {Colors} from "../Colors";
 import {ImageBackground} from "react-native";
-import bgButton from "../assets/bgButton.png";
 import iconPersonSmall from "../assets/iconPersonSmall.png";
+import { imageImport } from "../organizations/assets/ImageImporter";
+import Constants from "expo-constants";
 
 
 const BookingConfirmScreen = ({navigation}) => {
@@ -14,7 +15,7 @@ const BookingConfirmScreen = ({navigation}) => {
 
                 <View flex={1}>
                     <View alignItems={'center'} mb={10}>
-                        <ImageBackground borderRadius={60} source={bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                        <ImageBackground borderRadius={60} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                             <Image source={iconPersonSmall} width={'50%'} resizeMode={'contain'}/>
                         </ImageBackground>
                     </View>

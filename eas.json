@@ -16,14 +16,14 @@
         "APP_ENV": "android"
       }
     },
-    "production_ios": {
+    "production_clublahacienda": {
       "env": {
-        "APP_ENV": "ios"
+        "APP_ENV": "clublahacienda"
       }
     },
-    "production_android": {
+    "production_laceiba": {
       "env": {
-        "APP_ENV": "android"
+        "APP_ENV": "laceiba"
       }
     }
   },

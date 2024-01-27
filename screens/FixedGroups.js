@@ -1,6 +1,4 @@
 import LayoutV4 from "./Layouts/LayoutV4"
-import LayoutV3 from "./Layouts/LayoutV3";
-import bgButton from "../assets/bgButton.png";
 import { ImageBackground, TouchableOpacity } from "react-native";
 import {Button, Image, ScrollView, Text, View} from "native-base";
 import React, { useState, useEffect } from "react";
@@ -12,6 +10,9 @@ import { dayWeek, formatHour } from "../utils";
 import pin from "../assets/pin.png";
 import iconBooking from "../assets/iconBooking.png";
 import moment from "moment/moment";
+
+import { imageImport } from "../organizations/assets/ImageImporter";
+import Constants from "expo-constants";
 
 const FixedGroups = ({appDuck, navigation, route}) => {
 
@@ -84,7 +85,7 @@ const FixedGroups = ({appDuck, navigation, route}) => {
                 showsVerticalScrollIndicator={false}
                 flexGrow={1}>
             <View flex={1} mt={8} mb={4} mx={8}>
-                <ImageBackground resizeMode={'stretch'} source={bgButton} style={{ width: '100%', height: 67, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}} borderRadius={60}>
+                <ImageBackground resizeMode={'stretch'} source={imageImport(Constants.expoConfig.slug).bgButton} style={{ width: '100%', height: 67, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}} borderRadius={60}>
                     <Text fontSize={'lg'}> {groupFounded?.name} </Text>
                     <Text fontSize={'sm'}> {groupFounded?.area?.service?.name} </Text>
                 </ImageBackground>
