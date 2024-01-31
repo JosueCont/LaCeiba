@@ -26,7 +26,6 @@ const ModalInfo = ({
             transparent={true}
             visible={visible}
             onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
                 setVisible(!visible);
             }}
 
@@ -38,7 +37,7 @@ const ModalInfo = ({
                 }}>
                     <LinearGradient
                         // Background Linear Gradient
-                        colors={[Colors.lightPrimary, Colors.darkPrimary]}
+                        colors={[Colors.modal.bgColor1, Colors.modal.bgColor2]}
                         style={{
                             position: 'absolute',
                             left: 0,

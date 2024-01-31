@@ -10,7 +10,8 @@ import {connect} from "react-redux";
 import {editUser} from "../../api/Requests";
 import SliderCustomScoreCard from "../../components/SliderCustom/SliderCustomScoreCard";
 import {Image as ImageRN} from "react-native";
-
+import {imageImport} from "../../organizations/assets/ImageImporter"
+import Constants from "expo-constants";
 
 
 
@@ -27,7 +28,6 @@ const ModalScoreDetails = ({visible, setVisible}) => {
             visible={visible}
             transparent={true}
             onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
                 setVisible(!visible);
             }}
         >
@@ -48,8 +48,8 @@ const ModalScoreDetails = ({visible, setVisible}) => {
                         <SliderCustomScoreCard 
                              height={'100%'}
                              items={[
-                                {image: ImageRN.resolveAssetSource(require('../../assets/scoreCard9.png')).uri},
-                                {image: ImageRN.resolveAssetSource(require('../../assets/scoreCard18.png')).uri}
+                                {image: ImageRN.resolveAssetSource(imageImport(Constants.expoConfig.slug).scoreCard9).uri},
+                                {image: ImageRN.resolveAssetSource(imageImport(Constants.expoConfig.slug).scoreCard18).uri}
                             ]}
                             position={sliderPosition}
                             setPosition={setSliderPosition}

@@ -72,6 +72,11 @@
                 "photoBg": "#146842",
                 "nameBg": "#07422A",
                 "nameTextColor": "#fff"
+            },
+            "modal":{
+                "bgColor1": "#1C8B42",
+                "bgColor2": "#09442D",
+                "textColor": "#FFF"
             }
         }
     },

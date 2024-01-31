@@ -67,7 +67,7 @@ const ModalEditGender = ({visible, setVisible, appDuck,action, partner}) => {
                 }}>
                     <LinearGradient
                         // Background Linear Gradient
-                        colors={[Colors.lightPrimary, Colors.darkPrimary]}
+                        colors={[Colors.modal.bgColor1, Colors.modal.bgColor2]}
                         style={{
                             position: 'absolute',
                             left: 0,
@@ -102,10 +102,11 @@ const ModalEditGender = ({visible, setVisible, appDuck,action, partner}) => {
                                 },
                                 _icon: {
                                     color: Colors.primary
-                                }
+                                },
+                                color: Colors.modal.textColor
                             }}>
                             {
-                                Object.keys(genders).map(key => <Radio key={key} value={key}>{genders[key]}</Radio>)
+                                Object.keys(genders).map(key => <Radio key={key} value={key}><Text style={styles.modalText}>{genders[key]}</Text></Radio>)
                             }
                         </Radio.Group>
                         <Button onPress={() => handleSubmit()} mt={4} mb={1}>Actualizar</Button>

@@ -585,8 +585,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                 showCalendar === true ?
                                     <Calendar
 
-                                        minDate={route?.params?.service?.bookNextDay ? tomorrow : today}
-                                        maxDate={todayPlus7}
+                                        minDate={route?.params?.service?.bookNextDay ? moment(tomorrow).format('YYYY-MM-DD') : moment(today).format('YYYY-MM-DD')}
+                                        maxDate={moment(todayPlus7).format('YYYY-MM-DD')}
                                         onDayPress={day => {
                                             let guest = _.filter(people, {'type': 'INVITADO'})
 

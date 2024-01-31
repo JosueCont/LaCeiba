@@ -16,7 +16,6 @@ const ModalConfirmRejectBook = ({visible, setVisible, title, type, onAccept, dat
             transparent={true}
             visible={visible}
             onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
                 setVisible(!visible);
             }}
         >
@@ -26,7 +25,7 @@ const ModalConfirmRejectBook = ({visible, setVisible, title, type, onAccept, dat
                     setHeightGradient(height)
                 }}>
                     <LinearGradient
-                        colors={[Colors.lightPrimary, Colors.darkPrimary]}
+                        colors={[Colors.modal.bgColor1, Colors.modal.bgColor2]}
                         style={{
                             position: 'absolute',
                             left: 0,
@@ -62,7 +61,7 @@ const ModalConfirmRejectBook = ({visible, setVisible, title, type, onAccept, dat
                         <View flexDirection={'row'}>
                             <View flex={6} p={2}>
                                 <Button mb={2} colorScheme={'green'} onPress={() => {onAccept();}}>{type == 'Confirm' ? 'Confirmar' : "Rechazar"}</Button>
-                                <Button mb={2} colorScheme={'green'} onPress={() => setVisible(false)}>Regresar</Button>    
+                                {/* <Button mb={2} colorScheme={'green'} onPress={() => setVisible(false)}>Regresar</Button>     */}
                             </View>
                         </View>
 

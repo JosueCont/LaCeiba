@@ -37,7 +37,6 @@ const ModalAddScore = ({visible, setVisible, appDuck,action, numerHole,AssginPoi
             transparent={true}
             visible={visible}
             onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
                 setVisible(!visible);
             }}
         >
@@ -48,7 +47,7 @@ const ModalAddScore = ({visible, setVisible, appDuck,action, numerHole,AssginPoi
                 }}>
                     <LinearGradient
                         // Background Linear Gradient
-                        colors={[Colors.lightPrimary, Colors.darkPrimary]}
+                        colors={[Colors.modal.bgColor1, Colors.modal.bgColor2]}
                         style={{
                             position: 'absolute',
                             left: 0,
@@ -87,7 +86,7 @@ const ModalAddScore = ({visible, setVisible, appDuck,action, numerHole,AssginPoi
                             }}
                         />
                         {/* <FormControl isInvalid={validateEmpty} mb={6}>
-                            <FormControl.ErrorMessage _text={{color: Colors.textWhite}} leftIcon={<WarningOutlineIcon  size="xs" />}>
+                            <FormControl.ErrorMessage _text={{color: CColors.modal.textColor}} leftIcon={<WarningOutlineIcon  size="xs" />}>
                                 El valor no puede ser vacio y deber ser mayor a 0 y maximo {pointsUser} puntos
                             </FormControl.ErrorMessage>
                         </FormControl> */}

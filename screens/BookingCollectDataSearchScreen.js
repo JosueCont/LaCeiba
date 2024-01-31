@@ -85,7 +85,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
             let ignorePersons = route.params.currentPeople.map((item) => item.type === 'SOCIO' && item.data.person.idStandard);
             ignorePersons.push(appDuck.user?.partner?.id)
             let data = _.filter(response.data.items, function (o) {
-                return !ignorePersons.includes(o.id) && o.estatus === "Y";
+                return !ignorePersons.includes(o.id) /* && o.estatus === "Y" ;*/
             });
             setPeople(data);
         } catch (e) {
@@ -205,7 +205,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                         {
                                             personType.map((item) => {
                                                 return (
-                                                    <Select.Item label={item.label} value={item.value}/>
+                                                    <Select.Item key={item.value} label={item.label} value={item.value}/>
 
                                                 )
                                             })
@@ -262,7 +262,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                                     let selected = _.has(personSelected, 'idStandard') ? (_.get(personSelected, 'idStandard') === item.idInvitado || _.get(personSelected, 'idStandard') === item.id) ? true : false : false;
                                                     return (
                                                         <TouchableOpacity key={idx} style={{borderWidth: 0.5, borderColor: Colors.primary, marginBottom: 10, borderRadius: 10, backgroundColor: 'white'}} onPress={() => {
-                                                            people.map(async (itemSub) => {
+                                                            people.map(async (itemSub, idxSub) => {
                                                                 if (typeSelected == 'g') {
                                                                     if (itemSub.idInvitado == item.idInvitado) {
                                                                         let mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;

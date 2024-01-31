@@ -106,7 +106,6 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
             setAdditionals(response.data)
             setLoading(false)
         } catch (e) {
-            alert(JSON.stringify(e))
             console.log(e)
         }
     }
@@ -120,7 +119,6 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
             setInvitation(response.data)
             setLoading(false)
         } catch (e) {
-            alert(JSON.stringify(e))
             console.log(e)
         }
     }
@@ -137,7 +135,6 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
             }
         } catch (e) {
             console.log(JSON.stringify(e))
-            alert(JSON.stringify(e))
         }
     }
 

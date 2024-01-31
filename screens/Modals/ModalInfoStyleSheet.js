@@ -1,4 +1,5 @@
 import {StyleSheet} from "react-native";
+import { Colors } from "../../Colors";
 
 export const styles = StyleSheet.create({
     centeredView: {
@@ -38,11 +39,12 @@ export const styles = StyleSheet.create({
         backgroundColor: "#2196F3",
     },
     textStyle: {
-        color: "white",
+        color: Colors.modal.textColor,
         fontWeight: "bold",
         textAlign: "center"
     },
     modalText: {
-        textAlign: "center"
+        textAlign: "center",
+        color: Colors.modal.textColor
     }
 });

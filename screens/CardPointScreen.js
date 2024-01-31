@@ -4,6 +4,7 @@ import { Colors } from "../Colors";
 import LayoutV4 from "./Layouts/LayoutV4";
 import bannerCardPoints from "../assets/bannerCardPoints.png"
 import matechesIconGreen from "../assets/matechesIconGreen.png"
+import golfMatchIcon from "../assets/golfMatchIcon.png"
 import CardPointTable from "./CardPointTable";
 import ModalScoreDetails from "./Modals/ModalScoreDetails";
 import moment from "moment";
@@ -12,7 +13,9 @@ import {useIsFocused} from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {getOnePartnersScoreCards,editColorScoreCard} from "../api/Requests";
 import ImageZoom from "react-native-image-pan-zoom";
-import { Dimensions, Image } from "react-native";
+import { Dimensions, Image, ImageBackground } from "react-native";
+import Constants from "expo-constants";
+import { imageImport } from "../organizations/assets/ImageImporter";
 
 
 
@@ -80,7 +83,7 @@ const updateColorScoreCard = async(color) => {
                         <Text color={'#ffff'} fontFamily={'titleComfortaaBold'} fontSize={'md'}>{appDuck.user.fullName}</Text>
                        {/*  <Text color={'#ffff'} fontFamily={'titleLight'} fontSize={'md'}>{moment(route.params.dataScore.booking?.dueDate, "YYYY-MM-DD").format('DD/MMM/YY')}</Text>
                         <Text color={'#ffff'} fontFamily={'titleLight'} fontSize={'md'}>{moment(route.params.dataScore.booking.dueTime, "HH:mm").format("hh:mm a")}</Text> */}
-                        <Text width={'50%'} color={'#ffff'} fontFamily={'titleComfortaaBold'} numberOfLines={2} fontSize={'md'}>{ghin ? `GHIN: ${ghin}` : 'No especificado'}</Text>
+                        <Text color={'#ffff'} fontFamily={'titleComfortaaBold'} numberOfLines={2} fontSize={'md'}>{ghin ? `GHIN: ${ghin}` : 'GHIN: No especificado'}</Text>
                     </View>
                 </View>
             </View>
@@ -146,9 +149,11 @@ const updateColorScoreCard = async(color) => {
                 }}
                 />                 
                 <View p={6} justifyContent={'center'} flexDirection={'row'}>
-                    <Image source={matechesIconGreen} width={'70px'} height={'70px'} mr={3}></Image>
+                    <ImageBackground source={imageImport(Constants.expoConfig.slug).bgButton} style={{width: 55, height: 55, alignItems: 'center', justifyContent: 'center'}} borderRadius={60}>
+                        <Image source={golfMatchIcon} width={21} height={21}/>
+                    </ImageBackground>
 
-                    <View mr={3} background={Colors.secondary} height={'auto'} width={'2px'}>
+                    <View ml={3} mr={3} background={Colors.secondary} height={'auto'} width={'2px'}>
                     </View>
                     <View justifyContent={'space-between'}>
                         <Text color={Colors.primary} fontFamily={'titleRegular'} fontSize={'md'}>Vuelta 1:  {dataMatch.round1}</Text>

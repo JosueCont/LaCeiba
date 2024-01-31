@@ -101,7 +101,6 @@ const ModalAddPoints = ({visible, error=false, setVisible, partnerAccion, points
             transparent={true}
             visible={visible}
             onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
                 setVisible(!visible);
             }}
         >
@@ -112,7 +111,7 @@ const ModalAddPoints = ({visible, error=false, setVisible, partnerAccion, points
                 }}>
                     <LinearGradient
                         // Background Linear Gradient
-                        colors={[Colors.lightPrimary, Colors.darkPrimary]}
+                        colors={[Colors.modal.bgColor1, Colors.modal.bgColor2]}
                         style={{
                             position: 'absolute',
                             left: 0,
@@ -142,12 +141,12 @@ const ModalAddPoints = ({visible, error=false, setVisible, partnerAccion, points
                              points(parseInt(val))
                         }} keyboardType="numeric" mx="3" placeholder="Puntos a transferir" w="100%" />
                         <FormControl isInvalid={validateEnoughtPoints} mb={6}>
-                            <FormControl.ErrorMessage _text={{color: Colors.textWhite}} leftIcon={<WarningOutlineIcon  size="xs" />}>
+                            <FormControl.ErrorMessage _text={{color: Colors.modal.textColor}} leftIcon={<WarningOutlineIcon  size="xs" />}>
                                 No tienes suficientes puntos
                             </FormControl.ErrorMessage>
                         </FormControl>
                         <FormControl isInvalid={validateEmpty} mb={6}>
-                            <FormControl.ErrorMessage _text={{color: Colors.textWhite}} leftIcon={<WarningOutlineIcon  size="xs" />}>
+                            <FormControl.ErrorMessage _text={{color: Colors.modal.textColor}} leftIcon={<WarningOutlineIcon  size="xs" />}>
                                 El valor no puede ser vacío y debe ser mayor a 0 y máximo 12 puntos
                             </FormControl.ErrorMessage>
                         </FormControl>

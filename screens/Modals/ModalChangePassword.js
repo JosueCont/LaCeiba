@@ -72,7 +72,6 @@ const ModalChangePassword = ({visible, setVisible, appDuck,action, partner}) => 
             transparent={true}
             visible={visible}
             onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
                 setVisible(!visible);
             }}
         >
@@ -83,7 +82,7 @@ const ModalChangePassword = ({visible, setVisible, appDuck,action, partner}) => 
                 }}>
                     <LinearGradient
                         // Background Linear Gradient
-                        colors={[Colors.lightPrimary, Colors.darkPrimary]}
+                        colors={[Colors.modal.bgColor1, Colors.modal.bgColor2]}
                         style={{
                             position: 'absolute',
                             left: 0,
@@ -105,7 +104,7 @@ const ModalChangePassword = ({visible, setVisible, appDuck,action, partner}) => 
                         <Text style={styles.modalText}  mb={3} fontSize={'lg'} >Cambiar contraseña</Text>
                         <Text style={styles.modalText}  mb={8}  >“La app le solicitará volver a ingresar con su nueva contraseña”</Text>
                          <FormControl isInvalid={errors.password} mb={4}>
-                            <Text textAlign={'center'} mb={2}>Contraseña</Text>
+                            <Text style={styles.modalText} textAlign={'center'} mb={2}>Contraseña</Text>
                             <Input  width={'100%'}
                                 onChangeText={(v) => setFieldValue('password', v)}
                                 type={showPasssword ? "text" : "password"}
@@ -115,12 +114,12 @@ const ModalChangePassword = ({visible, setVisible, appDuck,action, partner}) => 
                                     </TouchableOpacity>
                                 }
                             />
-                            <FormControl.ErrorMessage _text={{color: Colors.textWhite}}>
+                            <FormControl.ErrorMessage _text={{color: Colors.modal.textColor}}>
                                 {errors.password}
                             </FormControl.ErrorMessage>
                         </FormControl>
                         <FormControl isInvalid={errors.passwordConfirm} mb={4}>
-                            <Text textAlign={'center'} mb={2}>Repetir contraseña</Text>
+                            <Text style={styles.modalText} textAlign={'center'} mb={2}>Repetir contraseña</Text>
                             <Input width={'100%'}
                                 onChangeText={(v) => setFieldValue('passwordConfirm', v)}
                                 type={showPassswordConfirm ? "text" : "password"}
@@ -130,7 +129,7 @@ const ModalChangePassword = ({visible, setVisible, appDuck,action, partner}) => 
                                     </TouchableOpacity>
                                 }
                             />
-                            <FormControl.ErrorMessage _text={{color: Colors.textWhite}}>
+                            <FormControl.ErrorMessage _text={{color: Colors.modal.textColor}}>
                                 {errors.passwordConfirm}
                             </FormControl.ErrorMessage>
                         </FormControl>

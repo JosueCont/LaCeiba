@@ -17,7 +17,6 @@ const ModalTransferPoint = ({visible, setVisible, actionNormalTransfer, actionMe
             transparent={true}
             visible={visible}
             onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
                 setVisible(!visible);
             }}>
                 <View style={styles.centeredView}>
@@ -27,7 +26,7 @@ const ModalTransferPoint = ({visible, setVisible, actionNormalTransfer, actionMe
                 }}>
                     <LinearGradient
                         // Background Linear Gradient
-                        colors={[Colors.lightPrimary, Colors.darkPrimary]}
+                        colors={[Colors.modal.bgColor1, Colors.modal.bgColor2]}
                         style={{
                             position: 'absolute',
                             left: 0,

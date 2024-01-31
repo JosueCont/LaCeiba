@@ -49,7 +49,6 @@ const ModalBookingConfirmation = ({visible, setVisible, date, hour, people, onCo
             transparent={true}
             visible={visible}
             onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
                 setVisible(!visible);
             }}
         >
@@ -59,7 +58,7 @@ const ModalBookingConfirmation = ({visible, setVisible, date, hour, people, onCo
                     setHeightGradient(height)
                 }}>
                     <LinearGradient
-                        colors={[Colors.lightPrimary, Colors.darkPrimary]}
+                        colors={[Colors.modal.bgColor1, Colors.modal.bgColor2]}
                         style={{
                             position: 'absolute',
                             left: 0,
@@ -101,10 +100,10 @@ const ModalBookingConfirmation = ({visible, setVisible, date, hour, people, onCo
                                     }}>
                                         <Text textAlign={'center'}>Confirmar y enviar invitaciones individuales</Text>
                                         </Button>
-                                    <Button colorScheme={'green'} variant={'link'} rightIcon={<Icon as={MaterialIcons} name={'arrow-forward-ios'} color={Colors.textWhite} />} onPress={() => {
+                                    <Button colorScheme={'green'} variant={'link'} rightIcon={<Icon as={MaterialIcons} name={'arrow-forward-ios'} color={Colors.modal.textColor} />} onPress={() => {
                                         setCustomSend(true);
                                     }}>
-                                        <Text textAlign={'center'}>Enviar invitaciones a mi correo</Text>
+                                        <Text style={styles.modalText} textAlign={'center'}>Enviar invitaciones a mi correo</Text>
                                     </Button>
                                     {/* <Button mb={2} colorScheme={'green'} onPress={() => setVisible(false)}>Regresar</Button> */}
                                 </View>
@@ -124,7 +123,7 @@ const ModalBookingConfirmation = ({visible, setVisible, date, hour, people, onCo
                                     onBlur={()=> setFieldTouched('email', true)}
                                 />
                             <FormControl isInvalid={errors.email} mb={2}>
-                                <FormControl.ErrorMessage _text={{color: Colors.textWhite}}>
+                                <FormControl.ErrorMessage _text={{color: Colors.modal.textColor}}>
                                     {errors.email && touched.email ? errors.email : ''}
                                 </FormControl.ErrorMessage>
                             </FormControl>
@@ -133,10 +132,10 @@ const ModalBookingConfirmation = ({visible, setVisible, date, hour, people, onCo
                                     <Button mb={6} colorScheme={'green'} isDisabled={!hour} onPress={() => handleSubmit()}>
                                         <Text textAlign={'center'}>Confirmar y enviar invitaciones a este correo</Text>
                                     </Button>
-                                    <Button colorScheme={'green'} variant={'link'} leftIcon={<Icon as={MaterialIcons} name={'arrow-back-ios'} color={Colors.textWhite} />} onPress={() => {
+                                    <Button colorScheme={'green'} variant={'link'} leftIcon={<Icon as={MaterialIcons} name={'arrow-back-ios'} color={Colors.modal.textColor} />} onPress={() => {
                                         setCustomSend(false)
                                     }}>
-                                        <Text textAlign={'center'}>Regresar</Text>
+                                        <Text style={styles.modalText} textAlign={'center'}>Regresar</Text>
                                     </Button>
                                 </View>
                             </View>

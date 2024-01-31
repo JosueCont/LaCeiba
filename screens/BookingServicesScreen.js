@@ -76,7 +76,7 @@ const BookingServicesScreen = ({navigation, loggedOutAction}) => {
                     {
                         services.map((service, index) => {
                             return (
-                                <View mb={5}>
+                                <View key={index} mb={5}>
                                     <View>
                                         <ImageBackground source={{uri: service.fileUrl}} style={{height: 180}} borderRadius={20}>
 
