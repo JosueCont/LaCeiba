@@ -85,7 +85,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
             let ignorePersons = route.params.currentPeople.map((item) => item.type === 'SOCIO' && item.data.person.idStandard);
             ignorePersons.push(appDuck.user?.partner?.id)
             let data = _.filter(response.data.items, function (o) {
-                return !ignorePersons.includes(o.id) /* && o.estatus === "Y" ;*/
+                return !ignorePersons.includes(o.id)  && o.estatus === "Y" ;
             });
             setPeople(data);
         } catch (e) {
