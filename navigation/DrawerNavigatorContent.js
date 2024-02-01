@@ -76,48 +76,58 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                         </View>
                     </View>
                 </TouchableOpacity>
-                  <TouchableOpacity onPress={() => navigation.navigate('MembersScreen')}>
-                    <View flexDirection={'row'} mb={4}>
-                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                            <Image source={iconMembers} style={{width: 20, height: 20}}></Image>
+                {Constants.expoConfig.extra.additionalMembers && 
+                    <TouchableOpacity onPress={() => navigation.navigate('MembersScreen')}>
+                        <View flexDirection={'row'} mb={4}>
+                            <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                                <Image source={iconMembers} style={{width: 20, height: 20}}></Image>
+                            </View>
+                            <View flex={1} justifyContent={'center'}>
+                                <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Miembros adicionales</Text>
+                            </View>
                         </View>
-                        <View flex={1} justifyContent={'center'}>
-                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Miembros adicionales</Text>
+                    </TouchableOpacity> 
+                }
+                
+                {Constants.expoConfig.extra.booking && 
+                    <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen')}>
+                        <View flexDirection={'row'} mb={4}>
+                            <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                                <Image source={iconBooking} style={{width: 20, height: 20}}></Image>
+                            </View>
+                            <View flex={1} justifyContent={'center'}>
+                                <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Mis reservaciones</Text>
+                            </View>
                         </View>
-                    </View>
-                </TouchableOpacity> 
-                <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen')}>
+                    </TouchableOpacity>
+                }
+                
+                {Constants.expoConfig.extra.gests && 
+                    <TouchableOpacity onPress={() => navigation.navigate('GuestsScreen')}>
+                        <View flexDirection={'row'} mb={4}>
+                            <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                                <Image source={iconGuestsSmall} style={{width: 20, height: 20}}></Image>
+                            </View>
+                            <View flex={1} justifyContent={'center'}>
+                                <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>{Constants.expoConfig.extra.freeGuestsName || 'Invitados sin costo'}</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                }
+                
+                {Constants.expoConfig.extra.booking && Constants.expoConfig.extra.matches && 
+                    <TouchableOpacity onPress={() => navigation.navigate('MatchesScreen')}>
+                        <View flexDirection={'row'} mb={4}>
+                            <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                                <Image source={iconMatches} style={{width: 20, height: 20}}></Image>
+                            </View>
+                            <View flex={1} justifyContent={'center'}>
+                                <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Juegos</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                }
 
-                    <View flexDirection={'row'} mb={4}>
-                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                            <Image source={iconBooking} style={{width: 20, height: 20}}></Image>
-                        </View>
-                        <View flex={1} justifyContent={'center'}>
-                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Mis reservaciones</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('GuestsScreen')}>
-
-                    <View flexDirection={'row'} mb={4}>
-                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                            <Image source={iconGuestsSmall} style={{width: 20, height: 20}}></Image>
-                        </View>
-                        <View flex={1} justifyContent={'center'}>
-                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>{Constants.expoConfig.extra.freeGuestsName || 'Invitados sin costo'}</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('MatchesScreen')}>
-                <View flexDirection={'row'} mb={4}>
-                       <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                           <Image source={iconMatches} style={{width: 20, height: 20}}></Image>
-                       </View>
-                       <View flex={1} justifyContent={'center'}>
-                           <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Juegos</Text>
-                       </View>
-                   </View>
-                </TouchableOpacity>
                 {/*<TouchableOpacity onPress={() => navigation.navigate('GroupsScreen')}>*/}
                 {/*    <View flexDirection={'row'} mb={4}>*/}
                 {/*        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>*/}

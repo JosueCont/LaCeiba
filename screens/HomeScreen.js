@@ -173,18 +173,21 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                                 </View>
                             </TouchableOpacity>
                         </View>
-                        <View flex={1}>
-                            <TouchableOpacity onPress={() => validatePartnerFunction('BookingServicesScreen')}>
-                                <View alignItems={'center'} mb={2}>
-                                    <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                        <Image source={iconReserve} style={{width: 45, resizeMode: 'contain'}}/>
-                                    </ImageBackground>
-                                </View>
-                                <View>
-                                    <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Reservar</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
+                
+                        {Constants.expoConfig.extra.booking && 
+                            <View flex={1}>
+                                <TouchableOpacity onPress={() => validatePartnerFunction('BookingServicesScreen')}>
+                                    <View alignItems={'center'} mb={2}>
+                                        <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                            <Image source={iconReserve} style={{width: 45, resizeMode: 'contain'}}/>
+                                        </ImageBackground>
+                                    </View>
+                                    <View>
+                                        <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Reservar</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                        }
                     </View>
                     {/*<View mb={4} flexDirection={'row'}>*/}
                     {/*    <View flex={1}>*/}
@@ -214,52 +217,57 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                     {/*    </View>*/}
                     {/*</View>*/}
                     <View mb={4} flexDirection={'row'}>
-                        <View flex={1}>
-                            <TouchableOpacity onPress={() => navigation.navigate('GuestsScreen')}>
+                        {Constants.expoConfig.extra.guests && 
+                            <View flex={1}>
+                                <TouchableOpacity onPress={() => navigation.navigate('GuestsScreen')}>
 
-                                <View alignItems={'center'} mb={2}>
-                                    <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                        <Image source={iconGuests} style={{width: 45, resizeMode: 'contain'}}/>
-                                    </ImageBackground>
-                                </View>
-                                <View>
-                                    <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>{Constants.expoConfig.extra.freeGuestsName || 'Invitados sin costo'}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                        <View flex={1}>
-                            <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen')}>
+                                    <View alignItems={'center'} mb={2}>
+                                        <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                            <Image source={iconGuests} style={{width: 45, resizeMode: 'contain'}}/>
+                                        </ImageBackground>
+                                    </View>
+                                    <View>
+                                        <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>{Constants.expoConfig.extra.freeGuestsName || 'Invitados sin costo'}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                        }
+                        
+                        {Constants.expoConfig.extra.booking && 
+                            <View flex={1}>
+                                <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen')}>
 
-                                <View alignItems={'center'} mb={2}>
-                                    <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                        <Image source={iconBooking} style={{width: 45, resizeMode: 'contain'}}/>
-                                    </ImageBackground>
-                                </View>
-                                <View>
-                                    <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Mis reservaciones</Text>
-                                </View>
-                            </TouchableOpacity>
-
-                            
-                        </View>
+                                    <View alignItems={'center'} mb={2}>
+                                        <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                            <Image source={iconBooking} style={{width: 45, resizeMode: 'contain'}}/>
+                                        </ImageBackground>
+                                    </View>
+                                    <View>
+                                        <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Mis reservaciones</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                        }
     
                     </View>
                     
                     
                     <View mb={4} flexDirection={'row'}>
-                        <View flex={1}>
-                            <TouchableOpacity onPress={() => navigation.navigate('MatchesScreen')}>
+                        {Constants.expoConfig.extra.booking && Constants.expoConfig.extra.matches && 
+                            <View flex={1}>
+                                <TouchableOpacity onPress={() => navigation.navigate('MatchesScreen')}>
 
-                                <View alignItems={'center'} mb={2}>
-                                    <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
-                                        <Image source={iconMatches} style={{width: 45, resizeMode: 'contain'}}/>
-                                    </ImageBackground>
-                                </View>
-                                <View>
-                                    <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Juegos</Text>
-                                </View>
-                            </TouchableOpacity>                            
-                        </View>
+                                    <View alignItems={'center'} mb={2}>
+                                        <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                            <Image source={iconMatches} style={{width: 45, resizeMode: 'contain'}}/>
+                                        </ImageBackground>
+                                    </View>
+                                    <View>
+                                        <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Juegos</Text>
+                                    </View>
+                                </TouchableOpacity>                            
+                            </View>
+                        }
                         { Constants.expoConfig.extra.balance &&
                             <View flex={1}>
                                 <TouchableOpacity onPress={() => navigation.navigate('BalanceScreen')}>

@@ -162,7 +162,31 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
 
                         {
                             route.params?.card === true ?
-                                <View height={450} bgColor={Colors.partnerCard.bg} borderRadius={20} overflow={'hidden'}>
+                                <View height={450} width={290} bgColor={Colors.partnerCard.bg} borderRadius={20} overflow={'hidden'}>
+                                    {!appDuck.user.partner.profilrPictureUrl &&
+                                    <View flex={0.8} bgColor={Colors.partnerCard.photoBg}>
+                                        {refreshingLogo === true ? 
+                                            <View flex={1} justifyContent={'center'} alignItems={'center'}>
+                                                        
+                                                <Skeleton width={100} height={100}/>
+                                            </View>
+                                        :
+                                            <View flex={1} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}} padding={3} flexDirection={'row'}>
+                                                <Image 
+                                                    source={{uri: appDuck.user.partner.profilePictureUrl}} 
+                                                    width={'38%'} 
+                                                    height={'100%'} 
+                                                    marginRight={3}
+                                                    style={{maxWidth: '38%', maxHeight: '100%', paddingRight: 4, borderRadius:5, borderWidth: 2, borderStyle: 'solid', borderColor: Colors.partnerCard.nameBg}}
+                                                />
+                                                <Image source={{uri: imageLogo}} width={'58%'} height={'100%'} style={{maxWidth: '60%', maxHeight: '100%'}}/>
+                                            </View>
+                                        }
+                                        <View bgColor={Colors.partnerCard.nameBg} height={50} justifyContent={'center'}>
+                                            <Text color={Colors.partnerCard.nameTextColor} textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>
+                                        </View>
+                                    </View>
+                                    ||
                                     <View flex={0.7} bgColor={Colors.partnerCard.photoBg}>
                                         <View flex={1} justifyContent={'center'} alignItems={'center'}>
                                             {
@@ -177,6 +201,8 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                                         </View>
 
                                     </View>
+                                    }
+
                                     <View flex={1} borderBottomRadius={20}>
                                         <View flex={1} alignItems={'center'} justifyContent={'center'}>
                                             {
@@ -184,18 +210,26 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                                                     <Skeleton width={150} height={150}/>
                                                     :
                                                     <TouchableOpacity onPress={()=>{ setModalQrPreview(true) }}>
-                                                        <Image source={{uri: imageQRCode}} width={180} height={180}/>
+                                                        <Image source={{uri: imageQRCode}} width={160} height={160}/>
                                                     </TouchableOpacity>
                                             }
                                         </View>
-                                        <View flexDir={'row'} p={3}>
-                                            <View flex={1}>
-                                                <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'xs'}>No. de acción</Text>
-                                                <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'md'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.accion}</Text>
-                                            </View>
+                                        <View flex={0.32} flexDir={'row'}>
+                                            {Constants.expoConfig.extra.claveSocioAsId &&
+                                                <View flex={1}>
+                                                    <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'xs'}>Clave socio</Text>
+                                                    <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'sm'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.claveSocio}</Text>
+                                                </View>
+                                            ||
+                                            
+                                                <View flex={1}>
+                                                    <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'xs'}>No. de acción</Text>
+                                                    <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'sm'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.accion}</Text>
+                                                </View>
+                                            }
                                             <View flex={1}>
                                                 <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'xs'}>Tipo de acción</Text>
-                                                <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'md'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.parentesco}</Text>
+                                                <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'sm'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.parentesco}</Text>
                                             </View>
                                         </View>
                                     </View>

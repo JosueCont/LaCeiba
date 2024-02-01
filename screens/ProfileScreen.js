@@ -339,15 +339,15 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                                 </TouchableOpacity>
                             </View>
                     }
-                    {
-                    loading === true ?
-                    <Skeleton height={50} mb={10}></Skeleton> :
-                    loadingValidate === false && isActive ?
-                     <Button onPress={() => {setModalTransferPoint(true);}} mb={3}>Transferir Puntos</Button>
-                     :
-                     <Text mb={5} mr={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
-                      *No puedes transferir puntos porque tu usuario está desactivado
-                     </Text>
+                    {Constants.expoConfig.extra.transferPoints
+                        ?loading === true
+                             ?  <Skeleton height={50} mb={10}></Skeleton>
+                             :  loadingValidate === false && isActive
+                                ?   <Button onPress={() => {setModalTransferPoint(true);}} mb={3}>Transferir Puntos</Button>
+                                :   <Text mb={5} mr={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                                        *No puedes transferir puntos porque tu usuario está desactivado
+                                    </Text>
+                        :null
                     }
                     { Constants.expoConfig.extra.eCommerce && <Button onPress={() => navigation.navigate('BuysScreen')} mb={3}>Mis compras</Button> }
                     { !allowNotifications && <Button onPress={() => askPermission()} mb={3}>Activar notificaciones</Button> }
