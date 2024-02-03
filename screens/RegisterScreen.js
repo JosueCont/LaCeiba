@@ -61,7 +61,8 @@ const RegisterScreen = ({navigation, setAttribute}) => {
         try {
             setSentInformation(true);
 
-            const queryString = `?userId=${values.numberAction}&firstName=${values.namePartner}&lastName=${values.lastNamePartner}&parent=${values.relationship}`;
+            let queryString = `?firstName=${values.namePartner}&lastName=${values.lastNamePartner}&parent=${values.relationship}`;
+            queryString += Constants.expoConfig.extra.claveSocioAsId ? `&clave=${values.numberAction}` : `&userId=${values.numberAction}`
 
             const response = await findPartner(queryString);
 
@@ -92,8 +93,8 @@ const RegisterScreen = ({navigation, setAttribute}) => {
             navigation.navigate('RegisterStep4Screen')
 
         } catch (e) {
-            console.log(e)
-            setSentInformation(false);;
+            console.log('ERROR => ', e)
+            setSentInformation(false);
             if (e.status === 404) {
                 setModalErrorVisible(true)
             } else if (e.status === 400) {
@@ -122,20 +123,35 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                         <View mx={55} mt={10}>
                             <Text fontSize={'5xl'} textAlign={'center'} fontFamily={'titleLight'} mb={4}>Registro</Text>
                             <View alignSelf={'center'} width={'100%'} borderWidth={1} borderColor={Colors.secondary} mb={8}/>
-                            <FormControl isInvalid={errors.numberAction} mb={4}>
-                                <Text textAlign={'center'} mb={2}>Número de acción</Text>
-                                <Input
-                                    maxLength={4}
-                                    returnKeyType={'done'}
-                                    keyboardType={'number-pad'}
-                                    onChangeText={(v) => setFieldValue('numberAction', v)}
-                                    onBlur={()=> setFieldTouched('numberAction', true)}/>
 
-                                <FormControl.ErrorMessage>
-                                    {errors.numberAction && touched.numberAction ? errors.numberAction :''}
-                                </FormControl.ErrorMessage>
-                            </FormControl>
+                            {Constants.expoConfig.extra.claveSocioAsId &&
+                                <FormControl isInvalid={errors.numberAction} mb={4}>
+                                    <Text textAlign={'center'} mb={2}>Clave socio</Text>
+                                    <Input
+                                        maxLength={10}
+                                        returnKeyType={'done'}
+                                        onChangeText={(v) => setFieldValue('numberAction', v)}
+                                        onBlur={()=> setFieldTouched('numberAction', true)}/>
 
+                                    <FormControl.ErrorMessage>
+                                        {errors.numberAction && touched.numberAction ? errors.numberAction :''}
+                                    </FormControl.ErrorMessage>
+                                </FormControl>
+                            ||
+                                <FormControl isInvalid={errors.numberAction} mb={4}>
+                                    <Text textAlign={'center'} mb={2}>Número de acción</Text>
+                                    <Input
+                                        maxLength={4}
+                                        returnKeyType={'done'}
+                                        keyboardType={'number-pad'}
+                                        onChangeText={(v) => setFieldValue('numberAction', v)}
+                                        onBlur={()=> setFieldTouched('numberAction', true)}/>
+
+                                    <FormControl.ErrorMessage>
+                                        {errors.numberAction && touched.numberAction ? errors.numberAction :''}
+                                    </FormControl.ErrorMessage>
+                                </FormControl>
+                            }
 
                             <FormControl isInvalid={errors.namePartner} mb={4}>
                                 <Text textAlign={'center'} mb={2}>Nombre(s) de socio</Text>
@@ -181,7 +197,7 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                     </View>
                 </ScrollView>
             </View>
-            <ModalInfo text={'Número de acción o nombre del socio no encontrado o no coinciden, inténtalo nuevamente.'} iconType={'exclamation'} textButton={'Entendido'} visible={modalErrorVisible} setVisible={setModalErrorVisible}/>
+            <ModalInfo text={`${Constants.expoConfig.extra.claveSocioAsId ? 'Clave' : 'Número de acción'} o nombre del socio no encontrado o no coinciden, inténtalo nuevamente.`} iconType={'exclamation'} textButton={'Entendido'} visible={modalErrorVisible} setVisible={setModalErrorVisible}/>
             <ModalInfo text={'El usuario ya se encuentra registrado.'} iconType={'exclamation'} textButton={'Entendido'} visible={modalUserExists} setVisible={setModalUserExists}/>
 
         </Layout>

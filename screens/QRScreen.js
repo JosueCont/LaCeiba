@@ -163,7 +163,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                         {
                             route.params?.card === true ?
                                 <View height={450} width={290} bgColor={Colors.partnerCard.bg} borderRadius={20} overflow={'hidden'}>
-                                    {!appDuck.user.partner.profilrPictureUrl &&
+                                    {appDuck.user.partner.profilePictureUrl &&
                                     <View flex={0.8} bgColor={Colors.partnerCard.photoBg}>
                                         {refreshingLogo === true ? 
                                             <View flex={1} justifyContent={'center'} alignItems={'center'}>
@@ -171,7 +171,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                                                 <Skeleton width={100} height={100}/>
                                             </View>
                                         :
-                                            <View flex={1} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}} padding={3} flexDirection={'row'}>
+                                            <View flex={1} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}} padding={4} flexDirection={'row'}>
                                                 <Image 
                                                     source={{uri: appDuck.user.partner.profilePictureUrl}} 
                                                     width={'38%'} 

@@ -57,7 +57,7 @@
             "primary": "#38383b",
             "darkPrimary": "#252627",
             "lightPrimary": "#707273",
-            "secondary": "#c88b3e",
+            "secondary": "#c59a4b",
             "bgPrimaryText": "#FFF",
             "bgSecondaryText": "#FFF",
             "gray": "#e5e5e5",
@@ -65,7 +65,7 @@
             "lightGray": "#f0f0f0",
             "red": "#dc2626",
             "textColor": "#13181c",
-            "textSecondary": "#c88b3e",
+            "textSecondary": "#c59a4b",
             "textWhite": "#FFF",
             "textGray": "#8A9EA8",
             "orange": "#f97316",
@@ -77,8 +77,8 @@
             "partnerCard":{
                 "bg": "#fff",
                 "textColor": "#13181c",
-                "photoBg": "#38383b",
-                "nameBg": "#c88b3e",
+                "photoBg": "#0d4443",
+                "nameBg": "#c59a4b",
                 "nameTextColor": "#fff"
             },
             "modal":{
