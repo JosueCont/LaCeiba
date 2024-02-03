@@ -202,7 +202,8 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
                             {errors.passwordConfirm}
                         </FormControl.ErrorMessage>
                     </FormControl>
-                    <Button onPress={() => handleSubmit()}>Continuar</Button>
+                    <Button onPress={() => handleSubmit()} mb={2}>Continuar</Button>
+                    <Button onPress={() => navigation.goBack()}>Regresar</Button>
                 </View>
             </View>
             <ModalInfo
