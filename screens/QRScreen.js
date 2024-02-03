@@ -228,7 +228,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                                                 </View>
                                             }
                                             <View flex={1}>
-                                                <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'xs'}>Tipo de acción</Text>
+                                                <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'xs'}>Tipo de socio</Text>
                                                 <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'sm'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.parentesco}</Text>
                                             </View>
                                         </View>
@@ -270,8 +270,6 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                                 const {status} = await MediaLibrary.getPermissionsAsync();
                                 status == 'granted' ?  captureScreenFunction() : validatePermission()}}>Descargar</Button>
                         }
-
-                        <Button mt={2} mb={4} onPress={() => navigation.navigate('HomeScreen')}>Terminar</Button>
 
                         { Platform.OS == 'android' && Constants.expoConfig.extra.googleWallet &&
                             <View flexDirection={'column'} justifyContent={'center'} alignItems={'center'} mt={2}>

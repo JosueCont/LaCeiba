@@ -219,9 +219,19 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                     }
                     flex={1}>
                     <View alignItems={'center'} mt={10}>
+                    {appDuck.user.partner.profilePictureUrl &&
+                        <Image 
+                            source={{uri: appDuck.user.partner.profilePictureUrl}} 
+                            width={120} 
+                            height={120} 
+                            marginRight={3}
+                            style={{borderRadius:60, borderWidth: 2, borderStyle: 'solid', borderColor: Colors.partnerCard.nameBg}}
+                        />
+                        ||
                         <ImageBackground borderRadius={60} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                             <Image source={iconPersonEdit}/>
-                        </ImageBackground>
+                        </ImageBackground> 
+                    }
                     </View>
 
                     <Text textAlign={'center'} mt={6} color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
