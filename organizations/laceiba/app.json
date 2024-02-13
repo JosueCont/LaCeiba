@@ -89,19 +89,19 @@
         }
     },
     "slug": "laceiba",
-    "version": "1.0.17",
+    "version": "1.0.18",
     "ios": {
-        "buildNumber": "63",
+        "buildNumber": "64",
         "supportsTablet": false,
         "bundleIdentifier": "com.hiumanlab.laceiba"
     },
     "android": {
-        "versionCode": 63,
+        "versionCode": 64,
         "adaptiveIcon": {
             "foregroundImage": "./organizations/laceiba/assets/adaptive-icon.png",
             "backgroundImage": "./organizations/laceiba/assets/adaptive-icon-bg.png"
         },
-        "googleServicesFile": "./google-services.json",
+        "googleServicesFile": "./organizations/laceiba/google-services.json",
         "package": "com.hiumanlab.laceiba"
     }
 }

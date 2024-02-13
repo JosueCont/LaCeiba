@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "9181858158",
+    "project_id": "apps-hiumanlab",
+    "storage_bucket": "apps-hiumanlab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9181858158:android:494d5ca35fc68485eb197f",
+        "android_client_info": {
+          "package_name": "com.hiumanlab.fixers"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3B8Csf5UJtH_N6ddtjEpcvj0GGhwKNKQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9181858158:android:8a616f973df3db46eb197f",
+        "android_client_info": {
+          "package_name": "com.hiumanlab.fixio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3B8Csf5UJtH_N6ddtjEpcvj0GGhwKNKQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9181858158:android:02afc2215bc5fae0eb197f",
+        "android_client_info": {
+          "package_name": "com.hiumanlab.laceiba"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3B8Csf5UJtH_N6ddtjEpcvj0GGhwKNKQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
