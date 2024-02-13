@@ -105,7 +105,7 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
             setModalCompletedVisible(true)
         } catch (e) {
             console.log(e)
-           // alert(e.data.message.toString())
+            alert(e.data.message.toString())
         }
     }
 
