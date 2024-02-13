@@ -63,7 +63,7 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
                 confirm: values.passwordConfirm,
                 claveSocio: navigationDuck.user.claveSocio,
                 countryCode: route?.params?.countryCode ? '+' + route?.params?.countryCode : '',
-                phone: navigationDuck.user.celular.length > 0 ? navigationDuck.user.celular : navigationDuck.user.telefono
+                phone: navigationDuck.user?.celular && navigationDuck.user?.celular.length > 0 ? navigationDuck.user.celular : navigationDuck.user.telefono
             }
             if(values.gender !== ''){
                 data = {...data, gender: values.gender}
@@ -105,7 +105,7 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
             setModalCompletedVisible(true)
         } catch (e) {
             console.log(e)
-            alert(e.data.message.toString())
+           // alert(e.data.message.toString())
         }
     }
 
