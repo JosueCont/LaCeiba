@@ -180,10 +180,10 @@ const RegisterScreen = ({navigation, setAttribute}) => {
                                     placeholder="Seleccionar">
                                     <Select.Item label={'Titular'} value={'0'}/>
                                     <Select.Item label={'Hijo(a) titular'} value={'1'}/>
-                                    <Select.Item label={'Hijo(a) membresista'} value={'2'}/>
+                                    { Constants.expoConfig.slug === 'clublahacienda' && <Select.Item label={'Hijo(a) membresista'} value={'2'}/> }
                                     <Select.Item label={'Esposo(a) titular'} value={'3'}/>
-                                    <Select.Item label={'Esposo(a) membresista'} value={'4'}/>
-                                    <Select.Item label={'Cotitular'} value={'5'}/>
+                                    { Constants.expoConfig.slug === 'clublahacienda' && <Select.Item label={'Esposo(a) membresista'} value={'4'}/> }
+                                    { Constants.expoConfig.slug === 'clublahacienda' && <Select.Item label={'Cotitular'} value={'5'}/> }
                                 </Select>
                                 <FormControl.ErrorMessage>
                                     {errors.relationship && touched.relationship ? errors.relationship :''}
