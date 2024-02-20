@@ -20,6 +20,7 @@
         "favicon": "./organizations/laceiba/assets/favicon.png"
     },
     "plugins": [
+        "expo-font",
         [
           "expo-media-library",
           {
