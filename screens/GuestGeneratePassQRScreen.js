@@ -7,7 +7,7 @@ import imgLogo from '../assets/imgLogo.png'
 import ViewShot, { captureRef } from 'react-native-view-shot';
 import * as MediaLibrary from 'expo-media-library';
 import { useIsFocused } from "@react-navigation/native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 import * as Sharing from "expo-sharing"
 import moment from "moment";
 import { imageImport } from "../organizations/assets/ImageImporter";

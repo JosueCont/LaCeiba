@@ -11,7 +11,7 @@ import * as MediaLibrary from 'expo-media-library';
 import {useIsFocused} from "@react-navigation/native";
 import googleWallet from '../assets/googleWallet.png';
 import addToAppleWalletBtn from '../assets/esmx_addtoapplewallet.png'
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 import { getConfig, getTokenGoogleWallet, logOut } from "../api/Requests";
 import axios from "axios";
 import Constants from "expo-constants";
@@ -177,7 +177,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                                                     width={'38%'} 
                                                     height={'100%'} 
                                                     marginRight={3}
-                                                    style={{maxWidth: '38%', maxHeight: '100%', paddingRight: 4, borderRadius:5, borderWidth: 2, borderStyle: 'solid', borderColor: Colors.partnerCard.nameBg}}
+                                                    style={{maxWidth: '38%', maxHeight: '100%', paddingRight: 4, borderRadius:5, borderWidth: 2, borderColor: Colors.partnerCard.nameBg}}
                                                 />
                                                 <Image source={{uri: imageLogo}} width={'58%'} height={'100%'} style={{maxWidth: '60%', maxHeight: '100%'}}/>
                                             </View>

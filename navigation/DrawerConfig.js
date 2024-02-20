@@ -157,6 +157,10 @@ const DrawerConfig = () => {
             backBehavior={'history'}
             screenOptions={({navigation, route}) => ({
                 drawerPosition: 'right',
+          /*       drawerStyle: {
+                    width: '95%',
+                    right: 0
+                  }, */
                 headerLeft: () => {
                     if (route.name.includes('HomeScreen')) {
                         <View/>

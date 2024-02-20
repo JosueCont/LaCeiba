@@ -16,6 +16,24 @@
         "APP_ENV": "android"
       }
     },
+    "preview_laceiba": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "APP_ENV": "laceiba"
+      }
+    },
+    "preview_clublahacienda": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "APP_ENV": "clublahacienda"
+      }
+    },
     "production_clublahacienda": {
       "channel": "master",
       "env": {

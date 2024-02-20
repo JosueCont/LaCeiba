@@ -22,6 +22,13 @@ import {Calendar} from "react-native-calendars";
 import {AntDesign} from "@expo/vector-icons";
 
 moment.locale('es');
+
+const scoreStatus = {
+    "WON": "Ganó",
+    "LOST": "Perdió",
+    "DRAW": "Empató"
+}
+
 const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=>{
     const [showCalendar, setShowCalendar] = useState(false);
     const [showSelector, setShowSelector] = useState(false);
@@ -41,10 +48,12 @@ const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=
             status,
             points: parseInt(points)
         }
+        console.log(data)
         item ? onUpdate(data) : onAdd(data)
     }
     useEffect(()=>{
         if(item){
+            console.log(item)
             setDate(item.date)
             setPlayerName(item.playerName)
             setStatus(item.status)
@@ -121,8 +130,7 @@ const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=
                         onValueChange={itemValue => {setStatus(itemValue)}}
                         style={{width: '100%'}}
                     >
-                        <Select.Item label={'Ganó'} value={'WON'}/>
-                        <Select.Item label={'Perdió'} value={'LOST'}/>
+                        {Object.keys(scoreStatus).map(e => <Select.Item key={e} label={scoreStatus[e]} value={e}/>)}
                     </Select>
                 </View>
             <View flex={1} flexDirection={'column'} px={1} alignItems={'center'}>

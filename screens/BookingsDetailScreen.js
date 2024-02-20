@@ -13,7 +13,7 @@ import ModalAsk from "./Modals/ModalAsk";
 import ModalInfo from "./Modals/ModalInfo";
 import { Table, Row } from 'react-native-table-component';
 import {AntDesign} from "@expo/vector-icons";
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
 import ViewShot, { captureRef } from 'react-native-view-shot';
 import * as Sharing from "expo-sharing"
 import Constants from 'expo-constants';

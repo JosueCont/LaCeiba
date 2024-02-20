@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {Button, CircleIcon, Image, Text, View} from "native-base";
 import {Colors} from "../Colors";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 import iconTrash from '../assets/iconTrash.png';
 
 

@@ -5,6 +5,11 @@ import {TouchableOpacity} from "react-native";
 import iconEdit from '../../assets/iconEdit.png'
 import iconTrash from "../../assets/iconTrash.png";
 import moment from "moment";
+const scoreStatus = {
+    "WON": "Ganó",
+    "LOST": "Perdió",
+    "DRAW": "Empató"
+}
 
 const RegistryTableItem = ({item, onDelete, onEdit, isSelected = false, disableActions = false})=>{
     return (
@@ -24,7 +29,7 @@ const RegistryTableItem = ({item, onDelete, onEdit, isSelected = false, disableA
                         <Text numberOfLines={2} fontSize={'12'} color={Colors.primary}>{item.playerName}</Text>
                     </View>
                     <View flex={1} flexDirection={'column'} px={1} alignItems={'center'}>
-                        <Text numberOfLines={1} fontSize={'12'} color={Colors.primary}>{item.status === 'WON' ? 'Ganó' : 'Perdió'}</Text>
+                        <Text numberOfLines={1} fontSize={'12'} color={Colors.primary}>{scoreStatus[item.status]}</Text>
                     </View>
                     <View flex={1} flexDirection={'column'} px={1} alignItems={'center'}>
                         <Text numberOfLines={1}fontSize={'12'} color={Colors.primary}>{item.points}</Text>
