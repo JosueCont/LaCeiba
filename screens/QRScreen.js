@@ -27,7 +27,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
     const [modalQRPreview, setModalQrPreview] = useState(null);
     const [modalText, setModalText] = useState(null);
     const isFocused = useIsFocused();
-    const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
+    // const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
     const toast = useToast();
 
     const imgRef = useRef();
