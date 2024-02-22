@@ -92,12 +92,12 @@
     "slug": "clublahacienda",
     "version": "1.0.19",
     "ios": {
-        "buildNumber": "65",
+        "buildNumber": "71",
         "supportsTablet": false,
         "bundleIdentifier": "com.hiumanlab.clublahacienda"
     },
     "android": {
-        "versionCode": 65,
+        "versionCode": 71,
         "adaptiveIcon": {
             "foregroundImage": "./organizations/clublahacienda/assets/adaptive-icon.png",
             "backgroundImage": "./organizations/clublahacienda/assets/adaptive-icon-bg.png"
