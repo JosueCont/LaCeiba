@@ -90,14 +90,14 @@
         }
     },
     "slug": "clublahacienda",
-    "version": "1.0.18",
+    "version": "1.0.19",
     "ios": {
-        "buildNumber": "64",
+        "buildNumber": "65",
         "supportsTablet": false,
         "bundleIdentifier": "com.hiumanlab.clublahacienda"
     },
     "android": {
-        "versionCode": 64,
+        "versionCode": 65,
         "adaptiveIcon": {
             "foregroundImage": "./organizations/clublahacienda/assets/adaptive-icon.png",
             "backgroundImage": "./organizations/clublahacienda/assets/adaptive-icon-bg.png"
