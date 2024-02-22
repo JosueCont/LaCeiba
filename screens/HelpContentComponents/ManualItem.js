@@ -7,7 +7,6 @@ import {TouchableOpacity, Share} from "react-native";
 import * as Linking from 'expo-linking';
 import * as MediaLibrary from 'expo-media-library';
 import * as FileSystem from 'expo-file-system';
-import * as Location from 'expo-location';
 
 
 const ManualItem = ({navigation, mb = 2, id, title = 'Title', url = '', type = '', html = ''}) => {
@@ -33,7 +32,7 @@ const ManualItem = ({navigation, mb = 2, id, title = 'Title', url = '', type = '
     }
     
     const saveFile = async (url) => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
+        let { status } = await MediaLibrary.getPermissionsAsync();
         if (status === "granted") {
             console.log(url.toString())
             const asset = await MediaLibrary.createAssetAsync(url.toString())
