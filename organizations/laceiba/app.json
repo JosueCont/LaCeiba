@@ -89,9 +89,9 @@
         }
     },
     "slug": "laceiba",
-    "version": "1.0.18",
+    "version": "1.0.19",
     "ios": {
-        "buildNumber": "64",
+        "buildNumber": "65",
         "supportsTablet": false,
         "bundleIdentifier": "com.hiumanlab.laceiba"
     },

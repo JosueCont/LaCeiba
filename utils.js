@@ -25,8 +25,9 @@ export const dayWeek = {
 export const genders = {
     'H': 'Hombre',
     'M': 'Mujer',
-    'N': 'No binario',
-    'NE' : 'No especificado',
+//    'N': 'No binario',
+    // 'NE' : 'No especificado',  Anteriormente tenía NE el no especificado.
+    'N' : 'No especificado',
 }
 
 export const formatHour = (timeString) => {
