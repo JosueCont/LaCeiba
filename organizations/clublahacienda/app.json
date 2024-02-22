@@ -1,0 +1,108 @@
+{
+    "name": "CGH",
+    "owner": "clublahacienda",
+    "orientation": "portrait",
+    "icon": "./organizations/clublahacienda/assets/icon.png",
+    "splash": {
+        "image": "./organizations/clublahacienda/assets/splash.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#146842"
+    },
+    "updates": {
+        "url": "https://u.expo.dev/c16e312d-b8ac-495f-b1bc-39e309569e13"
+    },
+    "runtimeVersion": {
+        "policy": "sdkVersion"
+    },
+    "assetBundlePatterns": [
+        "**/*"
+    ],
+    "web": {
+        "favicon": "./organizations/clublahacienda/assets/favicon.png"
+    },
+    "plugins": [
+        [
+          "expo-media-library",
+          {
+            "photosPermission": "Allow to access your photos.",
+            "savePhotosPermission": "Allow to save photos.",
+            "isAccessMediaLocationEnabled": true
+          }
+        ]   
+      ],
+    "jsEngine": "hermes",
+    "extra": {
+        "debug": false,
+        "production": true,
+        "sendDeviceToken": true, 
+        "URL": "https://api.clubdegolflahacienda.com",
+        "URL_DEV": "https://api.hacienda.hiumanlab.com",
+        "eas": {
+            "projectId": "c16e312d-b8ac-495f-b1bc-39e309569e13"
+        },
+        "debugEmail": "alex.dzul@hiumanlab.com",
+        "appleWallet": false,
+        "googleWallet": false,
+        "eCommerce": false,
+        "balance": true,
+        "booking": true,
+        "matches": true,
+        "guests": true,
+        "addditionalMembers": true,
+        "transferPoints": true,
+        "claveSocioAsId": false,
+        "helpContentName": "Club de Golf La Hacienda",
+        "freeGuestsName": "Invitados a Restaurantes",
+        "debugPhone": "9991979545",
+        "theme": {
+            "primary": "#0B5739",
+            "darkPrimary": "#09442D",
+            "lightPrimary": "#1C8B42",
+            "secondary": "#FFB718",
+            "bgPrimaryText": "#FFF",
+            "bgSecondaryText": "#0B5739",
+            "gray": "#D0DAD6",
+            "darkGray": "#bfc9c5",
+            "lightGray": "#e7e9e8",
+            "red": "#dc2626",
+            "textColor": "#0B5739",
+            "textSecondary": "#FFB718",
+            "textWhite": "#FFF",
+            "textGray": "#8A9EA8",
+            "orange": "#f97316",
+            "black": "#033521",
+            "sideMenu":{
+                "bg": "#09442D",
+                "textColor": "#FFF"
+            },
+            "partnerCard":{
+                "bg": "#fff",
+                "textColor": "#0B5739",
+                "photoBg": "#146842",
+                "nameBg": "#07422A",
+                "nameTextColor": "#fff"
+            },
+            "modal":{
+                "bgColor1": "#1C8B42",
+                "bgColor2": "#09442D",
+                "textColor": "#FFF"
+            }
+        }
+    },
+    "slug": "clublahacienda",
+    "version": "1.0.19",
+    "ios": {
+        "buildNumber": "65",
+        "supportsTablet": false,
+        "bundleIdentifier": "com.hiumanlab.clublahacienda"
+    },
+    "android": {
+        "versionCode": 65,
+        "adaptiveIcon": {
+            "foregroundImage": "./organizations/clublahacienda/assets/adaptive-icon.png",
+            "backgroundImage": "./organizations/clublahacienda/assets/adaptive-icon-bg.png"
+        },
+        "googleServicesFile": "./google-services.json",
+        "package": "com.hiumanlab.clublahacienda"
+    }
+}

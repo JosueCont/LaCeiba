@@ -31,8 +31,8 @@ const HolesItemSelected = ({navigation, mb = 2, getHole, defaultHole}) => {
                  setHoles(holes),
                  emitHoles(holes)
                  }}>
-                <View borderRadius={'full'} justifyContent={'center'} alignItems={'center'} style={ holes=== 9 ?{backgroundColor:Colors.green} : {backgroundColor:'#f5f5f5'}} height={'50px'} background={'red'} width={'100%'}>
-                <Text background={'red'} justifyContent={'center'} style={ holes=== 9 ?{color: 'white'} : {color:Colors.green}} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>9</Text>
+                <View borderRadius={'full'} justifyContent={'center'} alignItems={'center'} style={ holes=== 9 ?{backgroundColor:Colors.primary} : {backgroundColor:'#fff'}} height={'50px'} width={'100%'}>
+                <Text justifyContent={'center'} style={ holes=== 9 ?{color: Colors.bgPrimaryText} : {color:Colors.primary}} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>9</Text>
                 </View>
             </TouchableOpacity>
                 </View>
@@ -43,8 +43,8 @@ const HolesItemSelected = ({navigation, mb = 2, getHole, defaultHole}) => {
                   setHoles(holes),
                   emitHoles(holes)
             }}>
-            <View borderRadius={'full'} justifyContent={'center'} alignItems={'center'} style={ holes=== 18 ?{backgroundColor: Colors.green} : {backgroundColor:'#f5f5f5'}} height={'50px'} background={'red'} width={'100%'}>
-                <Text justifyContent={'center'} style={ holes=== 18 ?{color: 'white'} : {color:Colors.green}}  fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>18</Text>
+            <View borderRadius={'full'} justifyContent={'center'} alignItems={'center'} style={ holes=== 18 ?{backgroundColor: Colors.primary} : {backgroundColor:'#fff'}} height={'50px'} width={'100%'}>
+                <Text justifyContent={'center'} style={ holes=== 18 ?{color: Colors.bgPrimaryText} : {color:Colors.primary}}  fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>18</Text>
                 </View>
             </TouchableOpacity>
                 </View>

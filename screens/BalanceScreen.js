@@ -73,26 +73,26 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                     showsVerticalScrollIndicator={false}
                     refreshControl={
                         <RefreshControl
-                            tintColor={Colors.green}
+                            tintColor={Colors.primary}
                             refreshing={loading}
                             onRefresh={getBalanceFunction}
                         />
                     }
                     flex={1}>
 
-                    <Text textAlign={'center'} mb={6} mt={6} color={Colors.green} bold fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                    <Text textAlign={'center'} mb={6} mt={6} color={Colors.primary} bold fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                         SALDO PENDIENTE DE PAGO
                     </Text>
                     {
                         loading === true ?
                             <Skeleton height={50}></Skeleton> :
                             loading === false &&
-                            <Text textAlign={'center'} mb={1} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                            <Text textAlign={'center'} mb={1} color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                                 {_.startCase(data?.nombreSocio?.toLowerCase())}
                             </Text>
                     }
 
-                    <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'md'}>
+                    <Text textAlign={'center'} mb={5} color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'md'}>
                         ({data?.tipoSocio})
                     </Text>
                     
@@ -101,7 +101,7 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                             loading === true ?
                                 <Skeleton height={50}></Skeleton> :
                                 loading === false &&
-                                <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
+                                <Text textAlign={'center'} bold color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
                                     {`$${new Intl.NumberFormat('es-MX')
                                     .format(
                                         (parseFloat(dataBalance?.totalBalance?.saldoConsumoRestaurante ? dataBalance?.totalBalance?.saldoConsumoRestaurante : 0)
@@ -110,45 +110,45 @@ const BalanceScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                                     )}`}<Text fontSize={'2xl'}> M.N.</Text>
                                 </Text>
                         }
-                        <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                        <Text textAlign={'center'} mb={4} color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                             TOTAL
                         </Text>
                     </View>
             
-                    <View mb={3} style={{ borderColor: Colors.green, borderWidth: 1.5, borderRadius: 8, backgroundColor: Colors.grayLight }}>
+                    <View mb={3} style={{ borderColor: Colors.primary, borderWidth: 1.5, borderRadius: 8, backgroundColor: Colors.lightGray }}>
                         {
                             loading === true ?
                                 <Skeleton height={50}></Skeleton> :
                                 loading === false &&
-                                <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
+                                <Text textAlign={'center'} bold color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
                                     {dataBalance?.serviceBalance?.saldoServiciosFactura ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.serviceBalance?.saldoServiciosFactura)?.toFixed(2))}` : 'NI'}<Text fontSize={'2xl'}> M.N.</Text>
                                 </Text>
                         }
-                        <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                        <Text textAlign={'center'} mb={4} color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                             Cuotas y servicios
                         </Text>
                     </View>
-                    <View style={{ borderColor: Colors.green, borderWidth: 1.5, borderRadius: 8, backgroundColor: Colors.grayLight }}>
+                    <View style={{ borderColor: Colors.primary, borderWidth: 1.5, borderRadius: 8, backgroundColor: Colors.lightGray }}>
                         {
                             loading === true ?
                                 <Skeleton height={50}></Skeleton> :
                                 loading === false &&
-                                <Text textAlign={'center'} bold color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
+                                <Text textAlign={'center'} bold color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'4xl'}>
                                     {dataBalance?.totalBalance?.saldoConsumoRestaurante ? `$${new Intl.NumberFormat('es-MX').format(parseFloat(dataBalance?.totalBalance?.saldoConsumoRestaurante)?.toFixed(2))}` : 'NI'}<Text fontSize={'2xl'}> M.N.</Text>
                                 </Text>
                         }
-                        <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
+                        <Text textAlign={'center'} mb={4} color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
                            Consumos
                         </Text>
                     </View>
 
-                    <Button isLoading={loading} color={Colors.green} mt={5}
+                    <Button isLoading={loading} color={Colors.primary} mt={5}
                             onPress={() => {
                                 getBalanceFunction();
                                 }} 
                     mb={10}>Consultar de nuevo</Button>
 
-                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaBold'} fontSize={'md'}>
+                    <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'md'}>
                         Dudas o aclaraciones por favor comunicarse con la administración del 
                         Club de Golf La Hacienda
                     </Text>

@@ -7,7 +7,7 @@ import iconTrash from "../../assets/iconTrash.png";
 
 const RegistryTableHead = ()=>{
     return (
-        <View flexDirection={'row'} height={33} justifyContent={'center'} alignItems={'center'} bgColor={Colors.greenV2} color={'white'} borderRadius={50} mb={1}
+        <View flexDirection={'row'} height={33} justifyContent={'center'} alignItems={'center'} bgColor={Colors.darkPrimary} color={Colors.bgPrimaryText} borderRadius={50} mb={1}
               style={{
                   shadowColor: '#000',
                   shadowOffset: { width: 0, height: 3 },

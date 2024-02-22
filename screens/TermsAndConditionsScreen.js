@@ -9,7 +9,7 @@ const TermsAndConditionsScreen = ({navigation}) => {
 
     return (
         <View flex={1}>
-            <View bgColor={Colors.green}>
+            <View bgColor={Colors.primary}>
                 <SliderCustom
                     height={180}
                     items={[
@@ -21,19 +21,19 @@ const TermsAndConditionsScreen = ({navigation}) => {
             </View>
             <View flex={1} mx={10}>
                 <ScrollView flexGrow={1} pt={10}>
-                    <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={18}>TÉRMINOS Y CONDICIONES</Text>
-                    <View borderWidth={1} borderColor={Colors.yellow} my={4}/>
-                    <Text color={Colors.gray} fontSize={12}>
+                    <Text color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={18}>TÉRMINOS Y CONDICIONES</Text>
+                    <View borderWidth={1} borderColor={Colors.secondary} my={4}/>
+                    <Text color={Colors.darkGray} fontSize={12}>
                         Lorem ipsum dolor sit amet. Ut dolorem rerum quo molestias praesentium sit soluta fugiat ut maxime necessitatibus sed.
                         {'\n'}{'\n'}
                         Lorem ipsum dolor sit amet. Ut dolorem rerum quo molestias praesentium sit soluta fugiat ut maxime necessitatibus sed .
                     </Text>
-                    <Text color={Colors.gray} fontSize={12}>
+                    <Text color={Colors.darkGray} fontSize={12}>
                         Lorem ipsum dolor sit amet. Ut dolorem rerum quo molestias praesentium sit soluta fugiat ut maxime necessitatibus sed.
                         {'\n'}{'\n'}
                         Lorem ipsum dolor sit amet. Ut dolorem rerum quo molestias praesentium sit soluta fugiat ut maxime necessitatibus sed .
                     </Text>
-                    <Text color={Colors.gray} fontSize={12}>
+                    <Text color={Colors.darkGray} fontSize={12}>
                         Lorem ipsum dolor sit amet. Ut dolorem rerum quo molestias praesentium sit soluta fugiat ut maxime necessitatibus sed.
                         {'\n'}{'\n'}
                         Lorem ipsum dolor sit amet. Ut dolorem rerum quo molestias praesentium sit soluta fugiat ut maxime necessitatibus sed .

@@ -37,7 +37,6 @@ const ModalAddScore = ({visible, setVisible, appDuck,action, numerHole,AssginPoi
             transparent={true}
             visible={visible}
             onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
                 setVisible(!visible);
             }}
         >
@@ -48,7 +47,7 @@ const ModalAddScore = ({visible, setVisible, appDuck,action, numerHole,AssginPoi
                 }}>
                     <LinearGradient
                         // Background Linear Gradient
-                        colors={[Colors.greenV5, Colors.greenV2]}
+                        colors={[Colors.modal.bgColor1, Colors.modal.bgColor2]}
                         style={{
                             position: 'absolute',
                             left: 0,
@@ -58,11 +57,11 @@ const ModalAddScore = ({visible, setVisible, appDuck,action, numerHole,AssginPoi
                             borderRadius: 20
                         }}
                     />
-                    <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.greenV4, borderRadius: 60}}
+                    <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.darkPrimary, borderRadius: 60}}
                                       onPress={() =>{ 
                                         setVisible(false)
                                       }}>
-                        <Icon as={AntDesign} name={'close'} color={'white'} size={'xs'}></Icon>
+                        <Icon as={AntDesign} name={'close'} color={Colors.bgPrimaryText} size={'xs'}></Icon>
                     </TouchableOpacity>
                    
                     <View>
@@ -70,7 +69,7 @@ const ModalAddScore = ({visible, setVisible, appDuck,action, numerHole,AssginPoi
                         <Image  source={golfFlag} style={{width: 60, height: 60}}></Image>   
                         </View>
 
-                        <Text color={Colors.yellow} style={styles.modalText} mt={2} mb={4} fontSize={'2xl'}>Hoyo {numerHole}</Text>
+                        <Text color={Colors.secondary} style={styles.modalText} mt={2} mb={4} fontSize={'2xl'}>Hoyo {numerHole}</Text>
                         <Text style={styles.modalText} mb={1} fontSize={'sm'}>Score</Text>
                     
                         <Input
@@ -87,7 +86,7 @@ const ModalAddScore = ({visible, setVisible, appDuck,action, numerHole,AssginPoi
                             }}
                         />
                         {/* <FormControl isInvalid={validateEmpty} mb={6}>
-                            <FormControl.ErrorMessage _text={{color: "white"}} leftIcon={<WarningOutlineIcon  size="xs" />}>
+                            <FormControl.ErrorMessage _text={{color: CColors.modal.textColor}} leftIcon={<WarningOutlineIcon  size="xs" />}>
                                 El valor no puede ser vacio y deber ser mayor a 0 y maximo {pointsUser} puntos
                             </FormControl.ErrorMessage>
                         </FormControl> */}

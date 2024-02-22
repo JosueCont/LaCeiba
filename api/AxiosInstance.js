@@ -8,7 +8,7 @@ import {loggedAction, loggedOutAction} from "../redux/ducks/appDuck";
 const store = generateStore();
 
 const axiosInstance = axios.create({
-    baseURL: Constants.manifest.extra.production ? Constants.manifest.extra.URL : Constants.manifest.extra.URL_DEV,
+    baseURL: Constants.expoConfig.extra.production ? Constants.expoConfig.extra.URL : Constants.expoConfig.extra.URL_DEV,
     headers: {
         Accept: "application/json",
         Platform: 'app-partner'
@@ -31,7 +31,7 @@ axiosInstance.interceptors.request.use(async (request) => {
                 const {dispatch} = store;
 
                 try {
-                    let baseURL = Constants.manifest.extra.production ? Constants.manifest.extra.URL : Constants.manifest.extra.URL_DEV;
+                    let baseURL = Constants.expoConfig.extra.production ? Constants.expoConfig.extra.URL : Constants.expoConfig.extra.URL_DEV;
                     const response = await axios.post(`${baseURL}/v1/auth/refresh`, {
                         refresh_token: token.refresh_token
                     })

@@ -6,30 +6,28 @@ import {request} from "../api/Methods";
 import {connect} from "react-redux";
 import {ImageBackground, Linking, Platform, RefreshControl, Modal} from "react-native";
 import ModalInfo from "./Modals/ModalInfo";
-import imgLogo from '../assets/imgLogo.png'
 import ViewShot, {captureRef} from 'react-native-view-shot';
 import * as MediaLibrary from 'expo-media-library';
 import {useIsFocused} from "@react-navigation/native";
 import googleWallet from '../assets/googleWallet.png';
 import addToAppleWalletBtn from '../assets/esmx_addtoapplewallet.png'
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { getTokenGoogleWallet, logOut } from "../api/Requests";
+import { TouchableOpacity } from "react-native";
+import { getConfig, getTokenGoogleWallet, logOut } from "../api/Requests";
 import axios from "axios";
 import Constants from "expo-constants";
-import bgButton from "../assets/bgButton.png";
-import iconAccess from "../assets/iconAccess.png";
-import Animated from "react-native-reanimated";
 import {AntDesign} from "@expo/vector-icons";
 import { loggedOutAction } from "../redux/ducks/appDuck";
 
 const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
     const [refreshing, setRefreshing] = useState(null);
     const [imageQRCode, setImageQRCode] = useState(null);
+    const [refreshingLogo, setRefreshingLogo] = useState(null);
+    const [imageLogo, setImageLogo] = useState(null);
     const [modalVisible, setModalVisible] = useState(null);
     const [modalQRPreview, setModalQrPreview] = useState(null);
     const [modalText, setModalText] = useState(null);
     const isFocused = useIsFocused();
-    const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
+    // const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
     const toast = useToast();
 
     const imgRef = useRef();
@@ -57,6 +55,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
     }
 
     useEffect(() => {
+        getConfiguration()
         generateQRCodeFunction()
     }, [])
 
@@ -81,6 +80,18 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
 
     }
 
+    const getConfiguration = async()=>{
+        try{
+            setRefreshingLogo(true)
+            const response =  await getConfig()
+            setImageLogo(response.data.logoBase64)
+        }catch(e){
+            console.log(e)
+        } finally {
+            setRefreshingLogo(false)
+        }
+    }
+
     const captureScreenFunction = () => {
         captureRef(imgRef, {
             format: "png",
@@ -101,7 +112,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
     }
     const addToAppleWallet = async () => {
         try {
-            let baseURL = Constants.manifest.extra.production ? Constants.manifest.extra.URL : Constants.manifest.extra.URL_DEV;
+            let baseURL = Constants.expoConfig.extra.production ? Constants.expoConfig.extra.URL : Constants.expoConfig.extra.URL_DEV;
             const url = `${baseURL}/v1/wallets/users/${appDuck.user.id}/apple`
             const supported = await Linking.canOpenURL(url); //To check if URL is supported or not.
             if (supported) {
@@ -139,7 +150,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
             <ScrollView
                 refreshControl={
                     <RefreshControl
-                        tintColor={Colors.green}
+                        tintColor={Colors.primary}
                         refreshing={refreshing}
                         onRefresh={generateQRCodeFunction}
                     />
@@ -151,41 +162,80 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
 
                         {
                             route.params?.card === true ?
-                                <View height={450} borderColor={Colors.green} borderWidth={0.5} borderRadius={20} overflow={'hidden'}>
-                                    <View flex={0.7} bgColor={Colors.green}>
-                                        <View flex={1} justifyContent={'center'} alignItems={'center'}>
-                                            <Image source={imgLogo} width={100} height={100}></Image>
+                                <View height={450} width={290} bgColor={Colors.partnerCard.bg} borderRadius={20} overflow={'hidden'}>
+                                    {appDuck.user.partner.profilePictureUrl &&
+                                    <View flex={0.8} bgColor={Colors.partnerCard.photoBg}>
+                                        {refreshingLogo === true ? 
+                                            <View flex={1} justifyContent={'center'} alignItems={'center'}>
+                                                        
+                                                <Skeleton width={100} height={100}/>
+                                            </View>
+                                        :
+                                            <View flex={1} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}} padding={4} flexDirection={'row'}>
+                                                <Image 
+                                                    source={{uri: appDuck.user.partner.profilePictureUrl}} 
+                                                    width={'38%'} 
+                                                    height={'100%'} 
+                                                    marginRight={3}
+                                                    style={{maxWidth: '38%', maxHeight: '100%', paddingRight: 4, borderRadius:5, borderWidth: 2, borderColor: Colors.partnerCard.nameBg}}
+                                                />
+                                                <Image source={{uri: imageLogo}} width={'58%'} height={'100%'} style={{maxWidth: '60%', maxHeight: '100%'}}/>
+                                            </View>
+                                        }
+                                        <View bgColor={Colors.partnerCard.nameBg} height={50} justifyContent={'center'}>
+                                            <Text color={Colors.partnerCard.nameTextColor} textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>
                                         </View>
-                                        <View bgColor={Colors.greenV4} height={50} justifyContent={'center'}>
-                                            <Text textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>
+                                    </View>
+                                    ||
+                                    <View flex={0.7} bgColor={Colors.partnerCard.photoBg}>
+                                        <View flex={1} justifyContent={'center'} alignItems={'center'}>
+                                            {
+                                                refreshingLogo === true ?
+                                                    <Skeleton width={100} height={100}/>
+                                                    :
+                                                    <Image source={{uri: imageLogo}} width={100} height={100}/>
+                                            }
+                                        </View>
+                                        <View bgColor={Colors.partnerCard.nameBg} height={50} justifyContent={'center'}>
+                                            <Text color={Colors.partnerCard.nameTextColor} textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>
                                         </View>
 
                                     </View>
-                                    <View flex={1} bgColor={'white'} borderBottomRadius={20}>
+                                    }
+
+                                    <View flex={1} borderBottomRadius={20}>
                                         <View flex={1} alignItems={'center'} justifyContent={'center'}>
                                             {
                                                 refreshing === true ?
                                                     <Skeleton width={150} height={150}/>
                                                     :
                                                     <TouchableOpacity onPress={()=>{ setModalQrPreview(true) }}>
-                                                        <Image source={{uri: imageQRCode}} width={180} height={180}/>
+                                                        <Image source={{uri: imageQRCode}} width={160} height={160}/>
                                                     </TouchableOpacity>
                                             }
                                         </View>
-                                        <View flexDir={'row'} p={3}>
+                                        <View flex={0.32} flexDir={'row'}>
+                                            {Constants.expoConfig.extra.claveSocioAsId &&
+                                                <View flex={1}>
+                                                    <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'xs'}>Clave socio</Text>
+                                                    <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'sm'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.claveSocio}</Text>
+                                                </View>
+                                            ||
+                                            
+                                                <View flex={1}>
+                                                    <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'xs'}>No. de acción</Text>
+                                                    <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'sm'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.accion}</Text>
+                                                </View>
+                                            }
                                             <View flex={1}>
-                                                <Text color={Colors.green} textAlign={'center'} fontSize={'xs'}>No. de acción</Text>
-                                                <Text color={Colors.green} textAlign={'center'} fontSize={'md'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.accion}</Text>
-                                            </View>
-                                            <View flex={1}>
-                                                <Text color={Colors.green} textAlign={'center'} fontSize={'xs'}>Tipo de acción</Text>
-                                                <Text color={Colors.green} textAlign={'center'} fontSize={'md'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.parentesco}</Text>
+                                                <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'xs'}>Tipo de socio</Text>
+                                                <Text color={Colors.partnerCard.textColor} textAlign={'center'} fontSize={'sm'} fontFamily={'titleComfortaaBold'}>{appDuck.user.partner.parentesco}</Text>
                                             </View>
                                         </View>
                                     </View>
                                 </View>
                                 :
-                                <View height={400} borderColor={Colors.green} borderRadius={20} overflow={'hidden'}>
+                                <View height={400} borderColor={Colors.primary} borderRadius={20} overflow={'hidden'}>
                                     <View flex={1} alignItems={'center'} justifyContent={'center'}>
                                         {
                                             refreshing === true ?
@@ -206,10 +256,10 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                     <View mt={10}>
                         {
                             route.params?.card === true ?
-                                <Text color={Colors.green} fontSize={'md'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={6}>
+                                <Text color={Colors.primary} fontSize={'md'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={6}>
                                     Muestra este código en {'\n'}la entrada del club para {'\n'}poder ingresar
                                 </Text> :
-                                <Text color={Colors.green} fontSize={'md'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={6}>
+                                <Text color={Colors.primary} fontSize={'md'} textAlign={'center'} fontFamily={'titleComfortaaBold'} mb={6}>
                                     Muestra este código en {'\n'}la entrada del área que reservó
                                 </Text>
                         }
@@ -221,16 +271,14 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                                 status == 'granted' ?  captureScreenFunction() : validatePermission()}}>Descargar</Button>
                         }
 
-                        <Button mt={2} mb={4} onPress={() => navigation.navigate('HomeScreen')}>Terminar</Button>
-
-                        { Platform.OS == 'android' && Constants.manifest.extra.googleWallet &&
+                        { Platform.OS == 'android' && Constants.expoConfig.extra.googleWallet &&
                             <View flexDirection={'column'} justifyContent={'center'} alignItems={'center'} mt={2}>
                             <TouchableOpacity onPress={()=>{saveToGoogleWallet();}}>
                                 <Image source={googleWallet}></Image>
                             </TouchableOpacity>
                         </View>
                         }
-                        { Platform.OS == 'ios' && Constants.manifest.extra.appleWallet &&
+                        { Platform.OS == 'ios' && Constants.expoConfig.extra.appleWallet &&
                             <View flex={1} mt={2}>
                                 <TouchableOpacity onPress={() => addToAppleWallet()}>
                                     <Image source={addToAppleWalletBtn} style={{width: '100%', resizeMode: 'contain', height:64}}/>
@@ -252,7 +300,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                 >
                     <View flex={1}
                         style={{
-                            backgroundColor: Colors.greenLight
+                            backgroundColor: Colors.gray
                         }}
                     >
                     <View flex={.95} alignItems={'center'} justifyContent={'center'}>
@@ -265,10 +313,10 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                     </View>
                     <View flex={0.5} justifyContent={'center'} alignItems={'center'}>
                         <Button
-                            style={{alignItems: 'center', justifyContent: 'center', width: 50, height: 50, backgroundColor: Colors.greenV4, borderRadius: 60}} 
+                            style={{alignItems: 'center', justifyContent: 'center', width: 50, height: 50, backgroundColor: Colors.darkPrimary, borderRadius: 60}} 
                             onPress={() =>{ setModalQrPreview(!modalQRPreview)  }}
                         >
-                            <Icon as={AntDesign} name={'close'} color={'white'} size={'lg'}></Icon>
+                            <Icon as={AntDesign} name={'close'} color={Colors.bgPrimaryText} size={'lg'}></Icon>
                         </Button>
                     </View></View>
             </Modal>

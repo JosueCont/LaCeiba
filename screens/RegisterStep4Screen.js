@@ -13,6 +13,7 @@ import {Alert, TouchableOpacity} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
 import {errorCapture, genders} from "../utils";
 import * as Notifications from 'expo-notifications';
+import { Colors } from "../Colors";
 
 const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) => {
     const [modalCompletedVisible, setModalCompletedVisible] = useState(null)
@@ -57,12 +58,12 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
             let data = {
                 firstName: navigationDuck.user.firstName,
                 lastName: navigationDuck.user.lastName,
-                email: values.email,//Constants.manifest.extra.debug === true ? aliasGenerate(Constants.manifest.extra.debugEmail) : navigationDuck.user.email,
+                email: values.email,//Constants.expoConfig.extra.debug === true ? aliasGenerate(Constants.expoConfig.extra.debugEmail) : navigationDuck.user.email,
                 password: values.password,
                 confirm: values.passwordConfirm,
                 claveSocio: navigationDuck.user.claveSocio,
                 countryCode: route?.params?.countryCode ? '+' + route?.params?.countryCode : '',
-                phone: navigationDuck.user.celular.length > 0 ? navigationDuck.user.celular : navigationDuck.user.telefono
+                phone: navigationDuck.user?.celular && navigationDuck.user?.celular.length > 0 ? navigationDuck.user.celular : navigationDuck.user.telefono
             }
             if(values.gender !== ''){
                 data = {...data, gender: values.gender}
@@ -95,7 +96,7 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
             const response = await registerPartner(data, {headers: headers});
 
             console.log('registerPartnerFuncion', response.data)
-         /*   if (Constants.manifest.extra.debug === true) {
+         /*   if (Constants.expoConfig.extra.debug === true) {
                 alert(data['email'].toString())
             }*/
 
@@ -146,7 +147,7 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
             <View flex={1}>
                 <View mx={20} mt={10}>
                     <Text fontSize={'5xl'} textAlign={'center'} fontFamily={'titleLight'} mb={4}>Registro</Text>
-                    <View alignSelf={'center'} width={'100%'} borderWidth={1} borderColor={'#FFB718'} mb={8}/>
+                    <View alignSelf={'center'} width={'100%'} borderWidth={1} borderColor={Colors.secondary} mb={8}/>
                     <FormControl isInvalid={errors.email} mb={4}>
                         <Text textAlign={'center'} mb={2}>Correo electrónico</Text>
                         <Input
@@ -201,7 +202,8 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
                             {errors.passwordConfirm}
                         </FormControl.ErrorMessage>
                     </FormControl>
-                    <Button onPress={() => handleSubmit()}>Continuar</Button>
+                    <Button onPress={() => handleSubmit()} mb={2}>Continuar</Button>
+                    <Button onPress={() => navigation.goBack()}>Regresar</Button>
                 </View>
             </View>
             <ModalInfo

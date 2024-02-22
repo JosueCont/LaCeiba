@@ -4,7 +4,7 @@ import {Colors} from "../../Colors";
 
 const LayoutV5 = ({children, overlay = false, white = false, bounces = false}) => {
     return (
-        <View flex={1} bgColor={white ? '#fff' : Colors.greenLight}>
+        <View flex={1} bgColor={white ? '#fff' : Colors.gray}>
             <View style={{flex: 1}}>
                 {children}
             </View>

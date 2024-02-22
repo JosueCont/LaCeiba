@@ -1,10 +1,11 @@
 import React from 'react';
 import {KeyboardAvoidingView, View} from "native-base";
 import {Platform} from "react-native";
+import { Colors } from '../../Colors';
 
 const LayoutV3 = ({children, overlay = false}) => {
     return (
-        <KeyboardAvoidingView flexGrow={1} behavior={Platform.OS === 'ios' ? 'height' : 'padding'} backgroundColor={'#D0DAD6'}>
+        <KeyboardAvoidingView flexGrow={1} behavior={Platform.OS === 'ios' ? 'height' : 'padding'} backgroundColor={Colors.gray}>
             <View flex={1}>
                 <View style={{flex: 1}}>
                     {

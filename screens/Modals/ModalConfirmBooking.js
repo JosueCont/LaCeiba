@@ -16,7 +16,6 @@ const ModalConfirmBooking = ({visible, setVisible, text = 'Texto informativo', t
             transparent={true}
             visible={visible}
             onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
                 setVisible(!visible);
             }}
         >
@@ -26,7 +25,7 @@ const ModalConfirmBooking = ({visible, setVisible, text = 'Texto informativo', t
                     setHeightGradient(height)
                 }}>
                     <LinearGradient
-                        colors={[Colors.greenV5, Colors.greenV2]}
+                        colors={[Colors.modal.bgColor1, Colors.modal.bgColor2]}
                         style={{
                             position: 'absolute',
                             left: 0,
@@ -36,12 +35,12 @@ const ModalConfirmBooking = ({visible, setVisible, text = 'Texto informativo', t
                             borderRadius: 20
                         }}
                     />
-                    <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.greenV4, borderRadius: 60}}
+                    <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.darkPrimary, borderRadius: 60}}
                                       onPress={() => setVisible(false)}>
-                        <Icon as={AntDesign} name={'close'} color={'white'} size={'xs'}></Icon>
+                        <Icon as={AntDesign} name={'close'} color={Colors.bgPrimaryText} size={'xs'}></Icon>
                     </TouchableOpacity>
                     <View mb={10} width={'100%'} alignItems={'center'} justifyContent={'center'}>
-                        <Icon as={AntDesign} name={'questioncircleo'} color={Colors.yellow} size={'2xl'}/>
+                        <Icon as={AntDesign} name={'questioncircleo'} color={Colors.secondary} size={'2xl'}/>
                     </View>
                     <View>
                         <Text style={styles.modalText} mb={6} fontSize={'lg'} fontFamily={'titleConfortaaRegular'}>{text}</Text>

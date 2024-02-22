@@ -21,6 +21,7 @@ import imgLogo from "../assets/imgLogo.png";
 import {logOut} from "../api/Requests";
 import { setAttribute } from '../redux/ducks/navigationDuck';
 import Constants from "expo-constants";
+import { imageImport } from "../organizations/assets/ImageImporter";
 
 
 const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
@@ -45,12 +46,22 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
         <DrawerContentScrollView
             bounces={false}
             nestedScrollEnabled={true}
-            contentContainerStyle={{flex: 1, backgroundColor: Colors.greenV4}}>
+            contentContainerStyle={{flex: 1, backgroundColor: Colors.sideMenu.bg}}>
 
 
             <View my={10} alignItems={'center'} justifyContent={'center'}>
-                <Image source={imgLogo} width={161} height={120} borderRadius={60} resizeMode={'stretch'}></Image>
-                <Text fontSize={'md'} mt={5} textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>
+                {appDuck.user.partner.profilePictureUrl &&
+                        <Image 
+                            source={{uri: appDuck.user.partner.profilePictureUrl}} 
+                            width={120} 
+                            height={120} 
+                            marginRight={3}
+                            style={{borderRadius:60, borderWidth: 2, borderColor: Colors.partnerCard.nameBg}}
+                        />
+                    || 
+                    <Image source={imageImport(Constants.expoConfig.slug).logo} width={161} height={120} borderRadius={60} resizeMode={'stretch'}></Image>
+                } 
+                <Text color={Colors.sideMenu.textColor} fontSize={'md'} mt={5} textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>
             </View>
             <View flex={1}>
             <ScrollView flexGrow={1} showsVerticalScrollIndicator={false}>
@@ -60,7 +71,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconHome} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Home</Text>
+                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Home</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -71,59 +82,69 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconProfile} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Mi perfil</Text>
+                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Mi perfil</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
-                  <TouchableOpacity onPress={() => navigation.navigate('MembersScreen')}>
-                    <View flexDirection={'row'} mb={4}>
-                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                            <Image source={iconMembers} style={{width: 20, height: 20}}></Image>
+                {Constants.expoConfig.extra.additionalMembers && 
+                    <TouchableOpacity onPress={() => navigation.navigate('MembersScreen')}>
+                        <View flexDirection={'row'} mb={4}>
+                            <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                                <Image source={iconMembers} style={{width: 20, height: 20}}></Image>
+                            </View>
+                            <View flex={1} justifyContent={'center'}>
+                                <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Miembros adicionales</Text>
+                            </View>
                         </View>
-                        <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Miembros adicionales</Text>
+                    </TouchableOpacity> 
+                }
+                
+                {Constants.expoConfig.extra.booking && 
+                    <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen')}>
+                        <View flexDirection={'row'} mb={4}>
+                            <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                                <Image source={iconBooking} style={{width: 20, height: 20}}></Image>
+                            </View>
+                            <View flex={1} justifyContent={'center'}>
+                                <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Mis reservaciones</Text>
+                            </View>
                         </View>
-                    </View>
-                </TouchableOpacity> 
-                <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen')}>
+                    </TouchableOpacity>
+                }
+                
+                {Constants.expoConfig.extra.gests && 
+                    <TouchableOpacity onPress={() => navigation.navigate('GuestsScreen')}>
+                        <View flexDirection={'row'} mb={4}>
+                            <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                                <Image source={iconGuestsSmall} style={{width: 20, height: 20}}></Image>
+                            </View>
+                            <View flex={1} justifyContent={'center'}>
+                                <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>{Constants.expoConfig.extra.freeGuestsName || 'Invitados sin costo'}</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                }
+                
+                {Constants.expoConfig.extra.booking && Constants.expoConfig.extra.matches && 
+                    <TouchableOpacity onPress={() => navigation.navigate('MatchesScreen')}>
+                        <View flexDirection={'row'} mb={4}>
+                            <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                                <Image source={iconMatches} style={{width: 20, height: 20}}></Image>
+                            </View>
+                            <View flex={1} justifyContent={'center'}>
+                                <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Juegos</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                }
 
-                    <View flexDirection={'row'} mb={4}>
-                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                            <Image source={iconBooking} style={{width: 20, height: 20}}></Image>
-                        </View>
-                        <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Mis reservaciones</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('GuestsScreen')}>
-
-                    <View flexDirection={'row'} mb={4}>
-                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                            <Image source={iconGuestsSmall} style={{width: 20, height: 20}}></Image>
-                        </View>
-                        <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Invitados a Restaurantes</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('MatchesScreen')}>
-                <View flexDirection={'row'} mb={4}>
-                       <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                           <Image source={iconMatches} style={{width: 20, height: 20}}></Image>
-                       </View>
-                       <View flex={1} justifyContent={'center'}>
-                           <Text fontSize={'sm'}>Juegos</Text>
-                       </View>
-                   </View>
-                </TouchableOpacity>
                 {/*<TouchableOpacity onPress={() => navigation.navigate('GroupsScreen')}>*/}
                 {/*    <View flexDirection={'row'} mb={4}>*/}
                 {/*        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>*/}
                 {/*            <Image source={iconGroupPermanent} style={{width: 20, height: 20}}></Image>*/}
                 {/*        </View>*/}
                 {/*        <View flex={1} justifyContent={'center'}>*/}
-                {/*            <Text fontSize={'md'}>Grupos fijos</Text>*/}
+                {/*            <Text color={Colors.sideMenu.textColor} fontSize={'md'}>Grupos fijos</Text>*/}
                 {/*        </View>*/}
                 {/*    </View>*/}
                 {/*</TouchableOpacity>*/}
@@ -133,7 +154,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                 {/*            <Image source={iconTransactions} style={{width: 20, height: 20}}></Image>*/}
                 {/*        </View>*/}
                 {/*        <View flex={1} justifyContent={'center'}>*/}
-                {/*            <Text fontSize={'md'}>Transacciones</Text>*/}
+                {/*            <Text color={Colors.sideMenu.textColor} fontSize={'md'}>Transacciones</Text>*/}
                 {/*        </View>*/}
                 {/*    </View>*/}
                 {/*</TouchableOpacity>*/}
@@ -143,7 +164,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                 {/*            <Image source={iconStatistics} style={{width: 20, height: 20}}></Image>*/}
                 {/*        </View>*/}
                 {/*        <View flex={1} justifyContent={'center'}>*/}
-                {/*            <Text fontSize={'md'}>Estadísticas</Text>*/}
+                {/*            <Text color={Colors.sideMenu.textColor} fontSize={'md'}>Estadísticas</Text>*/}
                 {/*        </View>*/}
                 {/*    </View>*/}
                 {/*</TouchableOpacity>*/}
@@ -154,27 +175,30 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                 {/*            <Image source={iconsInvocing} style={{width: 20, height: 20}}></Image>*/}
                 {/*        </View>*/}
                 {/*        <View flex={1} justifyContent={'center'}>*/}
-                {/*            <Text fontSize={'md'}>Facturación</Text>*/}
+                {/*            <Text color={Colors.sideMenu.textColor} fontSize={'md'}>Facturación</Text>*/}
                 {/*        </View>*/}
                 {/*    </View>*/}
                 {/*</TouchableOpacity>*/}
-                <TouchableOpacity onPress={() => navigation.navigate('BalanceScreen')}>
-                    <View flexDirection={'row'} mb={4}>
-                        <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
-                            <Image source={iconBalance} style={{width: 20, height: 20}}></Image>
+
+                { Constants.expoConfig.extra.balance &&
+                    <TouchableOpacity onPress={() => navigation.navigate('BalanceScreen')}>
+                        <View flexDirection={'row'} mb={4}>
+                            <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
+                                <Image source={iconBalance} style={{width: 20, height: 20}}></Image>
+                            </View>
+                            <View flex={1} justifyContent={'center'}>
+                                <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Saldos</Text>
+                            </View>
                         </View>
-                        <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Saldos</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
+                    </TouchableOpacity>
+                }
                 <TouchableOpacity onPress={() => navigation.navigate('NotificationsScreen')}>
                     <View flexDirection={'row'} mb={4}>
                         <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
                             <Image source={iconNotifications} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Notificaciones</Text>
+                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Notificaciones</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -184,19 +208,19 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconHelp} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Club de Golf La Hacienda</Text>
+                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>{Constants.expoConfig.extra.helpContentName || 'Ayuda'}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
 
-                { Constants.manifest.extra.eCommerce &&
+                { Constants.expoConfig.extra.eCommerce &&
                     <TouchableOpacity onPress={() => navigation.navigate('BuysScreen')}>
                         <View flexDirection={'row'} mb={4}>
                             <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
                                 <Image source={iconStore} style={{width: 20, height: 20}}></Image>
                             </View>
                             <View flex={1} justifyContent={'center'}>
-                                <Text fontSize={'sm'}>Mis compras</Text>
+                                <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Mis compras</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -209,7 +233,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             <Image source={iconLogout} style={{width: 20, height: 20}}></Image>
                         </View>
                         <View flex={1} justifyContent={'center'}>
-                            <Text fontSize={'sm'}>Cerrar sesión</Text>
+                            <Text color={Colors.sideMenu.textColor} fontSize={'sm'}>Cerrar sesión</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -218,7 +242,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
             </View>
 
                 <View flex={0.1} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
-                    <Text>V. {Constants.manifest.version}</Text>
+                    <Text color={Colors.sideMenu.textColor}>V. {Constants.expoConfig.version}</Text>
                 </View>
 
             <ModalAsk

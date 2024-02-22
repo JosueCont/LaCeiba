@@ -38,7 +38,7 @@ const VideoPlayer = ({navigation, route}) => {
     return (
         <LayoutV3>
             <View flex={1}>
-                <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>Documentos de ayuda</Text>
+                <Text textAlign={'center'} mt={10} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>Documentos de ayuda</Text>
 
 
                 <View flex={1}>
@@ -58,7 +58,7 @@ const VideoPlayer = ({navigation, route}) => {
                             startInLoadingState={true}
                             renderLoading={() => (
                                 <View width={'100%'} height={'100%'} alignItems={'center'} justifyContent={'center'}>
-                                    <Spinner size={'lg'} key={'abc'} color={Colors.green}/>
+                                    <Spinner size={'lg'} key={'abc'} color={Colors.primary}/>
                                 </View>
                             )}
                             automaticallyAdjustContentInsets={false}

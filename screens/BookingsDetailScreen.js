@@ -13,9 +13,10 @@ import ModalAsk from "./Modals/ModalAsk";
 import ModalInfo from "./Modals/ModalInfo";
 import { Table, Row } from 'react-native-table-component';
 import {AntDesign} from "@expo/vector-icons";
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
 import ViewShot, { captureRef } from 'react-native-view-shot';
 import * as Sharing from "expo-sharing"
+import Constants from 'expo-constants';
 
 moment.tz.setDefault("America/Mexico_City");
 
@@ -105,7 +106,6 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
             setAdditionals(response.data)
             setLoading(false)
         } catch (e) {
-            alert(JSON.stringify(e))
             console.log(e)
         }
     }
@@ -119,7 +119,6 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
             setInvitation(response.data)
             setLoading(false)
         } catch (e) {
-            alert(JSON.stringify(e))
             console.log(e)
         }
     }
@@ -136,7 +135,6 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
             }
         } catch (e) {
             console.log(JSON.stringify(e))
-            alert(JSON.stringify(e))
         }
     }
 
@@ -146,29 +144,30 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
         wrapper: { flexDirection: 'row' },
         title: {backgroundColor: 'transparent',},
         row: {  height: 120 },
-        textHead: {textAlign: 'center' ,color: Colors.green, fontWeight:'bold' },
-        text: { textAlign: 'center' ,color: Colors.green, fontWeight:'normal', fontSize: 10 },
-        textRow: { textAlign: 'center' ,color: Colors.green }
+        textHead: {textAlign: 'center' ,color: Colors.primary, fontWeight:'bold' },
+        text: { textAlign: 'center' ,color: Colors.primary, fontWeight:'normal', fontSize: 10 },
+        textRow: { textAlign: 'center' ,color: Colors.primary }
 
       });
 
       const statusCell = (status) => {
         const statusText = status == "PENDING" ? "Pendiente" : status == "CONFIRMED" ? "Confirmado" : "Rechazado";
         const icon = status == "PENDING" ? "exclamationcircleo" : status == "CONFIRMED" ? "checkcircleo" : "close";
-        const color = status == "PENDING" ? Colors.yellow : status == "CONFIRMED" ? Colors.green : Colors.red;
+        const color = status == "PENDING" ? Colors.secondary : status == "CONFIRMED" ? Colors.primary : Colors.red;
         return (
             <View style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
                 <Icon as={AntDesign} name={icon} color={color} size={'sm'} mr={2} />
-                <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={12} textAlign={'center'}>{statusText}</Text>
+                <Text color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={12} textAlign={'center'}>{statusText}</Text>
             </View>
         )
       }
 
       const qrCell = (bookingInvitation) => {
+        console.log(bookingInvitation)
         return (
             <View style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
                 <TouchableOpacity onPress={()=>{onModalQrPreview(bookingInvitation)}}>
-                    <Icon as={AntDesign} name={'qrcode'} color={Colors.green} size={'sm'} />
+                    <Icon as={AntDesign} name={'qrcode'} color={Colors.primary} size={'sm'} />
                 </TouchableOpacity>
             </View>
         )
@@ -213,7 +212,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
 
     return (
         <View flex={1}>
-            {/* <View bgColor={Colors.green}>
+            {/* <View bgColor={Colors.primary}>
                 <SliderCustom
                     height={190}
                     items={[
@@ -223,38 +222,38 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                     position={sliderPosition}
                     setPosition={setSliderPosition}/>
             </View> */}
-            {!invitation && <Spinner color={Colors.green} size={'lg'} /> ||
+            {!invitation && <Spinner color={Colors.primary} size={'lg'} /> ||
                 <View flex={1}>
                     <ScrollView flexGrow={1} pt={10} showsVerticalScrollIndicator={false}>
                         <View flex={1} mx={10} mb={'20'}>
-                            <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={22} textAlign={'center'}>{invitation.booking?.area?.service?.name}</Text>
-                            {!invitation?.booking?.area?.service?.isGolf &&  <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={17} textAlign={'center'}>({invitation.booking.area.name})</Text> }
+                            <Text color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={22} textAlign={'center'}>{invitation.booking?.area?.service?.name}</Text>
+                            {!invitation?.booking?.area?.service?.isGolf &&  <Text color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={17} textAlign={'center'}>({invitation.booking.area.name})</Text> }
                             {invitation?.booking?.numHoles &&  <>
-                                <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={17} textAlign={'center'}>{invitation.booking.numHoles} HOYOS, INICIANDO EN EL {invitation.booking.area?.name?.toUpperCase()}  </Text>
-                                <View borderWidth={1} borderColor={Colors.yellow} my={4}/>
+                                <Text color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={17} textAlign={'center'}>{invitation.booking.numHoles} HOYOS, INICIANDO EN EL {invitation.booking.area?.name?.toUpperCase()}  </Text>
+                                <View borderWidth={1} borderColor={Colors.secondary} my={4}/>
                             </> }
-                            <Text color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={16} textAlign={'center'}>ID DE RESERVACIÓN: {invitation.booking.id}</Text>
-                            {invitation.booking?.fixedGroupId && <Text color={Colors.green} textAlign={'center'} fontFamily={'titleConfortaaRegular'} fontSize={15}>(Grupo fijo)</Text>}
-                            <View borderWidth={1} borderColor={Colors.yellow} my={4}/>
+                            <Text color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={16} textAlign={'center'}>ID DE RESERVACIÓN: {invitation.booking.id}</Text>
+                            {invitation.booking?.fixedGroupId && <Text color={Colors.primary} textAlign={'center'} fontFamily={'titleConfortaaRegular'} fontSize={15}>(Grupo fijo)</Text>}
+                            <View borderWidth={1} borderColor={Colors.secondary} my={4}/>
 
                             <View mx={10} mb={6} alignItems={'center'}>
-                                <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>FECHA Y HORA</Text>
-                                <Text color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
+                                <Text my={5} mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>FECHA Y HORA</Text>
+                                <Text color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={15}>
                                     {moment(invitation?.booking?.dueDate, "YYYY-MM-DD").format("DD/MM/YYYY")}
 
                                 </Text>
-                                <Text color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
+                                <Text color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={15}>
                                     {moment(invitation?.booking?.dueTime, "HH:mm").format("hh:mm a")}
                                 </Text>
                             </View>
                                 {
                                     invitation?.booking?.invitations.filter((currentBooking) => currentBooking.user != null).length > 0 &&
-                                    <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>SOCIOS</Text>
+                                    <Text my={5} mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>SOCIOS</Text>
                                 }
                                 {
                                     <View style={{width: '100%'}}>
                                         <View style={{width: '100%'}} mt={5} mb={10}>
-                                            <Table style={styles.container} borderStyle={{borderWidth: 1, borderColor: Colors.green}} color={Colors.green}>
+                                            <Table style={styles.container} borderStyle={{borderWidth: 1, borderColor: Colors.primary}} color={Colors.primary}>
                                                 <Row data={['Estatus', 'Socio', 'Qr']} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.textHead}/>
                                                 {
                                                     invitation?.booking?.invitations?.map((currentBooking, index) => {
@@ -274,11 +273,11 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                 {
                                     invitation?.booking?.invitations.filter((currentBooking) => currentBooking.user == null).length > 0 &&
                                     <View>
-                                        <Text my={5} mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>INVITADOS</Text>
+                                        <Text my={5} mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>INVITADOS</Text>
                                     
                                         <View style={{width: '100%'}}>
                                             <View style={{width: '100%'}} mt={5} mb={10}>
-                                                <Table style={styles.container} borderStyle={{borderWidth: 1, borderColor: Colors.green}} color={Colors.green}>
+                                                <Table style={styles.container} borderStyle={{borderWidth: 1, borderColor: Colors.primary}} color={Colors.primary}>
                                                     <Row data={['Invitado', 'Qr']} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.textHead}/>
                                                     {
                                                         invitation?.booking?.invitations?.map((currentBooking, index) => {
@@ -291,7 +290,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                                             );
                                                         /*  return (
                                                                 currentBooking.guestName &&
-                                                                <Text key={index} textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={15}>
+                                                                <Text key={index} textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={15}>
                                                                     {currentBooking?.guestName}
                                                                 </Text>
 
@@ -307,7 +306,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                             {
                                 invitation?.status === 'PENDING' && additionals.length > 0  && !invitation?.booking?.deletedAt &&
                                 <View mb={10} pl={2}>
-                                    <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                    <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                         Adicionales
                                     </Text>
                                     {
@@ -320,11 +319,11 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                                     setGroupValues(v)
                                                 }}
                                                 _checkbox={{
-                                                    bgColor: 'white',
+                                                    bgColor: '#fff',
                                                     borderWidth: 0.5,
                                                     _checked: {
-                                                        bgColor: Colors.green,
-                                                        borderColor: Colors.green
+                                                        bgColor: Colors.primary,
+                                                        borderColor: Colors.primary
                                                     },
                                                     _icon: {
                                                         color: '#fff'
@@ -349,11 +348,11 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                             {
                                 (invitation?.status === 'CONFIRMED' && additionals.length > 0) &&
                                 <View mb={6}>
-                                    <Text mb={2} textAlign={'center'} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>SERVICIOS ADICIONALES</Text>
+                                    <Text mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>SERVICIOS ADICIONALES</Text>
                                     {
                                         additionals.map((item, idx) => {
                                             return (
-                                                <Text key={idx} textAlign={'center'} color={Colors.green}>
+                                                <Text key={idx} textAlign={'center'} color={Colors.primary}>
                                                     {_.upperFirst(item.descServicio.toLowerCase())}
                                                 </Text>
 
@@ -369,7 +368,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                         setActionBook("Confirm");
                                         setOpenModal(true);
                                     }} mb={4}>Confirmar</Button>
-                                    <Button colorScheme={'red'} onPress={() => {
+                                    <Button bgColor={Colors.red} onPress={() => {
                                         setActionBook("Reject");
                                         setOpenModal(true);
                                     }} mb={4}>Rechazar</Button>
@@ -383,7 +382,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                     {!invitation.booking?.fixedGroupId && invitation?.booking?.hostedBy.id === appDuck.user.id && !invitation?.booking?.deletedAt &&
 
                                         <Button
-                                            colorScheme={'red'}
+                                            bgColor={Colors.red}
                                             onPress={() => {
                                                 if ( dueDate > dateNow) {
                                                     setModalCancelVisible(true)
@@ -403,7 +402,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                 <View>
 
                                         <Button
-                                            colorScheme={'red'}
+                                            bgColor={Colors.red}
                                             mb={4}>Reservación cancelada</Button>                        
                                 </View>
                             }
@@ -448,11 +447,11 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                             setModalQrPreview(!modalQRPreview)
                         }}
                         >
-                        <View pt={10} pb={10} flex={1} style={{ backgroundColor: Colors.greenLight }}>
+                        <View pt={10} pb={10} flex={1} style={{ backgroundColor: Colors.gray }}>
                             <View flex={1} alignItems={'center'} justifyContent={'center'}>
                                 <ViewShot ref={imgRef}>
-                                    <View padding={2} style={{ backgroundColor: Colors.greenLight }}>
-                                        <Text color={Colors.green} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'}>
+                                    <View padding={2} style={{ backgroundColor: Colors.gray }}>
+                                        <Text color={Colors.primary} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'}>
                                             {qrOwnerName}
                                         </Text>
                                         {
@@ -461,7 +460,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                                 :
                                                 <Image source={{uri: imageQRCode}} width={280} height={280}/>
                                         }
-                                        <Text color={Colors.green} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'}>
+                                        <Text color={Colors.primary} fontSize={'lg'} textAlign={'center'} fontFamily={'titleComfortaaBold'}>
                                             Código: {qrCode}
                                         </Text>
                                     </View>
@@ -470,10 +469,10 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                             </View>
                             <View flex={0.25} justifyContent={'center'} alignItems={'center'}>
                                 <Button
-                                    style={{alignItems: 'center', justifyContent: 'center', width: 50, height: 50, backgroundColor: Colors.greenV4, borderRadius: 60}} 
+                                    style={{alignItems: 'center', justifyContent: 'center', width: 50, height: 50, backgroundColor: Colors.darkPrimary, borderRadius: 60}} 
                                     onPress={() =>{ setModalQrPreview(!modalQRPreview)  }}
                                 >
-                                    <Icon as={AntDesign} name={'close'} color={'white'} size={'lg'}></Icon>
+                                    <Icon as={AntDesign} name={'close'} color={Colors.bgPrimaryText} size={'lg'}></Icon>
                                 </Button>
                             </View>
                         </View>

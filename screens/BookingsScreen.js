@@ -83,14 +83,14 @@ const BookingsScreen = ({navigation, loggedOutAction, appDuck}) => {
                     showsVerticalScrollIndicator={false}
                     refreshControl={
                         <RefreshControl
-                            tintColor={Colors.green}
+                            tintColor={Colors.primary}
                             refreshing={loading}
                             onRefresh={getData}
                         />
                     }
                     flexGrow={1}>
 
-                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>MIS RESERVACIONES</Text>
+                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>MIS RESERVACIONES</Text>
 
                     { !emptyBookings &&
                         invitations.map((invitation, index) => {
@@ -110,7 +110,7 @@ const BookingsScreen = ({navigation, loggedOutAction, appDuck}) => {
 
                     {
                        emptyBookings && 
-                       <Text textAlign={'center'} mt={5} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'md'}>Sin Reservaciones</Text>
+                       <Text textAlign={'center'} mt={5} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'md'}>Sin Reservaciones</Text>
                     }
                 </ScrollView>
             </View>

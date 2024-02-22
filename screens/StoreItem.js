@@ -19,13 +19,13 @@ const StoreItem = ({ navigation, product='', mb = 2, image='', title='', price=1
                 elevation: 3
             }}>
                 <Image borderRadius={20} source={{uri:product.image}} style={{ width: '100%', height: '100%' }}></Image>
-            <View flexDirection={'row'} paddingX={4} alignItems={'center'} justifyContent={'space-between'} width={'100%'} position={'absolute'} height={'60px'} top={'116px'} bgColor={Colors.green} borderBottomRadius={20}>
+            <View flexDirection={'row'} paddingX={4} alignItems={'center'} justifyContent={'space-between'} width={'100%'} position={'absolute'} height={'60px'} top={'116px'} bgColor={Colors.primary} borderBottomRadius={20}>
                 <View flexDirection={'column'}>
-                <Text color={Colors.yellow} fontSize={'14px'} justifyItems={'center'} fontFamily={'titleConfortaaRegular'}>{product.name}</Text>
-                <Text color={'white'} fontSize={'14px'} justifyItems={'center'} fontFamily={'titleConfortaaRegular'}>$ {price.toLocaleString('en-US')}.00</Text>
+                <Text color={Colors.secondary} fontSize={'14px'} justifyItems={'center'} fontFamily={'titleConfortaaRegular'}>{product.name}</Text>
+                <Text color={Colors.textWhite} fontSize={'14px'} justifyItems={'center'} fontFamily={'titleConfortaaRegular'}>$ {price.toLocaleString('en-US')}.00</Text>
                 </View>
                 <View>
-                    <Button onPress={() => navigation.navigate('StoreItemDetail',{product})} borderRadius={10} width={100} p={1} bg={'#fff'} _pressed={{ backgroundColor: '#d1d1d1' }} _text={{ color: Colors.green, fontFamily: 'titleConfortaaRegular' }}>Ver detalles</Button>
+                    <Button onPress={() => navigation.navigate('StoreItemDetail',{product})} borderRadius={10} width={100} p={1} bg={'#fff'} _pressed={{ backgroundColor: Colors.lightGray }} _text={{ color: Colors.primary, fontFamily: 'titleConfortaaRegular' }}>Ver detalles</Button>
                 </View>
             </View>
         </View>

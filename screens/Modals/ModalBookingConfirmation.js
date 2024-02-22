@@ -49,7 +49,6 @@ const ModalBookingConfirmation = ({visible, setVisible, date, hour, people, onCo
             transparent={true}
             visible={visible}
             onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
                 setVisible(!visible);
             }}
         >
@@ -59,7 +58,7 @@ const ModalBookingConfirmation = ({visible, setVisible, date, hour, people, onCo
                     setHeightGradient(height)
                 }}>
                     <LinearGradient
-                        colors={[Colors.greenV5, Colors.greenV2]}
+                        colors={[Colors.modal.bgColor1, Colors.modal.bgColor2]}
                         style={{
                             position: 'absolute',
                             left: 0,
@@ -69,22 +68,22 @@ const ModalBookingConfirmation = ({visible, setVisible, date, hour, people, onCo
                             borderRadius: 20
                         }}
                     />
-                    <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.greenV4, borderRadius: 60}}
+                    <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.darkPrimary, borderRadius: 60}}
                                       onPress={() =>{
                                         setCustomSend(false)
                                         setFieldValue('email', partnerHost.email)
                                         setFieldTouched('email', false)
                                         setVisible(false)
                                       }}>
-                        <Icon as={AntDesign} name={'close'} color={'white'} size={'xs'}></Icon>
+                        <Icon as={AntDesign} name={'close'} color={Colors.bgPrimaryText} size={'xs'}></Icon>
                     </TouchableOpacity>
                     {/*<View mb={10} width={'100%'} alignItems={'center'} justifyContent={'center'}>*/}
-                    {/*    <Icon as={AntDesign} name={'questioncircleo'} color={Colors.yellow} size={'2xl'}/>*/}
+                    {/*    <Icon as={AntDesign} name={'questioncircleo'} color={Colors.secondary} size={'2xl'}/>*/}
                     {/*</View>*/}
                     {!customSend ?
                         <View width={'100%'}>
-                            <Text style={styles.modalText} fontSize={'2xl'} fontFamily={'titleConfortaaBold'} textAlign={'center'} color={Colors.yellow}>Confirmación de la {'\n'}reservación</Text>
-                            <View my={3} alignSelf={'center'} width={200} borderWidth={1} borderColor={Colors.yellow}/>
+                            <Text style={styles.modalText} fontSize={'2xl'} fontFamily={'titleConfortaaBold'} textAlign={'center'} color={Colors.secondary}>Confirmación de la {'\n'}reservación</Text>
+                            <View my={3} alignSelf={'center'} width={200} borderWidth={1} borderColor={Colors.secondary}/>
 
                             <Text style={styles.modalText} fontSize={'xl'} fontFamily={'titleConfortaaBold'}>Fecha y hora:</Text>
                             <Text style={styles.modalText} fontSize={'md'} fontFamily={'titleConfortaaRegular'}>{moment(date).format('LL')}</Text>
@@ -101,10 +100,10 @@ const ModalBookingConfirmation = ({visible, setVisible, date, hour, people, onCo
                                     }}>
                                         <Text textAlign={'center'}>Confirmar y enviar invitaciones individuales</Text>
                                         </Button>
-                                    <Button colorScheme={'green'} variant={'link'} rightIcon={<Icon as={MaterialIcons} name={'arrow-forward-ios'} color={'white'} />} onPress={() => {
+                                    <Button colorScheme={'green'} variant={'link'} rightIcon={<Icon as={MaterialIcons} name={'arrow-forward-ios'} color={Colors.modal.textColor} />} onPress={() => {
                                         setCustomSend(true);
                                     }}>
-                                        <Text textAlign={'center'}>Enviar invitaciones a mi correo</Text>
+                                        <Text style={styles.modalText} textAlign={'center'}>Enviar invitaciones a mi correo</Text>
                                     </Button>
                                     {/* <Button mb={2} colorScheme={'green'} onPress={() => setVisible(false)}>Regresar</Button> */}
                                 </View>
@@ -124,8 +123,8 @@ const ModalBookingConfirmation = ({visible, setVisible, date, hour, people, onCo
                                     onBlur={()=> setFieldTouched('email', true)}
                                 />
                             <FormControl isInvalid={errors.email} mb={2}>
-                                <FormControl.ErrorMessage>
-                                    <Text color={'white'}>{errors.email && touched.email ? errors.email : ''}</Text>
+                                <FormControl.ErrorMessage _text={{color: Colors.modal.textColor}}>
+                                    {errors.email && touched.email ? errors.email : ''}
                                 </FormControl.ErrorMessage>
                             </FormControl>
                             <View flexDirection={'row'}>
@@ -133,10 +132,10 @@ const ModalBookingConfirmation = ({visible, setVisible, date, hour, people, onCo
                                     <Button mb={6} colorScheme={'green'} isDisabled={!hour} onPress={() => handleSubmit()}>
                                         <Text textAlign={'center'}>Confirmar y enviar invitaciones a este correo</Text>
                                     </Button>
-                                    <Button colorScheme={'green'} variant={'link'} leftIcon={<Icon as={MaterialIcons} name={'arrow-back-ios'} color={'white'} />} onPress={() => {
+                                    <Button colorScheme={'green'} variant={'link'} leftIcon={<Icon as={MaterialIcons} name={'arrow-back-ios'} color={Colors.modal.textColor} />} onPress={() => {
                                         setCustomSend(false)
                                     }}>
-                                        <Text textAlign={'center'}>Regresar</Text>
+                                        <Text style={styles.modalText} textAlign={'center'}>Regresar</Text>
                                     </Button>
                                 </View>
                             </View>

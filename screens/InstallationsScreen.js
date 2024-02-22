@@ -19,7 +19,7 @@ const InstallationsScreen = ({navigation}) => {
     return (
         <LayoutV4>
             <View flex={1} mx={8}>
-                <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>Conoce nuestras instalaciones</Text>
+                <Text textAlign={'center'} mt={10} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>Conoce nuestras instalaciones</Text>
                 <View flex={1} pt={5}>
 
                     <View mb={6} flexDirection={'row'}>
@@ -31,7 +31,7 @@ const InstallationsScreen = ({navigation}) => {
                                     </ImageBackground>
                                 </View>
                                 <View>
-                                    <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Campo de golf</Text>
+                                    <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Campo de golf</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -42,7 +42,7 @@ const InstallationsScreen = ({navigation}) => {
                                 </ImageBackground>
                             </View>
                             <View>
-                                <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Canchas de Tenis</Text>
+                                <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Canchas de Tenis</Text>
                             </View>
                         </View>
                     </View>
@@ -53,7 +53,7 @@ const InstallationsScreen = ({navigation}) => {
                                 </ImageBackground>
                             </View>
                             <View>
-                                <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Cancha de Padel</Text>
+                                <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Cancha de Padel</Text>
                             </View>
                         </View>
                         <View flex={1}>
@@ -63,7 +63,7 @@ const InstallationsScreen = ({navigation}) => {
                                 </ImageBackground>
                             </View>
                             <View>
-                                <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Gimnasio</Text>
+                                <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Gimnasio</Text>
                             </View>
                         </View>
                     </View>
@@ -75,7 +75,7 @@ const InstallationsScreen = ({navigation}) => {
                                 </ImageBackground>
                             </View>
                             <View>
-                                <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Alberca</Text>
+                                <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Alberca</Text>
                             </View>
                         </View>
                         <View flex={1}>
@@ -84,7 +84,7 @@ const InstallationsScreen = ({navigation}) => {
                                 </ImageBackground>
                             </View>
                             <View>
-                                <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Restaurantes</Text>
+                                <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Restaurantes</Text>
                             </View>
                         </View>
                     </View>
@@ -95,7 +95,7 @@ const InstallationsScreen = ({navigation}) => {
                                 </ImageBackground>
                             </View>
                             <View>
-                                <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Casa Club</Text>
+                                <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Casa Club</Text>
                             </View>
                         </View>
                         <View flex={1}>
@@ -104,7 +104,7 @@ const InstallationsScreen = ({navigation}) => {
                                 </ImageBackground>
                             </View>
                             <View>
-                                <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Salón de eventos</Text>
+                                <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Salón de eventos</Text>
                             </View>
                         </View>
                     </View>

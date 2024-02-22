@@ -75,8 +75,8 @@ useEffect(() => {
             <View flex={1}>
                 <View flex={1}>
 
-                    <Text textAlign={'center'} mt={8} mb={6} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'20px'} textTransform={'uppercase'}>Tienda de productos</Text>
-                    <View justifyContent={'center'} alignItems={'center'} background={Colors.greenLight} height={'70px'} style={{ flexDirection: 'row' }}>
+                    <Text textAlign={'center'} mt={8} mb={6} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'20px'} textTransform={'uppercase'}>Tienda de productos</Text>
+                    <View justifyContent={'center'} alignItems={'center'} background={Colors.gray} height={'70px'} style={{ flexDirection: 'row' }}>
                         <ScrollView ref={scrollViewRef}
                             horizontal={true}
                             showsHorizontalScrollIndicator={false}
@@ -88,10 +88,10 @@ useEffect(() => {
                                     setCategorySelected(category.name)
                                     }>
                                     <View ml={2} flexDirection={'row'} alignItems={'center'}>
-                                        <View borderWidth={categorySelected === category.name ? 1.5 : 0} borderColor={Colors.green} alignItems={'center'} justifyContent={'center'} height={'40px'} width={'40px'} borderRadius={'full'} bg={'#fff'}>
+                                        <View borderWidth={categorySelected === category.name ? 1.5 : 0} borderColor={Colors.primary} alignItems={'center'} justifyContent={'center'} height={'40px'} width={'40px'} borderRadius={'full'} bg={'#fff'}>
                                             <Image mx={2} source={{uri: category.fileUrl}} alt={category.name+index} style={{ width: 28, height: 28 }}></Image>
                                         </View>
-                                        <Text textAlign={'center'} color={categorySelected === category.name ? Colors.green : '#5F5F5F'} fontFamily={categorySelected === category.name ? 'titleComfortaaBold' : 'titleConfortaaRegular'} mx={2} fontSize={'sm'}>{category.name}</Text>
+                                        <Text textAlign={'center'} color={categorySelected === category.name ? Colors.primary : '#5F5F5F'} fontFamily={categorySelected === category.name ? 'titleComfortaaBold' : 'titleConfortaaRegular'} mx={2} fontSize={'sm'}>{category.name}</Text>
                                     </View>
                                 </TouchableOpacity> 
                             );
@@ -105,13 +105,13 @@ useEffect(() => {
                         ScrollEnabled={true}
                         refreshControl={
                             <RefreshControl
-                                tintColor={Colors.green}
+                                tintColor={Colors.primary}
                                 refreshing={loading}
                                 onRefresh={getProducts}
                             />
                         }>
                     <View justifyContent={'space-between'} mt={6} mx={4} flexDirection={'row'}>
-                        <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} mx={2} fontSize={'lg'}>{categorySelected}</Text>
+                        <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} mx={2} fontSize={'lg'}>{categorySelected}</Text>
                         <Select
                             width={'120px'}
                             fontSize={12}
@@ -120,7 +120,7 @@ useEffect(() => {
                             dropdownIcon={<ChevronDownIcon style={{ marginLeft: 0, marginRight: 5 }} />}
                             dropdownOpenIcon={<ChevronUpIcon style={{ marginLeft: 0, marginRight: 5 }} />}
                             placeholder={'Ordenar por'}
-                            placeholderTextColor={Colors.green}
+                            placeholderTextColor={Colors.primary}
                             onValueChange={itemValue => { setFilter(itemValue) }}
                             style={{ width: '100%', fontFamily:'titleConfortaaRegular'}}
                         >
@@ -129,7 +129,7 @@ useEffect(() => {
                         </Select>
                     </View>
                     <View mx={5} mt={2} mb={6} alignItems={'center'}>
-                        <View background={Colors.yellow} height={'3px'} width={'95%'}>
+                        <View background={Colors.secondary} height={'3px'} width={'95%'}>
                         </View>
                     </View>
                         <View mx={8}>

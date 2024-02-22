@@ -22,6 +22,13 @@ import {Calendar} from "react-native-calendars";
 import {AntDesign} from "@expo/vector-icons";
 
 moment.locale('es');
+
+const scoreStatus = {
+    "WON": "Ganó",
+    "LOST": "Perdió",
+    "DRAW": "Empató"
+}
+
 const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=>{
     const [showCalendar, setShowCalendar] = useState(false);
     const [showSelector, setShowSelector] = useState(false);
@@ -41,10 +48,12 @@ const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=
             status,
             points: parseInt(points)
         }
+        console.log(data)
         item ? onUpdate(data) : onAdd(data)
     }
     useEffect(()=>{
         if(item){
+            console.log(item)
             setDate(item.date)
             setPlayerName(item.playerName)
             setStatus(item.status)
@@ -57,7 +66,7 @@ const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=
 
     return (<View paddingY={3} paddingX={3} mb={1}
             style={{
-                backgroundColor: Colors.greenLight
+                backgroundColor: Colors.gray
             }}>
         <View flexDirection={'row'} justifyContent={'center'} alignItems={'center'} paddingBottom={1} >
             <View flex={1} flexDirection={'column'} px={1} alignItems={'center'}>
@@ -70,10 +79,9 @@ const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=
                     }>
                         <TextInput placeholder={'Fecha'}
                                    height={31}
-                                   placeholderTextColor={Colors.greenV2}
                                    editable={false}
                                    value={(date ? moment(date).format('YYYY-MM-DD'): '')}
-                                   style={{color:Colors.greenV2, fontSize:12, backgroundColor:'white', borderRadius:20, paddingHorizontal:3, textAlign:'center'}}/>
+                                   style={{color:Colors.primary, fontSize:12, backgroundColor:'white', borderRadius:20, paddingHorizontal:3, textAlign:'center'}}/>
                     </TouchableOpacity>
                     :<TextInput placeholder={'Fecha'}
                             onPressIn={()=>{
@@ -84,10 +92,9 @@ const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=
                                 setShowCalendar(!showCalendar)
                             }}
                             height={31}
-                            placeholderTextColor={Colors.greenV2}
                             editable={false}
                             value={(date ? moment(date).format('YYYY-MM-DD'): '')}
-                            style={{width:'100%',color:Colors.greenV2, fontSize:12, backgroundColor:'white',opacity:dateOpacity, borderRadius:20, paddingHorizontal:3, textAlign:'center'}}/>
+                            style={{width:'100%',color:Colors.primary, fontSize:12, backgroundColor:'white',opacity:dateOpacity, borderRadius:20, paddingHorizontal:3, textAlign:'center'}}/>
 
                 }
             </View>
@@ -99,13 +106,12 @@ const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=
                     <TextInput
                         placeholder={'Nombre'}
                         height={31}
-                        placeholderTextColor={Colors.greenV2}
                         selectTextOnFocus={true}
                         value={playerName}
                         onChangeText={text => {
                             setPlayerName(text)
                         }}
-                        style={{color:Colors.greenV2, fontSize:12, backgroundColor:'white', borderRadius:20, paddingHorizontal:3, textAlign:'center'}}/>
+                        style={{color:Colors.primary, fontSize:12, backgroundColor:'white', borderRadius:20, paddingHorizontal:3, textAlign:'center'}}/>
                 </KeyboardAvoidingView>
             </View>
         </View>
@@ -120,13 +126,11 @@ const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=
                         dropdownIcon={<ChevronDownIcon style={{marginLeft:0, marginRight: 5}}/>}
                         dropdownOpenIcon={<ChevronUpIcon style={{marginLeft:0, marginRight: 5}}/>}
                         placeholder={'Resultado'}
-                        placeholderTextColor={Colors.greenV2}
                         selectedValue={status}
                         onValueChange={itemValue => {setStatus(itemValue)}}
                         style={{width: '100%'}}
                     >
-                        <Select.Item label={'Ganó'} value={'WON'}/>
-                        <Select.Item label={'Perdió'} value={'LOST'}/>
+                        {Object.keys(scoreStatus).map(e => <Select.Item key={e} label={scoreStatus[e]} value={e}/>)}
                     </Select>
                 </View>
             <View flex={1} flexDirection={'column'} px={1} alignItems={'center'}>
@@ -137,7 +141,6 @@ const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=
                     <TextInput
                         height={31}
                         placeholder={'Puntos'}
-                        placeholderTextColor={Colors.greenV2}
                         keyboardType={'number-pad'}
                         value={points}
                         maxLength={3}
@@ -145,7 +148,7 @@ const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=
                             setPoints(old => text.replace(/[^-0-9.]/g, ''))
                         }}
                         selectTextOnFocus={true}
-                        style={{color:Colors.greenV2, fontSize:12, backgroundColor:'white', borderRadius:20, paddingHorizontal:3, textAlign:'center'}}/>
+                        style={{color:Colors.primary, fontSize:12, backgroundColor:'white', borderRadius:20, paddingHorizontal:3, textAlign:'center'}}/>
                 </KeyboardAvoidingView>
             </View>
         </View>
@@ -153,7 +156,7 @@ const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=
                 <View flexDirection={'row'} justifyContent={'flex-end'} alignItems={'center'} px={1} >
                     <Button
                         isDisabled={loading}
-                        colorScheme={'red'}
+                        bgColor={Colors.red}
                         mr={2}
                         size={'xs'}
                         height={31}
@@ -218,7 +221,7 @@ const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=
                     theme={{
                         'stylesheet.calendar.header': {
                             monthText: {
-                                color: Colors.green,
+                                color: Colors.primary,
                                 fontWeight: '700',
                                 fontSize: 20,
                             },
@@ -229,26 +232,26 @@ const RegistryTableItemAdd = ({item, onAdd, onUpdate, onCancel, loading=false})=
                                 textAlign: 'center',
                                 fontSize: 11,
                                 fontWeight: 'bold',
-                                color: Colors.green
+                                color: Colors.primary
                             },
                         },
-                        todayBackgroundColor: Colors.gray,
-                        todayTextColor: '#ffffff',
-                        dayTextColor: Colors.green,
+                        todayBackgroundColor: 'transparent',
+                        todayTextColor: Colors.primary,
+                        dayTextColor: Colors.primary,
                         textDayFontSize: 14,
-                        arrowColor: Colors.yellow,
+                        arrowColor: Colors.secondary,
                         width: '100%',
-                        selectedDayBackgroundColor: Colors.green,
-                        selectedDayTextColor: '#ffffff',
+                        selectedDayBackgroundColor: Colors.primary,
+                        selectedDayTextColor: Colors.bgPrimaryText,
                     }}
                 />
                 </View>
                 <View flex={0.25} justifyContent={'center'} alignItems={'center'}>
-                <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 50, height: 50, backgroundColor: Colors.greenV4, borderRadius: 60}}
+                <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 50, height: 50, backgroundColor: Colors.primary, borderRadius: 60}}
                                       onPress={() =>{ 
                                         setShowCalendar(false)
                                       }}>
-                        <Icon as={AntDesign} name={'close'} color={'white'} size={'lg'}></Icon>
+                        <Icon as={AntDesign} name={'close'} color={Colors.bgPrimaryText} size={'lg'}></Icon>
                     </TouchableOpacity>
                     </View>
             </Modal>

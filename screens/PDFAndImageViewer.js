@@ -25,14 +25,14 @@ const PDFAndImageViewer = ({navigation, route}) => {
     return (
         <LayoutV3>
             <View flex={1}>
-                <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>{route.params.title}</Text>
+                <Text textAlign={'center'} mt={10} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>{route.params.title}</Text>
                 <View flex={1}>
                     {
                         (loading === false && isFocused && URL.includes('pdf')) &&
                         <PdfReader
 
                             style={{height: '100%', width: '100%'}}
-                            webviewStyle={{backgroundColor: '#D0DAD6'}}
+                            webviewStyle={{backgroundColor: Colors.gray}}
                             withPinchZoom={true}
                             source={{
                                 uri: URL
@@ -42,14 +42,14 @@ const PDFAndImageViewer = ({navigation, route}) => {
                                 renderLoading: () => (
                                     <View bgColor={'#ccc'} width={'100%'} height={'100%'} alignItems={'center'}
                                           justifyContent={'center'}>
-                                        <Spinner size={'lg'} key={'abc'} color={Colors.green}/>
+                                        <Spinner size={'lg'} key={'abc'} color={Colors.primary}/>
                                     </View>
                                 ),
                                 cacheEnabled: false
                             }}
                             customStyle={{
-                                readerContainer: {backgroundColor: '#D0DAD6'},
-                                readerContainerDocument: {backgroundColor: '#D0DAD6'}
+                                readerContainer: {backgroundColor: Colors.gray},
+                                readerContainerDocument: {backgroundColor: Colors.gray}
                             }}
 
                         />

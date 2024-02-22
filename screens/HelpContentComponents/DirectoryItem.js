@@ -10,7 +10,7 @@ const DirectoryItem = ({navigation, mb = 2, title = 'Title', description = 'Numb
         <TouchableOpacity onPress={() => dialCall(description)}>
             <View flexDirection={'row'} height={50} bgColor={'#fff'} borderRadius={50} mb={mb}>
                 <View flex={1} justifyContent={'center'} pl={5}>
-                    <Text color={Colors.green} fontSize={'xs'}>{title}</Text>
+                    <Text color={Colors.primary} fontSize={'xs'}>{title}</Text>
                 </View>
                 <View>
                     <View flex={1} justifyContent={'center'} alignItems={'center'}>
@@ -18,7 +18,7 @@ const DirectoryItem = ({navigation, mb = 2, title = 'Title', description = 'Numb
                     </View>
                 </View>
                 <View flex={1} justifyContent={'center'}>
-                    <Text textAlign={'center'} color={Colors.green} fontSize={'xs'}>{description}</Text>
+                    <Text textAlign={'center'} color={Colors.primary} fontSize={'xs'}>{description}</Text>
                 </View>
             </View>
         </TouchableOpacity>

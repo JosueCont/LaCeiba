@@ -1,6 +1,4 @@
 import LayoutV4 from "./Layouts/LayoutV4"
-import LayoutV3 from "./Layouts/LayoutV3";
-import bgButton from "../assets/bgButton.png";
 import { ImageBackground, TouchableOpacity } from "react-native";
 import { Button, Image, Spinner, Switch, Text, View } from "native-base";
 import React, { useState } from "react";
@@ -168,10 +166,10 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
         
         <LayoutV4 overlay={true}>
             <View flex={1} mx={4}>
-                <Text textAlign={'center'} mt={8} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>{groupData.name}</Text>
-                <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'lg'}>{groupData.area.service.name} | {groupData.area.name}</Text>
-                <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'}> {dayWeek[schedule?.day].day} {getNextDayOfWeek(dayWeek[schedule?.day].id)} </Text>
-                <Text fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'} mb={8}> {formatHour(schedule?.fromHour)}</Text>
+                <Text textAlign={'center'} mt={8} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>{groupData.name}</Text>
+                <Text fontFamily={'titleConfortaaRegular'} color={Colors.primary} textAlign={'center'} fontSize={'lg'}>{groupData.area.service.name} | {groupData.area.name}</Text>
+                <Text fontFamily={'titleConfortaaRegular'} color={Colors.primary} textAlign={'center'} fontSize={'md'}> {dayWeek[schedule?.day].day} {getNextDayOfWeek(dayWeek[schedule?.day].id)} </Text>
+                <Text fontFamily={'titleConfortaaRegular'} color={Colors.primary} textAlign={'center'} fontSize={'md'} mb={8}> {formatHour(schedule?.fromHour)}</Text>
                 {
                     groupData?.leaders?.map((valueGroup, index)=>{
                         return(
@@ -185,13 +183,13 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                                        elevation:3
                                    }}>
                                 <View flex={1} flexDirection={'column'} pr={1}>
-                                    <Text numberOfLines={1} fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'}>{valueGroup.firstName}</Text>
-                                    <Text numberOfLines={1} fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'sm'}> Responsable del grupo </Text>
+                                    <Text numberOfLines={1} fontFamily={'titleConfortaaRegular'} color={Colors.primary} textAlign={'center'} fontSize={'md'}>{valueGroup.firstName}</Text>
+                                    <Text numberOfLines={1} fontFamily={'titleConfortaaRegular'} color={Colors.primary} textAlign={'center'} fontSize={'sm'}> Responsable del grupo </Text>
                                 </View>
-                                <View flex={.5} borderLeftWidth={2} borderColor={Colors.yellow} height={'60%'} alignSelf={'center'}  justifyContent={'center'} alignItems={'center'}>
+                                <View flex={.5} borderLeftWidth={2} borderColor={Colors.secondary} height={'60%'} alignSelf={'center'}  justifyContent={'center'} alignItems={'center'}>
                                     <Switch
                                         justifyContent={'center'}
-                                        trackColor={{ false: "#767577", true: blocked ? Colors.green : valueGroup.id == userId  || membersInvite.includes(valueGroup.id) ? Colors.green : '#767577'}}
+                                        trackColor={{ false: "#767577", true: blocked ? Colors.primary : valueGroup.id == userId  || membersInvite.includes(valueGroup.id) ? Colors.primary : '#767577'}}
                                         thumbColor={membersInvite.includes(valueGroup.id) ? "#f4f3f4" : "#f4f3f4"}
                                         ios_backgroundColor="#3e3e3e"
                                         onValueChange={(status)=>{toggle(status, valueGroup.id, valueGroup.firstName, true); }}
@@ -216,12 +214,12 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                                       elevation:3
                                   }}>
                                 <View flex={1} flexDirection={'column'} pr={1}>
-                                    <Text numberOfLines={2} fontFamily={'titleConfortaaRegular'} color={Colors.green} textAlign={'center'} fontSize={'md'}>{valueGroup.firstName}{'\n'}{valueGroup.lastName}</Text>
+                                    <Text numberOfLines={2} fontFamily={'titleConfortaaRegular'} color={Colors.primary} textAlign={'center'} fontSize={'md'}>{valueGroup.firstName}{'\n'}{valueGroup.lastName}</Text>
                                 </View>
-                                <View flex={.5} borderLeftWidth={2} borderColor={Colors.yellow} height={'60%'} alignSelf={'center'}  justifyContent={'center'} alignItems={'center'}>
+                                <View flex={.5} borderLeftWidth={2} borderColor={Colors.secondary} height={'60%'} alignSelf={'center'}  justifyContent={'center'} alignItems={'center'}>
                                 <Switch
                                     justifyContent={'center'}
-                                    trackColor={{ false: "#767577", true: blocked ? Colors.green :membersInvite.includes(valueGroup.id) ? Colors.green : "#767577"}}
+                                    trackColor={{ false: "#767577", true: blocked ? Colors.primary :membersInvite.includes(valueGroup.id) ? Colors.primary : "#767577"}}
                                     thumbColor={membersInvite.includes(valueGroup.id) ? "#f4f3f4" : "#f4f3f4"}
                                     ios_backgroundColor="#3e3e3e"
                                     onValueChange={(status)=>{toggle(status, valueGroup.id, valueGroup.firstName); }}
@@ -236,24 +234,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                 
 
                 <View flex={1} mb={10} mt={5} px={10}>
-                    {/*<TouchableOpacity onPress={() => {
-                        if(loading || membersInvite.length<groupData.area.minPeople -1) return false
-                        sendBooking()
-                    }}>
-                        <ImageBackground resizeMode={'contain'} source={bgButton} style={{
-                            height: 49,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexDirection: 'column',
-                            opacity:(loading || membersInvite.length < groupData.area.minPeople -1 ? 0.5 : 1)
-                        }} borderRadius={60}>
-                            {loading
-                                ? <Spinner size={'sm'} color={'white'}></Spinner>
-                                : <Text fontSize={'md'}>Aplicar</Text>
-                            }
-                        </ImageBackground>
-                    </TouchableOpacity>*/}
-                    <Button size={'lg'} disabled={loading || membersInvite.length<minPeople} opacity={loading || membersInvite.length < minPeople ? 0.5 : 1} onPress={sendBooking} mt={5}>{loading ? <Spinner size={'sm'} color={'white'}></Spinner> : 'Aplicar'}</Button>
+                    <Button size={'lg'} disabled={loading || membersInvite.length<minPeople} opacity={loading || membersInvite.length < minPeople ? 0.5 : 1} onPress={sendBooking} mt={5}>{loading ? <Spinner size={'sm'} color={Colors.bgPrimaryText}></Spinner> : 'Aplicar'}</Button>
                 </View>
 
 

@@ -14,12 +14,12 @@ const LoginNonPaymentScreen = ({navigation}) => {
             <View flex={1}>
                 <View mx={20} mt={10}>
                     <View alignItems={'center'}>
-                        <Icon as={AntDesign} name={'exclamationcircleo'} color={Colors.yellow} size={'2xl'}/>
+                        <Icon as={AntDesign} name={'exclamationcircleo'} color={Colors.secondary} size={'2xl'}/>
 
                     </View>
 
                     <Text fontSize={'5xl'} textAlign={'center'} fontFamily={'titleLight'} mb={4}>Lo sentimos</Text>
-                    <View alignSelf={'center'} width={'100%'} borderWidth={1} borderColor={'#FFB718'} mb={8}/>
+                    <View alignSelf={'center'} width={'100%'} borderWidth={1} borderColor={Colors.secondary} mb={8}/>
                     <Text fontSize={'2xl'} textAlign={'center'} fontFamily={'titleLight'} mb={6}>
                         Usted presenta un adeudo, algunos servicios de la app no estarán disponibles.
                         {'\n'}
