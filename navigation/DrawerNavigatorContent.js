@@ -50,7 +50,7 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
 
 
             <View my={10} alignItems={'center'} justifyContent={'center'}>
-                   {/*  {appDuck.user.partner.profilePictureUrl &&
+                {appDuck.user.partner.profilePictureUrl &&
                         <Image 
                             source={{uri: appDuck.user.partner.profilePictureUrl}} 
                             width={120} 
@@ -58,9 +58,9 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
                             marginRight={3}
                             style={{borderRadius:60, borderWidth: 2, borderColor: Colors.partnerCard.nameBg}}
                         />
-                        || */}
+                    || 
                     <Image source={imageImport(Constants.expoConfig.slug).logo} width={161} height={120} borderRadius={60} resizeMode={'stretch'}></Image>
-               {/*  } */}
+                } 
                 <Text color={Colors.sideMenu.textColor} fontSize={'md'} mt={5} textAlign={'center'}>{appDuck.user.firstName}{'\n'}{appDuck.user.lastName}</Text>
             </View>
             <View flex={1}>
