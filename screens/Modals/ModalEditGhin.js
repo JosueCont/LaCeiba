@@ -87,7 +87,7 @@ const ModalEditGhin = ({visible, setVisible, appDuck,action}) => {
                    
                     <View>
                         <Text style={styles.modalText} mb={8} fontSize={'2xl'}>GHIN</Text>
-                        <Input variant="outline" maxLength={7} width={'full'}  mb={5} isRequired value={value}  onChangeText={val =>{
+                        <Input variant="outline" maxLength={8} width={'full'}  mb={5} isRequired value={value}  onChangeText={val =>{
                             setValue(val)
                         }}/>
                         {/* <FormControl isInvalid={validateEmpty} mb={6}>
