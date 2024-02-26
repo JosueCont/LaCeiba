@@ -51,7 +51,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const tomorrow = new Date().setDate(new Date().getDate() + 1)
     const today = new Date().setDate(new Date().getDate())
     const todayPlus7 = new Date()
-    todayPlus7.setDate(todayPlus7.getDate() + 5)
+    todayPlus7.setDate(todayPlus7.getDate() + 7)
     const [holes,setHoles] = useState(null)
     const [hoursMessageInfo, setHoursMessageInfo] = useState('')
 
