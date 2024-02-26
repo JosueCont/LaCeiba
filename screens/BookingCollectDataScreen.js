@@ -795,7 +795,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                                 if (o.type === 'INVITADO') return o
                                             }).length;
                                             let point = invitados * pointsDay;
-                                            navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points:points, point: point, pointsDay: pointsDay})
+                                            navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points:points, point: point, pointsDay: pointsDay, isGolf: route?.params?.service.isGolf})
                                         }}>
                                             <View height={75} bg={'rgba(255,255, 255,1)'} flexDirection={'row'} borderStyle={'dashed'} borderWidth={1.5}>
                                                 <View flex={1} justifyContent={'center'} alignItems={'center'}>
