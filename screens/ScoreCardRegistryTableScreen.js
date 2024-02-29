@@ -132,7 +132,7 @@ const ScoreCardRegistryTableScreen = ({navigation, appDuck})=>{
         <LayoutV5 white={true}>
             <View flex={1}>
                 <View flexDirection={'row'} justifyContent={'center'} mx={4} mt={8} mb={5} >
-                    <Text color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Tabla de registro</Text>
+                    <Text color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Registro de ventajas</Text>
                     {!showSectionAdd && <Button onPress={()=>{ setShowSectionAdd(true)}} borderRadius={30} width={30} height={30} ml={4} isDisabled={registryTable.length === maxItems}><AddIcon color={Colors.bgPrimaryText}/></Button>}
                     {showSectionAdd && <Button onPress={()=>{
                         // Evitar cerrar hasta que se termine de cargar

@@ -69,7 +69,7 @@ const MatchesScreen = ({navigation, loggedOutAction, appDuck}) => {
             <View mx={12} flexDirection={'row'} mt={5}>
                     <View flex={1} p={2}>
                         <Button  p={2} textAlign={'center'} justifyContent={'center'} alignItems={'center'} onPress={()=> navigation.navigate('ScoreCardRegistryTableScreen')}>
-                        Tabla de registro
+                        Registro de ventajas
                         </Button>
                     </View>
                 </View>
