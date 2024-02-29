@@ -17,7 +17,6 @@ const ModalTransferPoint = ({visible, setVisible, actionNormalTransfer, actionMe
             transparent={true}
             visible={visible}
             onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
                 setVisible(!visible);
             }}>
                 <View style={styles.centeredView}>
@@ -27,7 +26,7 @@ const ModalTransferPoint = ({visible, setVisible, actionNormalTransfer, actionMe
                 }}>
                     <LinearGradient
                         // Background Linear Gradient
-                        colors={[Colors.greenV5, Colors.greenV2]}
+                        colors={[Colors.modal.bgColor1, Colors.modal.bgColor2]}
                         style={{
                             position: 'absolute',
                             left: 0,
@@ -37,11 +36,11 @@ const ModalTransferPoint = ({visible, setVisible, actionNormalTransfer, actionMe
                             borderRadius: 20
                         }}
                     />
-                    <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.greenV4, borderRadius: 60}}
+                    <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.darkPrimary, borderRadius: 60}}
                                       onPress={() =>{ 
                                         setVisible(false)
                                       }}>
-                        <Icon as={AntDesign} name={'close'} color={'white'} size={'xs'}></Icon>
+                        <Icon as={AntDesign} name={'close'} color={Colors.bgPrimaryText} size={'xs'}></Icon>
                     </TouchableOpacity>
                    
                     <View>

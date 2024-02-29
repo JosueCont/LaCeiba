@@ -10,7 +10,7 @@ const RegulationItem = ({navigation, mb = 2}) => {
     return (
         <View flexDirection={'row'} height={50} bgColor={'#fff'} borderRadius={50} mb={mb}>
             <View flex={1} justifyContent={'center'}>
-                <Text textAlign={'center'} color={Colors.green} fontSize={'xs'}>Nombre del manual</Text>
+                <Text textAlign={'center'} color={Colors.primary} fontSize={'xs'}>Nombre del manual</Text>
             </View>
             <View flex={0.4} mx={5} flexDirection={'row'}>
                 <View flex={1} justifyContent={'center'} alignItems={'center'}>

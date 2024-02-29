@@ -37,23 +37,23 @@ export const theme = extendTheme({
             defaultProps: {
                 ///backgroundColor: 'white',
                 borderWidth: 0,
-                color: Colors.greenV4,
+                color: Colors.darkPrimary,
                 height: 45,
                 fontSize: 'md',
                 textAlign: 'center',
                 caretHidden: false,
-                selectionColor: Colors.greenV4
+                selectionColor: Colors.darkPrimary
 
             },
         },
         Select: {
             baseStyle: {},
             defaultProps: {
-                color: Colors.greenV4,
+                color: Colors.darkPrimary,
                 height: 45,
                 fontSize: 'md',
                 textAlign: 'center',
-                placeholderTextColor: Colors.greenV4
+                placeholderTextColor: Colors.darkPrimary
             },
         },
         FormControl: {
@@ -135,24 +135,24 @@ export const theme = extendTheme({
     },
     colors: {
         primary: {
-            50: Colors.green,
-            100: Colors.green,
-            200: Colors.greenV2,
-            300: Colors.greenV3,
-            400: Colors.greenV4,
-            500: Colors.greenV5,
-            600: Colors.greenV2,
-            700: Colors.greenV2,
-            800: Colors.greenV5,
+            50: Colors.primary,
+            100: Colors.primary,
+            200: Colors.darkPrimary,
+            300:Colors.darkPrimary,
+            400: Colors.darkPrimary,
+            500: Colors.lightPrimary,
+            600: Colors.darkPrimary, //Primary
+            700: Colors.darkPrimary,
+            800: Colors.lightPrimary, // Button pressed primaryLight
 
         },
         amber: {
             400: '#d97706',
         },
         green: {
-            300: Colors.greenV5,
-            600: Colors.greenV2,
-            800: Colors.greenV5,
+            300: Colors.lightPrimary,
+            600: Colors.darkPrimary,
+            800: Colors.lightPrimary,
         },
     },
     config: {

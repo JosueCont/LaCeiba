@@ -4,6 +4,7 @@ import LayoutV3 from "./Layouts/LayoutV3";
 import {Colors} from "../Colors";
 import {getCategories} from "../api/Requests";
 import {RefreshControl} from "react-native";
+import Constants from "expo-constants"
 
 const HelpScreen = ({navigation}) => {
 
@@ -37,13 +38,13 @@ const HelpScreen = ({navigation}) => {
                     showsVerticalScrollIndicator={false}
                     refreshControl={
                         <RefreshControl
-                            tintColor={Colors.green}
+                            tintColor={Colors.primary}
                             refreshing={loading}
                             onRefresh={getCategoriesFunction}
                         />
                     }
                     flex={1}>
-                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={20} textTransform={'uppercase'}>Club de Golf La Hacienda</Text>
+                    <Text textAlign={'center'} mt={10} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={20} textTransform={'uppercase'}>{Constants.expoConfig.extra.helpContentName || 'Ayuda'}</Text>
 
                     <View flex={1} mx={20}>
                     {

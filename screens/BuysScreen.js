@@ -72,7 +72,7 @@ const BuysScreen = ({ route, navigation, appDuck }) => {
         <LayoutV5>
             <View flex={1}>
                 <View flex={1}>
-                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Mis compras</Text>
+                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Mis compras</Text>
 
                     <ScrollView
                         mt={5}
@@ -80,7 +80,7 @@ const BuysScreen = ({ route, navigation, appDuck }) => {
                         ScrollEnabled={true}
                         refreshControl={
                             <RefreshControl
-                                tintColor={Colors.green}
+                                tintColor={Colors.primary}
                                 refreshing={loading}
                                 onRefresh={getBuys}
                             />

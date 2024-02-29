@@ -17,13 +17,13 @@ const ProductsCartItems = ({ navigation, mb = 2, id='', product, onConfirm }) =>
             <Image borderRadius={20} source={{uri: product.image}} style={{ width: '50%', height: '100%' }}></Image>
             <View flexDirection={'row'} paddingX={2} alignItems={'center'} justifyContent={'space-between'} width={'50%'}>
                 <View flexDirection={'column'}>
-                    <Text mb={1} numberOfLines={2} color={Colors.green} fontSize={'17px'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>{product.name}</Text>
-                    <Text mb={1} color={Colors.green} fontSize={'14px'} justifyItems={'center'} fontFamily={'titleConfortaaRegular'}>Cantidad: {product.count}</Text>
-                    <Text color={Colors.green} fontSize={'18px'} letterSpacing={.4} justifyItems={'center'} fontFamily={'titleBrandonBldBold'}>$ {product.price.toLocaleString('en-US')}.00 M.N.</Text>
+                    <Text mb={1} numberOfLines={2} color={Colors.primary} fontSize={'17px'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>{product.name}</Text>
+                    <Text mb={1} color={Colors.primary} fontSize={'14px'} justifyItems={'center'} fontFamily={'titleConfortaaRegular'}>Cantidad: {product.count}</Text>
+                    <Text color={Colors.primary} fontSize={'18px'} letterSpacing={.4} justifyItems={'center'} fontFamily={'titleBrandonBldBold'}>$ {product.price.toLocaleString('en-US')}.00 M.N.</Text>
                     <TouchableOpacity  onPress={()=>onConfirm(product.id)}>
                     <View mt={2} flexDirection={'row'}>
                             <Image source={iconTrash} style={{width: 20, height: 20}}></Image>
-                            <Text ml={2} color={Colors.green} fontSize={'14px'} justifyItems={'center'} fontFamily={'titleConfortaaRegular'}>Eliminar</Text>
+                            <Text ml={2} color={Colors.primary} fontSize={'14px'} justifyItems={'center'} fontFamily={'titleConfortaaRegular'}>Eliminar</Text>
                     </View>
                 </TouchableOpacity>
                 </View>

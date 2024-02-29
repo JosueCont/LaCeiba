@@ -35,7 +35,7 @@ const GuestGeneratePassScreen = ({navigation, route, appDuck}) => {
             const data = {
                 "idInvitado": route.params.guest.idInvitado,
                 "guestName": route.params.guest.nombre + ' ' + route.params.guest.apellidoPaterno + ' ' + route.params.guest.apellidoMaterno,
-                "guestEmail": Constants.manifest.extra.debug === true ? Constants.manifest.extra.debugEmail : route.params.guest.mail,
+                "guestEmail": Constants.expoConfig.extra.debug === true ? Constants.expoConfig.extra.debugEmail : route.params.guest.mail,
                 "expirationDate": date
             }
             const response = await generateGuestsQR(data, [appDuck.user.id])
@@ -79,9 +79,9 @@ const GuestGeneratePassScreen = ({navigation, route, appDuck}) => {
                 {/*    <ImageBackground borderRadius={60} source={imagePerson2} style={{height: 120, width: 120, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>*/}
                 {/*    </ImageBackground>*/}
                 {/*</View>*/}
-                <Text textAlign={'center'} mb={6} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'lg'}>{route.params.guest.nombre} {route.params.guest.apellidoPaterno}</Text>
-                <Text textAlign={'center'} mb={6} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'lg'} adjustsFontSizeToFit numberOfLines={1}>GENERAR PASE DE ACCESO</Text>
-                <Text textAlign={'center'} mb={6} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'} adjustsFontSizeToFit numberOfLines={2}>Seleccione la fecha que desea {'\n'}asignar el acceso a este invitado</Text>
+                <Text textAlign={'center'} mb={6} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'lg'}>{route.params.guest.nombre} {route.params.guest.apellidoPaterno}</Text>
+                <Text textAlign={'center'} mb={6} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'lg'} adjustsFontSizeToFit numberOfLines={1}>GENERAR PASE DE ACCESO</Text>
+                <Text textAlign={'center'} mb={6} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'} adjustsFontSizeToFit numberOfLines={2}>Seleccione la fecha que desea {'\n'}asignar el acceso a este invitado</Text>
                 <View mb={6}>
                     <Calendar
                         minDate={today}
@@ -109,7 +109,7 @@ const GuestGeneratePassScreen = ({navigation, route, appDuck}) => {
                         theme={{
                             'stylesheet.calendar.header': {
                                 monthText: {
-                                    color: Colors.green,
+                                    color: Colors.primary,
                                     fontWeight: '700',
                                     fontSize: 20,
                                 },
@@ -120,24 +120,24 @@ const GuestGeneratePassScreen = ({navigation, route, appDuck}) => {
                                     textAlign: 'center',
                                     fontSize: 11,
                                     fontWeight: 'bold',
-                                    color: Colors.green
+                                    color: Colors.primary
                                 },
                             },
-                            todayBackgroundColor: Colors.gray,
+                            todayBackgroundColor: Colors.darkGray,
                             todayTextColor: '#ffffff',
-                            dayTextColor: Colors.green,
+                            dayTextColor: Colors.primary,
                             textDayFontSize: 14,
-                            arrowColor: Colors.yellow,
+                            arrowColor: Colors.secondary,
                             width: '100%',
-                            selectedDayBackgroundColor: Colors.green,
+                            selectedDayBackgroundColor: Colors.primary,
                             selectedDayTextColor: '#ffffff',
                         }}
                     />
                 </View>
 
                 <Button onPress={() => generateQuestQRFunction()} mb={6}>Generar pase y enviar</Button>
-                <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>Este pase será enviado a:</Text>
-                <Text textAlign={'center'} mb={6} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>{route.params.guest.mail}</Text>
+                <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>Este pase será enviado a:</Text>
+                <Text textAlign={'center'} mb={6} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>{route.params.guest.mail}</Text>
             </View>
 
             <ModalInfo text={modalText} visible={modalVisible} setVisible={setModalVisible} textButton={'Entendido'} iconType={'exclamation'} close={true}/>

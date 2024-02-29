@@ -23,7 +23,7 @@ const HTMLViewer = ({navigation, route}) => {
     return (
         <LayoutV3>
             <View flex={1}>
-                <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>{route.params.title}</Text>
+                <Text textAlign={'center'} mt={10} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>{route.params.title}</Text>
 
 
                 <View flex={1}>
@@ -43,7 +43,7 @@ const HTMLViewer = ({navigation, route}) => {
                             startInLoadingState={true}
                             renderLoading={() => (
                                 <View width={'100%'} height={'100%'} alignItems={'center'} justifyContent={'center'}>
-                                    <Spinner size={'lg'} key={'abc'} color={Colors.green}/>
+                                    <Spinner size={'lg'} key={'abc'} color={Colors.primary}/>
                                 </View>
                             )}
                             automaticallyAdjustContentInsets={false}

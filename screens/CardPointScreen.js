@@ -4,6 +4,7 @@ import { Colors } from "../Colors";
 import LayoutV4 from "./Layouts/LayoutV4";
 import bannerCardPoints from "../assets/bannerCardPoints.png"
 import matechesIconGreen from "../assets/matechesIconGreen.png"
+import golfMatchIcon from "../assets/golfMatchIcon.png"
 import CardPointTable from "./CardPointTable";
 import ModalScoreDetails from "./Modals/ModalScoreDetails";
 import moment from "moment";
@@ -12,7 +13,9 @@ import {useIsFocused} from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {getOnePartnersScoreCards,editColorScoreCard} from "../api/Requests";
 import ImageZoom from "react-native-image-pan-zoom";
-import { Dimensions, Image } from "react-native";
+import { Dimensions, Image, ImageBackground } from "react-native";
+import Constants from "expo-constants";
+import { imageImport } from "../organizations/assets/ImageImporter";
 
 
 
@@ -74,21 +77,21 @@ const updateColorScoreCard = async(color) => {
             <View position={'relative'} mb={5}>
                 <Image source={bannerCardPoints} style={{ width: '100%', height: 200 }}></Image>
                 <View p={6} position={'absolute'} flexDirection={'row'}>
-                    <View mr={3} background={Colors.yellow} height={'auto'} width={'1px'}>
+                    <View mr={3} background={Colors.secondary} height={'auto'} width={'1px'}>
                     </View>
                     <View justifyContent={'space-between'} width={'150px'}>
                         <Text color={'#ffff'} fontFamily={'titleComfortaaBold'} fontSize={'md'}>{appDuck.user.fullName}</Text>
                        {/*  <Text color={'#ffff'} fontFamily={'titleLight'} fontSize={'md'}>{moment(route.params.dataScore.booking?.dueDate, "YYYY-MM-DD").format('DD/MMM/YY')}</Text>
                         <Text color={'#ffff'} fontFamily={'titleLight'} fontSize={'md'}>{moment(route.params.dataScore.booking.dueTime, "HH:mm").format("hh:mm a")}</Text> */}
-                        <Text width={'50%'} color={'#ffff'} fontFamily={'titleComfortaaBold'} numberOfLines={2} fontSize={'md'}>{ghin ? `GHIN: ${ghin}` : 'No especificado'}</Text>
+                        <Text color={'#ffff'} fontFamily={'titleComfortaaBold'} numberOfLines={2} fontSize={'md'}>{ghin ? `GHIN: ${ghin}` : 'GHIN: No especificado'}</Text>
                     </View>
                 </View>
             </View>
             <View flex={1} mx={6} mb={5}>
-                <Text textAlign={'center'} mt={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xl'}>TARJETA DE PUNTUACIÓN</Text>
-                {dataMatch && dataMatch.numHoles && dataMatch.booking && <Text textAlign={'center'} color={Colors.green} mb={3}>{dataMatch.numHoles} hoyos a jugar, iniciando en {dataMatch.booking.area.name}</Text>}
+                <Text textAlign={'center'} mt={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'xl'}>TARJETA DE PUNTUACIÓN</Text>
+                {dataMatch && dataMatch.numHoles && dataMatch.booking && <Text textAlign={'center'} color={Colors.primary} mb={3}>{dataMatch.numHoles} hoyos a jugar, iniciando en {dataMatch.booking.area.name}</Text>}
                 <View flexDirection={'row'} mt={5} mb={5} justifyContent={'space-between'} alignContent={'center'} alignItems={'center'}>
-                    <Text mr={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>Marcas</Text>
+                    <Text mr={2} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>Marcas</Text>
                     <Button  onPress={() =>{
                         let color = 'Negras'
                         setColorSelected(color)
@@ -108,7 +111,7 @@ const updateColorScoreCard = async(color) => {
                         setColorSelected(color)
                         updateColorScoreCard(color)
                     }} 
-                     p={2} borderColor={Colors.green} mr={2} height={6} width={6}  style={colorSelected ==='Blancas' ? {backgroundColor:'#fff', borderColor:'black', borderWidth:2} : {backgroundColor:'#fff'}}>
+                     p={2} borderColor={Colors.primary} mr={2} height={6} width={6}  style={colorSelected ==='Blancas' ? {backgroundColor:'#fff', borderColor:'black', borderWidth:2} : {backgroundColor:'#fff'}}>
                     </Button>
                     <Button  onPress={() =>{
                         let color = 'Doradas'
@@ -128,12 +131,12 @@ const updateColorScoreCard = async(color) => {
                         Ver más
                     </Button>
                 </View>
-                <Text colo mb={4}  color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'xs'} textAlign={'center'}>
+                <Text colo mb={4}  color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'xs'} textAlign={'center'}>
                 *Presiona sobre una casilla para agregar el score
                 </Text>
                 {
                     loading === true ?
-                    <Spinner color={Colors.green} size={'lg'} />
+                    <Spinner color={Colors.primary} size={'lg'} />
                     :
                 loading === false &&
                 <View>
@@ -146,19 +149,21 @@ const updateColorScoreCard = async(color) => {
                 }}
                 />                 
                 <View p={6} justifyContent={'center'} flexDirection={'row'}>
-                    <Image source={matechesIconGreen} width={'70px'} height={'70px'} mr={3}></Image>
+                    <ImageBackground source={imageImport(Constants.expoConfig.slug).bgButton} style={{width: 55, height: 55, alignItems: 'center', justifyContent: 'center'}} borderRadius={60}>
+                        <Image source={golfMatchIcon} width={21} height={21}/>
+                    </ImageBackground>
 
-                    <View mr={3} background={Colors.yellow} height={'auto'} width={'2px'}>
+                    <View ml={3} mr={3} background={Colors.secondary} height={'auto'} width={'2px'}>
                     </View>
                     <View justifyContent={'space-between'}>
-                        <Text color={Colors.green} fontFamily={'titleRegular'} fontSize={'md'}>Vuelta 1:  {dataMatch.round1}</Text>
-                        <Text color={Colors.green} fontFamily={'titleRegular'} fontSize={'md'}>Vuelta 2:  {dataMatch.round2}</Text>
-                        <Text color={Colors.green} fontFamily={'titleComfortaaBold'} fontWeight={'bold'} fontSize={'md'}>TOTAL:  {dataMatch.round1 + dataMatch.round2 }</Text>
+                        <Text color={Colors.primary} fontFamily={'titleRegular'} fontSize={'md'}>Vuelta 1:  {dataMatch.round1}</Text>
+                        <Text color={Colors.primary} fontFamily={'titleRegular'} fontSize={'md'}>Vuelta 2:  {dataMatch.round2}</Text>
+                        <Text color={Colors.primary} fontFamily={'titleComfortaaBold'} fontWeight={'bold'} fontSize={'md'}>TOTAL:  {dataMatch.round1 + dataMatch.round2 }</Text>
                     </View>
                 </View>
                 <View mt={4} mb={4} justifyContent={'center'} flexDirection={'row'}>
                     { dataMatch.numHoles == 18 &&
-                    <Button borderRadius={'3xl'} colorScheme={Colors.yellow} background={Colors.yellow} px={4} py={2} textAlign={'center'} justifyContent={'center'} alignItems={'center'} _text={{ color: Colors.green, fontWeight: 'bold', fontSize: '18px' }}>
+                    <Button borderRadius={'3xl'} colorScheme={Colors.secondary} background={Colors.secondary} px={4} py={2} textAlign={'center'} justifyContent={'center'} alignItems={'center'} _text={{ color: Colors.primary, fontWeight: 'bold', fontSize: '18px' }}>
                          {`HANDICAP: ${dataMatch.handicap}`}
                     </Button>
                         }

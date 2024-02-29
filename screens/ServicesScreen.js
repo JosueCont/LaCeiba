@@ -18,7 +18,7 @@ const ServicesScreen = ({navigation}) => {
     return (
         <LayoutV4>
             <View flex={1} mx={8}>
-                <Text textAlign={'center'} mt={10} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>Conoce nuestros servicios</Text>
+                <Text textAlign={'center'} mt={10} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>Conoce nuestros servicios</Text>
                 <View flex={1} pt={5}>
 
                     <View mb={6} flexDirection={'row'}>
@@ -29,7 +29,7 @@ const ServicesScreen = ({navigation}) => {
                                     </ImageBackground>
                                 </View>
                                 <View>
-                                    <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Aerobics</Text>
+                                    <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Aerobics</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -39,7 +39,7 @@ const ServicesScreen = ({navigation}) => {
                                 </ImageBackground>
                             </View>
                             <View>
-                                <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Yoga</Text>
+                                <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Yoga</Text>
                             </View>
                         </View>
                     </View>
@@ -50,7 +50,7 @@ const ServicesScreen = ({navigation}) => {
                                 </ImageBackground>
                             </View>
                             <View>
-                                <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Salón de belleza</Text>
+                                <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Salón de belleza</Text>
                             </View>
                         </View>
                         <View flex={1}>
@@ -59,7 +59,7 @@ const ServicesScreen = ({navigation}) => {
                                 </ImageBackground>
                             </View>
                             <View>
-                                <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Guardería</Text>
+                                <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Guardería</Text>
                             </View>
                         </View>
                     </View>
@@ -70,7 +70,7 @@ const ServicesScreen = ({navigation}) => {
                                 </ImageBackground>
                             </View>
                             <View>
-                                <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Peluquería</Text>
+                                <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Peluquería</Text>
                             </View>
                         </View>
                         <View flex={1}>
@@ -79,7 +79,7 @@ const ServicesScreen = ({navigation}) => {
                                 </ImageBackground>
                             </View>
                             <View>
-                                <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Natación</Text>
+                                <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Natación</Text>
                             </View>
                         </View>
                     </View>
@@ -90,7 +90,7 @@ const ServicesScreen = ({navigation}) => {
                                 </ImageBackground>
                             </View>
                             <View>
-                                <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Padel</Text>
+                                <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Padel</Text>
                             </View>
                         </View>
                         <View flex={1}>
@@ -99,7 +99,7 @@ const ServicesScreen = ({navigation}) => {
                                 </ImageBackground>
                             </View>
                             <View>
-                                <Text textAlign={'center'} color={Colors.green} fontSize={'md'}>Crossfit</Text>
+                                <Text textAlign={'center'} color={Colors.primary} fontSize={'md'}>Crossfit</Text>
                             </View>
                         </View>
                     </View>

@@ -36,9 +36,9 @@ const BuysItemDetailScreen = ({ route, navigation, setAttribute }) => {
             <View flex={1}>
                 <View flex={1}>
 
-                    <Text textAlign={'center'} mt={8} mb={6} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'22px'} textTransform={'uppercase'}>Folio: {route.params.item.id}</Text>
+                    <Text textAlign={'center'} mt={8} mb={6} color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={'22px'} textTransform={'uppercase'}>Folio: {route.params.item.id}</Text>
                     <View mx={7} mb={6} alignItems={'center'} justifyContent={'center'}>
-                        <View background={Colors.green} height={'1px'} width={'95%'}>
+                        <View background={Colors.primary} height={'1px'} width={'95%'}>
                         </View>
                     </View>
                     <ScrollView
@@ -47,7 +47,7 @@ const BuysItemDetailScreen = ({ route, navigation, setAttribute }) => {
                         ScrollEnabled={true}
                         refreshControl={
                             <RefreshControl
-                                tintColor={Colors.green}
+                                tintColor={Colors.primary}
                                 refreshing={loading}
                                 onRefresh={getBuyData}
                             />
@@ -58,30 +58,30 @@ const BuysItemDetailScreen = ({ route, navigation, setAttribute }) => {
                                 <Image borderRadius={20} source={{ uri: route.params.item.image }} style={{ width: '45%', height: '85%' }}></Image>
                                 <View flexDirection={'row'} paddingX={2} width={'60%'}>
                                     <View ml={2} flexDirection={'column'}>
-                                        <Text mb={2} numberOfLines={2} color={Colors.green} fontSize={'16'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>{`${route.params.item.count} ${route.params.item.name}`}</Text>
-                                        <Text mb={2} color={Colors.green} fontSize={'14'} justifyItems={'center'} fontFamily={'titleConfortaaRegular'}>{route.params.item.date}</Text>
-                                        <Text color={Colors.green} fontSize={'18'} letterSpacing={.4} justifyItems={'center'} fontFamily={'titleBrandonBldBold'}>{route.params.item.price}.00 M.N.</Text>
+                                        <Text mb={2} numberOfLines={2} color={Colors.primary} fontSize={'16'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>{`${route.params.item.count} ${route.params.item.name}`}</Text>
+                                        <Text mb={2} color={Colors.primary} fontSize={'14'} justifyItems={'center'} fontFamily={'titleConfortaaRegular'}>{route.params.item.date}</Text>
+                                        <Text color={Colors.primary} fontSize={'18'} letterSpacing={.4} justifyItems={'center'} fontFamily={'titleBrandonBldBold'}>{route.params.item.price}.00 M.N.</Text>
                                     </View>
                                 </View>
                             </View>
                         </View>
                         <View mx={7} mt={6} alignItems={'center'} justifyContent={'center'}>
-                            <View background={Colors.green} height={'1px'} width={'95%'}>
+                            <View background={Colors.primary} height={'1px'} width={'95%'}>
                             </View>
                         </View>
 
                         <View mb={6} mt={2} width={'100%'} justifyContent={'center'} alignItems={'center'}>
-                            <Text textAlign={'center'} mt={8} mb={6} color={Colors.green} fontFamily={'titleBrandonBldBold'} fontSize={'20px'} textTransform={'uppercase'}>Método de pago</Text>
-                            <Text mb={1} color={Colors.green} fontSize={'16'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>Titular: {route.params.item.paymentData.titularName}</Text>
+                            <Text textAlign={'center'} mt={8} mb={6} color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={'20px'} textTransform={'uppercase'}>Método de pago</Text>
+                            <Text mb={1} color={Colors.primary} fontSize={'16'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>Titular: {route.params.item.paymentData.titularName}</Text>
                             <View width={'55%'} mt={6} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
-                                <Text mb={1} color={Colors.green} fontSize={'16'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>Tarjeta: </Text>
+                                <Text mb={1} color={Colors.primary} fontSize={'16'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>Tarjeta: </Text>
                                 <Image source={visa} width={'60px'} />
-                                <Text mb={1} color={Colors.green} fontSize={'16'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>{route.params.item.paymentData.cardNumber}</Text>
+                                <Text mb={1} color={Colors.primary} fontSize={'16'} justifyItems={'center'} fontFamily={'titleComfortaaBold'}>{route.params.item.paymentData.cardNumber}</Text>
                             </View>
                         </View>
                         <View mt={8} justifyContent={'center'} alignItems={'center'} mx={8} mb={5}>
-                            <Button mb={4} width={'100%'} py={3} onPress={() => console.log('descargado')} borderRadius={50} background={Colors.green} _pressed={{ backgroundColor: '#d1d1d1' }} _text={{ color: 'white', fontSize: 18, fontFamily: 'titleConfortaaRegular', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Descargar voucher</Button>
-                            <Button width={'100%'} py={3} onPress={() => console.log('timbrado')} borderRadius={50} background={Colors.green} _pressed={{ backgroundColor: '#d1d1d1' }} _text={{ color: 'white', fontSize: 18, fontFamily: 'titleConfortaaRegular', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Solicitar factura</Button>
+                            <Button mb={4} width={'100%'} py={3} onPress={() => console.log('descargado')} borderRadius={50} _pressed={{ backgroundColor: Colors.lightGray }} _text={{ fontSize: 18, fontFamily: 'titleConfortaaRegular', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Descargar voucher</Button>
+                            <Button width={'100%'} py={3} onPress={() => console.log('timbrado')} borderRadius={50} _pressed={{ backgroundColor: Colors.lightGray }} _text={{ fontSize: 18, fontFamily: 'titleConfortaaRegular', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Solicitar factura</Button>
                         </View>
 
                     </ScrollView>

@@ -81,7 +81,7 @@ export default function App() {
     }
     return (
         <NativeBaseProvider theme={theme}>
-            <View flex={1} backgroundColor={Colors.green} alignItems={'center'} justifyContent={'center'}>
+            <View flex={1} backgroundColor={Colors.primary} alignItems={'center'} justifyContent={'center'}>
                 <Spinner size={'sm'} color={'white'}></Spinner>
             </View>
         </NativeBaseProvider>

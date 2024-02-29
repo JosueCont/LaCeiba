@@ -17,9 +17,9 @@ const GroupEditItem = ({navigation, mb = 2}) => {
             </View>
 
             <View flex={1} justifyContent={'center'}>
-                <Text color={Colors.green} fontSize={'md'}>Lorena Castro</Text>
+                <Text color={Colors.primary} fontSize={'md'}>Lorena Castro</Text>
             </View>
-            <View borderWidth={1} height={'60%'} alignSelf={'center'} mr={3} borderColor={Colors.yellow}/>
+            <View borderWidth={1} height={'60%'} alignSelf={'center'} mr={3} borderColor={Colors.secondary}/>
             <View flex={1} flexDirection={'row'} alignItems={'center'}>
                 <View flex={1} alignItems={'center'} justifyContent={'center'}>
                     <Image source={iconEdit} style={{width: 30, height: 30}}></Image>

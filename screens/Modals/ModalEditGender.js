@@ -67,7 +67,7 @@ const ModalEditGender = ({visible, setVisible, appDuck,action, partner}) => {
                 }}>
                     <LinearGradient
                         // Background Linear Gradient
-                        colors={[Colors.greenV5, Colors.greenV2]}
+                        colors={[Colors.modal.bgColor1, Colors.modal.bgColor2]}
                         style={{
                             position: 'absolute',
                             left: 0,
@@ -77,11 +77,11 @@ const ModalEditGender = ({visible, setVisible, appDuck,action, partner}) => {
                             borderRadius: 20
                         }}
                     />
-                    <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.greenV4, borderRadius: 60}}
+                    <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.darkPrimary, borderRadius: 60}}
                                       onPress={() =>{ 
                                         setVisible(false)
                                       }}>
-                        <Icon as={AntDesign} name={'close'} color={'white'} size={'xs'}></Icon>
+                        <Icon as={AntDesign} name={'close'} color={Colors.bgPrimaryText} size={'xs'}></Icon>
                     </TouchableOpacity>
                    
                     <View>
@@ -91,12 +91,25 @@ const ModalEditGender = ({visible, setVisible, appDuck,action, partner}) => {
                             onChange={(val) => {
                                 console.log(val);
                                 setValue(val)
+                            }} 
+                            _radio={{
+                                bgColor: 'white',
+                                borderWidth: 0.5,
+                                _checked: {
+                                    bgColor: '#fff',
+                                    borderColor: Colors.primary,
+                                    borderWidth: 0.5,
+                                },
+                                _icon: {
+                                    color: Colors.primary
+                                },
+                                color: Colors.modal.textColor
                             }}>
                             {
-                                Object.keys(genders).map(key => <Radio value={key}>{genders[key]}</Radio>)
+                                Object.keys(genders).map(key => <Radio key={key} value={key}><Text style={styles.modalText}>{genders[key]}</Text></Radio>)
                             }
                         </Radio.Group>
-                        <Button colorScheme={'green'} onPress={() => handleSubmit()} mt={4} mb={1}>Actualizar</Button>
+                        <Button onPress={() => handleSubmit()} mt={4} mb={1}>Actualizar</Button>
                     </View>
                 </View>
             </View>

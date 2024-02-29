@@ -1,0 +1,108 @@
+{
+    "name": "La Ceiba",
+    "orientation": "portrait",
+    "icon": "./organizations/laceiba/assets/icon.png",
+    "splash": {
+        "image": "./organizations/laceiba/assets/splash.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#040404"
+    },
+    "updates": {
+        "url": "https://u.expo.dev/7c3e078c-c896-48b4-ada0-33ad8b533d1c"
+    },
+    "runtimeVersion": {
+        "policy": "sdkVersion"
+    },
+    "assetBundlePatterns": [
+        "**/*"
+    ],
+    "web": {
+        "favicon": "./organizations/laceiba/assets/favicon.png"
+    },
+    "plugins": [
+        "expo-font",
+        [
+          "expo-media-library",
+          {
+            "photosPermission": "Allow to access your photos.",
+            "savePhotosPermission": "Allow to save photos.",
+            "isAccessMediaLocationEnabled": true
+          }
+        ]   
+      ],
+    "jsEngine": "hermes",
+    "extra": {
+        "debug": false,
+        "production": true,
+        "sendDeviceToken": true,
+        "URL": "https://laceiba.api.hiumanlab.mx",
+        "URL_DEV": "https://laceiba.api.hiumanlab.mx",
+        "eas": {
+            "projectId": "7c3e078c-c896-48b4-ada0-33ad8b533d1c"
+        },
+        "debugEmail": "alex.dzul@hiumanlab.com",
+        "appleWallet": false,
+        "googleWallet": false,
+        "eCommerce": false,
+        "balance": false,
+        "booking": false,
+        "matches": false,
+        "guests": false,
+        "addditionalMembers": false,
+        "transferPoints": false,
+        "claveSocioAsId": true,
+        "helpContentName": "La Ceiba Club de Golf",
+        "freeGuestsName": "Invitados sin costo",
+        "debugPhone": "9991979545",
+        "theme": {
+            "primary": "#38383b",
+            "darkPrimary": "#252627",
+            "lightPrimary": "#707273",
+            "secondary": "#c59a4b",
+            "bgPrimaryText": "#FFF",
+            "bgSecondaryText": "#FFF",
+            "gray": "#e5e5e5",
+            "darkGray": "#e0e0e0",
+            "lightGray": "#f0f0f0",
+            "red": "#dc2626",
+            "textColor": "#13181c",
+            "textSecondary": "#c59a4b",
+            "textWhite": "#FFF",
+            "textGray": "#8A9EA8",
+            "orange": "#f97316",
+            "black": "#033521",
+            "sideMenu":{
+                "bg": "#151516",
+                "textColor": "#FFF"
+            },
+            "partnerCard":{
+                "bg": "#fff",
+                "textColor": "#13181c",
+                "photoBg": "#0d4443",
+                "nameBg": "#c59a4b",
+                "nameTextColor": "#fff"
+            },
+            "modal":{
+                "bgColor1": "#ececec",
+                "bgColor2": "#ececec",
+                "textColor": "#38383b"
+            }
+        }
+    },
+    "slug": "laceiba",
+    "version": "1.0.19",
+    "ios": {
+        "buildNumber": "71",
+        "supportsTablet": false,
+        "bundleIdentifier": "com.hiumanlab.laceiba"
+    },
+    "android": {
+        "versionCode": 71,
+        "adaptiveIcon": {
+            "foregroundImage": "./organizations/laceiba/assets/adaptive-icon.png",
+            "backgroundImage": "./organizations/laceiba/assets/adaptive-icon-bg.png"
+        },
+        "googleServicesFile": "./organizations/laceiba/google-services.json",
+        "package": "com.hiumanlab.laceiba"
+    }
+}

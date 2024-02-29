@@ -18,7 +18,7 @@ const LayoutV4 = ({children, overlay = false, white = false, bounces = false}) =
     );
 
     return (
-        <ScrollView ref={scrollRef} bounces={bounces} nestedScrollEnabled={true} showsVerticalScrollIndicator={false} flexGrow={1} bgColor={white ? '#fff' : Colors.greenLight}>
+        <ScrollView ref={scrollRef} bounces={bounces} nestedScrollEnabled={true} showsVerticalScrollIndicator={false} flexGrow={1} bgColor={white ? '#fff' : Colors.gray}>
             <View style={{flex: 1}}>
                 {children}
             </View>

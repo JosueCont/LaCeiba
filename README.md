@@ -17,7 +17,7 @@ A continuación presentamos la lista de las tecnologías utilizadas para su cons
 
 | Tecnología | Versión |
 | :------------| :----------- |
-| <span style="color:grey">NodeJs</span>| 16.1.8 |
+| <span style="color:grey">NodeJs</span>| 18.18 |
 | <span style="color:grey">React</span>| 18.1.0 |
 | <span style="color:grey">Native Base</span>| 3.4.23 |
 | <span style="color:grey">React Native</span>| 0.70.5 |
@@ -30,17 +30,21 @@ A continuación presentamos la lista de las tecnologías utilizadas para su cons
 Para poder correr el proyecto siga los siguientes pasos.
 
 ```bash
-$ nvm use 16 # utilizamos versión 16.1.8 de Node
+$ nvm use 18.18 # utilizamos versión 18.18 de Node
 $ yarn. # instalamos dependencias con yarn
 $ npm install -g expo-cli # instalamos el CLI 
 
 # Ahora ejecutamos el proyecto: 
-$ APP_ENV=expo expo start # Ejecutamos el proyecto. 
+# Si deseamos levantarlo en el flavor La hacienda ejecutamos: 
+$ APP_ENV=clublahacienda npx expo start
+
+# Si deseamos probar en flavor La Ceiba ejecutamos: 
+$ APP_ENV=laceiba npx expo start
 ```
 
 ### Compilación para iOS
 Para poder correr el proyecto siga los siguientes pasos.
-
+# TODO: actualizar esta sección para saber los nuevos pasos para compilar con flavors.
 ```bash
 $ npm install --global eas-cli. # Instalamos CLI de eas
 $ eas build --profile production_ios. # para compilar en iOS

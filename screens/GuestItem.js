@@ -30,10 +30,10 @@ const GuestItem = ({navigation, mb = 2, item, onEdit, onDelete}) => {
                   elevation:3
         }}>
             <View flex={1} flexDirection={'column'} pr={1}>
-                <Text numberOfLines={1} color={Colors.green} fontSize={'16'} justifyContent={'center'} fontFamily={'titleComfortaaBold'}>{item?.name}</Text>
-                <Text numberOfLines={1} color={Colors.green} fontSize={'12'} justifyContent={'center'}>{item.email}</Text>
+                <Text numberOfLines={1} color={Colors.primary} fontSize={'16'} justifyContent={'center'} fontFamily={'titleComfortaaBold'}>{item?.name}</Text>
+                <Text numberOfLines={1} color={Colors.primary} fontSize={'12'} justifyContent={'center'}>{item.email}</Text>
             </View>
-            <View flex={.5} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} height={'60%'} alignSelf={'center'} borderLeftWidth={2} borderColor={Colors.yellow}>
+            <View flex={.5} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} height={'60%'} alignSelf={'center'} borderLeftWidth={2} borderColor={Colors.secondary}>
                 <TouchableOpacity onPress={()=>onEdit(item)}>
                     <View flex={0.2} justifyContent={'center'} alignItems={'flex-end'}>
                             <Image source={iconEdit} style={{width: 25, height: 25}}></Image>

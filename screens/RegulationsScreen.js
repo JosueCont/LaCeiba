@@ -10,8 +10,8 @@ const ManualsScreen = ({navigation}) => {
     return (
         <LayoutV4>
             <View flex={1} mx={8}>
-                <Text textAlign={'center'} mt={10} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Reglamentos</Text>
-                <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>Consulta y descarga</Text>
+                <Text textAlign={'center'} mt={10} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Reglamentos</Text>
+                <Text textAlign={'center'} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>Consulta y descarga</Text>
 
                 <RegulationItem mb={4}/>
                 <RegulationItem mb={4}/>

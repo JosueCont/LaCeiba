@@ -80,12 +80,17 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
     const getPartnersFunction = async () => {
         try {
-            const queryString = `?q=${textFilter}&userId=not_null&isActive=true`;
+            let queryString = `?q=${textFilter}&userId=not_null&isActive=true`;
+            
+            if(route?.params?.isGolf){
+                queryString += '&accessToGolf=true'
+            }
+
             const response = await findPartnerQuery(queryString);
             let ignorePersons = route.params.currentPeople.map((item) => item.type === 'SOCIO' && item.data.person.idStandard);
             ignorePersons.push(appDuck.user?.partner?.id)
             let data = _.filter(response.data.items, function (o) {
-                return !ignorePersons.includes(o.id) && o.estatus === "Y";
+                return !ignorePersons.includes(o.id)  && o.estatus === "Y" ;
             });
             setPeople(data);
         } catch (e) {
@@ -177,13 +182,13 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
                     <View>
                         <View mb={6}>
-                            <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                            <Text textAlign={'center'} mb={2} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                 Seleccione a la persona que desea invitar
                             </Text>
                         </View>
 
                         <View>
-                            <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                            <Text textAlign={'center'} mb={2} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                 Tipo de persona
                             </Text>
 
@@ -205,7 +210,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                         {
                                             personType.map((item) => {
                                                 return (
-                                                    <Select.Item label={item.label} value={item.value}/>
+                                                    <Select.Item key={item.value} label={item.label} value={item.value}/>
 
                                                 )
                                             })
@@ -214,7 +219,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                             }
                             {
                                 (typeSelected === 'g' && points < route.params?.pointsDay) &&
-                                <Text textAlign={'center'} color={'red.500'} fontSize={'xs'} mb={4}>
+                                <Text textAlign={'center'} color={Colors.red} fontSize={'xs'} mb={4}>
                                     Actualmente cuentas con {points} punto(s).{'\n'}Para agregar un invitado se requieren {route.params?.pointsDay} puntos.
                                 </Text>
                             }
@@ -223,7 +228,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                             {
                                 (typeSelected ==='p' || points >= route.params?.pointsDay ) &&
                                 <View mb={2}>
-                                    <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                    <Text textAlign={'center'} mb={2} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                         Elija a la persona
                                     </Text>
                                     <Input placeholder={'Buscar'} value={textFilter} onChangeText={(v) => {
@@ -238,7 +243,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                 <View>
                                     {
                                             personNotValidText &&
-                                            <Text my={2} textAlign={'center'} color={'red.500'}>{personNotValidText}</Text>
+                                            <Text my={2} textAlign={'center'} color={Colors.red}>{personNotValidText}</Text>
                                     }
                                 </View>
                             {
@@ -248,7 +253,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                    
                                 { 
                                 !noticeWrite ?
-                                    <Text textAlign={'center'} color={'red.500'} fontSize={'xs'} mb={4}>
+                                    <Text textAlign={'center'} color={Colors.red} fontSize={'xs'} mb={4}>
                                       Escribe por lo menos 3 letras
                                   </Text>
                                   :
@@ -261,8 +266,8 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                                 peopleSearch.map((item, idx) => {
                                                     let selected = _.has(personSelected, 'idStandard') ? (_.get(personSelected, 'idStandard') === item.idInvitado || _.get(personSelected, 'idStandard') === item.id) ? true : false : false;
                                                     return (
-                                                        <TouchableOpacity key={idx} style={{borderWidth: 0.5, borderColor: Colors.green, marginBottom: 10, borderRadius: 10, backgroundColor: 'white'}} onPress={() => {
-                                                            people.map(async (itemSub) => {
+                                                        <TouchableOpacity key={idx} style={{borderWidth: 0.5, borderColor: Colors.primary, marginBottom: 10, borderRadius: 10, backgroundColor: 'white'}} onPress={() => {
+                                                            people.map(async (itemSub, idxSub) => {
                                                                 if (typeSelected == 'g') {
                                                                     if (itemSub.idInvitado == item.idInvitado) {
                                                                         let mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -296,23 +301,22 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                                             })
                                                         }}>
                                                             <View flexDir={'row'}
-                                                                //backgroundColor={_.has(personSelected, 'idStandard') ? (_.get(personSelected, 'idStandard') === item.idInvitado || _.get(personSelected, 'idStandard') === item.id) ? Colors.greenV6 : Colors.greenV5 : Colors.greenV5}
                                                                 height={50} mb={2} justifyContent={'center'} pl={5} borderRadius={10}>
                                                                 <View flex={1} justifyContent={'center'}>
                                                                     {
                                                                         typeSelected == 'g' && item.nombre  &&
-                                                                            <Text color={Colors.green}>{`${item.nombre} ${item.apellidoPaterno}`}</Text>        
+                                                                            <Text color={Colors.primary}>{`${item.nombre} ${item.apellidoPaterno}`}</Text>        
                                                                     }
                                                                     {
                                                                      typeSelected == 'p' && item.nombreSocio  &&
-                                                                     <Text color={Colors.green}>{item.nombreSocio}</Text>
+                                                                     <Text color={Colors.primary}>{item.nombreSocio}</Text>
                                                                     }
                                                                 </View>
                                                                 
                                                                 <View justifyContent={'center'} pr={4}>
                                                                     {
                                                                         selected &&
-                                                                        <Icon as={MaterialIcons} name={'check-circle'} color={Colors.green} size={'md'}></Icon>
+                                                                        <Icon as={MaterialIcons} name={'check-circle'} color={Colors.lightPrimary} size={'md'}></Icon>
 
                                                                     }
                                                                 </View>
@@ -330,7 +334,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                         {
                                             ((textFilter !== '' && peopleSearch.length === 0)) &&
                                             <>
-                                                <Text textAlign={'center'} color={'red.500'} mb={2}>Sin resultados</Text>
+                                                <Text textAlign={'center'} color={Colors.red} mb={2}>Sin resultados</Text>
                                                 {/* {typeSelected ==='g' && <Button mt={2} onPress={() => {setModalAddPartnerSap(true)}}>Agregar invitado con costo</Button>} */}
                                             </>
                                             
@@ -357,7 +361,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                 Agregar
                             </Button>
                         }
-                        <Button bg={'primary.500'} _pressed={{bgColor: 'primary.50'}} onPress={() => {
+                        <Button  onPress={() => {
                             navigation.goBack();
                         }}>
                             Regresar

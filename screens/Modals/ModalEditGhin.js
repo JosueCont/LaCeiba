@@ -58,7 +58,6 @@ const ModalEditGhin = ({visible, setVisible, appDuck,action}) => {
             transparent={true}
             visible={visible}
             onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
                 setVisible(!visible);
             }}
         >
@@ -69,7 +68,7 @@ const ModalEditGhin = ({visible, setVisible, appDuck,action}) => {
                 }}>
                     <LinearGradient
                         // Background Linear Gradient
-                        colors={[Colors.greenV5, Colors.greenV2]}
+                        colors={[Colors.modal.bgColor1, Colors.modal.bgColor2]}
                         style={{
                             position: 'absolute',
                             left: 0,
@@ -79,20 +78,20 @@ const ModalEditGhin = ({visible, setVisible, appDuck,action}) => {
                             borderRadius: 20
                         }}
                     />
-                    <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.greenV4, borderRadius: 60}}
+                    <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', width: 25, height: 25, position: 'absolute', right: -8, top: -14, backgroundColor: Colors.darkPrimary, borderRadius: 60}}
                                       onPress={() =>{ 
                                         setVisible(false)
                                       }}>
-                        <Icon as={AntDesign} name={'close'} color={'white'} size={'xs'}></Icon>
+                        <Icon as={AntDesign} name={'close'} color={Colors.bgPrimaryText} size={'xs'}></Icon>
                     </TouchableOpacity>
                    
                     <View>
                         <Text style={styles.modalText} mb={8} fontSize={'2xl'}>GHIN</Text>
-                        <Input maxLength={7} width={'full'}  mb={5} isRequired value={value}  onChangeText={val =>{
+                        <Input variant="outline" maxLength={8} width={'full'}  mb={5} isRequired value={value}  onChangeText={val =>{
                             setValue(val)
                         }}/>
                         {/* <FormControl isInvalid={validateEmpty} mb={6}>
-                            <FormControl.ErrorMessage _text={{color: "white"}} leftIcon={<WarningOutlineIcon  size="xs" />}>
+                            <FormControl.ErrorMessage _text={{color: Colors.modal.textColor}} leftIcon={<WarningOutlineIcon  size="xs" />}>
                                 El valor no puede ser vacio y deber ser mayor a 0 y maximo {pointsUser} puntos
                             </FormControl.ErrorMessage>
                         </FormControl> */}

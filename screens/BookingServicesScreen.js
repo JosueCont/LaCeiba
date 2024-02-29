@@ -11,7 +11,7 @@ import ModalInfo from "./Modals/ModalInfo";
 import { loggedOutAction } from '../redux/ducks/appDuck';
 import {connect} from "react-redux";
 
-const BookingServicesScreen = ({navigation, loggedOutAction}) => {
+const BookingServicesScreen = ({navigation, loggedOutAction, appDuck}) => {
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(null);
     const [getActiveStatus, setGetActiveStatus] = useState({isActive: true, reason: "Esta es una razón"});
@@ -67,16 +67,20 @@ const BookingServicesScreen = ({navigation, loggedOutAction}) => {
                     mt={6}
                     refreshControl={
                         <RefreshControl
-                            tintColor={Colors.green}
+                            tintColor={Colors.primary}
                             refreshing={loading}
                             onRefresh={getServices}
                         />
                     }
                     flexGrow={1}>
+                    <Text>{console.log(appDuck.user)}</Text>
                     {
                         services.map((service, index) => {
-                            return (
-                                <View mb={5}>
+                            // TODO: validar que el endpoint de login devuelva la info de la membresía 
+                            // Validamos si el socio tiene una membresía y si esta no tiene acceso a GOlf 
+                           // if(appDuck.user?.membershipId !== null && appDuck.user?.membership?.accessToGolf === false && service.isGolf) return null
+                            return(
+                                <View key={index} mb={5}>
                                     <View>
                                         <ImageBackground source={{uri: service.fileUrl}} style={{height: 180}} borderRadius={20}>
 

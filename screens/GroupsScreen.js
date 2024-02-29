@@ -12,8 +12,8 @@ const GroupScreen = ({navigation}) => {
     return (
         <LayoutV4>
             <View flex={1} mx={8}>
-                <Text textAlign={'center'} mt={10} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Grupos fijos</Text>
-                <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>Consulta y edita</Text>
+                <Text textAlign={'center'} mt={10} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>Grupos fijos</Text>
+                <Text textAlign={'center'} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'lg'}>Consulta y edita</Text>
 
                 <TouchableOpacity onPress={() => navigation.navigate('GroupEditScreen')}>
                     <View mb={10} borderRadius={20} overflow={'hidden'}>
@@ -21,7 +21,7 @@ const GroupScreen = ({navigation}) => {
                             <Image source={imgGolf} style={{width: '100%'}}/>
                         </View>
 
-                        <View alignItems={'center'} justifyContent={'center'} height={50} width={'100%'} bgColor={Colors.green} style={{bottom: 0, position: 'absolute', zIndex: 1}}>
+                        <View alignItems={'center'} justifyContent={'center'} height={50} width={'100%'} bgColor={Colors.primary} style={{bottom: 0, position: 'absolute', zIndex: 1}}>
                             <Text fontSize={'lg'}>Grupo de golf</Text>
                         </View>
                     </View>
@@ -32,7 +32,7 @@ const GroupScreen = ({navigation}) => {
                             <Image source={imageTenis} style={{width: '100%'}}/>
                         </View>
 
-                        <View alignItems={'center'} justifyContent={'center'} height={50} width={'100%'} bgColor={Colors.green} style={{bottom: 0, position: 'absolute', zIndex: 1}}>
+                        <View alignItems={'center'} justifyContent={'center'} height={50} width={'100%'} bgColor={Colors.primary} style={{bottom: 0, position: 'absolute', zIndex: 1}}>
                             <Text fontSize={'lg'}>Grupo de golf</Text>
                         </View>
                     </View>

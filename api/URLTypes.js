@@ -68,5 +68,6 @@ export const URLTypes = {
     GET_TOTAL_BALANCE: '/v1/users/print/total',
     UPDATE_DEVICE: '/v1/notifications/device',
     //UPDATE_USER_PASSWORD: '/v1/auth/reset-password',
-    ADD_PARTNER_SAP: '/v1/api-golf/sap/guest/example'
+    ADD_PARTNER_SAP: '/v1/api-golf/sap/guest/example',
+    GET_CONFIG: '/v1/configuration'
 };

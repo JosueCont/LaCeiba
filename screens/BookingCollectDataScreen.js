@@ -18,6 +18,7 @@ import {useIsFocused} from "@react-navigation/native";
 import LayoutV3 from "./Layouts/LayoutV3";
 import HolesItemSelected from "../components/HolesItemSelected"
 import { alignItems } from "styled-system";
+import Constants from "expo-constants"
 
 moment.locale('es');
 
@@ -50,7 +51,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
     const tomorrow = new Date().setDate(new Date().getDate() + 1)
     const today = new Date().setDate(new Date().getDate())
     const todayPlus7 = new Date()
-    todayPlus7.setDate(todayPlus7.getDate() + 5)
+    todayPlus7.setDate(todayPlus7.getDate() + 7)
     const [holes,setHoles] = useState(null)
     const [hoursMessageInfo, setHoursMessageInfo] = useState('')
 
@@ -476,10 +477,10 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                 <View flex={1}>
                     <ScrollView flexGrow={1} showsVerticalScrollIndicator={false}>
                         <View mb={6}>
-                            <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
+                            <Text textAlign={'center'} mb={2} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'sm'}>
                                 Reservación de
                             </Text>
-                            <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>
+                            <Text textAlign={'center'} mb={2} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>
                                 {route?.params?.service?.name}
                             </Text>
                         </View>
@@ -487,7 +488,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                         {
                             route?.params?.service?.areas.length > 1 &&
                             <View mb={4}>
-                                <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                <Text textAlign={'center'} mb={2} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                     Área
                                 </Text>
                                 {
@@ -524,7 +525,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
                             <View mb={6}>
                                  <View  mb={4} justifyContent={'center'} alignItems={'center'} textAlign={'center'}>
-                                    <Text justifyContent={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>Número de hoyos a jugar</Text>
+                                    <Text justifyContent={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>Número de hoyos a jugar</Text>
                                  </View>
                                  {
                                     loading === true ?
@@ -538,7 +539,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                         {
                            
                             <View mb={4}>
-                                <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                <Text textAlign={'center'} mb={2} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                     Número de personas
                                 </Text>
 
@@ -576,7 +577,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                             
                         }
                         <View mb={6}>
-                            <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                            <Text textAlign={'center'} mb={2} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                 Fecha
                             </Text>
 
@@ -584,8 +585,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                 showCalendar === true ?
                                     <Calendar
 
-                                        minDate={route?.params?.service?.bookNextDay ? tomorrow : today}
-                                        maxDate={todayPlus7}
+                                        minDate={route?.params?.service?.bookNextDay ? moment(tomorrow).format('YYYY-MM-DD') : moment(today).format('YYYY-MM-DD')}
+                                        maxDate={moment(todayPlus7).format('YYYY-MM-DD')}
                                         onDayPress={day => {
                                             let guest = _.filter(people, {'type': 'INVITADO'})
 
@@ -623,7 +624,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                         theme={{
                                             'stylesheet.calendar.header': {
                                                 monthText: {
-                                                    color: Colors.green,
+                                                    color: Colors.primary,
                                                     fontWeight: '700',
                                                     fontSize: 20,
                                                 },
@@ -634,16 +635,16 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                                     textAlign: 'center',
                                                     fontSize: 11,
                                                     fontWeight: 'bold',
-                                                    color: Colors.green
+                                                    color: Colors.primary
                                                 },
                                             },
-                                            todayBackgroundColor: Colors.gray,
-                                            todayTextColor: '#ffffff',
-                                            dayTextColor: Colors.green,
+                                            todayBackgroundColor: Colors.darkGray,
+                                            todayTextColor:Colors.textColor,
+                                            dayTextColor: Colors.textColor,
                                             textDayFontSize: 14,
-                                            arrowColor: Colors.yellow,
+                                            arrowColor: Colors.secondary,
                                             width: '100%',
-                                            selectedDayBackgroundColor: Colors.green,
+                                            selectedDayBackgroundColor: Colors.primary,
                                             selectedDayTextColor: '#ffffff',
                                         }}
                                     />
@@ -672,13 +673,13 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                     !date ?
                                     <View bg={'rgba(255,255, 255,0.3)'} p={4} borderRadius={8} justifyContent={'center'} alignItems={'center'}>
                                         <View flex={1} flexDirection={'row'} alignItems={'center'} mx={3} >
-                                            <InfoIcon size={'md'} color={Colors.yellow} mr={3}/>
-                                            <Text fontSize={14} color={Colors.green}>Seleccionar una fecha para ver los horarios disponibles</Text>
+                                            <InfoIcon size={'md'} color={Colors.secondary} mr={3}/>
+                                            <Text fontSize={14} color={Colors.primary}>Seleccionar una fecha para ver los horarios disponibles</Text>
                                         </View>
                                     </View>
                                  : (hours && hours?.length > 0) ?
                                     <View>
-                                        <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                        <Text textAlign={'center'} mb={2} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                             Horario
                                         </Text>
                                         <FormControl isInvalid={errors.hourSelected}>
@@ -722,8 +723,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                     </View>
                                     :<View bg={'rgba(255,255, 255,0.3)'} p={4} borderRadius={8} justifyContent={'center'} alignItems={'center'}>
                                         <View flex={1} flexDirection={'row'} alignItems={'center'} mx={3} >
-                                            <InfoIcon size={'md'} color={Colors.yellow} mr={3}/>
-                                            <Text fontSize={14} color={Colors.green}>{hoursMessageInfo}</Text>
+                                            <InfoIcon size={'md'} color={Colors.secondary} mr={3}/>
+                                            <Text fontSize={14} color={Colors.primary}>{hoursMessageInfo}</Text>
                                         </View>
                                     </View>
                             }
@@ -731,42 +732,42 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                         {
                             loadingHours &&
                             <View mb={2}>
-                                <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>Consultando horarios disponibles...</Text>
+                                <Text textAlign={'center'} mb={2} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>Consultando horarios disponibles...</Text>
                             </View>
                         }
                         {
                             blockingHours &&
                             <View mb={2}>
-                                <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>Apartando horario seleccionado...</Text>
+                                <Text textAlign={'center'} mb={2} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>Apartando horario seleccionado...</Text>
                             </View>
                         }
                         {
                             !blockingHours && minutesLeft &&
                             <View mb={2}>
-                                <Text textAlign={'center'} mb={2} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>Tiempo para reservar {minutesLeft}:{secondsLeft}</Text>
+                                <Text textAlign={'center'} mb={2} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'sm'}>Tiempo para reservar {minutesLeft}:{secondsLeft}</Text>
                             </View>
                         }
 
                         {
                             area?.maxPeople > 1 &&
                             <View mb={6}>
-                                <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                <Text textAlign={'center'} mb={4} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                     Puntos
                                 </Text>
                                 <View flexDir={'row'} mb={3}>
                                     <View flex={1}>
-                                        <Text textAlign={'center'} color={points>= 0 ? Colors.green : 'red.500'} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>
+                                        <Text textAlign={'center'} color={points>= 0 ? Colors.primary : Colors.red} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>
                                             {points}
                                         </Text>
-                                        <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'xs'}>
+                                        <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'xs'}>
                                             Disponibles
                                         </Text>
                                     </View>
                                     <View flex={1}>
-                                        <Text textAlign={'center'} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>
+                                        <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>
                                             {_.filter(people, {'type': 'INVITADO'}).length * pointsDay}
                                         </Text>
-                                        <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'xs'}>
+                                        <Text textAlign={'center'} mb={4} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'xs'}>
                                             A utilizar
                                         </Text>
                                     </View>
@@ -775,13 +776,13 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
                                 {
                                 (points < 0) &&
-                                <Text textAlign={'center'} color={'red.500'} fontSize={'xs'} mb={4}>
+                                <Text textAlign={'center'} color={Colors.red} fontSize={'xs'} mb={4}>
                                    Puntos insuficientes, elimina algún invitado para poder completar tu reservación
                                 </Text>
                                 }
 
 
-                                <Text textAlign={'center'} mb={4} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                <Text textAlign={'center'} mb={4} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                     Elige las personas
                                 </Text>
 
@@ -794,7 +795,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                                 if (o.type === 'INVITADO') return o
                                             }).length;
                                             let point = invitados * pointsDay;
-                                            navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points:points, point: point, pointsDay: pointsDay})
+                                            navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points:points, point: point, pointsDay: pointsDay, isGolf: route?.params?.service.isGolf})
                                         }}>
                                             <View height={75} bg={'rgba(255,255, 255,1)'} flexDirection={'row'} borderStyle={'dashed'} borderWidth={1.5}>
                                                 <View flex={1} justifyContent={'center'} alignItems={'center'}>
@@ -811,7 +812,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
 
                                 <View height={75} bg={'#fff'} mb={2} flexDirection={'row'} borderRadius={10}>
                                     <View width={65} alignItems={'center'} justifyContent={'center'}>
-                                        <Icon as={MaterialIcons} name={'check-circle'} size={'2xl'} color={'#50C878'}></Icon>
+                                        <Icon as={MaterialIcons} name={'check-circle'} size={'2xl'} color={Colors.lightPrimary}></Icon>
                                     </View>
                                     <View flex={1} justifyContent={'center'}>
                                         <Text color={'#000'}>{appDuck.user.firstName} {appDuck.user.lastName}</Text>
@@ -824,7 +825,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                             return (
                                                 <View key={index} height={75} bg={'#fff'} mb={2} flexDirection={'row'}>
                                                     <View width={65} alignItems={'center'} justifyContent={'center'}>
-                                                        <Icon as={MaterialIcons} name={'check-circle'} size={'2xl'} color={'#50C878'}></Icon>
+                                                        <Icon as={MaterialIcons} name={'check-circle'} size={'2xl'} color={Colors.lightPrimary}></Icon>
                                                     </View>
                                                     <View flex={1} justifyContent={'center'}>
                                                         <Text fontSize={12} color={'#000'}>{person.name}</Text>
@@ -834,7 +835,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                                         removePerson(index, person)
                                                     }}>
                                                         <View flex={1} width={65} alignItems={'center'} justifyContent={'center'}>
-                                                            <Icon as={MaterialIcons} name={'delete'} size={'2xl'} color={'red.500'}></Icon>
+                                                            <Icon as={MaterialIcons} name={'delete'} size={'2xl'} color={Colors.red}></Icon>
                                                         </View>
                                                     </TouchableOpacity>
                                                 </View>
@@ -851,7 +852,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                         {
                             (route?.params?.service?.isGolf === true && additionals.length > 0) &&
                             <View mb={10} pl={2}>
-                                <Text textAlign={'center'} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
+                                <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>
                                     Servicios Adicionales
                                 </Text>
                                 {
@@ -869,8 +870,8 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                                                     bgColor: 'white',
                                                     borderWidth: 0.5,
                                                     _checked: {
-                                                        bgColor: Colors.green,
-                                                        borderColor: Colors.green
+                                                        bgColor: Colors.primary,
+                                                        borderColor: Colors.primary
                                                     },
                                                     _icon: {
                                                         color: '#fff'
@@ -907,7 +908,7 @@ const BookingCollectDataScreen = ({route, navigation, appDuck}) => {
                     people={people}
                     partnerHost={appDuck.user}
                     timeLeft={<View mb={2}>
-                    <Text textAlign={'center'} mb={2}  fontFamily={'titleComfortaaBold'} color={Colors.yellow} fontSize={'xs'}>Tiempo para reservar {minutesLeft}:{secondsLeft}</Text>
+                    <Text textAlign={'center'} mb={2}  fontFamily={'titleComfortaaBold'} color={Colors.secondary} fontSize={'xs'}>Tiempo para reservar {minutesLeft}:{secondsLeft}</Text>
                 </View>}
                     setVisible={setModalConfirmBooking}
                     onConfirm={confirmBooking}>

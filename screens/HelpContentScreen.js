@@ -46,7 +46,7 @@ const HelpContentScreen = ({navigation, route}) => {
                 <ScrollView
                     refreshControl={
                         <RefreshControl
-                            tintColor={Colors.green}
+                            tintColor={Colors.primary}
                             refreshing={loading}
                             onRefresh={getDirectoryFunction}
                         />
@@ -54,8 +54,8 @@ const HelpContentScreen = ({navigation, route}) => {
                     flex={1}
                     showsVerticalScrollIndicator={false}
                 >
-                    <Text textAlign={'center'} mt={10} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>{route.params.title}</Text>
-                    <Text textAlign={'center'} mb={5} color={Colors.green} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>{route.params.description}</Text>
+                    <Text textAlign={'center'} mt={10} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'}>{route.params.title}</Text>
+                    <Text textAlign={'center'} mb={5} color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={'md'}>{route.params.description}</Text>
 
                     {
                         loading === true ?

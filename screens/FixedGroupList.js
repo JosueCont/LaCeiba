@@ -1,6 +1,4 @@
 import LayoutV4 from "./Layouts/LayoutV4"
-import LayoutV3 from "./Layouts/LayoutV3";
-import bgButton from "../assets/bgButton.png";
 import {Image as ImageRN, ImageBackground, RefreshControl, TouchableOpacity} from "react-native";
 import {Button, Image, ScrollView, Text, View, useToast} from "native-base";
 import React, {useState, useEffect} from "react";
@@ -11,6 +9,9 @@ import iconBooking from "../assets/iconBooking.png";
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import { getAllGF, getOneGF } from "../api/Requests";
 import { loggedOutAction } from "../redux/ducks/appDuck";
+
+import { imageImport } from "../organizations/assets/ImageImporter";
+import Constants from "expo-constants";
 
 const FixedGroupList = ({appDuck, loggedOutAction, navigation, route}) => {
 
@@ -52,7 +53,7 @@ const FixedGroupList = ({appDuck, loggedOutAction, navigation, route}) => {
                         style={{height: 180}}/>
                 </View>
                 <View flex={1} mx={10}>
-                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.green} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Grupos fijos</Text>
+                    <Text textAlign={'center'} mt={8} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>Grupos fijos</Text>
 
                     <ScrollView
                         showsVerticalScrollIndicator={false}
@@ -76,7 +77,7 @@ const FixedGroupList = ({appDuck, loggedOutAction, navigation, route}) => {
                                                 maxPeople: maxP
                                             });
                                         }}>
-                                            <ImageBackground resizeMode={'stretch'} source={bgButton} style={{
+                                            <ImageBackground resizeMode={'stretch'} source={imageImport(Constants.expoConfig.slug).bgButton} style={{
                                                 opacity: value.isActive ? 1 : 0.7,
                                                 width: '100%',
                                                 height: 67,
