@@ -33,16 +33,6 @@
 
 Nota: Para esta versión no se generó tag para acumular los cambios para presentarlo en la versión 1.0.19
 
-#### 🚀 [1.0.19](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.19) (22 Febrero 2024)
-
-| | Change type | Descripción |
-|:--| :------------| :----------- |
-|🥈| <span style="color:grey">Major update</span>| Actualización a versión Expo SDK 50 |
-|🥈| <span style="color:grey">Minor update</span>| Soporte para nuevas versiones iOS y Android |
-|🥈| <span style="color:grey">Minor update</span>| Calendario de reservaciones ahora soporta 7 días hacia futuro para reservaciones |
-|🥈| <span style="color:grey">Minor update</span>| Se muestra foto de socio si esta característica se tiene activada en el sistema |
-|🥈| <span style="color:grey">Minor update</span>| Género "No binario" ahora se cambia por "No especificado" |
-
 
 #### 🚀 [1.0.17](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.17) (24 Octubre 2023)
 
