@@ -41,11 +41,14 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
         useEffect(() => {
             setPoints(route.params.points)
+            if(route.params.addPartner) {
+                setTypeSelected('p');
+            }
         },[route]);
 
     useFocusEffect(
         React.useCallback(() => {
-            setTypeSelected(null);
+            setTypeSelected(route.params.addPartner ? 'p' : null);
             setPersonSelected(null);
             return () => {
                 setTypeSelected(null);
@@ -88,9 +91,13 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
             const response = await findPartnerQuery(queryString);
             let ignorePersons = route.params.currentPeople.map((item) => item.type === 'SOCIO' && item.data.person.idStandard);
+            let ignorePartnersId = [];
+            if(route.params?.excludePartnerIds) {
+                ignorePartnersId = route.params?.excludePartnerIds;
+            }
             ignorePersons.push(appDuck.user?.partner?.id)
             let data = _.filter(response.data.items, function (o) {
-                return !ignorePersons.includes(o.id)  && o.estatus === "Y" ;
+                return !ignorePersons.includes(o.id)  && o.estatus === "Y" && !ignorePartnersId.includes(o.id);
             });
             setPeople(data);
         } catch (e) {
@@ -198,6 +205,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                     loading === false &&
                                     <Select
                                         mb={4}
+                                        isDisabled={route.params.addPartner}
                                         defaultValue={""}
                                         selectedValue={typeSelected ? typeSelected : "Seleccionar"}
                                         onValueChange={(v) => {

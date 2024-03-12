@@ -30,6 +30,8 @@ export const URLTypes = {
     SET_RESERVATION_STATUS: '/v1/bookings/invitations/{{param}}',
     GET_ADDITIONALS: '/v1/users/{{param}}/partners/additionals',
     CANCEL_BOOKING: '/v1/bookings/{{param}}/cancel',
+    DELETE_PARTNERS_BOOKING: '/v1/bookings/{{param}}/partners/delete',
+    ADD_PARTNERS_BOOKING: '/v1/bookings/{{param}}/partners/add',
     TRASNFER_POINTS: '/v1/transfer-points',
     TRASNFER_POINTS_MEMBERS: '/v1/transfer-points/members',
     REGISTER_SEND_CONFIRM_EMAIL: '/v1/auth/partner/send-confirm-email',
