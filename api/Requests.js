@@ -22,6 +22,8 @@ export const bookService = async (params, queryStringParams = []) => await reque
 export const getAllBookings = async (params) => await request(URLTypes.GET_ALL_BOOKINGS, params, 'get');
 export const getAllInvitations = async (params) => await request(URLTypes.GET_ALL_INVITATIONS, params, 'get');
 export const getOneInvitation = async (params, queryStringParams) => await request(URLTypes.GET_ONE_INVITATION, params, 'get', null, queryStringParams);
+export const deletePartnersBooking = async(params, queryStringParams = []) => await request(URLTypes.DELETE_PARTNERS_BOOKING, params, 'post', null, queryStringParams);
+export const addPartnersBooking = async(params, queryStringParams = []) => await request(URLTypes.ADD_PARTNERS_BOOKING, params, 'post', null, queryStringParams);
 export const getProfile = async (params, queryStringParams = []) => await request(URLTypes.GET_PROFILE, params, 'get', null, queryStringParams);
 export const getUser = async (params, queryStringParams = []) => await request(URLTypes.GET_USER, params, 'get', null, queryStringParams);
 export const getAdditionalMembers = async (params) => await request(URLTypes.GET_ADDITIONAL_MEMBERS, params, 'get');
