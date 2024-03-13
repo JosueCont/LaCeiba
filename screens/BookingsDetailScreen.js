@@ -195,7 +195,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
       }
 
       const exitAction = (bookingInvitation) => {
-        if(bookingInvitation.user.id === invitation.booking.hostedBy.id) {
+        if(bookingInvitation.user.id === invitation.booking.hostedBy.id || invitation?.booking?.hostedBy?.id != appDuck.user?.id) {
             return;
         }
         return (
@@ -309,17 +309,19 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                     invitation?.booking?.invitations.filter((currentBooking) => currentBooking.user != null).length > 0 &&
                                     <View>
                                         <Text my={5} mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>SOCIOS</Text>
-                                        <View style={{width: '100%', justifyContent: 'center', alignItems: 'center'}}>
-                                            <Button 
-                                                style={{width: '20%'}}
-                                                onPress={() => {
-                                                    navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points:0, point: 0, pointsDay: 0, isGolf: invitation.booking.area.service.isGolf, addPartner: true, excludePartnerIds: invitation.booking.invitations.map(i => i.user.partner.id)})
-                                                }}
-                                                >
-                                                +
-                                            </Button>
-                                        </View>
-                                        
+                                        {
+                                            invitation?.booking?.hostedBy?.id == appDuck.user?.id &&
+                                            <View style={{width: '100%', justifyContent: 'center', alignItems: 'center'}}>
+                                                <Button
+                                                    style={{width: '20%'}}
+                                                    onPress={() => {
+                                                        navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points:0, point: 0, pointsDay: 0, isGolf: invitation.booking.area.service.isGolf, addPartner: true, excludePartnerIds: invitation.booking.invitations.map(i => i.user.partner.id)})
+                                                    }}
+                                                    >
+                                                    +
+                                                </Button>
+                                            </View>
+                                        }
                                     </View>
                                     
                                 }
