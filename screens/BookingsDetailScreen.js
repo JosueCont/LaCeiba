@@ -201,7 +201,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
         return (
             <View style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
                 <TouchableOpacity onPress={()=>{setOnModalDeletePartner(true); setPartnerUserDeleteSelected(bookingInvitation.user)}}>
-                    <Icon as={AntDesign} name={'close'} color={Colors.primary} size={'sm'} />
+                    <Icon as={AntDesign} name={'delete'} color={Colors.red} size={'sm'} />
                 </TouchableOpacity>
             </View>
         )
@@ -313,12 +313,12 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                             invitation?.booking?.hostedBy?.id == appDuck.user?.id &&
                                             <View style={{width: '100%', justifyContent: 'center', alignItems: 'center'}}>
                                                 <Button
-                                                    style={{width: '20%'}}
+                                                    style={{width: '30%'}}
                                                     onPress={() => {
                                                         navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points:0, point: 0, pointsDay: 0, isGolf: invitation.booking.area.service.isGolf, addPartner: true, excludePartnerIds: invitation.booking.invitations.map(i => i.user.partner.id)})
                                                     }}
                                                     >
-                                                    +
+                                                    + Añadir
                                                 </Button>
                                             </View>
                                         }
