@@ -313,12 +313,12 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                             invitation?.booking?.hostedBy?.id == appDuck.user?.id &&
                                             <View style={{width: '100%', justifyContent: 'center', alignItems: 'center'}}>
                                                 <Button
-                                                    style={{width: '30%'}}
+                                                    style={{width: '50%'}}
                                                     onPress={() => {
                                                         navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points:0, point: 0, pointsDay: 0, isGolf: invitation.booking.area.service.isGolf, addPartner: true, excludePartnerIds: invitation.booking.invitations.map(i => i.user.partner.id)})
                                                     }}
                                                     >
-                                                    + Añadir
+                                                    + Añadir jugadores
                                                 </Button>
                                             </View>
                                         }
