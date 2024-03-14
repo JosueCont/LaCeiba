@@ -14,6 +14,15 @@
 ## Versiones
 --------
 
+
+#### 🚀 [1.0.20](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.20) (XXXX 2024)
+
+| | Change type | Descripción |
+|:--| :------------| :----------- |
+|🏆| <span style="color:grey">New feature</span>| Se agrega funcionalidad para editar información de una reservación. |
+|🥈| <span style="color:grey">Minor update</span>| Reservaciones de Golf en Lunes ahora es según si la configuración así lo permite |
+
+
 #### 🚀 [1.0.19](https://bitbucket.org/grupohiuman/hacienda-app/commits/tag/1.0.19) (22 Febrero 2024)
 
 | | Change type | Descripción |
