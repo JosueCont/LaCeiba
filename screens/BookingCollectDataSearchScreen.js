@@ -41,14 +41,12 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
 
         useEffect(() => {
             setPoints(route.params.points)
-            if(route.params.addPartner) {
-                setTypeSelected('p');
-            }
+            setTypeSelected(route.params.addPartner === true ? 'p' : route.params.addGuest === true ? 'g': null);
         },[route]);
 
     useFocusEffect(
         React.useCallback(() => {
-            setTypeSelected(route.params.addPartner ? 'p' : null);
+            setTypeSelected(route.params.addPartner === true ? 'p' : route.params.addGuest === true ? 'g' : null);
             setPersonSelected(null);
             return () => {
                 setTypeSelected(null);
@@ -56,7 +54,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                 setPersonSelected(null);
                 
             };
-        }, [])
+        }, [route.params])
     );
 
     useEffect(() => {
@@ -71,8 +69,13 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
         try {
             const response = await getGuests('')
             let ignorePersons = route.params.currentPeople.map((item) => item.type === 'INVITADO' && item.data.person.idStandard);
+            let ignoreGuestsId = [];
+            if(route.params?.excludeGuestIds) {
+                ignoreGuestsId = route.params?.excludeGuestIds;
+            }
+            console.log(route.params?.excludeGuestIds)
             let data = _.filter(response.data, function (o) {
-                return !ignorePersons.includes(o.idInvitado);
+                return !ignorePersons.includes(o.idInvitado) && !ignoreGuestsId.includes(o.idInvitado);
             });
             setPeople(data)
         } catch (e) {
@@ -205,7 +208,7 @@ const BookingCollectDataSearchScreen = ({route, navigation, appDuck}) => {
                                     loading === false &&
                                     <Select
                                         mb={4}
-                                        isDisabled={route.params.addPartner}
+                                        isDisabled={route.params.addPartner || route.params.addGuest}
                                         defaultValue={""}
                                         selectedValue={typeSelected ? typeSelected : "Seleccionar"}
                                         onValueChange={(v) => {

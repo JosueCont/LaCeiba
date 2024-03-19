@@ -32,6 +32,8 @@ export const URLTypes = {
     CANCEL_BOOKING: '/v1/bookings/{{param}}/cancel',
     DELETE_PARTNERS_BOOKING: '/v1/bookings/{{param}}/partners/delete',
     ADD_PARTNERS_BOOKING: '/v1/bookings/{{param}}/partners/add',
+    DELETE_GUESTS_BOOKING: '/v1/bookings/{{param}}/guests/delete',
+    ADD_GUESTS_BOOKING: '/v1/bookings/{{param}}/guests/add',
     TRASNFER_POINTS: '/v1/transfer-points',
     TRASNFER_POINTS_MEMBERS: '/v1/transfer-points/members',
     REGISTER_SEND_CONFIRM_EMAIL: '/v1/auth/partner/send-confirm-email',
