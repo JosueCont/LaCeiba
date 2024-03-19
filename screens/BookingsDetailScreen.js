@@ -419,7 +419,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                                         navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points:points, point: 0, pointsDay: pointsDay, isGolf: invitation.booking.area.service.isGolf, addPartner: false, addGuest: true, excludeGuestIds: invitation.booking.invitations.map(i => {if(i.guestId !== 0) return i.guestId})})
                                                     }}
                                                     >
-                                                    + Añadir
+                                                    + Añadir jugadores
                                                 </Button>
                                             </View>
                                         }
