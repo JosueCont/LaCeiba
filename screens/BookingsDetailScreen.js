@@ -5,7 +5,7 @@ import {Image as ImageRN, Modal, StyleSheet} from "react-native";
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import ModalConfirmRejectBook from './Modals/ModalConfirmRejectBook';
 import moment from 'moment-timezone'
-import {addPartnersBooking, cancelBooking, createBookingGF, deletePartnersBooking, getAdditionals, getOneInvitation, setReservationStatus} from "../api/Requests";
+import {addGuestsBooking, addPartnersBooking, cancelBooking, createBookingGF, deleteGuestsBooking, deletePartnersBooking, getAdditionals, getOneInvitation, getPoints, setReservationStatus} from "../api/Requests";
 import {connect} from "react-redux";
 import {useIsFocused} from "@react-navigation/native";
 import _ from "lodash";
@@ -43,17 +43,20 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
     const [onModalAddPartner, setOnModalAddPartner] = useState(false);
     const [partnerUserAddSelected, setPartnerUserAddSelected] = useState(null);
     const [people, setPeople] = useState([]);
-    const [partnerUserDeleteSelected, setPartnerUserDeleteSelected] = useState(null);
+    const [partnerGuestDeleteSelected, setPartnerGuestDeleteSelected] = useState(null);
     const isFocused = useIsFocused();
+    const [points, setPoints] = useState(null);
+    const [pointsDay, setPointsDay] = useState(null);
+    const [hasTransferredPoints, setHasTransferredPoints] = useState(false);
 
     const imgRef = useRef();
 
     useEffect(() => {
         if (isFocused) {
-            console.log('getInvitation')
             setInvitation(null)
             setPeople([])
             getInvitation()
+            getPointsFunction()
         }
     }, [isFocused])
 
@@ -124,7 +127,22 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
             const response = await getOneInvitation('', [invitation_id]);
             console.log('=== INVITATION ===',response.data)
             setInvitation(response.data)
+            const pointsDayValue = _.find(response.data.booking.area?.calendarDays, {day: moment(response.data.booking.dueDate).locale('en').format('dddd')}).points;
+            setPointsDay(pointsDayValue)
             setLoading(false)
+            const partnersIds = response.data.booking.invitations?.map(i => {if(i?.user?.partner) return i?.user?.id})
+            const pointsTransferred = [];
+            for (const pt of response.data.user.pointsTransferred) {
+                for (const partnersOnBooking of partnersIds) {
+                    if(pt.fromId == partnersOnBooking && pt.toId == appDuck.user.id) {
+                        pointsTransferred.push(pt);
+                    }
+                }
+            }
+            if (pointsTransferred.length > 0) {
+                setHasTransferredPoints(true);
+            }
+
         } catch (e) {
             console.log(e)
         }
@@ -148,14 +166,36 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
     const onConfirmDeletePartnerInvitation = async () => {
         try {
             setPartnersModifyLoading(true);
-            const invitationsToDelete = {partners: [partnerUserDeleteSelected?.id]};
-            const response = await deletePartnersBooking(invitationsToDelete, [invitation.booking.id]);
+            let guest = null;
+            if (partnerGuestDeleteSelected?.isGuest) {
+                guest = {
+                    guestId: partnerGuestDeleteSelected.id,
+                    guestName: partnerGuestDeleteSelected.name,
+                    guestEmail: partnerGuestDeleteSelected.email
+                }
+            }
+            const invitationsToDelete = partnerGuestDeleteSelected?.isGuest ? {guests: [guest]} :{partners: [partnerGuestDeleteSelected?.id]} ;
+            const response = partnerGuestDeleteSelected?.isGuest ? await deleteGuestsBooking(invitationsToDelete, [invitation.booking.id]) : await deletePartnersBooking(invitationsToDelete, [invitation.booking.id]);
             if (response.status == 201 || response.status == 200) {
                 getInvitation();
             }
             setPartnersModifyLoading(false);
         } catch (error) {
             setPartnersModifyLoading(false);
+        }
+    }
+
+    const getPointsFunction = async () => {
+        try {
+            setLoading(true)
+            const response = await getPoints('', [appDuck.user.id]);
+            let pointsTotal = response.data.totalPoints;
+            setPoints(pointsTotal)
+            setLoading(false)
+
+        } catch (e) {
+            let v = await errorCapture(e);
+            alert(v.value)
         }
     }
 
@@ -195,12 +235,25 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
       }
 
       const exitAction = (bookingInvitation) => {
-        if(bookingInvitation.user.id === invitation.booking.hostedBy.id || invitation?.booking?.hostedBy?.id != appDuck.user?.id) {
+        
+        const isPartner = bookingInvitation.guestId === 0;
+        let guest = null;
+        if(!isPartner) {
+            
+            guest = {
+                isGuest: true,
+                name: bookingInvitation.guestName,
+                id: bookingInvitation.guestId,
+                email: bookingInvitation.guestEmail
+            }
+        }
+        const ownInvitation = isPartner && bookingInvitation.user.id === invitation.booking.hostedBy.id || invitation?.booking?.hostedBy?.id != appDuck.user?.id
+        if(ownInvitation) {
             return;
         }
         return (
             <View style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
-                <TouchableOpacity onPress={()=>{setOnModalDeletePartner(true); setPartnerUserDeleteSelected(bookingInvitation.user)}}>
+                <TouchableOpacity onPress={()=>{setOnModalDeletePartner(true); setPartnerGuestDeleteSelected(isPartner ? bookingInvitation.user : guest)}}>
                     <Icon as={AntDesign} name={'delete'} color={Colors.red} size={'sm'} />
                 </TouchableOpacity>
             </View>
@@ -252,13 +305,13 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
             type: data.type == 'p' ? "SOCIO" : "INVITADO",
             totalPoints: 0
         }
-        
         const arrayPeopleTemp = [...people, person]
         setPeople(arrayPeopleTemp);
+        const isPartner = data.type === 'p';
         try {
             setPartnersModifyLoading(true);
-            const invitationsToAdd = {partners: [data?.person?.userId]};
-            const response = await addPartnersBooking(invitationsToAdd, [invitation.booking.id]);
+            const invitationsToAdd = isPartner ? {partners: [data?.person?.userId]} : {guests: [{guestId: data.person.idInvitado, guestName: person.name, guestEmail: data.person.mail, points: pointsDay}]};
+            const response = isPartner ? await addPartnersBooking(invitationsToAdd, [invitation.booking.id]) : await addGuestsBooking(invitationsToAdd, [invitation.booking.id]);
             if (response.status == 201 || response.status == 200) {
                 getInvitation();
             }
@@ -296,6 +349,13 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                             <View borderWidth={1} borderColor={Colors.secondary} my={4}/>
 
                             <View mx={10} mb={6} alignItems={'center'}>
+                                {
+                                    hasTransferredPoints &&
+                                    <Text my={5} mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>Esta reservación ha sido generada utilizando puntos compartidos, por esta razón no es posible editar la información de socios e invitados</Text>
+                                }
+                            </View>
+
+                            <View mx={10} mb={6} alignItems={'center'}>
                                 <Text my={5} mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>FECHA Y HORA</Text>
                                 <Text color={Colors.primary} fontFamily={'titleConfortaaRegular'} fontSize={15}>
                                     {moment(invitation?.booking?.dueDate, "YYYY-MM-DD").format("DD/MM/YYYY")}
@@ -310,12 +370,12 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                     <View>
                                         <Text my={5} mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>SOCIOS</Text>
                                         {
-                                            invitation?.booking?.hostedBy?.id == appDuck.user?.id &&
+                                            !hasTransferredPoints && invitation?.booking?.hostedBy?.id == appDuck.user?.id &&
                                             <View style={{width: '100%', justifyContent: 'center', alignItems: 'center'}}>
                                                 <Button
                                                     style={{width: '30%'}}
                                                     onPress={() => {
-                                                        navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points:0, point: 0, pointsDay: 0, isGolf: invitation.booking.area.service.isGolf, addPartner: true, excludePartnerIds: invitation.booking.invitations.map(i => i.user.partner.id)})
+                                                        navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points:0, point: 0, pointsDay: 0, isGolf: invitation.booking.area.service.isGolf, addPartner: true, addGuest: false, excludePartnerIds: invitation.booking.invitations.filter(i => i?.user?.partner?.id)})
                                                     }}
                                                     >
                                                     + Añadir
@@ -335,7 +395,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                                         const partner = currentBooking?.user?.firstName.toUpperCase() + " " + currentBooking?.user?.lastName.toUpperCase();
                                                         return (
                                                             currentBooking?.user ?
-                                                            <Row data={[statusCell(currentBooking?.status), partner, qrCell(currentBooking), exitAction(currentBooking)]} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.text}/>
+                                                            <Row data={[statusCell(currentBooking?.status), partner, qrCell(currentBooking), hasTransferredPoints ? <></> : exitAction(currentBooking)]} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.text}/>
                                                             :
                                                             <></>
                                                         );
@@ -349,17 +409,31 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                     invitation?.booking?.invitations.filter((currentBooking) => currentBooking.user == null).length > 0 &&
                                     <View>
                                         <Text my={5} mb={2} textAlign={'center'} color={Colors.primary} fontFamily={'titleBrandonBldBold'} fontSize={'md'}>INVITADOS</Text>
+
+                                        {
+                                            !hasTransferredPoints && invitation?.booking?.hostedBy?.id == appDuck.user?.id &&
+                                            <View style={{width: '100%', justifyContent: 'center', alignItems: 'center'}}>
+                                                <Button
+                                                    style={{width: '30%'}}
+                                                    onPress={() => {
+                                                        navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points:points, point: 0, pointsDay: pointsDay, isGolf: invitation.booking.area.service.isGolf, addPartner: false, addGuest: true, excludeGuestIds: invitation.booking.invitations.map(i => {if(i.guestId !== 0) return i.guestId})})
+                                                    }}
+                                                    >
+                                                    + Añadir
+                                                </Button>
+                                            </View>
+                                        }
                                     
                                         <View style={{width: '100%'}}>
                                             <View style={{width: '100%'}} mt={5} mb={10}>
                                                 <Table style={styles.container} borderStyle={{borderWidth: 1, borderColor: Colors.primary}} color={Colors.primary}>
-                                                    <Row data={['Invitado', 'Qr']} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.textHead}/>
+                                                    <Row data={['Invitado', 'Qr', '']} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.textHead}/>
                                                     {
                                                         invitation?.booking?.invitations?.map((currentBooking, index) => {
 
                                                             return (
                                                                 currentBooking.guestName ?
-                                                                <Row data={[currentBooking?.guestName, qrCell(currentBooking)]} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.text}/>
+                                                                <Row data={[currentBooking?.guestName, qrCell(currentBooking), !hasTransferredPoints ? exitAction(currentBooking) : <></>]} flexArr={[2.5, 3]} style={styles.head} textStyle={styles.text}/>
                                                                 :
                                                                 <></>
                                                             );
@@ -556,7 +630,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                     <ModalAsk
                     setVisible={setOnModalDeletePartner}
                     visible={onModalDeletePartner}
-                    text={`¿Deseas cancelar la invitación de ${partnerUserDeleteSelected?.firstName} ${partnerUserDeleteSelected?.lastName} ?`}
+                    text={`¿Deseas cancelar la invitación de ${partnerGuestDeleteSelected?.firstName ?? partnerGuestDeleteSelected?.name} ${partnerGuestDeleteSelected?.lastName ?? ''} ?`}
                     title={'Cancelar invitación'}
                     textButton={'Sī'}
                     textNoButton={'No'}
