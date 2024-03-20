@@ -414,7 +414,7 @@ const BookingDetailScreen = ({route, navigation, appDuck}) => {
                                             !hasTransferredPoints && invitation?.booking?.hostedBy?.id == appDuck.user?.id &&
                                             <View style={{width: '100%', justifyContent: 'center', alignItems: 'center'}}>
                                                 <Button
-                                                    style={{width: '30%'}}
+                                                    style={{width: '50%'}}
                                                     onPress={() => {
                                                         navigation.navigate('BookingCollectDataSearchScreen', {onAddPerson: addPerson, currentPeople: people, points:points, point: 0, pointsDay: pointsDay, isGolf: invitation.booking.area.service.isGolf, addPartner: false, addGuest: true, excludeGuestIds: invitation.booking.invitations.map(i => {if(i.guestId !== 0) return i.guestId})})
                                                     }}
