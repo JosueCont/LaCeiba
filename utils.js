@@ -2,7 +2,7 @@ import React from "react";
 import {Alert, Linking, Platform} from "react-native";
 import _ from "lodash";
 import moment from "moment/moment";
-
+import { PixelRatio } from "react-native";
 
 export const wait = (timeout) => {
     return new Promise(resolve => {
@@ -151,3 +151,6 @@ export const NOTIFICATION_TYPES = {
     NOTIFY_GUEST_BOOKING_INVITATION:' NOTIFY_GUEST_BOOKING_INVITATION',
     NOTIFY_GUEST_BOOKING_CANCELED: 'NOTIFY_GUEST_BOOKING_CANCELED'
 }
+
+const fontScale = PixelRatio.getFontScale();
+export const getFontSize = size => size/fontScale;
