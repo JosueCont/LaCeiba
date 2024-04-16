@@ -8,10 +8,12 @@ import Registered from "../../../components/laceiba/Home/Registered";
 import NextReservationList from "../../../components/laceiba/Home/NextReservationList";
 import Options from "../../../components/laceiba/Options";
 import moment from "moment";
+import { useNavigation } from "@react-navigation/native";
 
 const {height, width} = Dimensions.get('window');
 
 const HomeScreen = () => {
+    const navigation = useNavigation();
     const people = [
         {image: require('../../../assets/iconPerson.png')},
         {image: require('../../../assets/iconPerson.png')},
@@ -23,9 +25,9 @@ const HomeScreen = () => {
         {image: require('../../../assets/iconPerson.png')},
     ]
     const reservations = [
-        {name:'Tee time', hour: moment(), hole:'1',image: require('../../../assets/provitionalReservation.png') },
-        {name:'Tee time', hour: moment(), hole:'18',image: require('../../../assets/provitionalReservation.png') },
-        {name:'Tee time', hour: moment(), hole:'1',image: require('../../../assets/provitionalReservation.png') },
+        {name:'Tee time', hour: moment(), hole:'1',status:'Confirmado',image: require('../../../assets/provitionalReservation.png') },
+        {name:'Tee time', hour: moment(), hole:'18',status:'Pendiente',image: require('../../../assets/provitionalReservation.png') },
+        {name:'Tee time', hour: moment(), hole:'1', status:'Cancelado',image: require('../../../assets/provitionalReservation.png') },
 
     ]
     return(

@@ -6,6 +6,12 @@ import HomeScreen from "../../screens/laceiba/logged/HomeScreen";
 import BookingScreen from "../../screens/laceiba/logged/BookingScreen";
 import MapScreen from "../../screens/laceiba/logged/MapScreen";
 import ProfileScreen from "../../screens/laceiba/logged/ProfileScreen";
+import CreateBookingScreen from "../../screens/laceiba/logged/Booking/CreateBookingScreen";
+import CreatePetitionScreen from "../../screens/laceiba/logged/Booking/CreatePetitionScreen";
+import JoinPetitionScreen from "../../screens/laceiba/logged/Booking/JoinPetitionScreen";
+import RequesJoinSendScreen from "../../screens/laceiba/logged/Booking/RequesJoinSendScreen";
+import AddPlayersScreen from "../../screens/laceiba/logged/Booking/AddPlayersScreen";
+import NewGuestScreen from "../../screens/laceiba/logged/Booking/NewGuestScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -22,6 +28,12 @@ const LoggedStack = () => {
                     headerShown: false
                 })}>
                     <Stack.Screen name="House" component={HomeScreen}/>
+                    <Stack.Screen name="CreateBooking" component={CreateBookingScreen}/>
+                    <Stack.Screen name="CreatePetition" component={CreatePetitionScreen}/>
+                    <Stack.Screen name="JoinPetition" component={JoinPetitionScreen}/>
+                    <Stack.Screen name="JoinSend" component={RequesJoinSendScreen}/>
+                    <Stack.Screen name="AddPlayers" component={AddPlayersScreen}/>
+                    <Stack.Screen name="AddGuest" component={NewGuestScreen}/>
             </Stack.Navigator>
         )
     }

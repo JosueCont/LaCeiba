@@ -1,19 +1,31 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Dimensions, StyleSheet } from "react-native";
-import { Ionicons, MaterialCommunityIcons, Fontisto } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons, Fontisto, MaterialIcons } from '@expo/vector-icons';
 import { ColorsCeiba } from "../../Colors";
+import { useNavigation } from "@react-navigation/native";
 
 const {height, width} = Dimensions.get('window');
 
-const Options = () => {
+const Options = ({isFlowBooking=false}) => {
+    const navigation = useNavigation();
+
     return(
         <View style={styles.container}>
-            <TouchableOpacity style={styles.btn}>
-                <Ionicons name="search" size={20} color="black" />
-            </TouchableOpacity>
+            {!isFlowBooking ? (
+                <TouchableOpacity
+                    style={styles.btn}>
+                    <Ionicons name="search" size={20} color="black" />
+                </TouchableOpacity>
+            ):(
+                <TouchableOpacity 
+                    onPress={() => navigation.goBack()}
+                    style={styles.btn}>
+                    <Ionicons name="chevron-back" size={20} color="black" />
+                </TouchableOpacity>
+            )}
             <View style={{flexDirection:'row'}}>
                 <TouchableOpacity style={[styles.btn,{marginRight:13}]}>
-                    <MaterialCommunityIcons name="message-processing-outline" size={20} color="black" />
+                    <MaterialIcons name="group" size={20} color="black" />
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.btn}>

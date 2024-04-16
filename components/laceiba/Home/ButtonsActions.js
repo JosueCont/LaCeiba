@@ -2,12 +2,16 @@ import React from "react";
 import { View, Text, TouchableOpacity, Dimensions, StyleSheet } from "react-native";
 import { getFontSize } from "../../../utils";
 import { ColorsCeiba } from "../../../Colors";
+import { useNavigation } from "@react-navigation/native";
 const {height, width} = Dimensions.get('window');
 
 const ButtonsActions = () => {
+    const navigation = useNavigation();
     return(
         <View style={{alignItems:'center', marginBottom:25}}>
-            <TouchableOpacity style={[styles.btn,{width: width*.8, backgroundColor: ColorsCeiba.blackBtns,}]}>
+            <TouchableOpacity 
+                onPress={() => navigation.navigate('CreateBooking')}
+                style={[styles.btn,{width: width*.8, backgroundColor: ColorsCeiba.blackBtns,}]}>
                 <Text style={[styles.lbl,{color: ColorsCeiba.white}]}>Hacer una reserva</Text>
             </TouchableOpacity>
             <View style={styles.contBtns}>

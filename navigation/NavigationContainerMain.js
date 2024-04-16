@@ -14,7 +14,7 @@ import AuthStack from './laceiba/AuthStack';
 import LoggedStack from './laceiba/LoggedStack';
 
 const NavigatorContainerMain = ({appDuck,setAttribute}) => {
-    const status = true//useSelector(state => state.appDuck.logged);
+    const status = useSelector(state => state.appDuck.logged);
     const [loading, setLoading] = useState(null)
 
     useEffect(() => {

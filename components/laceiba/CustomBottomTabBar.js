@@ -31,7 +31,7 @@ const CustomButtomTabBar = ({state, navigation}) => {
                         label = 'Inicio'
                         break;
                     case "Booking":
-                        iconName = focused ? "square-sharp" : 'square-outline';
+                        iconName = focused ? "calendar-sharp" : 'calendar-outline';
                         label = 'Reservas'
                         break;
                     case "Map":
