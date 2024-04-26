@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import { View,  } from "native-base";
+import { Spinner, View,  } from "native-base";
 import { StyleSheet, Dimensions, Text, FlatList, TouchableOpacity } from "react-native";
 import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
 import { ColorsCeiba } from "../../../../Colors";
@@ -10,26 +10,98 @@ import { getFontSize } from "../../../../utils";
 import AvailableDaysItem from "../../../../components/laceiba/Booking/AvailableDaysItem";
 import { MaterialIcons } from '@expo/vector-icons';
 import AvailableHours from "../../../../components/laceiba/Booking/AvailableHours";
+import _ from "lodash";
+import { getAllIntervalsTime } from "../../../../api/Requests";
+import { setDataBooking } from "../../../../redux/ducks/bookingDuck";
 
-
+moment.locale('en');
 const {height, width} = Dimensions.get('window');
 
 const CreateBookingScreen = () => {
     const navigation = useNavigation()
+    const dispatch = useDispatch();
     const option = useSelector(state => state.bookingDuck.option)
+    const booking = useSelector(state => state.bookingDuck.dataBooking)
+    const appDuck = useSelector(state => state.appDuck)
     const [availableDays, setAvailableDays] = useState([])
-    const [selectDay, setSelectDay] = useState(0)
+    const [selectDay, setSelectDay] = useState(null)
     const [showFilter, setShowFilter] = useState(false)
+    const [areaSelected, setAreaSelect] = useState(0)
+    const [loading, setLoading] = useState(false)
+    const [hours, setHours] = useState([])
 
     useEffect(() => {
-        console.log('cargando nuevos')
+        //console.log('cargando nuevos')
+        setAreaSelect(0)
+        if(booking[option]?.areas.length > 0){
+            if(booking[option]?.bookPartnerSameDay){
+                setSelectDay(1)
+            } else setSelectDay(0)
+
+        }else{
+            setSelectDay(null)
+            setHours([])
+            console.log('Se tiene que limpiar los horarios')
+        }
+
+
     },[option])
 
     useEffect(() => {
-        getDays()
-    },[])
+        //getDays()
+        getAvailableDays()
+    },[areaSelected, option])
 
-    const getDays = () => {
+    useEffect(() => {
+        if(selectDay != null && selectDay != undefined && areaSelected !=null && areaSelected != undefined &&  booking[option]?.areas.length > 0){
+            getAllHours()
+        }
+    },[areaSelected, selectDay, option])
+
+    const getAvailableDays = () => {
+        //console.log('cambiando dias', booking[option]?.areas[areaSelected]?.calendarDays)
+        const today = moment();
+
+        // Mapear los días con la fecha futura
+        const result = _.chain(booking[option]?.areas[areaSelected]?.calendarDays)
+            .filter(day => day.isActive)
+            .map(day => {
+                const futureDate = today.clone().day(day.day);
+                
+                // Ajustar la fecha futura si es necesario
+                if (!day.isActive || futureDate.isBefore(today)) {
+                    futureDate.add(7, 'days');
+                }
+
+                const formattedDate = futureDate.format('YYYY-MM-DD');
+                return { day: day.day, date: formattedDate };
+            })
+            .sortBy('date')
+            .map(day => ({ day: `${day.day}`, date: moment(day.date).format('D'), dateString: moment(day.date,'YYYY-MM-DD').format('DD-MM-YYYY') }))
+            .value();
+
+
+        setAvailableDays(result)
+        console.log('result',result)
+
+    }
+
+    const getAllHours = async() => {
+        try {
+            setLoading(true)
+            let filters = `?date=${moment(availableDays[selectDay]?.dateString,'DD-MM-YYYY').format('YYYY-MM-DD')}&userId=${appDuck.user.id}`
+            console.log('paraemtros', filters , availableDays[selectDay]?.dateString)
+            const response = await getAllIntervalsTime(filters, [booking[option]?.areas[areaSelected]?.id])
+            setHours(response?.data)
+            console.log('response horarios',response?.data)
+        } catch (e) {
+            console.log('error horarios',e)
+        }finally{
+            setLoading(false)
+        }
+    }
+
+    /*const getDays = () => {
         let today = moment();
         const daysArray = [];
 
@@ -41,7 +113,7 @@ const CreateBookingScreen = () => {
         }
         setAvailableDays(daysArray)
         //console.log(daysArray)
-    }
+    }*/
 
     const options = [
         {name:'Tee 1'}, {name: 'Tee 10'}
@@ -49,49 +121,24 @@ const CreateBookingScreen = () => {
 
     const filters = [
         {name:'Todos', color: ColorsCeiba.white},
-        {name:'Disponibles', color:ColorsCeiba.aqua},
+        {name:'Disponibles', color:ColorsCeiba.white},
         {name:'Reservado', color:ColorsCeiba.lightYellow},
         {name:'Ocupado', color:ColorsCeiba.lightgray},
+        {name:'Mis reservas', color: ColorsCeiba.aqua}
 
     ]
 
-    const hours = [
-        {"id":1,"date":"3:09 PM","status":1},
-        {"id":2,"date":"6:06 AM","status":3},
-        {"id":3,"date":"2:43 PM","status":3},
-        {"id":4,"date":"1:14 PM","status":3},
-        {"id":5,"date":"11:40 AM","status":2},
-        {"id":6,"date":"2:01 PM","status":3},
-        {"id":7,"date":"11:48 AM","status":1},
-        {"id":8,"date":"4:01 PM","status":1},
-        {"id":9,"date":"1:25 PM","status":3},
-        {"id":10,"date":"11:27 AM","status":2},
-        {"id":11,"date":"11:25 AM","status":3},
-        {"id":12,"date":"9:27 AM","status":3},
-        {"id":13,"date":"11:24 AM","status":1},
-        {"id":14,"date":"12:01 PM","status":2},
-        {"id":15,"date":"8:29 AM","status":2},
-        {"id":16,"date":"11:52 AM","status":3},
-        {"id":17,"date":"1:54 PM","status":3},
-        {"id":18,"date":"2:27 PM","status":2},
-        {"id":19,"date":"11:24 AM","status":1},
-        {"id":20,"date":"8:38 AM","status":1},
-        {"id":21,"date":"3:57 PM","status":1},
-        {"id":22,"date":"8:28 AM","status":3},
-        {"id":23,"date":"1:09 PM","status":1},
-        {"id":24,"date":"3:09 PM","status":1},
-        {"id":25,"date":"7:24 AM","status":2},
-        {"id":26,"date":"8:27 AM","status":2},
-        {"id":27,"date":"11:01 AM","status":2},
-        {"id":28,"date":"1:19 PM","status":1},
-        {"id":29,"date":"8:35 AM","status":2},
-        {"id":30,"date":"4:03 PM","status":2},
-        {"id":31,"date":"8:52 AM","status":1},
-        {"id":32,"date":"11:39 AM","status":1},
-        {"id":33,"date":"8:52 AM","status":1},
-        {"id":34,"date":"10:50 AM","status":1},
-        {"id":35,"date":"3:14 PM","status":1}
-    ]
+   const onFilterHours = (index) => {
+        const options = {
+            0: hours,
+            1: hours.filter((item) => !item?.fullBooking && item?.booking === null),
+            2: hours.filter((item) => item?.booking !=null),
+            3: hours.filter((item) => item?.fullBooking),
+            4: hours.filter((item) => item.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id) && !item?.fullBooking)
+        }
+
+        setHours(options[index])
+   }
 
     return(
         <HeaderBooking>
@@ -114,6 +161,7 @@ const CreateBookingScreen = () => {
                                     index={index} 
                                     selectedDay={selectDay} 
                                     setSelectedDay={(val) => setSelectDay(val)}
+                                    disabled={booking[option].bookPartnerSameDay}
                                 />
                             )}
                         />
@@ -123,13 +171,26 @@ const CreateBookingScreen = () => {
                 </View>
                 
                 <View style={styles.contHoles}>
-                    <View style={{flexDirection:'row'}}>
-                        {options.map((item,index) => (
-                            <TouchableOpacity key={index+1} style={{marginRight:15,borderBottomWidth: 2, borderBottomColor: ColorsCeiba.blackBtns, paddingBottom:5}}>
-                                <Text>{item?.name}</Text>
-                            </TouchableOpacity>
+                    <View style={styles.contAreas}>
+                        <FlatList 
+                            data={booking[option]?.areas}
+                            keyExtractor={(_, index) => (index+1).toString()}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            //snapToOffsets={[...Array(availableDays.length)].map((x, i) =>  width * i + 56)}
+                            //decelerationRate={0}
+                            snapToAlignment="center"
+                            renderItem={({item, index}) => (
+                                <TouchableOpacity 
+                                key={(index+1).toString()}
+                                style={[styles.itemArea,{borderBottomColor: areaSelected === index ? ColorsCeiba.blackBtns : ColorsCeiba.white}]}
+                                onPress={() => setAreaSelect(index)}>
+                                    <Text>{item?.name}</Text>
+                                </TouchableOpacity>
 
-                        ))}
+                            )}
+                        />
+                        
                     </View>
                     <View style={{zIndex:10}}>
                         <TouchableOpacity style={styles.btnFilter} onPress={() => setShowFilter(!showFilter)}>
@@ -139,8 +200,11 @@ const CreateBookingScreen = () => {
                         {showFilter && (
                             <View style={styles.contFilter}>
                                 {filters.map((item,index) => (
-                                    <TouchableOpacity key={index+1} style={{flex:1, height:50, flexDirection:'row',}}>
-                                        <View style={{width:15, height:15, borderRadius:7.5, marginRight:4, backgroundColor: item?.color}}/>
+                                    <TouchableOpacity 
+                                        key={(index+1).toString()} 
+                                        style={{flex:1, height:50, flexDirection:'row',}} 
+                                        onPress={() => onFilterHours(index)}>
+                                        <View style={{width:15, height:15, borderRadius:7.5, marginRight:4, backgroundColor: item?.color,  borderWidth: index === 1 ? 1: 0,borderColor: index ===1 ? ColorsCeiba.darkGray : ColorsCeiba.white}}/>
                                         <Text>{item.name}</Text>
                                     </TouchableOpacity>
                                 ))}
@@ -151,14 +215,31 @@ const CreateBookingScreen = () => {
                 </View>
 
 
-                <AvailableHours 
-                    hours={hours} 
-                    selectedHour={(item) =>{
-                        console.log('item', item)
-                        item?.status === 2 ? navigation.navigate('JoinPetition')
-                        : navigation.navigate('CreatePetition',{item})
-                    }}
-                />
+               {loading ? (
+                    <View style={{width: '100%', height:200, justifyContent:'center', alignItems:'center'}}>
+                        <Spinner color={ColorsCeiba.darkGray} size={'sm'}/>
+                    </View>
+               ):(
+                   <AvailableHours 
+                        hours={hours} 
+                        selectedHour={(item) =>{
+                            if(!item.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id) && !item?.fullBooking){
+                                dispatch(setDataBooking({
+                                    area: booking[option]?.areas[areaSelected],
+                                    hour: item,
+                                    date: moment(availableDays[selectDay]?.dateString,'DD-MM-YYYY').format('YYYY-MM-DD'),
+                                    activity: booking[option]
+                                }))
+                                if(item?.booking !== null) navigation.navigate('JoinPetition')
+                                else navigation.navigate('CreatePetition',{item})
+                            }
+                            console.log('item', item)
+                            //item?.status === 2 ? navigation.navigate('JoinPetition')
+                            //: navigation.navigate('CreatePetition',{item})
+                        }}
+                    />
+
+               )}
             </View>
         </HeaderBooking>
     )
@@ -208,6 +289,17 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25, 
         shadowRadius: 4, 
+    },
+    contAreas:{
+        flexDirection:'row', 
+        width: width*.6,  
+        flexWrap:'wrap'
+    },
+    itemArea:{
+        marginRight:15,
+        borderBottomWidth: 2, 
+        paddingBottom:5, 
+        marginBottom:5
     }
 })
 

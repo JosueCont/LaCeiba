@@ -5,9 +5,9 @@ import { ColorsCeiba } from "../../Colors";
 
 const {height, width} = Dimensions.get('window');
 
-const BtnCustom = ({title='', onPress, bgColor=ColorsCeiba.darkGray, color=ColorsCeiba.white, ...props}) => {
+const BtnCustom = ({title='', onPress, bgColor=ColorsCeiba.darkGray, color=ColorsCeiba.white, disable=false, ...props}) => {
     return(
-        <TouchableOpacity onPress={onPress} style={[styles.btn, {backgroundColor: bgColor}]}>
+        <TouchableOpacity onPress={onPress} style={[styles.btn, {backgroundColor: disable ? ColorsCeiba.gray : bgColor}]} disabled={disable}>
             <Text style={[styles.lbl,{color: color}]}>{title}</Text>
         </TouchableOpacity>
     )

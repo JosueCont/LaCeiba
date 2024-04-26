@@ -79,7 +79,7 @@ const LoginScreen = () => {
             await AsyncStorage.setItem('@user',JSON.stringify(loggedData))
             await dispatch(loggedAction(loggedData))
         } else {
-            navigation.navigate('AskForPushNotificationsScreen', {loggedData, screenOk: 'HomeScreen', screenReject: 'HomeScreen'})
+            navigation.navigate('PermissionsNotifications', {loggedData, screenOk: 'HomeScreen', screenReject: 'HomeScreen'})
         }
     }
 

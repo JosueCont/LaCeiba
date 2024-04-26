@@ -17,6 +17,7 @@ export const getCategoriesDetail = async (params) => await request(URLTypes.GET_
 export const getCategoryDetail = async (params) => await request(URLTypes.GET_CATEGORY_DETAIL, params, 'get');
 export const getAllServices = async (params) => await request(URLTypes.GET_ALL_SERVICES, params, 'get');
 export const getIntervalsTime = async (params, queryStringParams = []) => await request(URLTypes.GET_INTERVALS, params, 'get', null, queryStringParams);
+export const getAllIntervalsTime = async(params, queryStringParams = []) => await request(URLTypes.GET_ALL_INTERVALS_TIME, params, 'get', null, queryStringParams)
 export const cacheBookHour = async (params, queryStringParams = []) => await request(URLTypes.CACHE_BOOKING, params, 'post', null, queryStringParams);
 export const bookService = async (params, queryStringParams = []) => await request(URLTypes.BOOK_SERVICE, params, 'post', null, queryStringParams);
 export const getAllBookings = async (params) => await request(URLTypes.GET_ALL_BOOKINGS, params, 'get');
@@ -85,3 +86,5 @@ export const sendPushToken = async (params, queryStringParams = []) => await req
 
 export const addPartnerSap = async(params) => await request(URLTypes.ADD_PARTNER_SAP, params, 'post', null);
 export const getConfig = async () => await request(URLTypes.GET_CONFIG, '', 'get')
+export const getListGuessing = async(params) => await request(URLTypes.GET_NORMAL_GUESSING, params, 'get')
+export const postJoinBookingRequest = async(data) => await request(URLTypes.POST_JOIN_BOOKING_REQUEST, data)

@@ -7,9 +7,11 @@ import AvailableHoursItem from "./AvailableHoursItem";
 const AvailableHours = ({hours, selectedHour}) => {
     return(
         <View style={styles.container}>
-            {hours.map((item,index) => (
+            {hours.length > 0 ? hours.map((item,index) => (
                 <AvailableHoursItem index={index} item={item} selectHour={selectedHour}/>
-            ))}
+            )):(
+                <Text>Bi hay</Text>
+            )}
         </View>
     )
 }
@@ -17,10 +19,11 @@ const AvailableHours = ({hours, selectedHour}) => {
 const styles = StyleSheet.create({
     container:{
         flex:1, 
-        height:370, 
+        //height:370, 
         marginRight:10, 
         marginTop:24, 
         zIndex:2, 
+        flexDirection:'row',
         flexWrap:'wrap',
     }
 })

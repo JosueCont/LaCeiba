@@ -1,14 +1,18 @@
 import React,{ useEffect} from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
+import { useSelector } from "react-redux";
 import { getFontSize } from "../../../../utils";
 import { ColorsCeiba } from "../../../../Colors";
 import { useNavigation } from "@react-navigation/native";
 import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking";
 import RequestJoinItem from "../../../../components/laceiba/Booking/RequestJoinItem";
 import BtnCustom from "../../../../components/laceiba/CustomBtn";
+import moment from "moment";
 
 const JoinPetitionScreen = () => {
     const navigation = useNavigation();
+    const infoBooking = useSelector(state => state.bookingDuck.createBooking)
+    console.log('infoBooking', infoBooking)
     const requested = {
         schedule: '8:00 am',
         people:[
@@ -19,15 +23,15 @@ const JoinPetitionScreen = () => {
         ]
     }
     return(
-        <HeaderBooking>
+        <HeaderBooking disabledOptions={true}>
             <View style={styles.container}>
                 <View style={styles.contHeader}>
-                    <Text style={styles.lblTitle}>Lunes marzo 18 - Tee 1</Text>
-                    <TouchableOpacity style={styles.btnHoles}>
+                    <Text style={styles.lblTitle}>{moment(infoBooking?.date,'YYYY-MM-DD').format('dddd MMMM D')} - {infoBooking?.area?.name}</Text>
+                    <View style={styles.btnHoles}>
                         <Text>18 Hoyos</Text>
-                    </TouchableOpacity>
+                    </View>
                 </View>
-                <RequestJoinItem requested={requested} />
+                <RequestJoinItem requested={infoBooking} />
                 <BtnCustom 
                     title="Petición para unirse a grupo"
                     onPress={() => navigation.navigate('JoinSend')}/>

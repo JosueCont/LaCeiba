@@ -1,6 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../../screens/laceiba/auth/LoginScreen";
+import AskForPushNotificationsScreen from "../../screens/Permissions/AskForPushNotificationsScreen";
 
 const Stack = createNativeStackNavigator();
 const AuthStack = () => {
@@ -14,6 +15,7 @@ const AuthStack = () => {
             })}
         >
             <Stack.Screen name="Login" component={LoginScreen}/>
+            <Stack.Screen name="PermissionsNotifications" component={AskForPushNotificationsScreen}/>
         </Stack.Navigator>
     )
 }

@@ -18,6 +18,7 @@ export const URLTypes = {
     GET_CATEGORY_DETAIL: '/v1/content-management',
     GET_ALL_SERVICES: '/v1/bookings/services?isActive=true',//?isGolf=true
     GET_INTERVALS: '/v1/bookings/areas/{{param}}/intervals',
+    GET_ALL_INTERVALS_TIME: '/v1/bookings/areas/{{param}}/intervals/info',
     BOOK_SERVICE: '/v1/bookings/users/{{param}}',
     CACHE_BOOKING: '/v1/bookings/users/{{param}}/areas/{{param}}/reserved',
     GET_ALL_BOOKINGS: '/v1/bookings',//?page=1&limit=10,
@@ -73,5 +74,7 @@ export const URLTypes = {
     UPDATE_DEVICE: '/v1/notifications/device',
     //UPDATE_USER_PASSWORD: '/v1/auth/reset-password',
     ADD_PARTNER_SAP: '/v1/api-golf/sap/guest/example',
-    GET_CONFIG: '/v1/configuration'
+    GET_CONFIG: '/v1/configuration',
+    GET_NORMAL_GUESSING:'/v1/official-guests',
+    POST_JOIN_BOOKING_REQUEST:'/v1/bookings/requests'
 };

@@ -1,15 +1,22 @@
-import React,{ useEffect} from "react";
+import React,{ useCallback, useEffect, useState} from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import { getFontSize } from "../../../../utils";
 import { ColorsCeiba } from "../../../../Colors";
 import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import AddBookItem from "../../../../components/laceiba/Booking/AddBookItem";
-
+import { useSelector } from "react-redux";
+import moment from "moment";
 
 const CreatePetitionScreen = () => {
     const navigation = useNavigation();
     const route = useRoute();
+    const [rentCar, setRentCar] = useState(0)
+    const [holes, setHoles ] = useState(0)
+    const [countCar, setCountCar] = useState(0)
+    const [countPlayers, setCountPlayers] = useState(1)
+    const infoBooking = useSelector(state => state.bookingDuck.createBooking)
+
     const {item} = route?.params;
 
     const types = {
@@ -17,23 +24,62 @@ const CreatePetitionScreen = () => {
         2: ColorsCeiba.lightYellow,
         3: ColorsCeiba.lightgray
     }
+
+    const onMinusCar =  useCallback(() =>{
+        setCountCar(prevState => prevState -1)
+    },[])
+
+    const onPlusCar =  useCallback(() =>{
+        setCountCar(prevState => prevState +1)
+    },[])
+
+    const onMinusPlayers =  useCallback(() =>{
+        setCountPlayers(prevState => prevState -1)
+    },[])
+
+    const onPlusPlayers =  useCallback(() =>{
+        setCountPlayers(prevState => prevState +1)
+    },[])
+
+    const getColor = (status) => {
+        if(status.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id)){
+            return ColorsCeiba.aqua
+        }else if(status?.fullBooking){
+            return ColorsCeiba.lightgray
+        }else if(status.booking !== null){
+            return ColorsCeiba.lightYellow
+        }else{
+            return ColorsCeiba.white
+        }
+    } 
+    
     return(
-        <HeaderBooking>
+        <HeaderBooking disabledOptions={true}>
             <View style={styles.container}>
                 <View style={styles.contHeader}>
-                    <Text style={styles.lblTitle}>Lunes marzo 18 - Tee 1</Text>
-                    <View style={[styles.contSchedule,{backgroundColor: types[item?.status]}]}>
-                        <Text>{item?.date}</Text>
+                    <Text style={styles.lblTitle}>{moment(infoBooking?.date,'YYYY-MM-DD').format('dddd MMMM D')} - {infoBooking?.area?.name}</Text>
+                    <View style={[styles.contSchedule,{backgroundColor: getColor(item)}]}>
+                        <Text>{item?.time}</Text>
                     </View>
                 </View>
-                <AddBookItem 
+                {/*<AddBookItem 
                     question="¿Quieres rentar carrito?"
                     showSubtitle={false}
                     type={1}
-                />
+                    counter={countCar}
+                    optionSelect={rentCar}
+                    setOption={(index) => setRentCar(index)}
+                    onMinus={onMinusCar}
+                    onPlus={onPlusCar}
+                />*/}
                 <AddBookItem 
                     question="¿Cuántos jugadores?"
                     type={2}
+                    counter={countPlayers}
+                    optionSelect={holes}
+                    setOption={(index) => setHoles(index)}
+                    onMinus={onMinusPlayers}
+                    onPlus={onPlusPlayers}
                 />
                 <TouchableOpacity 
                     onPress={() => navigation.navigate('AddPlayers')}

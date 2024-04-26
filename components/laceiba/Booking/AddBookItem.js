@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-nati
 import { getFontSize } from "../../../utils";
 import { ColorsCeiba } from "../../../Colors";
 
-const AddBookItem = ({question='', showSubtitle=true, type=1}) => {
+const AddBookItem = ({question='', showSubtitle=true, type=1, counter=0, optionSelect=0, setOption, onMinus, onPlus}) => {
     const options = type === 1 ? [
         {option:'No'},{option:'Si'}
     ] : [
@@ -14,11 +14,18 @@ const AddBookItem = ({question='', showSubtitle=true, type=1}) => {
             <View>
                 <Text style={styles.lbl}>{question}</Text>
                 <View style={styles.contCounter}>
-                    <TouchableOpacity style={styles.itemCounter}>
+                    <TouchableOpacity 
+                        style={styles.itemCounter} 
+                        //disabled={(type ===  1 && counter === 0 && optionSelect === 0)}
+                        disabled={counter<2}
+                        onPress={onMinus}>
                         <Text>-</Text>
                     </TouchableOpacity>
-                    <Text style={{flex:1,  textAlign:'center'}}>0</Text>
-                    <TouchableOpacity style={styles.itemCounter}>
+                    <Text style={{flex:1,  textAlign:'center'}}>{counter.toString()}</Text>
+                    <TouchableOpacity 
+                        style={styles.itemCounter} 
+                        disabled={(type === 1 && optionSelect === 0)}
+                        onPress={onPlus}>
                         <Text>+</Text>
                     </TouchableOpacity>
                 </View>
@@ -28,7 +35,7 @@ const AddBookItem = ({question='', showSubtitle=true, type=1}) => {
                
                 <View style={{flexDirection:'row', }}>
                     {options?.map((item,index) => (
-                        <TouchableOpacity style={styles.item}>
+                        <TouchableOpacity style={[styles.item,{backgroundColor: index === optionSelect ? ColorsCeiba.aqua : ColorsCeiba.white}]} onPress={() => setOption(index)}>
                             <Text>{item.option}</Text>
                         </TouchableOpacity>
                     ))}

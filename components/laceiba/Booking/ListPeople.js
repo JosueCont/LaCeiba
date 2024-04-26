@@ -4,13 +4,15 @@ import { getFontSize } from "../../../utils";
 import { ColorsCeiba } from "../../../Colors";
 import ItemListPeople from "./ListPeopleItem";
 
-const ListPeople = ({people}) => {
+const ListPeople = ({people, selectedPerson, peopleSelected}) => {
     return(
         <View style={{marginBottom:50}}>
             {people.length > 0 ? people.map((item,index) => (
-                <ItemListPeople item={item} index={index}/>
+                <ItemListPeople item={item} index={index} selectPerson={selectedPerson} peopleSelected={peopleSelected}/>
             )):(
-                <View></View>
+                <View>
+                    <Text>No se encontraron personas</Text>
+                </View>
             )}
         </View>
     )

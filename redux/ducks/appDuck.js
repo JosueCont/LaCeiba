@@ -38,6 +38,7 @@ export let loggedAction = (data) => {
 
 export let loggedOutAction = () => {
     return async (dispatch, getState) => {
+        console.log('a ceerrar')
         await AsyncStorage.setItem('@user', '');
         await AsyncStorage.setItem('ghin','')
         await AsyncStorage.setItem('products','')

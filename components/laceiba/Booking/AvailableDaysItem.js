@@ -3,10 +3,11 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-nati
 import { getFontSize } from "../../../utils";
 import { ColorsCeiba } from "../../../Colors";
 
-const AvailableDaysItem = ({item, index, selectedDay, setSelectedDay}) => {
+const AvailableDaysItem = ({item, index, selectedDay, setSelectedDay, disabled}) => {
     return(
         <TouchableOpacity 
         onPress={() => setSelectedDay(index)}
+        disabled={disabled ? index === 0 : false}
         style={[styles.card,{ 
             backgroundColor: selectedDay === index ? ColorsCeiba.aqua : ColorsCeiba.white,
             borderColor: selectedDay === index ? ColorsCeiba.aqua : ColorsCeiba.blackBtns,}]}>
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
     },
     lblDay:{
         color: ColorsCeiba.darkGray,
-        fontSize: getFontSize(13),
+        fontSize: getFontSize(12),
         fontWeight:'400',
         textTransform:'capitalize'
     },

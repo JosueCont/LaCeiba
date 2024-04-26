@@ -7,14 +7,22 @@ import { AntDesign } from '@expo/vector-icons';
 
 const {height, width} = Dimensions.get('window');
 
-const ItemListPeople = ({item, index}) => {
+const ItemListPeople = ({item, index, selectPerson, peopleSelected}) => {
+
+    const findPerson = () => {
+        return peopleSelected.find((person) => item?.id ? person?.id === item?.id : person?.idInvitado === item?.idInvitado) 
+    }
     return(
-        <TouchableOpacity style={styles.card} key={index+1}>
+        <TouchableOpacity style={styles.card} key={index+1} onPress={() => selectPerson(item)}>
             <View style={styles.contImage}>
-                <Image source={item?.image} style={styles.img}/>
+                {item?.profilePictureUrl && item?.profilePictureUrl != null && item?.profilePictureUrl !='' ? (
+                    <Image source={{uri: item?.profilePictureUrl}} style={styles.img}/>
+                ):(
+                    <Image source={require('../../../assets/iconPerson.png')} style={styles.img}/>
+                )}
             </View>
-            <Text style={styles.lbl}>{item?.name}</Text>
-            <View style={styles.checkBox}>
+            <Text style={styles.lbl}>{item?.nombreSocio || item?.nombre +' '+item?.apellidoPaterno +' '+item?.apellidoMaterno}</Text>
+            <View style={[styles.checkBox, {backgroundColor: findPerson() ? ColorsCeiba.aqua : ColorsCeiba.white}]}>
                 <AntDesign name="check" size={15} color={ColorsCeiba.white} />
             </View>
         </TouchableOpacity>
@@ -51,13 +59,16 @@ const styles = StyleSheet.create({
     },
     img:{
         width: 56, 
-        height: 56, 
+        height: 56,
+        borderRadius:300, 
         resizeMode:'cover'
     },
     lbl:{
         color: ColorsCeiba.darkGray, 
         fontSize: getFontSize(12), 
-        fontWeight:'400'
+        fontWeight:'400',
+        textTransform:'capitalize',
+        width: width*.5, 
     },
     checkBox:{
         width:20,

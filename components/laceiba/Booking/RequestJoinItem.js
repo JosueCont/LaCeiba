@@ -7,14 +7,15 @@ import { ColorsCeiba } from "../../../Colors";
 const {height, width} = Dimensions.get('window');
 
 const RequestJoinItem = ({requested}) => {
+
     return(
         <View style={styles.card}>
             <View style={styles.contSchedule}>
-                <Text style={styles.lbl}>{requested?.schedule}</Text>
+                <Text style={styles.lbl}>{requested?.hour?.time}</Text>
             </View>
             <View style={styles.contPeople}>
-                {requested?.people.map((item,index) => (
-                    <Text key={index+1} style={[styles.lbl,{color: ColorsCeiba.darkGray, width: '50%', marginBottom:4}]}>{item?.name}</Text>
+                {requested?.hour?.booking?.invitations.map((item,index) => (
+                    <Text key={index+1} style={[styles.lbl,{color: ColorsCeiba.darkGray, width: '50%', marginBottom:4}]}>{item?.user?.fullName}</Text>
                 ))}
             </View>
         </View>

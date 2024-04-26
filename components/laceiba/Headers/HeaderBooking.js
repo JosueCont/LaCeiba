@@ -1,5 +1,5 @@
 import React,{ Children, useEffect, useState} from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ScrollView, Platform, FlatList } from "react-native";
 import { getFontSize } from "../../../utils";
 import { ColorsCeiba } from "../../../Colors";
 import { Ionicons } from '@expo/vector-icons';
@@ -9,9 +9,11 @@ import { setOption } from "../../../redux/ducks/bookingDuck";
 
 const {height, width} = Dimensions.get('window');
 
-const HeaderBooking = ({children, showFilters=true}) => {
+const HeaderBooking = ({children, showFilters=true, disabledOptions=false}) => {
     const dispatch = useDispatch();
     const option = useSelector(state => state.bookingDuck.option)
+    const booking = useSelector(state => state.bookingDuck.dataBooking)
+
 
     const options = [
         {name:'Tee time', },
@@ -21,17 +23,26 @@ const HeaderBooking = ({children, showFilters=true}) => {
     ]
     return(
         <View style={styles.container}>
-            <View style={{width: width, marginBottom:24}}>
+            <View style={{width: width, marginBottom:24, marginTop: Platform.OS === 'ios' ? 15 : 0}}>
                 <Options isFlowBooking={true}/>
             </View>
-            {showFilters && <View style={{flexDirection:'row', marginHorizontal:20, justifyContent:'space-between'}}>
-                {options.map((item, index) => (
-                    <TouchableOpacity 
-                        onPress={() => dispatch(setOption(index))}
-                        style={{borderBottomWidth: option === index ? 2 : 0, borderBottomColor: ColorsCeiba.blackBtns, paddingBottom:5}}>
+            {showFilters && <View style={{flexDirection:'row', marginHorizontal:20, justifyContent:'space-between', flexWrap:'wrap', width: width*.9,paddingRight:20,}}>
+                <FlatList 
+                    data={booking}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    keyExtractor={(_, index) => (index+1).toString()}
+                    renderItem={({item,index}) => item?.isActive && (
+                        <TouchableOpacity 
+                            disabled={disabledOptions}
+                            key={(index+1).toString()}
+                            onPress={() => dispatch(setOption(index))}
+                            style={{borderBottomWidth: option === index ? 2 : 0, borderBottomColor: ColorsCeiba.blackBtns, paddingBottom:5, marginBottom:5, marginRight:15}}>
                         <Text>{item?.name}</Text>
                     </TouchableOpacity>
-                ))}
+                    )}
+                />
+                
             </View>}
             <ScrollView
                 keyboardShouldPersistTaps='handled'
