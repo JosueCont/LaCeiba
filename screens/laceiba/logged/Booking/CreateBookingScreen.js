@@ -3,7 +3,7 @@ import { Spinner, View,  } from "native-base";
 import { StyleSheet, Dimensions, Text, FlatList, TouchableOpacity } from "react-native";
 import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import moment from "moment";
 import { ColorsCeiba } from "../../../../Colors";
 import { getFontSize } from "../../../../utils";
@@ -11,8 +11,8 @@ import AvailableDaysItem from "../../../../components/laceiba/Booking/AvailableD
 import { MaterialIcons } from '@expo/vector-icons';
 import AvailableHours from "../../../../components/laceiba/Booking/AvailableHours";
 import _ from "lodash";
-import { getAllIntervalsTime } from "../../../../api/Requests";
-import { setDataBooking } from "../../../../redux/ducks/bookingDuck";
+import { getAllIntervalsTime, unBlockHour } from "../../../../api/Requests";
+import { getCounter, onResetCounter, setAtributeBooking, setDataBooking } from "../../../../redux/ducks/bookingDuck";
 
 moment.locale('en');
 const {height, width} = Dimensions.get('window');
@@ -20,15 +20,20 @@ const {height, width} = Dimensions.get('window');
 const CreateBookingScreen = () => {
     const navigation = useNavigation()
     const dispatch = useDispatch();
+    const focused = useIsFocused()
     const option = useSelector(state => state.bookingDuck.option)
     const booking = useSelector(state => state.bookingDuck.dataBooking)
     const appDuck = useSelector(state => state.appDuck)
+    const infoBooking = useSelector(state => state.bookingDuck.createBooking)
     const [availableDays, setAvailableDays] = useState([])
     const [selectDay, setSelectDay] = useState(null)
     const [showFilter, setShowFilter] = useState(false)
     const [areaSelected, setAreaSelect] = useState(0)
     const [loading, setLoading] = useState(false)
     const [hours, setHours] = useState([])
+    const [filterSelected, setFilterSelect] = useState(0)
+    const [originalHours, setOriginalHours] = useState([]); 
+
 
     useEffect(() => {
         //console.log('cargando nuevos')
@@ -55,8 +60,17 @@ const CreateBookingScreen = () => {
     useEffect(() => {
         if(selectDay != null && selectDay != undefined && areaSelected !=null && areaSelected != undefined &&  booking[option]?.areas.length > 0){
             getAllHours()
+            setFilterSelect(0)
         }
     },[areaSelected, selectDay, option])
+
+    useEffect(() => {
+        if(focused){
+            dispatch(setAtributeBooking({prop:'timeExpired', value: false}))
+            if(infoBooking?.hour) getCancelReserved()
+
+        }
+    },[focused])
 
     const getAvailableDays = () => {
         //console.log('cambiando dias', booking[option]?.areas[areaSelected]?.calendarDays)
@@ -93,6 +107,7 @@ const CreateBookingScreen = () => {
             console.log('paraemtros', filters , availableDays[selectDay]?.dateString)
             const response = await getAllIntervalsTime(filters, [booking[option]?.areas[areaSelected]?.id])
             setHours(response?.data)
+            setOriginalHours(response?.data)
             console.log('response horarios',response?.data)
         } catch (e) {
             console.log('error horarios',e)
@@ -129,15 +144,33 @@ const CreateBookingScreen = () => {
     ]
 
    const onFilterHours = (index) => {
+    let filterData;
+    setFilterSelect(index)
         const options = {
-            0: hours,
-            1: hours.filter((item) => !item?.fullBooking && item?.booking === null),
-            2: hours.filter((item) => item?.booking !=null),
-            3: hours.filter((item) => item?.fullBooking),
-            4: hours.filter((item) => item.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id) && !item?.fullBooking)
+            0: originalHours,
+            1: originalHours.filter((item) => !item?.fullBooking && item?.booking === null),
+            2: originalHours.filter((item) => item?.booking !=null &&  !item.booking?.invitations.some((reservation) => reservation?.user?.id === appDuck.user.id)),
+            3: originalHours.filter((item) => item?.fullBooking),
+            4: originalHours.filter((item) => item.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id) && !item?.fullBooking)
         }
 
-        setHours(options[index])
+        filterData = options[index],
+        setHours(filterData)
+
+        console.log(filterData,)
+   }
+
+   const getCancelReserved = async() => {
+    try {
+        dispatch(getCounter(0, true));
+
+        const response = await unBlockHour(`?dueDate=${infoBooking?.date}&dueTime=${infoBooking?.hour?.time}`, [appDuck.user.id, infoBooking?.area?.id])
+        //stopCounterFunction()
+        //dispatch(onResetCounter())
+        console.log('cancelardo ',response?.data)
+    } catch (e) {
+        console.log('eror',e)
+    }
    }
 
     return(
@@ -202,7 +235,7 @@ const CreateBookingScreen = () => {
                                 {filters.map((item,index) => (
                                     <TouchableOpacity 
                                         key={(index+1).toString()} 
-                                        style={{flex:1, height:50, flexDirection:'row',}} 
+                                        style={[styles.btnFilterOption,{backgroundColor: index === filterSelected ? ColorsCeiba.lightBlue : ColorsCeiba.white}]} 
                                         onPress={() => onFilterHours(index)}>
                                         <View style={{width:15, height:15, borderRadius:7.5, marginRight:4, backgroundColor: item?.color,  borderWidth: index === 1 ? 1: 0,borderColor: index ===1 ? ColorsCeiba.darkGray : ColorsCeiba.white}}/>
                                         <Text>{item.name}</Text>
@@ -222,8 +255,9 @@ const CreateBookingScreen = () => {
                ):(
                    <AvailableHours 
                         hours={hours} 
-                        selectedHour={(item) =>{
+                        selectedHour={async(item) =>{
                             if(!item.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id) && !item?.fullBooking){
+                                //if(infoBooking?.hour) dispatch(setAtributeBooking({prop:'timeExpired', value: false}))
                                 dispatch(setDataBooking({
                                     area: booking[option]?.areas[areaSelected],
                                     hour: item,
@@ -277,7 +311,7 @@ const styles = StyleSheet.create({
         position:'absolute',
         top:35,
         left:0,
-        paddingHorizontal:8,
+        //paddingHorizontal:8,
         paddingTop:10,
         backgroundColor:ColorsCeiba.white,
         zIndex:10,
@@ -300,6 +334,13 @@ const styles = StyleSheet.create({
         borderBottomWidth: 2, 
         paddingBottom:5, 
         marginBottom:5
+    },
+    btnFilterOption:{
+        flex:1,
+        height:50,
+        flexDirection:'row',
+        alignItems:'center',
+        paddingHorizontal:8
     }
 })
 

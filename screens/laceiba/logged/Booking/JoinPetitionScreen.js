@@ -1,4 +1,4 @@
-import React,{ useEffect} from "react";
+import React,{ useEffect, useState} from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import { useSelector } from "react-redux";
 import { getFontSize } from "../../../../utils";
@@ -8,11 +8,16 @@ import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking"
 import RequestJoinItem from "../../../../components/laceiba/Booking/RequestJoinItem";
 import BtnCustom from "../../../../components/laceiba/CustomBtn";
 import moment from "moment";
+import { postJoinBookingRequest } from "../../../../api/Requests";
+import ModalInfo from "../../../Modals/ModalInfo";
 
 const JoinPetitionScreen = () => {
     const navigation = useNavigation();
     const infoBooking = useSelector(state => state.bookingDuck.createBooking)
-    console.log('infoBooking', infoBooking)
+    const appDuck = useSelector(state => state.appDuck)
+    const [loading, setLoading] = useState(false)
+    const [modalError, setModalError] = useState(false)
+    const [eror, setError] = useState('')
     const requested = {
         schedule: '8:00 am',
         people:[
@@ -22,6 +27,27 @@ const JoinPetitionScreen = () => {
             {name:'Alex Dzul'}
         ]
     }
+
+    const onjoinBooking = async() => {
+        try {
+            setLoading(true)
+            let dataSend = {
+                "userId": appDuck.user.id,
+                "bookingId": infoBooking?.hour?.booking?.id
+            }
+                console.log('dataSend', dataSend)
+            const response = await postJoinBookingRequest(dataSend)
+            if(response?.data?.bookingId) navigation.navigate('JoinSend',{booking: response?.data})
+            console.log('te has unido a ', response)
+        } catch (e) {
+           console.log('errr',e)
+           setModalError(true)
+           setError(e?.data?.message) 
+        }finally{
+            setLoading(false)
+        }
+    }
+
     return(
         <HeaderBooking disabledOptions={true}>
             <View style={styles.container}>
@@ -34,7 +60,21 @@ const JoinPetitionScreen = () => {
                 <RequestJoinItem requested={infoBooking} />
                 <BtnCustom 
                     title="Petición para unirse a grupo"
-                    onPress={() => navigation.navigate('JoinSend')}/>
+                    disable={loading}
+                    loading={loading}
+                    onPress={() => onjoinBooking()}
+                />
+
+            <ModalInfo
+                visible={modalError}
+                setVisible={() => {
+                    setModalError(false)
+                }}
+                close={true}
+                title="Error al solicitar unirse"
+                text={eror}
+                iconType="exclamation"
+            />
             </View>
         </HeaderBooking>
     )

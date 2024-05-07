@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const {height, width} = Dimensions.get('window');
 
-const Options = ({isFlowBooking=false}) => {
+const Options = ({isFlowBooking=false, goHome}) => {
     const navigation = useNavigation();
 
     return(
@@ -18,7 +18,7 @@ const Options = ({isFlowBooking=false}) => {
                 </TouchableOpacity>
             ):(
                 <TouchableOpacity 
-                    onPress={() => navigation.goBack()}
+                    onPress={() => goHome ? navigation.navigate('House') : navigation.goBack()}
                     style={styles.btn}>
                     <Ionicons name="chevron-back" size={20} color="black" />
                 </TouchableOpacity>

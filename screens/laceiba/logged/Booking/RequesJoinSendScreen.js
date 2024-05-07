@@ -3,15 +3,21 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-nati
 import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking";
 import { getFontSize } from "../../../../utils";
 import { ColorsCeiba } from "../../../../Colors";
+import { useRoute } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import moment from "moment";
 
 const RequesJoinSendScreen = () => {
+    const route = useRoute();
+    const infoBooking = useSelector(state => state.bookingDuck.createBooking)
+    const { booking } = route.params
     return(
         <HeaderBooking>
             <View style={styles.container}>
                 <Text style={[styles.lbl,{fontSize: getFontSize(20),}]}>Petición enviada</Text>
                 <Text style={[styles.lbl,styles.lblSubtitle]}>Te avisaremos cuando sea aceptada por los socios</Text>
-                <Text style={[styles.lbl,{fontSize: getFontSize(16),}]}>18 de marzo 11:00</Text>
-                <Text style={[styles.lbl,{fontSize: getFontSize(16),}]}>Tee 1</Text>
+                <Text style={[styles.lbl,{fontSize: getFontSize(16),}]}>{moment(infoBooking?.date,'YYYY-MM-DD').format('D MMMM')} {infoBooking?.hour?.time}</Text>
+                <Text style={[styles.lbl,{fontSize: getFontSize(16),}]}>{infoBooking?.area?.name}</Text>
                 <TouchableOpacity style={styles.btn}>
                     <Text>Cambiar</Text>
                 </TouchableOpacity>

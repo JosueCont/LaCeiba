@@ -5,19 +5,65 @@ import { ColorsCeiba } from "../../../../Colors";
 import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import AddBookItem from "../../../../components/laceiba/Booking/AddBookItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
+import TablePlayers from "../../../../components/laceiba/Booking/TablePlayers";
+import BtnCustom from "../../../../components/laceiba/CustomBtn";
+import { getCounter, setAtributeBooking, setDataBooking } from "../../../../redux/ducks/bookingDuck";
+import { cacheBookHour } from "../../../../api/Requests";
+import ModalInfo from "../../../Modals/ModalInfo";
+
+const {height, width} = Dimensions.get('window');
 
 const CreatePetitionScreen = () => {
     const navigation = useNavigation();
     const route = useRoute();
+    const dispatch = useDispatch();
     const [rentCar, setRentCar] = useState(0)
     const [holes, setHoles ] = useState(0)
     const [countCar, setCountCar] = useState(0)
     const [countPlayers, setCountPlayers] = useState(1)
+    const [modalExpiredTime, setModalExpired] = useState(false)
     const infoBooking = useSelector(state => state.bookingDuck.createBooking)
+    const players = useSelector(state => state.bookingDuck.players)
+    const user = useSelector(state => state.appDuck.user)
+    const minutes = useSelector(state => state.bookingDuck.minutes)
+    const seg = useSelector(state => state.bookingDuck.seconds)
+    const timeExpired = useSelector(state => state.bookingDuck.timeExpired)
 
     const {item} = route?.params;
+    
+    useEffect(() => {
+        let myPlayer = {
+            status: 'Confirmado',
+            nombre:`${user?.firstName}`,
+            apellidoPaterno: user?.lastName,
+            membership: user?.partner,
+            id: user?.partner?.id,
+            userId: user?.id
+        }
+        dispatch(setAtributeBooking({prop:'players', value: [myPlayer]}))
+    },[])
+
+    useEffect(() => {
+        setReservedTime()
+    },[])
+
+    const setReservedTime = async() => {
+        try {
+            let dataSend = {
+                dueDate: infoBooking?.date,
+                dueTime: infoBooking?.hour?.time
+            }
+            console.log('dataSend', dataSend)
+            console.log('minutes',minutes,'seconds', seg)
+            const response = await cacheBookHour(dataSend,[user.id, infoBooking?.area?.id])
+            console.log('response', response)
+            dispatch(getCounter(infoBooking?.activity?.timeToConfirm * 60))
+        } catch (e) {
+            console.log('error reservar',e)
+        }
+    }
 
     const types = {
         1: ColorsCeiba.aqua,
@@ -62,6 +108,9 @@ const CreatePetitionScreen = () => {
                         <Text>{item?.time}</Text>
                     </View>
                 </View>
+                <View style={{alignItems:'center', marginBottom:25}}>
+                    <Text style={{color: ColorsCeiba.aqua}}>Tiempo para reservar: {minutes < 10 ? `0${minutes}` : minutes}:{seg < 10 ? `0${seg}` : seg} {minutes <= 0 ? 'sec' : 'min'}.</Text>
+                </View>
                 {/*<AddBookItem 
                     question="¿Quieres rentar carrito?"
                     showSubtitle={false}
@@ -74,6 +123,7 @@ const CreatePetitionScreen = () => {
                 />*/}
                 <AddBookItem 
                     question="¿Cuántos jugadores?"
+                    players={players.length}
                     type={2}
                     counter={countPlayers}
                     optionSelect={holes}
@@ -82,10 +132,35 @@ const CreatePetitionScreen = () => {
                     onPlus={onPlusPlayers}
                 />
                 <TouchableOpacity 
-                    onPress={() => navigation.navigate('AddPlayers')}
+                    onPress={() => navigation.navigate('AddPlayers', {players: countPlayers})}
                     style={styles.btn}>
                     <Text style={styles.lbl}>+ Añadir jugadores</Text>
                 </TouchableOpacity>
+
+                <TablePlayers players={players} showDelete={true}/>
+
+                <BtnCustom 
+                    title="Hacer reserva"
+                    disable={players.length < countPlayers}
+                    onPress={() => {
+                        timeExpired ? setModalExpired(true) :navigation.navigate('DetailBooking',{holes,})
+                    }}
+                />
+
+                <ModalInfo
+                    visible={modalExpiredTime}
+                    setVisible={() => {
+                        setModalExpired(false)
+                        setTimeout(() => {
+                            dispatch(setDataBooking({}))
+                            dispatch(setAtributeBooking({prop:'timeExpired', value:false}))
+                            navigation.goBack()
+                        },200)
+                    }}
+                    close={false}
+                    title="Aviso"
+                    text="Se ha terminado el tiempo, vuelve a seleccionar horario"
+                />
             </View>
         </HeaderBooking>
     )
@@ -101,12 +176,13 @@ const styles = StyleSheet.create({
         fontSize: getFontSize(20), 
         fontWeight:'400',
         textTransform:'capitalize',
-        marginBottom:10
+        marginBottom:10,
+        width: width*.65,
     },
     contHeader:{
         flexDirection:'row', 
         justifyContent:'space-between',
-        marginBottom:29
+        marginBottom:17
     },
     contSchedule:{
         width: 74,
@@ -126,7 +202,8 @@ const styles = StyleSheet.create({
         borderWidth:1,
         justifyContent:'center',
         alignItems:'center',
-        alignSelf:'center'
+        alignSelf:'center',
+        marginBottom:10
     },
     lbl:{
         color: ColorsCeiba.darkGray,

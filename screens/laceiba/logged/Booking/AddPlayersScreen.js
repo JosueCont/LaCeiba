@@ -10,31 +10,38 @@ import ListPeople from "../../../../components/laceiba/Booking/ListPeople";
 import BtnCustom from "../../../../components/laceiba/CustomBtn";
 import { findPartnerQuery, getListGuessing } from "../../../../api/Requests";
 import _ from "lodash";
+import { useDispatch, useSelector } from "react-redux";
+import { setAtributeBooking } from "../../../../redux/ducks/bookingDuck";
+import ModalInfo from "../../../Modals/ModalInfo";
 
 const {height, width} = Dimensions.get('window');
 
 const AddPlayersScreen = () => {
     const navigation = useNavigation();
+    const route = useRoute();
+    const dispatch = useDispatch();
+    const playerList = useSelector(state => state.bookingDuck.players)
     const [typeGuessing, setTypeGuessing] = useState(0)
-    const [loading, setLoaading] = useState(false)
+    const [loading, setLoaading] = useState(true)
     const [partnersList, setParners] = useState([])
-    const [partnersSelected, setPartnersSelected] = useState([])
+    const [partnersSelected, setPartnersSelected] = useState(playerList)
     const [txtSearch, setSearch] = useState('')
+    const [firstRender, setFirstRender] = useState(true);
+    const [showModal, setShowModal] = useState(false)
+
+
+    const {players} = route?.params; 
     const typesInvite = [
         {option:'Socio'},{option:'Invitado'}
     ]
-
-    const clients = [
-        {name:'Josué Francisco Contreras Flores', image: require('../../../../assets/iconPerson.png')},
-        {name:'Josué Francisco Contreras Flores', image: require('../../../../assets/iconPerson.png')},
-        {name:'Josué Francisco Contreras Flores', image: require('../../../../assets/iconPerson.png')},
-        {name:'Josué Francisco Contreras Flores', image: require('../../../../assets/iconPerson.png')},
-        {name:'Josué Francisco Contreras Flores', image: require('../../../../assets/iconPerson.png')},
-
-    ]
+   
 
     useEffect(() => {
-        getGuessList()
+        if (firstRender) {
+            setFirstRender(false);
+        } else {
+            getGuessList();
+        }
     },[typeGuessing])
 
     useEffect(() => {
@@ -50,11 +57,10 @@ const AddPlayersScreen = () => {
 
     const getGuessList = async(search='') => {
         try {
-            console.log('search', search)
             setLoaading(true)
             const response = typeGuessing === 0 ? await findPartnerQuery(`?page=1&limit=30&sort=desc&q=${search}&userId=not_null&isActive=true&accessToGolf=true`)
             : await getListGuessing(`?page=1&limit=100&sort=desc&q=${search}`)
-            console.log('partners', response?.data)
+            //console.log('partners', response?.data)
             setParners(response?.data?.items || [])
         } catch (e) {
             console.log('error parners', e)
@@ -69,7 +75,7 @@ const AddPlayersScreen = () => {
         //debouncegetList(val)
     }
     return(
-        <HeaderBooking showFilters={false}>
+        <HeaderBooking showFilters={false} isScrolling={false}>
             <View style={styles.container}>
                 <Text style={styles.lblTitle}>Seleccionar invitado</Text>
                 <Text>Tipo invitado</Text>
@@ -77,6 +83,7 @@ const AddPlayersScreen = () => {
                     <View style={{flexDirection:'row'}}>
                         {typesInvite.map((item,index) => (
                             <TouchableOpacity 
+                                disabled={loading}
                                 style={[styles.centerBtn,styles.btnType, {backgroundColor: index === typeGuessing ? ColorsCeiba.aqua : ColorsCeiba.white}]} 
                                 onPress={() => setTypeGuessing(index)}>
                                 <Text>{item?.option}</Text>
@@ -89,7 +96,9 @@ const AddPlayersScreen = () => {
                         <Text>+ Nuevo contacto</Text>
                         </TouchableOpacity>*/}
                 </View>
-
+            </View>
+            
+            <View style={styles.container}>
                 <View style={{marginBottom:20}}>
                     <TextInput 
                         style={styles.txtInput}
@@ -100,29 +109,42 @@ const AddPlayersScreen = () => {
                     <Ionicons name="search-outline" size={24} color={ColorsCeiba.grayV2} style={styles.icon} />
 
                 </View>
+            </View>
+            <View style={{}}>
                 {loading ? (
-                    <View style={{width: '100%', height:200, justifyContent:'center', alignItems:'center'}}>
+                    <View style={{width: '100%', height: height > 900 ? height*.5 : height*.33, justifyContent:'center', alignItems:'center'}}>
                         <Spinner color={ColorsCeiba.darkGray} size={'lg'}/>
                     </View>
                 ): (
-                    <ListPeople 
-                        people={partnersList} 
-                        peopleSelected={partnersSelected}
-                        selectedPerson={(item) => {
-                            const isExist = partnersSelected.some(person => item.id === person.id);
+                    <View style={{ height: height > 900 ? height*.5 : height*.33,}}>
+                        <ListPeople 
+                            countPlayers={players}
+                            people={partnersList} 
+                            peopleSelected={partnersSelected}
+                            selectedPerson={(item) => {
+                                const isExist = partnersSelected.some(person => item?.id ? item?.id === person?.id : item?.idInvitado === person?.idInvitado)
 
-                            if(isExist) setPartnersSelected(prevSeleccionados => prevSeleccionados.filter(person => person.id !== item.id));
-                            else setPartnersSelected(prevSeleccionados => [...prevSeleccionados, item]);
+                                if(isExist){ 
+                                    //arreglar esto
+                                    setPartnersSelected(prevSeleccionados => prevSeleccionados.filter(person =>  person?.id !== item?.id ||  item?.idInvitado !== person?.idInvitado));
+                                }else{
+                                    partnersSelected.length >= players ? setShowModal(true)
+                                    : setPartnersSelected(prevSeleccionados => [...prevSeleccionados, item]);
+                                }
 
-                        }}
-                    />
+                            }}
+                        />
+                    </View>
 
                 )}
                 <View style={{marginBottom:12}}>
                     <BtnCustom 
                         title="Aceptar"
                         disable={partnersSelected.length === 0}
-                        //onPress={() =>}    
+                        onPress={() =>{
+                            dispatch(setAtributeBooking({prop:'players', value: partnersSelected}))
+                            navigation.goBack()
+                        }}    
                     />
 
                 </View>
@@ -130,6 +152,15 @@ const AddPlayersScreen = () => {
                     title="Cancelar" 
                     bgColor={ColorsCeiba.white} 
                     color={ColorsCeiba.darkGray}
+                />
+                <ModalInfo 
+                    visible={showModal}
+                    setVisible={() => {
+                        setShowModal(false)
+                    }}
+                    close={false}
+                    title="Aviso"
+                    text="No es posible agregar más usuarios"
                 />
             </View>
         </HeaderBooking>
@@ -150,7 +181,7 @@ const styles = StyleSheet.create({
         flexDirection:'row', 
         justifyContent:'space-between', 
         marginTop:14,
-        marginBottom:37
+        marginBottom:27
     },
     btnType:{
         width: 78, 

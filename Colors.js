@@ -12,4 +12,7 @@ export const ColorsCeiba = {
     lightgray:'#D9D9D9',
     lightBlue:'#F2F4F2',
     grayV2:'#555',
+    grayText:'#EEF4FA',
+    yellow:'#BCC01F',
+    red:'#AC2929'
 }

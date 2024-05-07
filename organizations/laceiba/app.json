@@ -33,10 +33,10 @@
     "jsEngine": "hermes",
     "extra": {
         "debug": false,
-        "production": true,
+        "production": false,
         "sendDeviceToken": true,
         "URL": "https://laceiba.api.hiumanlab.mx",
-        "URL_DEV": "https://laceiba.api.hiumanlab.mx",
+        "URL_DEV": "https://laceiba.oneclub-api.hiumanlab.com.mx",
         "eas": {
             "projectId": "7c3e078c-c896-48b4-ada0-33ad8b533d1c"
         },

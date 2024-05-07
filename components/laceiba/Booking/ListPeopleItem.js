@@ -7,7 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 const {height, width} = Dimensions.get('window');
 
-const ItemListPeople = ({item, index, selectPerson, peopleSelected}) => {
+const ItemListPeople = ({item, index, selectPerson, peopleSelected, countPlayers}) => {
 
     const findPerson = () => {
         return peopleSelected.find((person) => item?.id ? person?.id === item?.id : person?.idInvitado === item?.idInvitado) 

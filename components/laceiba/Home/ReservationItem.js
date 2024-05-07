@@ -12,17 +12,36 @@ const ReservationItem = ({item, index}) => {
         'Pendiente':'yellow',
         'Cancelado':'red'
     }
+    
+    const getStatus = () => {
+        let status;
+        if(item?.deletedBy != null){
+            status = 'Cancelado'
+        }else{
+            const hasPending = item?.invitations.some(elemento => elemento.status === 'PENDING');
+            status = hasPending ? 'Pendiente' : 'Confirmado';
+
+        }
+        return (
+            <>
+                <View style={{width:10, height:10, marginRight:5,borderRadius: 5, backgroundColor: colors[status]}}/>
+                <Text style={styles.lbl}>{status}</Text>
+            </>
+        )
+
+
+    }
     return(
         <View style={styles.card}>
-            <Image source={item?.image} style={styles.image}/>
+            <Image source={require('../../../assets/provitionalReservation.png')} style={styles.image}/>
             <View>
-                <Text style={styles.lblTitle}>{item?.name}</Text>
-                <Text style={styles.lbl}>{moment(item?.hour).format('dddd')}, {moment(item?.hour).format('MMMM DD')}</Text>
-                <Text style={styles.lbl}>{moment(item?.hour).format('HH:mm A')}</Text>
-                <Text style={styles.lbl}>Hole {item?.hole}</Text>
+                <Text style={styles.lblTitle}>{item?.area?.service?.name}</Text>
+                <Text style={styles.lbl}>{moment(item?.dueDate).format('dddd')}, {moment(item?.dueDate).format('MMMM DD')}</Text>
+                <Text style={styles.lbl}>{item?.dueTime}</Text>
+                <Text style={styles.lbl}>Hole {item?.numHoles}</Text>
                 <View style={{flexDirection:'row', alignItems:'center'}}>
-                    <View style={{width:10, height:10, marginRight:5,borderRadius: 5, backgroundColor: colors[item?.status]}}/>
-                    <Text style={styles.lbl}>{item?.status}</Text>
+                {getStatus()}
+                   
                 </View>
             </View>
         </View>

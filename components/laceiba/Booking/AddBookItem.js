@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-nati
 import { getFontSize } from "../../../utils";
 import { ColorsCeiba } from "../../../Colors";
 
-const AddBookItem = ({question='', showSubtitle=true, type=1, counter=0, optionSelect=0, setOption, onMinus, onPlus}) => {
+const AddBookItem = ({question='', showSubtitle=true, type=1, counter=0, optionSelect=0, setOption, onMinus, onPlus, players=0}) => {
     const options = type === 1 ? [
         {option:'No'},{option:'Si'}
     ] : [
@@ -17,7 +17,7 @@ const AddBookItem = ({question='', showSubtitle=true, type=1, counter=0, optionS
                     <TouchableOpacity 
                         style={styles.itemCounter} 
                         //disabled={(type ===  1 && counter === 0 && optionSelect === 0)}
-                        disabled={counter<2}
+                        disabled={type === 2 ? counter<=players :counter<2}
                         onPress={onMinus}>
                         <Text>-</Text>
                     </TouchableOpacity>

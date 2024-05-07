@@ -87,4 +87,4 @@ export const sendPushToken = async (params, queryStringParams = []) => await req
 export const addPartnerSap = async(params) => await request(URLTypes.ADD_PARTNER_SAP, params, 'post', null);
 export const getConfig = async () => await request(URLTypes.GET_CONFIG, '', 'get')
 export const getListGuessing = async(params) => await request(URLTypes.GET_NORMAL_GUESSING, params, 'get')
-export const postJoinBookingRequest = async(data) => await request(URLTypes.POST_JOIN_BOOKING_REQUEST, data)
+export const postJoinBookingRequest = async(data) => await request(URLTypes.POST_JOIN_BOOKING_REQUEST, data,'post')

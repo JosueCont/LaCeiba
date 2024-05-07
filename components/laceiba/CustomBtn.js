@@ -1,14 +1,15 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
+import { Spinner } from "native-base";
 import { getFontSize } from "../../utils";
 import { ColorsCeiba } from "../../Colors";
 
 const {height, width} = Dimensions.get('window');
 
-const BtnCustom = ({title='', onPress, bgColor=ColorsCeiba.darkGray, color=ColorsCeiba.white, disable=false, ...props}) => {
+const BtnCustom = ({title='', onPress, bgColor=ColorsCeiba.darkGray, color=ColorsCeiba.white, disable=false, loading=false, spinnerColor=ColorsCeiba.white,  ...props}) => {
     return(
         <TouchableOpacity onPress={onPress} style={[styles.btn, {backgroundColor: disable ? ColorsCeiba.gray : bgColor}]} disabled={disable}>
-            <Text style={[styles.lbl,{color: color}]}>{title}</Text>
+            {loading ? <Spinner color={color} size={'sm'}/> : <Text style={[styles.lbl,{color: color}]}>{title}</Text>}
         </TouchableOpacity>
     )
 }
