@@ -187,7 +187,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
                             </TouchableOpacity>
                         </View>
                 
-                        {Constants.expoConfig.extra && 
+                        {Constants.expoConfig.extra && //regresar a cmbio
                             <View flex={1}>
                                 <TouchableOpacity onPress={() => validatePartnerFunction('BookingServicesScreen')}>
                                     <View alignItems={'center'} mb={2}>
@@ -246,7 +246,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
                             </View>
                         }
                         
-                        {Constants.expoConfig.extra.booking && 
+                        {!Constants.expoConfig.extra.booking && 
                             <View flex={1}>
                                 <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen')}>
 

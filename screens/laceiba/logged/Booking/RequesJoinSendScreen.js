@@ -3,12 +3,13 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-nati
 import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking";
 import { getFontSize } from "../../../../utils";
 import { ColorsCeiba } from "../../../../Colors";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute, CommonActions } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import moment from "moment";
 
 const RequesJoinSendScreen = () => {
     const route = useRoute();
+    const navigation = useNavigation()
     const infoBooking = useSelector(state => state.bookingDuck.createBooking)
     const { booking } = route.params
     return(
@@ -18,8 +19,15 @@ const RequesJoinSendScreen = () => {
                 <Text style={[styles.lbl,styles.lblSubtitle]}>Te avisaremos cuando sea aceptada por los socios</Text>
                 <Text style={[styles.lbl,{fontSize: getFontSize(16),}]}>{moment(infoBooking?.date,'YYYY-MM-DD').format('D MMMM')} {infoBooking?.hour?.time}</Text>
                 <Text style={[styles.lbl,{fontSize: getFontSize(16),}]}>{infoBooking?.area?.name}</Text>
-                <TouchableOpacity style={styles.btn}>
-                    <Text>Cambiar</Text>
+                <TouchableOpacity 
+                    style={styles.btn} 
+                    onPress={() => {
+                        navigation.dispatch(CommonActions.reset({
+                            index:0,
+                            routes:[{name:'HomeScreen', params: {screen: 'HomeScreen'}}]
+                        }))
+                    }}>
+                    <Text>Aceptar</Text>
                 </TouchableOpacity>
             </View>
         </HeaderBooking>
