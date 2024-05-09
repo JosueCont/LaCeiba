@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-nati
 import { getFontSize } from "../../../../utils";
 import { ColorsCeiba } from "../../../../Colors";
 import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
 import AddBookItem from "../../../../components/laceiba/Booking/AddBookItem";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
@@ -19,6 +19,7 @@ const CreatePetitionScreen = () => {
     const navigation = useNavigation();
     const route = useRoute();
     const dispatch = useDispatch();
+    const focused = useIsFocused()
     const [rentCar, setRentCar] = useState(0)
     const [holes, setHoles ] = useState(0)
     const [countCar, setCountCar] = useState(0)
@@ -31,7 +32,7 @@ const CreatePetitionScreen = () => {
     const seg = useSelector(state => state.bookingDuck.seconds)
     const timeExpired = useSelector(state => state.bookingDuck.timeExpired)
 
-    const {item} = route?.params;
+    const {item, counterRef} = route?.params;
     
     useEffect(() => {
         let myPlayer = {
@@ -46,8 +47,11 @@ const CreatePetitionScreen = () => {
     },[])
 
     useEffect(() => {
-        setReservedTime()
-    },[])
+        console.log('iniciar', counterRef)
+        //if(counterRef.current === null){
+            setReservedTime()
+        //}
+    },[focused])
 
     const setReservedTime = async() => {
         try {
@@ -59,7 +63,7 @@ const CreatePetitionScreen = () => {
             console.log('minutes',minutes,'seconds', seg)
             const response = await cacheBookHour(dataSend,[user.id, infoBooking?.area?.id])
             console.log('response', response)
-            dispatch(getCounter(infoBooking?.activity?.timeToConfirm * 60))
+            dispatch(getCounter(infoBooking?.activity?.timeToConfirm * 60, counterRef))
         } catch (e) {
             console.log('error reservar',e)
         }

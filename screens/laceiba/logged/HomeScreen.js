@@ -107,7 +107,7 @@ const HomeScreen = () => {
                 <NextReservationList reservations={reservations}/>
             </HeaderHome>
             <View style={{position:'absolute', top: Platform.OS === 'ios' ? 20 : 10, width: width}}>
-                <Options />
+               {/* <Options />*/}
             </View>
         </>
     )

@@ -13,7 +13,7 @@ import iconMatches from '../assets/iconMatches2.png'
 import iconBalance from '../assets/iconBalance2.png'
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import LayoutV4 from "./Layouts/LayoutV4";
-import {getAllGF, getGFLeader, sendPushToken, validatePartner} from "../api/Requests";
+import {getAllGF, getGFLeader, sendPushToken, validatePartner, getAllServices} from "../api/Requests";
 import {connect} from "react-redux";
 import ModalInfo from "./Modals/ModalInfo";
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
@@ -23,8 +23,9 @@ import { Platform } from "react-native";
 import * as Notifications from 'expo-notifications';
 import {setAttribute} from "../redux/ducks/navigationDuck";
 import { imageImport } from '../organizations/assets/ImageImporter';
+import { setInfoBooking } from '../redux/ducks/bookingDuck';
 
-const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
+const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setInfoBooking}) => {
     const [sliderPosition, setSliderPosition] = useState(0);
     const [text, setText] = useState(null);
     const [modalInfoVisible, setModalInfoVisible] = useState(null);
@@ -38,6 +39,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
     useEffect(() => {
         if (isFocused) {
             sendExpoToken();
+            getBookingConfig()
         }
     }, [isFocused])
 
@@ -52,6 +54,17 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
               };
         }, [])
     );
+
+    const getBookingConfig = async() => {
+        try {
+            const response = await getAllServices();
+            console.log('response', response?.data)
+            setInfoBooking(response?.data)
+        } catch (e) {
+            console.log('error',e)
+            
+        }
+    }
 
     const sendExpoToken = async () => {
         try {
@@ -174,7 +187,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck}) => {
                             </TouchableOpacity>
                         </View>
                 
-                        {Constants.expoConfig.extra.booking && 
+                        {Constants.expoConfig.extra && 
                             <View flex={1}>
                                 <TouchableOpacity onPress={() => validatePartnerFunction('BookingServicesScreen')}>
                                     <View alignItems={'center'} mb={2}>
@@ -335,4 +348,4 @@ const mapState = (state) => {
     }
 }
 
-export default connect(mapState, {loggedOutAction})(HomeScreen)
+export default connect(mapState, {loggedOutAction, setInfoBooking})(HomeScreen)

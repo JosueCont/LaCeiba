@@ -10,7 +10,7 @@ const AvailableHours = ({hours, selectedHour}) => {
             {hours.length > 0 ? hours.map((item,index) => (
                 <AvailableHoursItem index={index} item={item} selectHour={selectedHour}/>
             )):(
-                <Text>Bi hay</Text>
+                <Text>No se encontraron elementos para mostrar</Text>
             )}
         </View>
     )

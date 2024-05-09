@@ -19,8 +19,8 @@ const AvailableDaysItem = ({item, index, selectedDay, setSelectedDay, disabled})
 
 const styles = StyleSheet.create({
     card:{
-        width: 70,
-        height:70, 
+        width: 72,
+        height:72, 
         borderWidth: 1,
         marginRight: 11,
         borderRadius: 5,
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     },
     lblDay:{
         color: ColorsCeiba.darkGray,
-        fontSize: getFontSize(12),
+        fontSize: getFontSize(11),
         fontWeight:'400',
         textTransform:'capitalize'
     },

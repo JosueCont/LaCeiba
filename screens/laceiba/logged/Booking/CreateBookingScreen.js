@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import { Spinner, View,  } from "native-base";
 import { StyleSheet, Dimensions, Text, FlatList, TouchableOpacity } from "react-native";
 import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking";
@@ -34,6 +34,7 @@ const CreateBookingScreen = () => {
     const [filterSelected, setFilterSelect] = useState(0)
     const [originalHours, setOriginalHours] = useState([]); 
 
+    const counterRef = useRef(null)
 
     useEffect(() => {
         //console.log('cargando nuevos')
@@ -54,6 +55,7 @@ const CreateBookingScreen = () => {
 
     useEffect(() => {
         //getDays()
+        //if(booking[option]?.areas[areaSelected] != undefined && availableDays[selectDay] != undefined) 
         getAvailableDays()
     },[areaSelected, option])
 
@@ -67,6 +69,13 @@ const CreateBookingScreen = () => {
     useEffect(() => {
         if(focused){
             dispatch(setAtributeBooking({prop:'timeExpired', value: false}))
+            console.log('currentRefCount', counterRef)
+            //if (counterRef.current !== null) {
+                clearInterval(counterRef.current); // Limpieza usando .current
+                counterRef.current = null
+                dispatch(onResetCounter())
+                //console.log('counterRef',counterRef)
+             // }
             if(infoBooking?.hour) getCancelReserved()
 
         }
@@ -96,7 +105,7 @@ const CreateBookingScreen = () => {
 
 
         setAvailableDays(result)
-        console.log('result',result)
+        //console.log('result',result)
 
     }
 
@@ -104,11 +113,11 @@ const CreateBookingScreen = () => {
         try {
             setLoading(true)
             let filters = `?date=${moment(availableDays[selectDay]?.dateString,'DD-MM-YYYY').format('YYYY-MM-DD')}&userId=${appDuck.user.id}`
-            console.log('paraemtros', filters , availableDays[selectDay]?.dateString)
+            //console.log('paraemtros', filters , availableDays[selectDay]?.dateString)
             const response = await getAllIntervalsTime(filters, [booking[option]?.areas[areaSelected]?.id])
             setHours(response?.data)
             setOriginalHours(response?.data)
-            console.log('response horarios',response?.data)
+            //console.log('response horarios',response?.data)
         } catch (e) {
             console.log('error horarios',e)
         }finally{
@@ -162,9 +171,14 @@ const CreateBookingScreen = () => {
 
    const getCancelReserved = async() => {
     try {
-        dispatch(getCounter(0, true));
+        //dispatch(getCounter(0, counterRef));
 
         const response = await unBlockHour(`?dueDate=${infoBooking?.date}&dueTime=${infoBooking?.hour?.time}`, [appDuck.user.id, infoBooking?.area?.id])
+        //if (counterRef.current !== null) {
+        //    clearInterval(counterRef.current); // Limpieza usando .current
+        //    dispatch(onResetCounter())
+        //    //console.log('counterRef',counterRef)
+        //  }
         //stopCounterFunction()
         //dispatch(onResetCounter())
         console.log('cancelardo ',response?.data)
@@ -265,7 +279,14 @@ const CreateBookingScreen = () => {
                                     activity: booking[option]
                                 }))
                                 if(item?.booking !== null) navigation.navigate('JoinPetition')
-                                else navigation.navigate('CreatePetition',{item})
+                                else navigation.navigate('CreatePetition',{item, counterRef})
+                            }else {
+                                navigation.navigate('MyReservation', {infoBooking: {
+                                    area: booking[option]?.areas[areaSelected],
+                                    hour: item,
+                                    date: moment(availableDays[selectDay]?.dateString,'DD-MM-YYYY').format('YYYY-MM-DD'),
+                                    activity: booking[option]
+                                }})
                             }
                             console.log('item', item)
                             //item?.status === 2 ? navigation.navigate('JoinPetition')

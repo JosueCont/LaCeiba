@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useRef} from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { useRoute, useNavigation } from "@react-navigation/native";
+import { useRoute, useNavigation, CommonActions } from "@react-navigation/native";
 import { getFontSize } from "../../../../utils";
 import HeeaderBookingImage from "../../../../components/laceiba/Headers/HeaderBookingImage";
 import { ColorsCeiba } from "../../../../Colors";
@@ -27,8 +27,8 @@ const BookingDoneScreen = () => {
                 <Text>LA RESERVACIÓN HA SIDO GENERADA CON ÉXITO</Text>
                 <Text style={{marginTop:20, fontSize: getFontSize(16), marginBottom:8}}>Fecha y hora</Text>
                 <Text style={styles.lbl}>{moment(infoBooking?.date,'YYYY-MM-DD').format('dddd MMMM D')}</Text>
-                <Text style={styles.lbl}>{infoBooking?.hour?.time}</Text>
-                <Text style={styles.lbl}>Salida hoyo 1</Text>
+                <Text style={styles.lbl}>{infoBooking?.hour?.time} hrs.</Text>
+                <Text style={styles.lbl}>Salida hoyo {infoBooking?.area?.name === 'Tee 1' ? '1' : '10'}</Text>
                 <Text style={styles.lbl}>{holes !=0 ? '18' : '9'} hoyos</Text>
             </View>
             <View style={{justifyContent:'center', marginHorizontal:20, marginBottom:38}}>
@@ -39,7 +39,11 @@ const BookingDoneScreen = () => {
                 title="De acuerdo" 
                 onPress={() => {
                     dispatch(setAtributeBooking({prop:'createBooking', value:{}}))
-                    navigation.navigate('House')
+                    //navigation.navigate('House') eliminar lo nuevo y regresar a este 
+                    navigation.dispatch(CommonActions.reset({
+                        index:0,
+                        routes:[{name:'HomeScreen', params: {screen: 'HomeScreen'}}]
+                    }))
                 }}
             />
         </HeeaderBookingImage>

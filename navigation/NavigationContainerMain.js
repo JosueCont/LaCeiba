@@ -49,7 +49,7 @@ const NavigatorContainerMain = ({appDuck,setAttribute}) => {
                 loading ?
                     <View flex={1} backgroundColor={Colors.primary} alignItems={'center'} justifyContent={'center'}>
                         <Spinner size={'sm'} color={Colors.bgPrimaryText}></Spinner>
-                    </View> : Constants.expoConfig.slug === 'laceiba' ? status ? <LoggedStack /> : <AuthStack /> :
+                    </View> : //Constants.expoConfig.slug === 'laceiba' ? status ? <LoggedStack /> : <AuthStack /> :
                     status ? <DrawerConfig/> : <StackNavigatorSecurity/>
             }
         </NavigationContainer>

@@ -6,11 +6,11 @@ import { ColorsCeiba } from "../../../Colors";
 
 const {height, width} = Dimensions.get('window');
 
-const RequestJoinItem = ({requested}) => {
+const RequestJoinItem = ({requested, myReservation=false}) => {
 
     return(
         <View style={styles.card}>
-            <View style={styles.contSchedule}>
+            <View style={[styles.contSchedule, {backgroundColor: myReservation ? ColorsCeiba.aqua : ColorsCeiba.lightYellow}]}>
                 <Text style={styles.lbl}>{requested?.hour?.time}</Text>
             </View>
             <View style={styles.contPeople}>
@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         marginBottom:15,
-        backgroundColor: ColorsCeiba.lightYellow
     },
     lbl:{
         fontSize: getFontSize(12), 

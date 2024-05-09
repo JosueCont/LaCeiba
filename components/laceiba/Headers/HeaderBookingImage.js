@@ -14,7 +14,7 @@ const HeeaderBookingImage = ({children, goHome=false}) => {
                 resizeMode='cover'
                 style={{width: width, height: 200, paddingTop:15}}
                 source={require('../../../assets/golfField.png')}>
-                    <Options isFlowBooking={true} goHome={goHome}/>
+                    {/*<Options isFlowBooking={true} goHome={goHome}/>*/}
             </ImageBackground>
             <ScrollView
                 overScrollMode="always"

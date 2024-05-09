@@ -26,7 +26,7 @@ const ListPeople = ({people, selectedPerson, peopleSelected, countPlayers}) => {
                 />
 
             ):(
-                <View>
+                <View style={{alignSelf:'center'}}>
                     <Text>No se encontraron personas</Text>
                 </View>
             )}

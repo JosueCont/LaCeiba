@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from "react";
-import {useFocusEffect, useNavigation} from "@react-navigation/native";
+import React, {useEffect, useRef, useState, useCallback} from "react";
+import {useFocusEffect, useNavigation, CommonActions, } from "@react-navigation/native";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import CustomDrawerContent from "./DrawerNavigatorContent";
 import HomeScreen from "../screens/HomeScreen";
@@ -79,6 +79,22 @@ import Constants from "expo-constants";
 import BalanceScreen from "../screens/BalanceScreen";
 import GuestGeneratePassQRScreen from "../screens/GuestGeneratePassQRScreen";
 
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import HomeScreenCeiba from "../screens/laceiba/logged/HomeScreen";
+import CreateBookingScreen from "../screens/laceiba/logged/Booking/CreateBookingScreen";
+import CreatePetitionScreen from "../screens/laceiba/logged/Booking/CreatePetitionScreen";
+import JoinPetitionScreen from "../screens/laceiba/logged/Booking/JoinPetitionScreen";
+import RequesJoinSendScreen from "../screens/laceiba/logged/Booking/RequesJoinSendScreen";
+import AddPlayersScreen from "../screens/laceiba/logged/Booking/AddPlayersScreen";
+import NewGuestScreen from "../screens/laceiba/logged/Booking/NewGuestScreen";
+import DetailBokingScreen from "../screens/laceiba/logged/Booking/DetailBookingScreen";
+import BookingDoneScreen from "../screens/laceiba/logged/Booking/BookingDoneScreen";
+import ReservationsListScreen from "../screens/laceiba/logged/Booking/ReservationsListScreen";
+import { BackHandler } from "react-native";
+import MyReservationScreen from "../screens/laceiba/logged/Booking/MyReservationScreen";
+
+const Stack = createNativeStackNavigator();
+
 const Drawer = createDrawerNavigator();
 
 const DrawerConfig = () => {
@@ -148,6 +164,50 @@ const DrawerConfig = () => {
                 navigation.navigate('BookingsDetailScreen', {invitation_id:data.invitation_id})
             }
         }
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+            const handleBackButton = () => {
+                //console.log('bloquadeo', navigation.getCurrentRoute())
+                let route = navigation.getCurrentRoute().name
+                if(route === 'JoinSend' && route === 'BookingSuccess') navigation.navigate('House')
+                console.log('route',route)
+            }
+
+            BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    
+            return () => {
+              BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+            };
+        },[])
+    )
+
+    const BookingServicesNavigator = () => {
+        return(
+            <Stack.Navigator
+                mode={'card'}
+                backBehavior={'history'}
+                initialRouteName="CreateBooking"
+                screenOptions={({navigation, route}) =>({
+                    headerShown: false,
+                   
+                })}
+            >
+                {/*<Stack.Screen name="House" component={HomeScreenCeiba} />*/}
+                <Stack.Screen name="CreateBooking" component={CreateBookingScreen} />
+                <Stack.Screen name="CreatePetition" component={CreatePetitionScreen} />
+                <Stack.Screen name="JoinPetition" component={JoinPetitionScreen}/>
+                <Stack.Screen name="MyReservation" component={MyReservationScreen}/>
+                <Stack.Screen name="JoinSend" component={RequesJoinSendScreen} options={{gestureEnabled:false }}/>
+                <Stack.Screen name="AddPlayers" component={AddPlayersScreen}/>
+                <Stack.Screen name="AddGuest" component={NewGuestScreen}/>
+                <Stack.Screen name="DetailBooking" component={DetailBokingScreen}/>
+                <Stack.Screen name="BookingSuccess" component={BookingDoneScreen} options={{gestureEnabled:false }}/>
+                <Stack.Screen name="Reservations" component={ReservationsListScreen} />
+
+            </Stack.Navigator>
+        )
     }
 
 
@@ -221,10 +281,11 @@ const DrawerConfig = () => {
 
                             </TouchableOpacity>
                         )
-                    } else {
+                    } else if(route?.name.includes('BookingServicesScreen')){
+                        console.log('route',route, navigation)
+                    }else {
                         return (
                             <TouchableOpacity onPress={async () => {
-
                                 navigation.goBack(0)
 
 
@@ -335,7 +396,35 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'GroupsScreen'} component={GroupsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'ProfileScreen'} component={ProfileScreen} options={{title: ''}}/>
             <Drawer.Screen name={'BookingCollectDataScreen'} component={BookingCollectDataScreen} options={{title: ''}}/>
-            <Drawer.Screen name={'BookingServicesScreen'} component={BookingServicesScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'BookingServicesScreen'} component={BookingServicesNavigator} options={{title: '', headerLeft: () => {
+                if(!(navigation?.getCurrentRoute().name === 'BookingSuccess' ||  navigation?.getCurrentRoute().name ==='JoinSend')){
+                    return(
+                        <TouchableOpacity onPress={ () => {
+                            if(navigation?.getCurrentRoute().name === 'BookingSuccess' ||  navigation?.getCurrentRoute().name ==='JoinSend'){
+                                navigation.dispatch(CommonActions.reset({
+                                    index:0,
+                                    routes:[{name:'HomeScreen', params: {screen: 'HomeScreen'}}]
+                                }))
+    
+                            }
+                            navigation.goBack()
+                            console.log('navegar a ',navigation?.getCurrentRoute())
+    
+                        }} style={{
+                            width: 50,
+                            height: '100%',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderRadius: 5,
+                            marginLeft: 10
+                        }}>
+                            <Icon as={MaterialIcons} name={'arrow-back-ios'} color={Colors.bgPrimaryText} size={'md'}/>
+    
+                        </TouchableOpacity>
+                    )
+
+                }
+            }}}/>
             <Drawer.Screen name={'BookingConfirmScreen'} component={BookingConfirmScreen} options={{title: ''}}/>
             <Drawer.Screen name={'BookingConfirmScreenSuccess'} component={BookingConfirmScreenSuccess} options={{title: ''}}/>
             <Drawer.Screen name={'GuestsScreen'} component={GuestsScreen} options={{title: ''}}/>

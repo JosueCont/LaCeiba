@@ -80,12 +80,18 @@ export const onResetCounter = () => {
     }
 }
 
-export const getCounter = (counter, stopInterval=false) => dispatch => {
-    let countdownInterval; // Variable para almacenar la referencia del intervalo
-    let stopCounter = false;
-    const startCount = () => {
-        countdownInterval = setInterval(() => {
-            if (counter >= 0 && !stopInterval) {
+export const getCounter = (time, countRef) => dispatch => {
+    //let countdownInterval = countRef // Variable para almacenar la referencia del intervalo
+    let counter = time
+    if (countRef.current !== null) {
+        countRef.current = 0
+    //    clearInterval(countRef.current); // Usa .current aquí
+    //    dispatch({type: SET_TIME, minutes:0, seconds:0})
+    //    console.log("clear");
+    }
+    console.log('contador', counter, countRef)
+        countRef.current = setInterval(() => {
+            if (counter >= 0 ) {
               const minutes = Math.floor(counter / 60); // Obtener minutos
               const seconds = counter % 60; // Obtener segundos
               dispatch({type: SET_TIME, minutes:  minutes, seconds: seconds})
@@ -94,29 +100,15 @@ export const getCounter = (counter, stopInterval=false) => dispatch => {
               counter--; // Decrementar el contador en segundos
               //console.log('corriedno',counter)
             } else {
-              clearInterval(countdownInterval); // Detener el contador cuando llegue a cero
+              clearInterval(countRef.current); // Detener el contador cuando llegue a cero
+              countRef.current = null
+              dispatch({type: SET_TIME, minutes:0, seconds:0})
               console.log('Tiempo terminado');
-              if(!stopInterval) dispatch({type: SET_ATTRIBUTE_BOOKING, payload: {prop: 'timeExpired' , value: true}})
-              else {
-            console.log('reiniciar valores')
-                counter = 0
-                dispatch({type: SET_TIME, minutes:  0, seconds: 0})
-             }
+                dispatch({type: SET_ATTRIBUTE_BOOKING, payload: {prop: 'timeExpired' , value: true}})
+             
             }
     
         }, 1000);
-
-    }
-
-    const stopCounterFunction = () => {
-        stopCounter = true; // Establecer la bandera para detener el contador
-        clearInterval(countdownInterval); // Detener el intervalo utilizando la referencia almacenada
-    };
-
-    if(stopInterval) stopCounterFunction()
-    else startCount()
-    // Devolver tanto el intervalo como la función para detener el contador
-    return { countdownInterval, stopCounterFunction };
 }
 
 export default bookingDuck;
