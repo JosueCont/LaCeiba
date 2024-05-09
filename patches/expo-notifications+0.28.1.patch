@@ -1,0 +1,61 @@
+diff --git a/node_modules/expo-notifications/build/NotificationsEmitter.js b/node_modules/expo-notifications/build/NotificationsEmitter.js
+index 1c07cca..5c96216 100644
+--- a/node_modules/expo-notifications/build/NotificationsEmitter.js
++++ b/node_modules/expo-notifications/build/NotificationsEmitter.js
+@@ -2,6 +2,9 @@ import { EventEmitter, UnavailabilityError } from 'expo-modules-core';
+ import NotificationsEmitterModule from './NotificationsEmitterModule';
+ // Web uses SyntheticEventEmitter
+ const emitter = new EventEmitter(NotificationsEmitterModule);
++let listenerEmitter1 = null
++let listenerEmitter2 = null
++let listenerEmitter3 = null
+ const didReceiveNotificationEventName = 'onDidReceiveNotification';
+ const didDropNotificationsEventName = 'onNotificationsDeleted';
+ const didReceiveNotificationResponseEventName = 'onDidReceiveNotificationResponse';
+@@ -32,7 +35,8 @@ export const DEFAULT_ACTION_IDENTIFIER = 'expo.modules.notifications.actions.DEF
+  * @header listen
+  */
+ export function addNotificationReceivedListener(listener) {
+-    return emitter.addListener(didReceiveNotificationEventName, listener);
++    listenerEmitter1 = emitter.addListener(didReceiveNotificationEventName, listener);
++    return listenerEmitter1
+ }
+ /**
+  * Listeners registered by this method will be called whenever some notifications have been dropped by the server.
+@@ -43,7 +47,8 @@ export function addNotificationReceivedListener(listener) {
+  * @header listen
+  */
+ export function addNotificationsDroppedListener(listener) {
+-    return emitter.addListener(didDropNotificationsEventName, listener);
++    listenerEmitter2 = emitter.addListener(didDropNotificationsEventName, listener);
++    return listenerEmitter2
+ }
+ /**
+  * Listeners registered by this method will be called whenever a user interacts with a notification (for example, taps on it).
+@@ -72,7 +77,8 @@ export function addNotificationsDroppedListener(listener) {
+  * @header listen
+  */
+ export function addNotificationResponseReceivedListener(listener) {
+-    return emitter.addListener(didReceiveNotificationResponseEventName, listener);
++    listenerEmitter3 = emitter.addListener(didReceiveNotificationResponseEventName, listener);
++    return listenerEmitter3
+ }
+ /**
+  * Removes a notification subscription returned by an `addNotificationListener` call.
+@@ -80,7 +86,15 @@ export function addNotificationResponseReceivedListener(listener) {
+  * @header listen
+  */
+ export function removeNotificationSubscription(subscription) {
+-    emitter.removeSubscription(subscription);
++    if (listenerEmitter1){
++        listenerEmitter1.remove()
++    }
++    if (listenerEmitter2){
++        listenerEmitter2.remove()
++    }
++    if (listenerEmitter3){
++        listenerEmitter3.remove()
++    }
+ }
+ // @docsMissing
+ /**
