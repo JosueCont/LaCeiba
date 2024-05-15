@@ -23,17 +23,19 @@ const CreatePetitionScreen = () => {
     const [rentCar, setRentCar] = useState(0)
     const [holes, setHoles ] = useState(0)
     const [countCar, setCountCar] = useState(0)
-    const [countPlayers, setCountPlayers] = useState(1)
-    const [modalExpiredTime, setModalExpired] = useState(false)
     const infoBooking = useSelector(state => state.bookingDuck.createBooking)
+    const [countPlayers, setCountPlayers] = useState(infoBooking?.area?.minPeople)
+    const [modalExpiredTime, setModalExpired] = useState(false)
     const players = useSelector(state => state.bookingDuck.players)
     const user = useSelector(state => state.appDuck.user)
     const minutes = useSelector(state => state.bookingDuck.minutes)
     const seg = useSelector(state => state.bookingDuck.seconds)
     const timeExpired = useSelector(state => state.bookingDuck.timeExpired)
+    const points = useSelector(state => state.bookingDuck.points)
+    const [pointsUsed, setUsedPoints] = useState(0)
 
     const {item, counterRef} = route?.params;
-    
+
     useEffect(() => {
         let myPlayer = {
             status: 'Confirmado',
@@ -44,14 +46,31 @@ const CreatePetitionScreen = () => {
             userId: user?.id
         }
         dispatch(setAtributeBooking({prop:'players', value: [myPlayer]}))
+        console.log('infoBooking',infoBooking,)
     },[])
 
     useEffect(() => {
-        console.log('iniciar', counterRef)
+        console.log('players', players)
         //if(counterRef.current === null){
-            setReservedTime()
-        //}
+            //setReservedTime() se hablitara nuevamente
+            //}
     },[focused])
+        
+        useEffect(() => {
+            if(players.length > 1) getTotalPointsUsed()
+        },[players])
+
+    const getTotalPointsUsed = () => {
+        let guests = players.filter(item => item?.idInvitado)
+        console.log('invitados', guests)
+        if(guests.length > 0){
+            let date = moment(infoBooking?.date,'YYYY-MM-DD').format('dddd')
+            let points = guests.length * (infoBooking?.area?.calendarDays?.find(item => item?.day === date).points)
+            console.log('usuarios', guests.length, points )
+            setUsedPoints(points)
+
+        }else setUsedPoints(0)
+    }
 
     const setReservedTime = async() => {
         try {
@@ -104,17 +123,18 @@ const CreatePetitionScreen = () => {
     } 
     
     return(
-        <HeaderBooking disabledOptions={true}>
+        <HeaderBooking disabledOptions={true} showFilters={false}>
             <View style={styles.container}>
+                <Text style={styles.lblTitle}>{infoBooking?.activity?.name}</Text>
                 <View style={styles.contHeader}>
                     <Text style={styles.lblTitle}>{moment(infoBooking?.date,'YYYY-MM-DD').format('dddd MMMM D')} - {infoBooking?.area?.name}</Text>
                     <View style={[styles.contSchedule,{backgroundColor: getColor(item)}]}>
                         <Text>{item?.time}</Text>
                     </View>
                 </View>
-                <View style={{alignItems:'center', marginBottom:25}}>
+                {/*<View style={{alignItems:'center', marginBottom:25}}>
                     <Text style={{color: ColorsCeiba.aqua}}>Tiempo para reservar: {minutes < 10 ? `0${minutes}` : minutes}:{seg < 10 ? `0${seg}` : seg} {minutes <= 0 ? 'sec' : 'min'}.</Text>
-                </View>
+                </View>*/}
                 {/*<AddBookItem 
                     question="¿Quieres rentar carrito?"
                     showSubtitle={false}
@@ -128,6 +148,9 @@ const CreatePetitionScreen = () => {
                 <AddBookItem 
                     question="¿Cuántos jugadores?"
                     players={players.length}
+                    isGolf={infoBooking?.activity?.isGolf}
+                    maxLimit={infoBooking?.area?.maxPeople}
+                    minLimit={infoBooking?.area?.minPeople}
                     type={2}
                     counter={countPlayers}
                     optionSelect={holes}
@@ -135,14 +158,26 @@ const CreatePetitionScreen = () => {
                     onMinus={onMinusPlayers}
                     onPlus={onPlusPlayers}
                 />
-                <TouchableOpacity 
+                {(infoBooking?.area?.maxPeople - players.length) > 0 && players.length != countPlayers && <TouchableOpacity 
                     onPress={() => navigation.navigate('AddPlayers', {players: countPlayers})}
                     style={styles.btn}>
                     <Text style={styles.lbl}>+ Añadir jugadores</Text>
-                </TouchableOpacity>
+                </TouchableOpacity>}
 
                 <TablePlayers players={players} showDelete={true}/>
+                    
+                <Text style={{alignSelf:'center', marginVertical:10, fontSize: getFontSize(16)}}>Puntos</Text>
+                    <View style={{flexDirection:'row', justifyContent:'space-evenly', marginBottom:15}}>
+                        <View>
+                            <Text>Disponibles:</Text>
+                            <Text style={{textAlign:'center', marginTop:5}}>{points.toString()}</Text>
+                        </View>
+                        <View>
+                            <Text>A utilizar:</Text>
+                            <Text style={{textAlign:'center', marginTop:5}}>{pointsUsed.toString()}</Text>
+                        </View>
 
+                    </View>
                 <BtnCustom 
                     title="Hacer reserva"
                     disable={players.length < countPlayers}

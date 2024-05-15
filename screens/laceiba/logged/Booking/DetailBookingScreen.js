@@ -95,9 +95,9 @@ const DetailBokingScreen = () => {
                 "dueTime": infoBooking?.hour?.time,
                 "areaId": infoBooking?.area?.id,
                 "numPeople": players.length,
-                "numHoles": holes !=0 ? 18 : 9,
-                "users": players?.filter((item) => item.userId && item?.userId !== user?.id).map((item) => item?.userId),
             }
+
+            if(players.length > 1) dataSend.users = players?.filter((item) => item.userId && item?.userId !== user?.id).map((item) => item?.userId)
             if(players.filter((item) => item?.idInvitado).length > 0){
                 dataSend.guests = players.filter(item => item?.idInvitado).map(item => ({
                     guestId: +item?.idInvitado,
@@ -107,6 +107,8 @@ const DetailBokingScreen = () => {
                 }))
 
             } 
+            if(infoBooking?.activity?.isGolf) dataSend.numHoles = holes !=0 ? 18 : 9
+
             if(myEmail) dataSend.specificEmail = user?.email
             console.log('dataSend',dataSend)
             const response = await bookService(dataSend,[user?.id])
@@ -137,9 +139,9 @@ const DetailBokingScreen = () => {
                 <TablePlayers players={players} showDelete={false}/>
 
             </View>
-            <View style={{alignItems:'center', marginBottom:17}}>
+            {/*<View style={{alignItems:'center', marginBottom:17}}>
                 <Text style={{color: ColorsCeiba.aqua}}>Tiempo para reservar: {minutes < 10 ? `0${minutes}` : minutes}:{seg < 10 ? `0${seg}` : seg} {minutes <= 0 ? 'sec' : 'min'}.</Text>
-            </View>
+            </View>*/}
 
             <View>
                 <BtnCustom 

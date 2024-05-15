@@ -76,5 +76,7 @@ export const URLTypes = {
     ADD_PARTNER_SAP: '/v1/api-golf/sap/guest/example',
     GET_CONFIG: '/v1/configuration',
     GET_NORMAL_GUESSING:'/v1/official-guests',
-    POST_JOIN_BOOKING_REQUEST:'/v1/bookings/requests'
+    POST_JOIN_BOOKING_REQUEST:'/v1/bookings/requests',
+    GET_RESERVATION_ID: '/v1/bookings/{{param}}',
+    GET_MY_RESERVATIONS_PER_DAY: '/v1/bookings/info'
 };

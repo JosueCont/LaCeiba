@@ -1,4 +1,4 @@
-
+import _ from "lodash"
 const SET_OPTION = 'set_option'
 const SET_DATA_BOOKKING = 'set_data_booking'
 const SET_BOOKING_INFO = 'set_booking_info'
@@ -14,7 +14,9 @@ const initialState = {
     players:[],
     timeExpired: false,
     minutes:0,
-    seconds:0
+    seconds:0,
+    listReservations: [],
+    points:0
 }
 
 const bookingDuck = (state = initialState, action) => {
@@ -46,9 +48,10 @@ export const setOption = (option) => {
 }
 
 export const setInfoBooking = (data) => {
+    let sortedArray = _.sortBy(data?.items,'name')
     return{
         type: SET_DATA_BOOKKING,
-        payload: data?.items
+        payload: sortedArray
     }
 }
 

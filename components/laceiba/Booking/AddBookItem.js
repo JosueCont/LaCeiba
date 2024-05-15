@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-nati
 import { getFontSize } from "../../../utils";
 import { ColorsCeiba } from "../../../Colors";
 
-const AddBookItem = ({question='', showSubtitle=true, type=1, counter=0, optionSelect=0, setOption, onMinus, onPlus, players=0}) => {
+const AddBookItem = ({question='', showSubtitle=true, type=1, counter=0, optionSelect=0, setOption, onMinus, onPlus, players=0, isGolf=false, maxLimit=0, minLimit=0}) => {
     const options = type === 1 ? [
         {option:'No'},{option:'Si'}
     ] : [
@@ -17,29 +17,29 @@ const AddBookItem = ({question='', showSubtitle=true, type=1, counter=0, optionS
                     <TouchableOpacity 
                         style={styles.itemCounter} 
                         //disabled={(type ===  1 && counter === 0 && optionSelect === 0)}
-                        disabled={type === 2 ? counter<=players :counter<2}
+                        disabled={type === 2 ? counter<= minLimit :counter<2}
                         onPress={onMinus}>
                         <Text>-</Text>
                     </TouchableOpacity>
                     <Text style={{flex:1,  textAlign:'center'}}>{counter.toString()}</Text>
                     <TouchableOpacity 
                         style={styles.itemCounter} 
-                        disabled={(type === 1 && optionSelect === 0)}
+                        disabled={counter >= maxLimit}
                         onPress={onPlus}>
                         <Text>+</Text>
                     </TouchableOpacity>
                 </View>
             </View>
             <View style={{}}>
-                {showSubtitle ? <Text style={{textAlign:'center', marginBottom:5}}>Hoyos</Text> : <Text></Text>}
+                {showSubtitle && isGolf ? <Text style={{textAlign:'center', marginBottom:5}}>Hoyos</Text> : <Text></Text>}
                
-                <View style={{flexDirection:'row', }}>
+                {isGolf && <View style={{flexDirection:'row', }}>
                     {options?.map((item,index) => (
                         <TouchableOpacity style={[styles.item,{backgroundColor: index === optionSelect ? ColorsCeiba.aqua : ColorsCeiba.white}]} onPress={() => setOption(index)}>
                             <Text>{item.option}</Text>
                         </TouchableOpacity>
                     ))}
-                </View>
+                </View>}
                 
             </View>
         </View>

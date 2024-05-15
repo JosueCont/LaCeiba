@@ -10,7 +10,7 @@ const {height, width} = Dimensions.get('window');
 const ItemListPeople = ({item, index, selectPerson, peopleSelected, countPlayers}) => {
 
     const findPerson = () => {
-        return peopleSelected.find((person) => item?.id ? person?.id === item?.id : person?.idInvitado === item?.idInvitado) 
+        return peopleSelected.find((person) => item?.id ? person?.user?.id === item?.user?.id : person?.idInvitado === item?.idInvitado) 
     }
     return(
         <TouchableOpacity style={styles.card} key={index+1} onPress={() => selectPerson(item)}>

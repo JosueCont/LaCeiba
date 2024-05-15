@@ -13,7 +13,7 @@ import iconMatches from '../assets/iconMatches2.png'
 import iconBalance from '../assets/iconBalance2.png'
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import LayoutV4 from "./Layouts/LayoutV4";
-import {getAllGF, getGFLeader, sendPushToken, validatePartner, getAllServices} from "../api/Requests";
+import {getAllGF, getGFLeader, sendPushToken, validatePartner, getAllServices, getAllBookings, getPoints} from "../api/Requests";
 import {connect} from "react-redux";
 import ModalInfo from "./Modals/ModalInfo";
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
@@ -23,15 +23,21 @@ import { Platform } from "react-native";
 import * as Notifications from 'expo-notifications';
 import {setAttribute} from "../redux/ducks/navigationDuck";
 import { imageImport } from '../organizations/assets/ImageImporter';
-import { setInfoBooking } from '../redux/ducks/bookingDuck';
+import { setAtributeBooking, setInfoBooking } from '../redux/ducks/bookingDuck';
+import moment from 'moment';
+import _ from 'lodash';
+import { useSelector } from 'react-redux';
 
-const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setInfoBooking}) => {
+const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setInfoBooking, setAtributeBooking}) => {
+    const user = useSelector(state => state.appDuck.user)
     const [sliderPosition, setSliderPosition] = useState(0);
     const [text, setText] = useState(null);
     const [modalInfoVisible, setModalInfoVisible] = useState(null);
     const [fixedGroups, setFixedGroups] = useState(0);
     const [allGroups, setAllGroups] = useState([]);
     const [groupsFounded, setGroupsFounded] = useState([]);
+    const [reservations, setReservations] = useState([])
+
     const toast = useToast();
 
     const isFocused = useIsFocused();
@@ -39,7 +45,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
     useEffect(() => {
         if (isFocused) {
             sendExpoToken();
-            getBookingConfig()
+            getData()
         }
     }, [isFocused])
 
@@ -55,6 +61,28 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
         }, [])
     );
 
+    const getData = async() => {
+        try {
+            Promise.all([
+                getBookingConfig(),
+                getReservations(),
+                getTotalPoints()
+            ])
+        } catch (e) {
+            console.log('error', e)
+        }
+    }
+
+    const getTotalPoints = async() => {
+        try {
+            const response = await getPoints('',[user?.id])
+            console.log('puntos totales',response?.data?.totalPoints)
+            setAtributeBooking({prop:'points', value: response?.data?.totalPoints})
+        } catch (e) {
+            console.log('error',e)
+        }
+    } 
+
     const getBookingConfig = async() => {
         try {
             const response = await getAllServices();
@@ -63,6 +91,34 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
         } catch (e) {
             console.log('error',e)
             
+        }
+    }
+
+    const getReservations = async() => {
+        try {
+            const response = await getAllBookings(`?limit=${100}`);
+            console.log('reservaciones', response?.data)
+            const listaOrdenada = response?.data?.items.sort(getsortList);
+            const myReservations = response?.data?.items.filter((item) =>  item?.invitations?.some(person => person?.user?.id === user?.id)).sort(getsortList)
+            console.log('lista ordenada',myReservations)
+            setReservations(myReservations)
+
+        } catch (e) {
+            console.log('error',e)
+        }
+    }
+
+    const getsortList = (elementoA, elementoB) => {
+        const fechaA = moment(elementoA.dueDate);
+        const fechaB = moment(elementoB.dueDate);
+
+        // Comparar las fechas
+        if (fechaA.isAfter(fechaB)) {
+            return -1; // elementoA viene antes que elementoB
+        } else if (fechaA.isBefore(fechaB)) {
+            return 1; // elementoA viene después de elementoB
+        } else {
+            return 0; // Las fechas son iguales
         }
     }
 
@@ -248,7 +304,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
                         
                         {!Constants.expoConfig.extra.booking && 
                             <View flex={1}>
-                                <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen')}>
+                                <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen',{reservations})}>
 
                                     <View alignItems={'center'} mb={2}>
                                         <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
@@ -348,4 +404,4 @@ const mapState = (state) => {
     }
 }
 
-export default connect(mapState, {loggedOutAction, setInfoBooking})(HomeScreen)
+export default connect(mapState, {loggedOutAction, setInfoBooking, setAtributeBooking})(HomeScreen)

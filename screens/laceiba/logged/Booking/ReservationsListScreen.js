@@ -18,7 +18,7 @@ const ReservationsListScreen = () => {
 
 
     useEffect(() => {
-        console.log('filtra', reservations)
+        console.log('filtra', navigation?.getParent())
     },[option])
 
     return(
@@ -27,7 +27,7 @@ const ReservationsListScreen = () => {
                 <View style={styles.contActions}>
                     <Text style={styles.lblTitle}>Reservaciones</Text>
                     <TouchableOpacity 
-                        onPress={() => navigation.navigate('CreateBooking')}
+                        onPress={() => navigation.navigate('BookingServicesScreen',{screen:'CreateBooking'})} //Posiblemente regresar a navigation.navigate('CreateBooking')
                         style={styles.btn}>
                         <Text style={styles.lbl}>+ Nueva reserva</Text>
                     </TouchableOpacity>
@@ -37,7 +37,7 @@ const ReservationsListScreen = () => {
                         data={reservations.filter(item => item?.area?.service?.id === booking[option]?.id)}
                         keyExtractor={(_, index) => (index+1).toString()}
                         renderItem={({item, index}) => (
-                            <TouchableOpacity style={{marginBottom:30}}>
+                            <TouchableOpacity style={{marginBottom:30}} onPress={() => navigation.navigate('BookingServicesScreen', {screen: 'DetailReservation', params: {reservation: item, route: 'ReservationsScreen'}})}>
                                 <ReservationItem item={item} index={index}/>
     
                             </TouchableOpacity>

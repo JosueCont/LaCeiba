@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState, useCallback} from "react";
-import {useFocusEffect, useNavigation, CommonActions, } from "@react-navigation/native";
+import {useFocusEffect, useNavigation, CommonActions, useRoute, } from "@react-navigation/native";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import CustomDrawerContent from "./DrawerNavigatorContent";
 import HomeScreen from "../screens/HomeScreen";
@@ -92,6 +92,7 @@ import BookingDoneScreen from "../screens/laceiba/logged/Booking/BookingDoneScre
 import ReservationsListScreen from "../screens/laceiba/logged/Booking/ReservationsListScreen";
 import { BackHandler } from "react-native";
 import MyReservationScreen from "../screens/laceiba/logged/Booking/MyReservationScreen";
+import DetailReservationScreen from "../screens/laceiba/logged/Booking/DetailReservationScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -205,6 +206,7 @@ const DrawerConfig = () => {
                 <Stack.Screen name="DetailBooking" component={DetailBokingScreen}/>
                 <Stack.Screen name="BookingSuccess" component={BookingDoneScreen} options={{gestureEnabled:false }}/>
                 <Stack.Screen name="Reservations" component={ReservationsListScreen} />
+                <Stack.Screen name="DetailReservation" component={DetailReservationScreen}/>
 
             </Stack.Navigator>
         )
@@ -281,7 +283,7 @@ const DrawerConfig = () => {
 
                             </TouchableOpacity>
                         )
-                    } else if(route?.name.includes('BookingServicesScreen')){
+                    } else if(route?.name.includes('BookingServicesScreen') && Constants.expoConfig.slug === 'laceiba'){
                         console.log('route',route, navigation)
                     }else {
                         return (
@@ -386,7 +388,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'InstallationsDetailScreen'} component={InstallationsDetailScreen} options={{title: ''}}/>
             <Drawer.Screen name={'ServicesDetailScreen'} component={ServicesDetailScreen} options={{title: ''}}/>
             <Drawer.Screen name={'MembersScreen'} component={MembersScreen} options={{title: ''}}/>
-            <Drawer.Screen name={'ReservationsScreen'} component={BookingsScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'ReservationsScreen'} component={Constants.expoConfig.slug === 'laceiba'? ReservationsListScreen : BookingsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'GroupEditScreen'} component={GroupEditScreen} options={{title: ''}}/>
             <Drawer.Screen name={'TransactionsScreen'} component={TransactionsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'InvoicingScreen'} component={InvoicingScreen} options={{title: ''}}/>
@@ -396,6 +398,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'GroupsScreen'} component={GroupsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'ProfileScreen'} component={ProfileScreen} options={{title: ''}}/>
             <Drawer.Screen name={'BookingCollectDataScreen'} component={BookingCollectDataScreen} options={{title: ''}}/>
+            {Constants.expoConfig.slug === 'laceiba' ? (
             <Drawer.Screen name={'BookingServicesScreen'} component={BookingServicesNavigator} options={{title: '', headerLeft: () => {
                 if(!(navigation?.getCurrentRoute().name === 'BookingSuccess' ||  navigation?.getCurrentRoute().name ==='JoinSend')){
                     return(
@@ -406,8 +409,17 @@ const DrawerConfig = () => {
                                     routes:[{name:'HomeScreen', params: {screen: 'HomeScreen'}}]
                                 }))
     
-                            }
-                            navigation.goBack()
+                            }else if(navigation?.getCurrentRoute().name === 'DetailReservation'){
+                                if(navigation.getRootState().routes.find(item => item.name === 'BookingServicesScreen').params?.params?.route){
+                                    console.log('regresando a',navigation.getRootState().routes.find(item => item.name === 'BookingServicesScreen').params?.params?.route )
+                                    navigation.reset({
+                                        index:0,
+                                        routes:[{name:'HomeScreen', params:{ screen: 'HomeScreen'}}]
+                                    })
+                                }else navigation.goBack(0)
+
+                                console.log('navigation', navigation.getRootState().routes.find(item => item.name === 'BookingServicesScreen').params?.params?.route)
+                            }else  navigation.goBack()
                             console.log('navegar a ',navigation?.getCurrentRoute())
     
                         }} style={{
@@ -425,6 +437,9 @@ const DrawerConfig = () => {
 
                 }
             }}}/>
+            ):(
+                <Drawer.Screen name={'BookingServicesScreen'} component={BookingServicesScreen} options={{title: ''}} />
+            )}
             <Drawer.Screen name={'BookingConfirmScreen'} component={BookingConfirmScreen} options={{title: ''}}/>
             <Drawer.Screen name={'BookingConfirmScreenSuccess'} component={BookingConfirmScreenSuccess} options={{title: ''}}/>
             <Drawer.Screen name={'GuestsScreen'} component={GuestsScreen} options={{title: ''}}/>

@@ -20,6 +20,7 @@ const MyReservationScreen = () => {
     const [eror, setError] = useState('')
    
     const {infoBooking} = route?.params
+    console.log('infoBooking', navigation?.getState())
 
     return(
         <HeaderBooking disabledOptions={true}>
@@ -31,6 +32,12 @@ const MyReservationScreen = () => {
                     </View>
                 </View>
                 <RequestJoinItem requested={infoBooking} myReservation={true}/>
+
+                <BtnCustom 
+                    title="Editar reservacion" 
+                    bgColor={ColorsCeiba.darkGray}
+                    onPress={() => navigation.navigate('DetailReservation', {reservation: infoBooking?.item?.booking, route: 'MyReservation'})}
+                />
 
             <ModalInfo
                 visible={modalError}

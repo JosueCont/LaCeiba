@@ -4,11 +4,11 @@ import { getFontSize } from "../../../utils";
 import { ColorsCeiba } from "../../../Colors";
 import AvailableHoursItem from "./AvailableHoursItem";
 
-const AvailableHours = ({hours, selectedHour}) => {
+const AvailableHours = ({hours, selectedHour, disabledHours}) => {
     return(
         <View style={styles.container}>
             {hours.length > 0 ? hours.map((item,index) => (
-                <AvailableHoursItem index={index} item={item} selectHour={selectedHour}/>
+                <AvailableHoursItem index={index} item={item} selectHour={selectedHour} disabledHours={disabledHours}/>
             )):(
                 <Text>No se encontraron elementos para mostrar</Text>
             )}

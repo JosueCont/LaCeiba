@@ -4,7 +4,7 @@ import { getFontSize } from "../../../utils";
 import { ColorsCeiba } from "../../../Colors";
 import { useSelector } from "react-redux";
 
-const AvailableHoursItem = ({item, index, selectHour}) => {
+const AvailableHoursItem = ({item, index, selectHour, disabledHours}) => {
     const appDuck = useSelector(state => state.appDuck)
 
     const types = {
@@ -26,9 +26,10 @@ const AvailableHoursItem = ({item, index, selectHour}) => {
     } 
     return(
         <TouchableOpacity 
+            disabled={item?.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id) ? false : disabledHours}
             onPress={() => selectHour(item)}
-            style={[styles.btn, {backgroundColor: getColor(item)}]}>
-            <Text style={{fontSize: getFontSize(11), fontWeight:'400'}}>{item?.time}</Text>
+            style={[styles.btn, {backgroundColor: getColor(item), borderColor: disabledHours ? ColorsCeiba.lightgray : ColorsCeiba.darkGray}]}>
+            <Text style={{fontSize: getFontSize(11), fontWeight:'400',}}>{item?.time}</Text>
         </TouchableOpacity>
     )
 }

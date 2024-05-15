@@ -11,7 +11,7 @@ import AvailableDaysItem from "../../../../components/laceiba/Booking/AvailableD
 import { MaterialIcons } from '@expo/vector-icons';
 import AvailableHours from "../../../../components/laceiba/Booking/AvailableHours";
 import _ from "lodash";
-import { getAllIntervalsTime, unBlockHour } from "../../../../api/Requests";
+import { getAllIntervalsTime, getReservationPerUserDay, unBlockHour } from "../../../../api/Requests";
 import { getCounter, onResetCounter, setAtributeBooking, setDataBooking } from "../../../../redux/ducks/bookingDuck";
 
 moment.locale('en');
@@ -33,6 +33,8 @@ const CreateBookingScreen = () => {
     const [hours, setHours] = useState([])
     const [filterSelected, setFilterSelect] = useState(0)
     const [originalHours, setOriginalHours] = useState([]); 
+    const [disabledHours, setDisabledHours] = useState(false)
+    const [myReservations, setMyReservations] = useState([])
 
     const counterRef = useRef(null)
 
@@ -61,6 +63,8 @@ const CreateBookingScreen = () => {
 
     useEffect(() => {
         if(selectDay != null && selectDay != undefined && areaSelected !=null && areaSelected != undefined &&  booking[option]?.areas.length > 0){
+            //setDisabledHours(booking[option]?.bookPartnerSameDay)
+            getMyReservationsPerDay()
             getAllHours()
             setFilterSelect(0)
         }
@@ -69,17 +73,28 @@ const CreateBookingScreen = () => {
     useEffect(() => {
         if(focused){
             dispatch(setAtributeBooking({prop:'timeExpired', value: false}))
-            console.log('currentRefCount', counterRef)
-            //if (counterRef.current !== null) {
-                clearInterval(counterRef.current); // Limpieza usando .current
-                counterRef.current = null
-                dispatch(onResetCounter())
-                //console.log('counterRef',counterRef)
-             // }
-            if(infoBooking?.hour) getCancelReserved()
+            //console.log('currentRefCount', counterRef)
+                //clearInterval(counterRef.current); // Limpieza usando .current
+                //counterRef.current = null
+                //dispatch(onResetCounter())
+                ////console.log('counterRef',counterRef)
+            //if(infoBooking?.hour) getCancelReserved()
 
         }
     },[focused])
+
+    const getMyReservationsPerDay = async() => {
+        try {
+            let query = `?date=${moment(availableDays[selectDay]?.dateString,'DD-MM-YYYY').format('YYYY-MM-DD')}&userId=${appDuck.user.id}`;
+            const response = await getReservationPerUserDay(query)
+            setMyReservations(response?.data)
+            if(response?.data.length >0) setDisabledHours(!booking[option]?.bookPartnerSameDay)
+            else setDisabledHours(false)
+            //console.log('reservations', response?.data, appDuck?.user)
+        } catch (e) {
+            console.log('error my reservation',e)
+        }
+    } 
 
     const getAvailableDays = () => {
         //console.log('cambiando dias', booking[option]?.areas[areaSelected]?.calendarDays)
@@ -103,7 +118,7 @@ const CreateBookingScreen = () => {
             .map(day => ({ day: `${day.day}`, date: moment(day.date).format('D'), dateString: moment(day.date,'YYYY-MM-DD').format('DD-MM-YYYY') }))
             .value();
 
-
+            //console.log('dias',booking[option]?.areas[areaSelected]?.calendarDays)
         setAvailableDays(result)
         //console.log('result',result)
 
@@ -261,7 +276,16 @@ const CreateBookingScreen = () => {
 
                 </View>
 
-
+                {myReservations?.length > 0 && disabledHours && 
+                <View style={{marginVertical:5}}>
+                    <Text>Tienes reservación(es) para este día</Text>
+                    {myReservations.map((item,index) => (
+                        <View style={{flexDirection:'row'}}>
+                            <Text style={{fontWeight:'700'}}>•Area: {item?.area?.name}</Text>
+                            <Text style={{fontWeight:'700'}}> Horario: {item?.dueTime}</Text>
+                        </View>
+                    ))}
+                </View>}
                {loading ? (
                     <View style={{width: '100%', height:200, justifyContent:'center', alignItems:'center'}}>
                         <Spinner color={ColorsCeiba.darkGray} size={'sm'}/>
@@ -285,13 +309,15 @@ const CreateBookingScreen = () => {
                                     area: booking[option]?.areas[areaSelected],
                                     hour: item,
                                     date: moment(availableDays[selectDay]?.dateString,'DD-MM-YYYY').format('YYYY-MM-DD'),
-                                    activity: booking[option]
+                                    activity: booking[option],
+                                    item
                                 }})
                             }
                             console.log('item', item)
                             //item?.status === 2 ? navigation.navigate('JoinPetition')
                             //: navigation.navigate('CreatePetition',{item})
                         }}
+                        disabledHours={disabledHours}
                     />
 
                )}

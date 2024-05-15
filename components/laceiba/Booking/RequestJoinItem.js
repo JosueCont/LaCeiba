@@ -15,7 +15,7 @@ const RequestJoinItem = ({requested, myReservation=false}) => {
             </View>
             <View style={styles.contPeople}>
                 {requested?.hour?.booking?.invitations.map((item,index) => (
-                    <Text key={index+1} style={[styles.lbl,{color: ColorsCeiba.darkGray, width: '50%', marginBottom:4}]}>{item?.user?.fullName}</Text>
+                    <Text key={index+1} style={[styles.lbl,{color: ColorsCeiba.darkGray, width: '50%', marginBottom:4, textTransform:'capitalize'}]}>{item?.user != null ? item?.user?.fullName : item?.guestName}</Text>
                 ))}
             </View>
         </View>
