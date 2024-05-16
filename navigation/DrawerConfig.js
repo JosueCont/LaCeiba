@@ -93,15 +93,14 @@ import ReservationsListScreen from "../screens/laceiba/logged/Booking/Reservatio
 import { BackHandler } from "react-native";
 import MyReservationScreen from "../screens/laceiba/logged/Booking/MyReservationScreen";
 import DetailReservationScreen from "../screens/laceiba/logged/Booking/DetailReservationScreen";
+import MyFamilyScreen from "../screens/laceiba/logged/Profile/MyFamilyScreen";
 
 const Stack = createNativeStackNavigator();
 
 const Drawer = createDrawerNavigator();
 
 const DrawerConfig = () => {
-    const notificationExist = useSelector(state => {
-        return state.navigationDuck.notificationExist;
-    });
+    const notificationExist = useSelector(state => state.navigationDuck.notificationExist );
     const products = useSelector(state => {
         return state.navigationDuck.products;
     });
@@ -212,6 +211,23 @@ const DrawerConfig = () => {
         )
     }
 
+    const ProfileNavigator = () => {
+        return(
+            <Stack.Navigator
+                mode={'card'}
+                backBehavior={'history'}
+                initialRouteName="Profile"
+                screenOptions={({navigation, route}) =>({
+                    headerShown: false,
+                
+                })}
+            >
+                <Stack.Screen name="Profile" component={ProfileScreen} />
+                <Stack.Screen name="MyFamily" component={MyFamilyScreen}/>
+            </Stack.Navigator>
+        )
+    }
+
 
     return (
         <Drawer.Navigator
@@ -283,7 +299,7 @@ const DrawerConfig = () => {
 
                             </TouchableOpacity>
                         )
-                    } else if(route?.name.includes('BookingServicesScreen') && Constants.expoConfig.slug === 'laceiba'){
+                    } else if(route?.name.includes('BookingServicesScreen') || route?.name.includes('ProfileScreen') && Constants.expoConfig.slug === 'laceiba'){
                         console.log('route',route, navigation)
                     }else {
                         return (
@@ -328,13 +344,11 @@ const DrawerConfig = () => {
                         justifyContent: 'center'
                     }}> 
                       
-                       { notificationExist  &&
-                        <Image source={iconNewNotification} style={{width: 20, height: 20}}></Image>   
+                       { notificationExist  ?
+                        <Image source={iconNewNotification} style={{width: 20, height: 20}}/>
+                        :   <Image source={iconNotifications} style={{width: 20, height: 20}}/>
                        }
-                       {
-                        !notificationExist &&
-                        <Image source={iconNotifications} style={{width: 20, height: 20}}></Image>
-                       } 
+                       
 
                     </TouchableOpacity>
                     { Constants.expoConfig.extra.eCommerce &&
@@ -396,7 +410,33 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'StatisticsScreen'} component={StatisticsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'HelpScreen'} component={HelpScreen} options={{title: ''}}/>
             <Drawer.Screen name={'GroupsScreen'} component={GroupsScreen} options={{title: ''}}/>
-            <Drawer.Screen name={'ProfileScreen'} component={ProfileScreen} options={{title: ''}}/>
+            {Constants.expoConfig.slug === 'laceiba' ? (
+                <Drawer.Screen name={'ProfileScreen'} component={ ProfileNavigator} options={{title: '', headerLeft: () => {
+                    return(
+                        <TouchableOpacity 
+                            style={{
+                                width: 50,
+                                height: '100%',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                borderRadius: 5,
+                                marginLeft: 10
+                            }}
+                            onPress={() => {
+                                if(navigation?.getCurrentRoute().name === 'MyFamily') navigation.goBack()
+                                    else navigation.goBack(0)
+                            }}
+
+                        >
+                            <Icon as={MaterialIcons} name={'arrow-back-ios'} color={Colors.bgPrimaryText} size={'md'}/>
+                        </TouchableOpacity>
+                    )
+                }}}/>
+
+            ):(
+                <Drawer.Screen name={'ProfileScreen'} component={ProfileScreen} options={{title: '', }}/>
+
+            )}
             <Drawer.Screen name={'BookingCollectDataScreen'} component={BookingCollectDataScreen} options={{title: ''}}/>
             {Constants.expoConfig.slug === 'laceiba' ? (
             <Drawer.Screen name={'BookingServicesScreen'} component={BookingServicesNavigator} options={{title: '', headerLeft: () => {

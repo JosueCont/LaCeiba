@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Alert, Modal, TouchableOpacity, StyleSheet, Dimensions, Text} from "react-native";
+import {Alert, Modal, TouchableOpacity, StyleSheet, Dimensions, Text, Image} from "react-native";
 //import {styles} from './ModalInfoStyleSheet';
 import {Button, Icon, View} from "native-base";
 import {AntDesign} from "@expo/vector-icons";
@@ -9,7 +9,8 @@ import { ColorsCeiba } from "../../Colors";
 import BtnCustom from "../../components/laceiba/CustomBtn";
 import moment from "moment";
 import QRCode from "react-native-qrcode-svg";
-
+import { imageImport } from "../../organizations/assets/ImageImporter";
+import Constants from "expo-constants";
 
 
 const {height, width} = Dimensions.get('window');
@@ -25,8 +26,8 @@ const ModalQR = ({visible, setVisible, dataQr, dataReservation}) => {
         >
             <View style={styles.container}>
                 <View style={styles.card}>
-                    <View flex={1.5} backgroundColor={ColorsCeiba.darkGray} borderTopRightRadius={10} borderTopLeftRadius={10}>
-
+                    <View flex={1.5} backgroundColor={ColorsCeiba.darkGray} borderTopRightRadius={10} borderTopLeftRadius={10} alignItems={'center'}>
+                        <Image source={imageImport(Constants.expoConfig.slug).logo} style={{flex:1, resizeMode:'contain'}}/>
                     </View>
                     <View flex={1} backgroundColor={ColorsCeiba.aqua} alignItems={'center'} justifyContent={'center'}>
                         <Text style={styles.lbl}>{dataReservation?.area?.name}</Text>

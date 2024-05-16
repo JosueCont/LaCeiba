@@ -1,11 +1,11 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Button, Image, ScrollView, Skeleton, Text, View, useToast, Select} from "native-base";
-import {Colors} from "../Colors";
+import {Colors, ColorsCeiba} from "../Colors";
 import {Alert, AppState, ImageBackground, RefreshControl, TouchableOpacity} from "react-native";
 import iconPersonEdit from "../assets/iconPersonEdit.png";
 import {connect, useSelector} from "react-redux";
 import {createUserDataDeletionRequest, getPoints, getProfile, getUserDataDeletionRequest, validatePartner} from "../api/Requests";
-import {useIsFocused} from "@react-navigation/native";
+import {useIsFocused, useNavigation} from "@react-navigation/native";
 import _ from "lodash";
 import LayoutV3 from "./Layouts/LayoutV3";
 import moment from "moment";
@@ -349,6 +349,17 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                                 </TouchableOpacity>
                             </View>
                     }
+
+                    {loading ? (
+                        <Skeleton height={30} width={100} mb={10}/>
+                    ):(
+                        <TouchableOpacity 
+                            onPress={() => navigation.navigate('MyFamily')}
+                            style={{backgroundColor: ColorsCeiba.darkGray, padding:10, justifyContent:'center', alignItems:'center', borderRadius:8, marginBottom:10}}>
+                            <Text>Mis familiares</Text>
+                        </TouchableOpacity>
+                    )}
+
                     {Constants.expoConfig.extra.transferPoints
                         ?loading === true
                              ?  <Skeleton height={50} mb={10}></Skeleton>

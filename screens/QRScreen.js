@@ -179,7 +179,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                                                     marginRight={3}
                                                     style={{maxWidth: '38%', maxHeight: '100%', paddingRight: 4, borderRadius:5, borderWidth: 2, borderColor: Colors.partnerCard.nameBg}}
                                                 />
-                                                <Image source={{uri: imageLogo}} width={'58%'} height={'100%'} style={{maxWidth: '60%', maxHeight: '100%'}}/>
+                                                <Image source={{uri: imageLogo}} width={'58%'} height={'100%'} style={{maxWidth: '60%', maxHeight: '100%', resizeMode:'contain'}}/>
                                             </View>
                                         }
                                         <View bgColor={Colors.partnerCard.nameBg} height={50} justifyContent={'center'}>
@@ -193,7 +193,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                                                 refreshingLogo === true ?
                                                     <Skeleton width={100} height={100}/>
                                                     :
-                                                    <Image source={{uri: imageLogo}} width={100} height={100}/>
+                                                    <Image source={{uri: imageLogo}} resizeMode="contain" width={100} height={100}/>
                                             }
                                         </View>
                                         <View bgColor={Colors.partnerCard.nameBg} height={50} justifyContent={'center'}>

@@ -58,12 +58,12 @@ const JoinPetitionScreen = () => {
                     </View>
                 </View>
                 <RequestJoinItem requested={infoBooking} />
-                <BtnCustom 
+               {/* <BtnCustom 
                     title="Petición para unirse a grupo"
                     disable={loading}
                     loading={loading}
                     onPress={() => onjoinBooking()}
-                />
+    />*/}
 
             <ModalInfo
                 visible={modalError}

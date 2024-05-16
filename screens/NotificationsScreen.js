@@ -12,8 +12,9 @@ import { useEffect } from "react";
 import ModalAsk from "./Modals/ModalAsk";
 import ModalInfo from "./Modals/ModalInfo";
 import { loggedOutAction } from "../redux/ducks/appDuck";
+import { setAttribute } from "../redux/ducks/navigationDuck";
 
-const NotificationsScreen = ({navigation, loggedOutAction, appDuck}) => {
+const NotificationsScreen = ({navigation, loggedOutAction, appDuck, setAttribute}) => {
 
     const [notifications, setNotifications] = useState([]);
     const [notificationsFiltered, setNotificationsFiltered] = useState([]);
@@ -43,6 +44,11 @@ const NotificationsScreen = ({navigation, loggedOutAction, appDuck}) => {
         try {
             const queryString = `&userId=${appDuck.user.id.toString()}`;
             const response = await getAllNotifications(queryString);
+            if(response?.data?.items?.filter(item => !item?.isRead).length > 0){
+                setAttribute('notificationExist', true)
+            }else{
+                setAttribute('notificationExist', false)
+            }   
             setNotifications(response?.data?.items);
             setNotificationsFiltered(response?.data?.items);
         } catch (error) {
@@ -185,4 +191,4 @@ const mapState = (state) => {
     }
 }
 
-export default connect (mapState, {loggedOutAction})(NotificationsScreen);
+export default connect (mapState, {loggedOutAction, setAttribute})(NotificationsScreen);

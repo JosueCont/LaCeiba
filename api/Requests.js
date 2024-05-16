@@ -90,3 +90,4 @@ export const getListGuessing = async(params) => await request(URLTypes.GET_NORMA
 export const postJoinBookingRequest = async(data) => await request(URLTypes.POST_JOIN_BOOKING_REQUEST, data,'post')
 export const getReservationInfoId = async(queryStringParams=[]) => await request(URLTypes.GET_RESERVATION_ID, '', 'get', null, queryStringParams)
 export const getReservationPerUserDay = async(params, queryStringParams=[]) => await request(URLTypes.GET_MY_RESERVATIONS_PER_DAY,params,'get', null, queryStringParams)
+export const getPartnersFamily = async(params, queryStringParams=[]) => await request(URLTypes.GET_FAMILY_PARTNERS, params,'get', null, queryStringParams)

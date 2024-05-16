@@ -85,12 +85,13 @@ const CreateBookingScreen = () => {
 
     const getMyReservationsPerDay = async() => {
         try {
-            let query = `?date=${moment(availableDays[selectDay]?.dateString,'DD-MM-YYYY').format('YYYY-MM-DD')}&userId=${appDuck.user.id}`;
+            let query = `?date=${moment(availableDays[selectDay]?.dateString,'DD-MM-YYYY').format('YYYY-MM-DD')}&userId=${appDuck.user.id}&serviceId=${booking[option]?.id}`;
+            console.log('query',query, 'service', booking[option])
             const response = await getReservationPerUserDay(query)
             setMyReservations(response?.data)
             if(response?.data.length >0) setDisabledHours(!booking[option]?.bookPartnerSameDay)
             else setDisabledHours(false)
-            //console.log('reservations', response?.data, appDuck?.user)
+            console.log('reservations', response?.data, appDuck?.user)
         } catch (e) {
             console.log('error my reservation',e)
         }
@@ -276,7 +277,7 @@ const CreateBookingScreen = () => {
 
                 </View>
 
-                {myReservations?.length > 0 && disabledHours && 
+                {!loading && myReservations?.length > 0 && disabledHours && 
                 <View style={{marginVertical:5}}>
                     <Text>Tienes reservación(es) para este día</Text>
                     {myReservations.map((item,index) => (

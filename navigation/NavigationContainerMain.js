@@ -32,13 +32,18 @@ const NavigatorContainerMain = ({appDuck,setAttribute}) => {
         const logged = await AsyncStorage.getItem('logged') || null
         const isLogged =  JSON.parse(logged) || null
         if(isLogged){
-                const queryString = `?userId=${appDuck?.user?.id}&isRead=false`;
+                const queryString = `&userId=${appDuck?.user?.id}`//&isRead=false;
                 const response = await getAllNotifications(queryString);
-                if(response?.data?.items?.length>0){
+                if(response?.data?.items?.filter(item => !item?.isRead).length > 0){
                     setAttribute('notificationExist', true)
                 }else{
                     setAttribute('notificationExist', false)
-                }    
+                }
+                //if(response?.data?.items?.length>0){
+                //    setAttribute('notificationExist', true)
+                //}else{
+                //    setAttribute('notificationExist', false)
+                //}    
         }
     }
 

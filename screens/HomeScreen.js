@@ -76,7 +76,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
     const getTotalPoints = async() => {
         try {
             const response = await getPoints('',[user?.id])
-            console.log('puntos totales',response?.data?.totalPoints)
+            //console.log('puntos totales',response?.data?.totalPoints)
             setAtributeBooking({prop:'points', value: response?.data?.totalPoints})
         } catch (e) {
             console.log('error',e)
@@ -243,7 +243,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
                             </TouchableOpacity>
                         </View>
                 
-                        {Constants.expoConfig.extra && //regresar a cmbio
+                        {Constants.expoConfig.extra.booking && //regresar a cmbio
                             <View flex={1}>
                                 <TouchableOpacity onPress={() => validatePartnerFunction('BookingServicesScreen')}>
                                     <View alignItems={'center'} mb={2}>
@@ -302,7 +302,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
                             </View>
                         }
                         
-                        {!Constants.expoConfig.extra.booking && 
+                        {Constants.expoConfig.extra.booking && 
                             <View flex={1}>
                                 <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen',{reservations})}>
 
