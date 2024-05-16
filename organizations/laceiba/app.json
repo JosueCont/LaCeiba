@@ -33,7 +33,7 @@
     "jsEngine": "hermes",
     "extra": {
         "debug": false,
-        "production": false,
+        "production": true,
         "sendDeviceToken": true,
         "URL": "https://laceiba.api.hiumanlab.mx",
         "URL_DEV": "https://laceiba.oneclub-api.hiumanlab.com.mx",
@@ -90,14 +90,14 @@
         }
     },
     "slug": "laceiba",
-    "version": "1.0.19",
+    "version": "1.0.20",
     "ios": {
-        "buildNumber": "71",
+        "buildNumber": "72",
         "supportsTablet": false,
         "bundleIdentifier": "com.hiumanlab.laceiba"
     },
     "android": {
-        "versionCode": 71,
+        "versionCode": 72,
         "adaptiveIcon": {
             "foregroundImage": "./organizations/laceiba/assets/adaptive-icon.png",
             "backgroundImage": "./organizations/laceiba/assets/adaptive-icon-bg.png"
