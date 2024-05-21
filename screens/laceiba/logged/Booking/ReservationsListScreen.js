@@ -1,28 +1,67 @@
 import React, {useEffect, useState} from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, FlatList } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking";
 import { ColorsCeiba } from "../../../../Colors";
 import { getFontSize } from "../../../../utils";
 import ReservationItem from "../../../../components/laceiba/Home/ReservationItem";
+import { getAllBookings } from "../../../../api/Requests";
+import moment from "moment";
+import { Spinner } from "native-base";
 
 const {height, width} = Dimensions.get('window');
 
 const ReservationsListScreen = () => {
     const route = useRoute();
     const navigation = useNavigation();
-    const {reservations} = route?.params
+    const focused = useIsFocused()
+    //const {reservations} = route?.params
     const option = useSelector(state => state.bookingDuck.option)
     const booking = useSelector(state => state.bookingDuck.dataBooking)
+    const [reservations, setReservations] = useState([])
+    const [loading, setLoaading] = useState(true)
+    const user = useSelector(state => state.appDuck.user)
+
 
 
     useEffect(() => {
-        console.log('filtra', navigation?.getParent())
-    },[option])
+        //console.log('filtra', navigation?.getParent())
+        getReservations()
+    },[focused])
+
+    const getReservations = async() => {
+        try {
+            setLoaading(true)
+            const response = await getAllBookings(`?limit=${100}`);
+            //console.log('reservaciones', response?.data)
+            const myReservations = response?.data?.items.filter((item) =>  item?.invitations?.some(person => person?.user?.id === user?.id)).sort(getsortList)
+            //console.log('lista ordenada',myReservations)
+            setReservations(myReservations)
+
+        } catch (e) {
+            console.log('error',e)
+        }finally{
+            setLoaading(false)
+        }
+    }
+
+    const getsortList = (elementoA, elementoB) => {
+        const fechaA = moment(elementoA.dueDate);
+        const fechaB = moment(elementoB.dueDate);
+
+        // Comparar las fechas
+        if (fechaA.isAfter(fechaB)) {
+            return -1; // elementoA viene antes que elementoB
+        } else if (fechaA.isBefore(fechaB)) {
+            return 1; // elementoA viene después de elementoB
+        } else {
+            return 0; // Las fechas son iguales
+        }
+    }
 
     return(
-        <HeaderBooking>
+        <HeaderBooking isScrolling={false}>
             <View style={styles.container}>
                 <View style={styles.contActions}>
                     <Text style={styles.lblTitle}>Reservaciones</Text>
@@ -32,9 +71,14 @@ const ReservationsListScreen = () => {
                         <Text style={styles.lbl}>+ Nueva reserva</Text>
                     </TouchableOpacity>
                 </View>
-                {reservations.filter(item => item?.area?.service?.id === booking[option]?.id).length > 0 ? (
+                {loading ? (
+                    <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+                        <Spinner size={'sm'} color={ColorsCeiba.darkGray}/>
+                    </View>
+                ):reservations.filter(item => item?.area?.service?.id === booking[option]?.id).length > 0 ? (
                     <FlatList 
                         data={reservations.filter(item => item?.area?.service?.id === booking[option]?.id)}
+                        contentContainerStyle={{paddingBottom:35}}
                         keyExtractor={(_, index) => (index+1).toString()}
                         renderItem={({item, index}) => (
                             <TouchableOpacity style={{marginBottom:30}} onPress={() => navigation.navigate('BookingServicesScreen', {screen: 'DetailReservation', params: {reservation: item, route: 'ReservationsScreen'}})}>

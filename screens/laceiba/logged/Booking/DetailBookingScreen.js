@@ -97,7 +97,7 @@ const DetailBokingScreen = () => {
                 "numPeople": players.length,
             }
 
-            if(players.length > 1) dataSend.users = players?.filter((item) => item.userId && item?.userId !== user?.id).map((item) => item?.userId)
+            if(players.length > 1 && players.filter(item => item.userId && item?.userId  !== user?.id).length>0 ) dataSend.users = players?.filter((item) => item.userId && item?.userId !== user?.id).map((item) => item?.userId)
             if(players.filter((item) => item?.idInvitado).length > 0){
                 dataSend.guests = players.filter(item => item?.idInvitado).map(item => ({
                     guestId: +item?.idInvitado,

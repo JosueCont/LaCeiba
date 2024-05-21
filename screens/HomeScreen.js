@@ -65,7 +65,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
         try {
             Promise.all([
                 getBookingConfig(),
-                getReservations(),
+                //getReservations(),
                 getTotalPoints()
             ])
         } catch (e) {
@@ -91,34 +91,6 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
         } catch (e) {
             console.log('error',e)
             
-        }
-    }
-
-    const getReservations = async() => {
-        try {
-            const response = await getAllBookings(`?limit=${100}`);
-            console.log('reservaciones', response?.data)
-            const listaOrdenada = response?.data?.items.sort(getsortList);
-            const myReservations = response?.data?.items.filter((item) =>  item?.invitations?.some(person => person?.user?.id === user?.id)).sort(getsortList)
-            console.log('lista ordenada',myReservations)
-            setReservations(myReservations)
-
-        } catch (e) {
-            console.log('error',e)
-        }
-    }
-
-    const getsortList = (elementoA, elementoB) => {
-        const fechaA = moment(elementoA.dueDate);
-        const fechaB = moment(elementoB.dueDate);
-
-        // Comparar las fechas
-        if (fechaA.isAfter(fechaB)) {
-            return -1; // elementoA viene antes que elementoB
-        } else if (fechaA.isBefore(fechaB)) {
-            return 1; // elementoA viene después de elementoB
-        } else {
-            return 0; // Las fechas son iguales
         }
     }
 
@@ -302,9 +274,9 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
                             </View>
                     */}
                         
-                        {Constants.expoConfig.extra.booking && reservations.length > 0 && 
+                        {Constants.expoConfig.extra.booking && 
                             <View flex={1}>
-                                <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen',{reservations})}>
+                                <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen',)}>
 
                                     <View alignItems={'center'} mb={2}>
                                         <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>

@@ -176,11 +176,11 @@ const AddPlayersScreen = () => {
             </View>
             <View style={{}}>
                 {loading ? (
-                    <View style={{width: '100%', height: height > 900 ? height*.5 : height*.33, justifyContent:'center', alignItems:'center'}}>
+                    <View style={{width: '100%', height: height > 830 ? height*.5 : height*.33, justifyContent:'center', alignItems:'center'}}>
                         <Spinner color={ColorsCeiba.darkGray} size={'lg'}/>
                     </View>
                 ): (
-                    <View style={{ height: height > 900 ? height*.5 : height*.33,}}>
+                    <View style={{ height: height > 830 ? height*.5 : height*.33,}}>
                         <ListPeople 
                             countPlayers={players}
                             people={partnersList} 

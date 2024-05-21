@@ -466,7 +466,7 @@ const DrawerConfig = () => {
                                     console.log('regresando a',navigation.getRootState().routes.find(item => item.name === 'BookingServicesScreen').params?.params?.route )
                                     navigation.reset({
                                         index:0,
-                                        routes:[{name:'HomeScreen', params:{ screen: 'HomeScreen'}}]
+                                        routes:[{name:'ReservationsScreen', params:{ screen: 'ReservationsScreen'}}]
                                     })
                                 }else navigation.goBack(0)
 
