@@ -74,10 +74,10 @@ const DetailReservationScreen = () => {
                 ...qrData
             };
         })
-        let userObject = allPlayers.find(item => item.userId != null && item?.userId === user?.id);
+        let userObject = allPlayers.find(item => item?.user != null && item?.user?.id === user?.id);
         //console.log('all userObject',userObject)
 
-        let filteredArray = allPlayers.filter(item => item.userId != null ? item?.userId !== user?.id : item?.idInvitado !== user?.id);
+        let filteredArray = allPlayers.filter(item => item.user != null ? item?.user?.id !== user?.id : item?.idInvitado !== user?.id);
         setInvitations(filteredArray)
 
         //console.log('dataTable',allPlayers)

@@ -153,4 +153,4 @@ export const NOTIFICATION_TYPES = {
 }
 
 const fontScale = PixelRatio.getFontScale();
-export const getFontSize = size => size/fontScale;
+export const getFontSize = size => size * fontScale;

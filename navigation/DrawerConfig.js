@@ -94,6 +94,7 @@ import { BackHandler } from "react-native";
 import MyReservationScreen from "../screens/laceiba/logged/Booking/MyReservationScreen";
 import DetailReservationScreen from "../screens/laceiba/logged/Booking/DetailReservationScreen";
 import MyFamilyScreen from "../screens/laceiba/logged/Profile/MyFamilyScreen";
+import ProfileScreenCeiba from '../screens/laceiba/logged/ProfileScreen'
 
 const Stack = createNativeStackNavigator();
 
@@ -104,6 +105,16 @@ const DrawerConfig = () => {
     const products = useSelector(state => {
         return state.navigationDuck.products;
     });
+    const [currentNotificationExist, setCurrentNotificationExist] = useState(false);
+    const [shouldUpdate, setShouldUpdate] = useState(false);
+    useEffect(() => {
+        if(notificationExist != undefined){
+            setShouldUpdate(prev => !prev);
+
+        }
+        console.log('cambio notificaciones', notificationExist)
+      }, [notificationExist]);
+
     
 
     const navigation = useNavigation();
@@ -188,13 +199,13 @@ const DrawerConfig = () => {
             <Stack.Navigator
                 mode={'card'}
                 backBehavior={'history'}
-                initialRouteName="CreateBooking"
+                initialRouteName="House"
                 screenOptions={({navigation, route}) =>({
                     headerShown: false,
                    
                 })}
             >
-                {/*<Stack.Screen name="House" component={HomeScreenCeiba} />*/}
+                <Stack.Screen name="House" component={BookingServicesScreen} />
                 <Stack.Screen name="CreateBooking" component={CreateBookingScreen} />
                 <Stack.Screen name="CreatePetition" component={CreatePetitionScreen} />
                 <Stack.Screen name="JoinPetition" component={JoinPetitionScreen}/>
@@ -231,6 +242,7 @@ const DrawerConfig = () => {
 
     return (
         <Drawer.Navigator
+        key={shouldUpdate}
             // useLegacyImplementation={true}
             backBehavior={'history'}
             screenOptions={({navigation, route}) => ({
@@ -344,9 +356,9 @@ const DrawerConfig = () => {
                         justifyContent: 'center'
                     }}> 
                       
-                       { notificationExist  ?
+                       { notificationExist != undefined && notificationExist  ?
                         <Image source={iconNewNotification} style={{width: 20, height: 20}}/>
-                        :   <Image source={iconNotifications} style={{width: 20, height: 20}}/>
+                        : <Image source={iconNotifications} style={{width: 20, height: 20}}/>
                        }
                        
 

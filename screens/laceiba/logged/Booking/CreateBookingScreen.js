@@ -3,7 +3,7 @@ import { Spinner, View,  } from "native-base";
 import { StyleSheet, Dimensions, Text, FlatList, TouchableOpacity } from "react-native";
 import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigation, useIsFocused } from "@react-navigation/native";
+import { useNavigation, useIsFocused, useRoute } from "@react-navigation/native";
 import moment from "moment";
 import { ColorsCeiba } from "../../../../Colors";
 import { getFontSize } from "../../../../utils";
@@ -36,10 +36,10 @@ const CreateBookingScreen = () => {
     const [disabledHours, setDisabledHours] = useState(false)
     const [myReservations, setMyReservations] = useState([])
 
-    const counterRef = useRef(null)
+    const counterRef = ''//useRef(null)
 
     useEffect(() => {
-        //console.log('cargando nuevos')
+        console.log('cargando nuevos', booking)
         setAreaSelect(0)
         if(booking[option]?.areas.length > 0){
             if(booking[option]?.bookPartnerSameDay){
@@ -64,9 +64,8 @@ const CreateBookingScreen = () => {
     useEffect(() => {
         if(selectDay != null && selectDay != undefined && areaSelected !=null && areaSelected != undefined &&  booking[option]?.areas.length > 0){
             //setDisabledHours(booking[option]?.bookPartnerSameDay)
-            getMyReservationsPerDay()
-            getAllHours()
-            setFilterSelect(0)
+            setNewHours()
+
         }
     },[areaSelected, selectDay, option])
 
@@ -82,6 +81,21 @@ const CreateBookingScreen = () => {
 
         }
     },[focused])
+
+    const setNewHours = async() => {
+        try {
+            setLoading(true)
+            Promise.all([
+                await getMyReservationsPerDay(),
+                await getAllHours(),
+                setFilterSelect(0)
+            ])
+        } catch (e) {
+            console.log('error ejecutar', e)
+        }finally{
+            setLoading(false)
+        }
+    }
 
     const getMyReservationsPerDay = async() => {
         try {
@@ -101,6 +115,17 @@ const CreateBookingScreen = () => {
         //console.log('cambiando dias', booking[option]?.areas[areaSelected]?.calendarDays)
         const today = moment();
 
+        const typesDays = {
+            'Sunday': 'Domingo',
+            'Monday':'Lunes',
+            'Tuesday':'Martes',
+            'Wednesday':'Miércoles',
+            'Thursday':'Jueves',
+            'Friday':'Viernes',
+            'Saturday':'Sabado'
+
+        }
+
         // Mapear los días con la fecha futura
         const result = _.chain(booking[option]?.areas[areaSelected]?.calendarDays)
             .filter(day => day.isActive)
@@ -116,7 +141,7 @@ const CreateBookingScreen = () => {
                 return { day: day.day, date: formattedDate };
             })
             .sortBy('date')
-            .map(day => ({ day: `${day.day}`, date: moment(day.date).format('D'), dateString: moment(day.date,'YYYY-MM-DD').format('DD-MM-YYYY') }))
+            .map(day => ({ day: `${typesDays[day.day]}`, date: moment(day.date).format('D'), dateString: moment(day.date,'YYYY-MM-DD').format('DD-MM-YYYY') }))
             .value();
 
             //console.log('dias',booking[option]?.areas[areaSelected]?.calendarDays)
@@ -127,17 +152,17 @@ const CreateBookingScreen = () => {
 
     const getAllHours = async() => {
         try {
-            setLoading(true)
+            //setLoading(true)
             let filters = `?date=${moment(availableDays[selectDay]?.dateString,'DD-MM-YYYY').format('YYYY-MM-DD')}&userId=${appDuck.user.id}`
             //console.log('paraemtros', filters , availableDays[selectDay]?.dateString)
             const response = await getAllIntervalsTime(filters, [booking[option]?.areas[areaSelected]?.id])
             setHours(response?.data)
             setOriginalHours(response?.data)
-            //console.log('response horarios',response?.data)
+            console.log('response horarios',response?.data)
         } catch (e) {
             console.log('error horarios',e)
         }finally{
-            setLoading(false)
+            //setLoading(false)
         }
     }
 
@@ -204,8 +229,9 @@ const CreateBookingScreen = () => {
    }
 
     return(
-        <HeaderBooking>
+        <HeaderBooking showFilters={false}>
             <View style={styles.container}>
+                <Text style={[styles.lblTitle, {fontWeight:'500'}]}>{booking[option]?.name}</Text>
                 <Text style={styles.lblTitle}>{moment().format('MMMM D')} - {moment().clone().add(6, 'days').format('D')}</Text>
                 <View style={{flexDirection:'row', marginBottom:27}}>
                     {availableDays.length > 0 ? (

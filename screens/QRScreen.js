@@ -4,7 +4,7 @@ import LayoutV3 from "./Layouts/LayoutV3";
 import {Colors} from "../Colors";
 import {request} from "../api/Methods";
 import {connect} from "react-redux";
-import {ImageBackground, Linking, Platform, RefreshControl, Modal} from "react-native";
+import {ImageBackground, Linking, Platform, RefreshControl, Modal, PixelRatio} from "react-native";
 import ModalInfo from "./Modals/ModalInfo";
 import ViewShot, {captureRef} from 'react-native-view-shot';
 import * as MediaLibrary from 'expo-media-library';
@@ -92,8 +92,8 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
         }
     }
 
-    const captureScreenFunction = () => {
-        captureRef(imgRef, {
+    const captureScreenFunction = async() => {
+        await captureRef(imgRef, {
             format: "png",
             quality: 1,
         }).then(
@@ -156,7 +156,7 @@ const QRScreen = ({navigation, loggedOutAction, appDuck, route}) => {
                     />
                 }
             >
-                <View mx={16} mt={10}>
+                <View mx={16} mt={10} alignItems={'center'}>
 
                     <ViewShot ref={imgRef}>
 

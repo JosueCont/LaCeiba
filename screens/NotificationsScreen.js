@@ -42,8 +42,9 @@ const NotificationsScreen = ({navigation, loggedOutAction, appDuck, setAttribute
     const getNotifications = async () => {
         setLoading(true)
         try {
-            const queryString = `&userId=${appDuck.user.id.toString()}`;
+            const queryString = `&userId=${appDuck.user.id}`;
             const response = await getAllNotifications(queryString);
+            console.log('nofigcaciones noleidas notification',response?.data?.items?.filter(item => !item?.isRead).length )
             if(response?.data?.items?.filter(item => !item?.isRead).length > 0){
                 setAttribute('notificationExist', true)
             }else{

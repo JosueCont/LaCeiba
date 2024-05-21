@@ -12,10 +12,18 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants  from 'expo-constants';
 import AuthStack from './laceiba/AuthStack';
 import LoggedStack from './laceiba/LoggedStack';
+import { injectStore } from '../api/AxiosInstance';
+import store from '../redux/store';
+import ModalInfo from '../screens/Modals/ModalInfo';
+import { loggedOutAction, onSetModalExpired } from '../redux/ducks/appDuck';
+import { useDispatch } from 'react-redux';
 
 const NavigatorContainerMain = ({appDuck,setAttribute}) => {
+    const dispatch = useDispatch()
+    //const focused = useIsFocused()
     const status = useSelector(state => state.appDuck.logged);
     const [loading, setLoading] = useState(null)
+    const expiredSession = useSelector(state => state.appDuck.modalExpired)
 
     useEffect(() => {
         console.log('app', Constants.expoConfig.slug)
@@ -23,10 +31,11 @@ const NavigatorContainerMain = ({appDuck,setAttribute}) => {
         setTimeout(() => {
             setLoading(false)
         }, 100)
-        setInterval(()=>{
+        //setInterval(()=>{
             getNotifications() 
-        },10000)
+        //},10000)
     }, [status]);
+
 
     const getNotifications = async () => {
         const logged = await AsyncStorage.getItem('logged') || null
@@ -34,7 +43,10 @@ const NavigatorContainerMain = ({appDuck,setAttribute}) => {
         if(isLogged){
                 const queryString = `&userId=${appDuck?.user?.id}`//&isRead=false;
                 const response = await getAllNotifications(queryString);
+                console.log('nofigcaciones noleidas navigationCotainer',response?.data?.items?.filter(item => !item?.isRead).length )
+
                 if(response?.data?.items?.filter(item => !item?.isRead).length > 0){
+                    console.log('si hubo notificaciones')
                     setAttribute('notificationExist', true)
                 }else{
                     setAttribute('notificationExist', false)
@@ -57,6 +69,15 @@ const NavigatorContainerMain = ({appDuck,setAttribute}) => {
                     </View> : //Constants.expoConfig.slug === 'laceiba' ? status ? <LoggedStack /> : <AuthStack /> :
                     status ? <DrawerConfig/> : <StackNavigatorSecurity/>
             }
+            <ModalInfo 
+                visible={expiredSession}
+                close={false}
+                setVisible={() => {
+                    dispatch(onSetModalExpired(false))
+                    dispatch(loggedOutAction())
+                }}
+                text='Sesión no encontrada'
+            />
         </NavigationContainer>
     );
 }

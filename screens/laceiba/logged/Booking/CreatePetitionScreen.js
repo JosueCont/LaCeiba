@@ -72,7 +72,7 @@ const CreatePetitionScreen = () => {
         }else setUsedPoints(0)
     }
 
-    const setReservedTime = async() => {
+    /*const setReservedTime = async() => {
         try {
             let dataSend = {
                 dueDate: infoBooking?.date,
@@ -86,7 +86,7 @@ const CreatePetitionScreen = () => {
         } catch (e) {
             console.log('error reservar',e)
         }
-    }
+    }*/
 
     const types = {
         1: ColorsCeiba.aqua,
@@ -166,7 +166,7 @@ const CreatePetitionScreen = () => {
 
                 <TablePlayers players={players} showDelete={true}/>
                     
-                <Text style={{alignSelf:'center', marginVertical:10, fontSize: getFontSize(16)}}>Puntos</Text>
+                <Text style={{alignSelf:'center', marginVertical:10, fontSize: getFontSize(16)}}>Green Fees</Text>
                     <View style={{flexDirection:'row', justifyContent:'space-evenly', marginBottom:15}}>
                         <View>
                             <Text>Disponibles:</Text>
@@ -180,7 +180,7 @@ const CreatePetitionScreen = () => {
                     </View>
                 <BtnCustom 
                     title="Hacer reserva"
-                    disable={players.length < countPlayers}
+                    disable={players.length !== countPlayers}
                     onPress={() => {
                         timeExpired ? setModalExpired(true) :navigation.navigate('DetailBooking',{holes,})
                     }}

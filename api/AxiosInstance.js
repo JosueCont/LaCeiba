@@ -3,7 +3,7 @@ import Constants from 'expo-constants';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import jwtDecode from "jwt-decode";
 import generateStore from "../redux/store";
-import {loggedAction, loggedOutAction} from "../redux/ducks/appDuck";
+import {loggedAction, loggedOutAction, onSetModalExpired} from "../redux/ducks/appDuck";
 
 const store = generateStore();
 
@@ -14,6 +14,7 @@ const axiosInstance = axios.create({
         Platform: 'app-partner'
     }
 });
+
 axiosInstance.interceptors.request.use(async (request) => {
     try {
         const token = JSON.parse(await AsyncStorage.getItem('@user'));
@@ -59,7 +60,16 @@ axiosInstance.interceptors.request.use(async (request) => {
 
 axiosInstance.interceptors.response.use((response) => {
     return response;
-}, (error) => {
+}, async(error) => {
+    const {dispatch} = store;
+
+    //const originalRequest = error.config;
+    if (error?.response?.status === 401){
+        if(Constants.expoConfig.slug === 'laceiba'){
+            dispatch(onSetModalExpired(true))
+        }
+
+    }
     //console.log(error.response, 'interceptors.response.error')
 
     return Promise.reject(error.response)

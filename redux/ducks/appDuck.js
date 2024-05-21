@@ -5,11 +5,13 @@ import { setAttribute } from "./navigationDuck";
 
 const initialData = {
     logged: null,
-    user: null
+    user: null,
+    modalExpired:false
 }
 
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
+const GO_LOGIN = 'go_login'
 
 const appDuck = (state = initialData, action) => {
     switch (action.type) {
@@ -17,6 +19,8 @@ const appDuck = (state = initialData, action) => {
             return {...state, logged: true, ...action.payload}
         case LOGOUT:
             return {...state, logged: false}
+        case GO_LOGIN:
+            return{ ...state, modalExpired: action.payload}
         default:
             return state
     }
@@ -64,5 +68,11 @@ export const bootAction = () => {
     };
 }
 
+export const onSetModalExpired = (val) => {
+    return{
+        type: GO_LOGIN,
+        payload: val
+    }
+}
 
 export default appDuck;

@@ -79,5 +79,6 @@ export const URLTypes = {
     POST_JOIN_BOOKING_REQUEST:'/v1/bookings/requests',
     GET_RESERVATION_ID: '/v1/bookings/{{param}}',
     GET_MY_RESERVATIONS_PER_DAY: '/v1/bookings/info',
-    GET_FAMILY_PARTNERS:'/v1/users/partners/family'
+    GET_FAMILY_PARTNERS:'/v1/users/partners/family',
+    GET_FILE_STATEMENT:'v1/reporter'
 };

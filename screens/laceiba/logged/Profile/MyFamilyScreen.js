@@ -60,7 +60,7 @@ const MyFamilyScreen = () => {
                                         <Image source={require('../../../../assets/iconPerson.png')} style={styles.img}/>
                                     </View>
                                     <View style={{justifyContent:'center'}}>
-                                        <Text style={{color: ColorsCeiba.darkGray, fontSize: getFontSize(16), fontWeight:'700'}}>{item?.nombreSocio}</Text>
+                                        <Text style={{color: ColorsCeiba.darkGray, fontSize: getFontSize(16), fontWeight:'700', width: width*.5, textTransform:'capitalize'}}>{item?.nombreSocio}</Text>
                                         <Text style={{color: ColorsCeiba.darkGray}}>{item?.parentesco}</Text>
     
                                     </View>

@@ -10,8 +10,10 @@ import {errorCapture} from "../utils";
 import ModalInfo from "./Modals/ModalInfo";
 import { loggedOutAction } from '../redux/ducks/appDuck';
 import {connect} from "react-redux";
+import Constants from "expo-constants";
+import { setOption } from "../redux/ducks/bookingDuck";
 
-const BookingServicesScreen = ({navigation, loggedOutAction, appDuck}) => {
+const BookingServicesScreen = ({navigation, loggedOutAction, appDuck, setOption}) => {
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(null);
     const [getActiveStatus, setGetActiveStatus] = useState({isActive: true, reason: "Esta es una razón"});
@@ -102,7 +104,13 @@ const BookingServicesScreen = ({navigation, loggedOutAction, appDuck}) => {
 
                                                     </View>
                                                     <View flex={1} justifyContent={'flex-end'} p={2}>
-                                                        <Button onPress={() => navigation.navigate('BookingCollectDataScreen', {clean: true, service: service})}>Reservar</Button>
+                                                        <Button onPress={() => {
+                                                            if(Constants.expoConfig.slug === 'laceiba'){
+                                                                setOption(index);
+                                                                navigation.navigate('CreateBooking')
+
+                                                            }else navigation.navigate('BookingCollectDataScreen', {clean: true, service: service})
+                                                            }}>Reservar</Button>
                                                     </View>
                                                 </View>
                                             </View>
@@ -136,4 +144,4 @@ const mapState = (state) => {
     }
 }
 
-export default connect(mapState, {loggedOutAction}) (BookingServicesScreen);
+export default connect(mapState, {loggedOutAction, setOption}) (BookingServicesScreen);

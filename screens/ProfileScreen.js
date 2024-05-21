@@ -4,7 +4,7 @@ import {Colors, ColorsCeiba} from "../Colors";
 import {Alert, AppState, ImageBackground, RefreshControl, TouchableOpacity} from "react-native";
 import iconPersonEdit from "../assets/iconPersonEdit.png";
 import {connect, useSelector} from "react-redux";
-import {createUserDataDeletionRequest, getPoints, getProfile, getUserDataDeletionRequest, validatePartner} from "../api/Requests";
+import {createUserDataDeletionRequest, getPoints, getProfile, getStatementAccountfile, getUserDataDeletionRequest, validatePartner} from "../api/Requests";
 import {useIsFocused, useNavigation} from "@react-navigation/native";
 import _ from "lodash";
 import LayoutV3 from "./Layouts/LayoutV3";
@@ -24,6 +24,7 @@ import {loggedOutAction} from "../redux/ducks/appDuck";
 import { fontSize } from "styled-system";
 import ModalTransferPoint from "./Modals/ModalTransferPoint";
 import { imageImport } from "../organizations/assets/ImageImporter";
+import BtnCustom from "../components/laceiba/CustomBtn";
 
 
 
@@ -49,6 +50,7 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
     const [messageRequest, setMessageRequest] = useState('');
     const [allowNotifications, setAllowNotifications] = useState(false)
     const [modalTransferPoint, setModalTransferPoint] = useState(false)
+    const [modalDownload, setModalDownload] = useState(false)
 
     useEffect(() => {
         if (isFocused) {
@@ -204,6 +206,16 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
         };
     }, []);
 
+    const downLoadData = async() => {
+        try {
+            console.log('user',appDuck.user)
+            const respose = await getStatementAccountfile('?reportType=ACCOUNT_STATEMENT_PARTNER&paymentOrderId=931')
+            console.log('documento',respose)
+        } catch (e) {
+            console.log('error download',e)
+        }
+    }
+
     return (
         <LayoutV3>
             <View flex={1} mx={8}>
@@ -295,7 +307,7 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                     }
 
                     <Text textAlign={'center'} color={Colors.primary} fontFamily={'titleConfortaaBold'} fontSize={'lg'}>
-                        Puntos disponibles:
+                        Green Fees disponibles:
                     </Text>
                     {
                         loading === true ?
@@ -359,6 +371,15 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                             <Text>Mis familiares</Text>
                         </TouchableOpacity>
                     )}
+                    {/*<View style={{marginBottom:10}}>
+                        <BtnCustom 
+                            title="Descargar estado de cuenta" 
+                            bgColor={ColorsCeiba.white} 
+                            color={ColorsCeiba.darkGray}
+                            onPress={() => setModalDownload(true) }
+                        />
+
+                </View>*/}
 
                     {Constants.expoConfig.extra.transferPoints
                         ?loading === true
@@ -496,6 +517,14 @@ const ProfileScreen = ({navigation, appDuck, loggedOutAction, route}) => {
                 action={()=>{
                     setRequestDeletionInfo(false);
                 }}
+            />
+
+            <ModalAsk 
+                visible={modalDownload}
+                setVisible={() => setModalDownload(false)}
+                textButton="Confirmar"
+                title="¿Desea descargar su estado de cuenta?"
+                action={() => downLoadData()}
             />
 
         </LayoutV3>

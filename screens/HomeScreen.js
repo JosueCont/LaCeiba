@@ -286,7 +286,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
                     {/*    </View>*/}
                     {/*</View>*/}
                     <View mb={4} flexDirection={'row'}>
-                        {Constants.expoConfig.extra.guests && 
+                        {/*Constants.expoConfig.extra.guests && 
                             <View flex={1}>
                                 <TouchableOpacity onPress={() => navigation.navigate('GuestsScreen')}>
 
@@ -300,9 +300,9 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
                                     </View>
                                 </TouchableOpacity>
                             </View>
-                        }
+                    */}
                         
-                        {Constants.expoConfig.extra.booking && 
+                        {Constants.expoConfig.extra.booking && reservations.length > 0 && 
                             <View flex={1}>
                                 <TouchableOpacity onPress={() => navigation.navigate('ReservationsScreen',{reservations})}>
 
