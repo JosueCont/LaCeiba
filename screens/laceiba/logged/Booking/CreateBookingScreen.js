@@ -42,7 +42,7 @@ const CreateBookingScreen = () => {
         console.log('cargando nuevos', booking)
         setAreaSelect(0)
         if(booking[option]?.areas.length > 0){
-            if(booking[option]?.bookPartnerSameDay){
+            if(booking[option]?.bookNextDay){
                 setSelectDay(1)
             } else setSelectDay(0)
 
@@ -100,12 +100,12 @@ const CreateBookingScreen = () => {
     const getMyReservationsPerDay = async() => {
         try {
             let query = `?date=${moment(availableDays[selectDay]?.dateString,'DD-MM-YYYY').format('YYYY-MM-DD')}&userId=${appDuck.user.id}&serviceId=${booking[option]?.id}`;
-            console.log('query',query, 'service', booking[option])
+            //console.log('query',query, 'service', booking[option])
             const response = await getReservationPerUserDay(query)
             setMyReservations(response?.data)
             if(response?.data.length >0) setDisabledHours(!booking[option]?.bookPartnerSameDay)
             else setDisabledHours(false)
-            console.log('reservations', response?.data, appDuck?.user)
+            //console.log('reservations', response?.data, appDuck?.user)
         } catch (e) {
             console.log('error my reservation',e)
         }
@@ -158,9 +158,11 @@ const CreateBookingScreen = () => {
             const response = await getAllIntervalsTime(filters, [booking[option]?.areas[areaSelected]?.id])
             setHours(response?.data)
             setOriginalHours(response?.data)
-            console.log('response horarios',response?.data)
+            //console.log('response horarios',response?.data, 'query', filters)
         } catch (e) {
             console.log('error horarios',e)
+            setHours([])
+            setOriginalHours([])
         }finally{
             //setLoading(false)
         }
@@ -250,7 +252,7 @@ const CreateBookingScreen = () => {
                                     index={index} 
                                     selectedDay={selectDay} 
                                     setSelectedDay={(val) => setSelectDay(val)}
-                                    disabled={booking[option].bookPartnerSameDay}
+                                    disabled={booking[option].bookNextDay}
                                 />
                             )}
                         />
