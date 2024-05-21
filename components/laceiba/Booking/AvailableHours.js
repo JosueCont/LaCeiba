@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-nati
 import { getFontSize } from "../../../utils";
 import { ColorsCeiba } from "../../../Colors";
 import AvailableHoursItem from "./AvailableHoursItem";
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 const AvailableHours = ({hours, selectedHour, disabledHours}) => {
     return(
@@ -10,7 +12,10 @@ const AvailableHours = ({hours, selectedHour, disabledHours}) => {
             {hours.length > 0 ? hours.map((item,index) => (
                 <AvailableHoursItem index={index} item={item} selectHour={selectedHour} disabledHours={disabledHours}/>
             )):(
-                <Text>No se encontraron elementos para mostrar</Text>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <MaterialIcons name="error-outline" size={60} marginTop={50} marginBottom={20} color={ColorsCeiba.aqua} />
+                    <Text style={{fontSize: getFontSize(20), fontWeight:'400', color: ColorsCeiba.darkGray, textAlign: 'center'}}>No se encontraron horarios disponibles para la fecha seleccionada.</Text>
+                </View>
             )}
         </View>
     )

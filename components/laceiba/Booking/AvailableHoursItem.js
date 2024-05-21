@@ -29,15 +29,15 @@ const AvailableHoursItem = ({item, index, selectHour, disabledHours}) => {
             disabled={item?.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id) ? false : item?.isPastDueTime ? true : disabledHours}
             onPress={() => selectHour(item)}
             style={[styles.btn, {backgroundColor: getColor(item), borderColor:  item?.isPastDueTime ? ColorsCeiba.lightgray : disabledHours ? ColorsCeiba.lightgray : ColorsCeiba.darkGray}]}>
-            <Text style={{fontSize: getFontSize(11), fontWeight:'400', color: item?.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id) ? ColorsCeiba.darkGray :  item?.isPastDueTime ? ColorsCeiba.lightgray : disabledHours ? ColorsCeiba.lightgray : ColorsCeiba.darkGray}}>{item?.time}</Text>
+            <Text style={{fontSize: getFontSize(16), fontWeight:'400', color: item?.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id) ? ColorsCeiba.darkGray :  item?.isPastDueTime ? ColorsCeiba.lightgray : disabledHours ? ColorsCeiba.lightgray : ColorsCeiba.darkGray}}>{item?.time}</Text>
         </TouchableOpacity>
     )
 }
 
 const styles = StyleSheet.create({
     btn:{
-        width: 66,
-        height: 26,
+        width: 75,
+        height: 30,
         borderRadius:20,
         borderWidth:1,
         justifyContent:'center',
