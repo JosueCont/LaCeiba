@@ -34,7 +34,7 @@ const AddPlayersScreen = () => {
 
 
     
-    const {players, isFromEdit, invitations, idReservation} = route?.params; 
+    const {players, isFromEdit, invitations, idReservation, isGolf} = route?.params; 
     const [partnersSelected, setPartnersSelected] = useState([])
     const typesInvite = [
         {option:'Socio'},{option:'Invitado'}
@@ -70,7 +70,9 @@ const AddPlayersScreen = () => {
     const getGuessList = async(search='') => {
         try {
             setLoaading(true)
-            const response = typeGuessing === 0 ? await findPartnerQuery(`?page=1&limit=30&sort=desc&q=${search}&userId=not_null&isActive=true&accessToGolf=${isFromEdit ? true: infoBooking?.activity?.isGolf}`)
+            let query = `?page=1&limit=30&sort=desc&q=${search}&userId=not_null&isActive=true`
+            let url = infoBooking?.activity?.isGolf || isGolf ? `${query}&accessToGolf=${isFromEdit ? isGolf: infoBooking?.activity?.isGolf}` : query
+            const response = typeGuessing === 0 ? await findPartnerQuery(url)
             : await getListGuessing(`?page=1&limit=100&sort=desc&q=${search}`)
             //console.log('partners', response?.data)
             setParners(response?.data?.items || [])

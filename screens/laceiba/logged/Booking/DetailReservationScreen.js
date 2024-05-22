@@ -9,12 +9,13 @@ import TableUserReservation from "../../../../components/laceiba/Booking/TableUs
 import { useSelector } from "react-redux";
 import BtnCustom from "../../../../components/laceiba/CustomBtn";
 import ModalQR from "../../../Modals/ModalQr";
-import { cancelBooking, deleteGuestsBooking, deletePartnersBooking, getAllBookings, getReservationInfoId } from "../../../../api/Requests";
+import { cancelBooking, deleteGuestsBooking, deletePartnersBooking, getAllBookings, getReservationInfoId, setReservationStatus } from "../../../../api/Requests";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModalAsk from "../../../Modals/ModalAsk";
 import ModalInfo from "../../../Modals/ModalInfo";
 import { Spinner } from "native-base";
 import _ from "lodash";
+import ModalConfirmRejectBook from "../../../Modals/ModalConfirmRejectBook";
 
 const DetailReservationScreen = () => {
     const route = useRoute();
@@ -38,7 +39,9 @@ const DetailReservationScreen = () => {
     const [txtError, setTxtEror] = useState('')
     const [loading, setLoading] = useState(false)
     const [greenFees, setGreenFees] = useState(0)
-
+    const [modalAction, setModalAction] = useState(false)
+    const [actionBook, setActionBook] = useState(null);
+    const [loadingAccept, setLoadingOk] = useState(false)
 
     useEffect(() => {
         //getDataPlayers()
@@ -54,7 +57,7 @@ const DetailReservationScreen = () => {
             //console.log('reservation', reservation)
             setLoading(true)
             const response = await getAllBookings(`?bookingId=${reservation?.id}&limit=1`)
-            //console.log('informacion reservacion', response, 'id',reservation?.id)
+            //console.log('informacion reservacion', response, 'id',reservation?.id,)
             setDataReserve(response?.data?.items[0])
             getDataPlayers(response?.data?.items[0])
             setUpdate(false)
@@ -66,7 +69,7 @@ const DetailReservationScreen = () => {
     } 
 
     const getDataPlayers = (reserve) => {
-        console.log('reserve',reserve)
+       // console.log('reserve',reserve)
         let allPlayers = reserve?.invitations.map((invitation,index) => {
             let qrData = reserve.qrs.find(qr => qr?.userId !== null ? qr?.userId === invitation?.user?.id : qr?.idInvitado === invitation?.guestId);
             return {
@@ -138,7 +141,7 @@ const DetailReservationScreen = () => {
             setModalCancel(false)
             setLoadingCancel(true)
             const response = await cancelBooking('',[reservation?.id])
-            console.log('cancelado',response?.data)
+            //console.log('cancelado',response?.data)
             navigation.dispatch(CommonActions.reset({
                 index:0,
                 routes:[{name:'HomeScreen', params: {screen: 'HomeScreen'}}]
@@ -148,6 +151,61 @@ const DetailReservationScreen = () => {
             setModalerror(true)
             setTxtEror(e?.data?.message)
 
+        } finally {
+            setLoadingCancel(false)
+        }
+    }
+
+    const getFindUser = () => {
+        //console.log('pending', dataReserve?.invitations?.filter(item => item.status === 'PENDING' && item?.user?.id === user?.id).length > 0)
+        return dataReserve?.invitations?.filter(item => item.status === 'PENDING' && item?.user?.id === user?.id).length > 0
+    }
+
+    const AcceptBooking = async() => {
+        try {
+            setModalAction(false)
+            setLoadingOk(true)
+            let dataSend = {
+                status: 'CONFIRMED',
+                additionals:[
+                    {
+                        claveServicio: dataReserve?.invitations?.find(item => item?.user?.id === user?.id)?.user?.partner?.claveSocio,
+                        descServicio: dataReserve?.area?.service?.name
+                    }
+                ]
+            }
+            //console.log('dataSend accept', dataSend, dataReserve?.invitations?.find(item => item?.user?.id === user?.id)?.id)
+            const response = await setReservationStatus(dataSend, [dataReserve?.invitations?.find(item => item?.user?.id === user?.id)?.id])
+            //console.log('response ok',response?.data)
+            setUpdate(true)
+        } catch (e) {
+            console.log('error aceptar',e)
+            setModalerror(true)
+            setTxtEror(e?.data?.message)
+
+        } finally {
+            setLoadingOk(false)
+        }
+    }
+
+    const RejectBooking = async() => {
+        try {
+            setModalAction(false)
+            setLoadingCancel(true)
+            let dataSend ={
+                status: 'REJECTED'
+            }
+            //console.log('dataSend reject', dataSend)
+            const response = await setReservationStatus(dataSend, [dataReserve?.invitations?.find(item => item?.user?.id === user?.id)?.id])
+            navigation.dispatch(CommonActions.reset({
+                index:0,
+                routes:[{name:'HomeScreen', params: {screen: 'HomeScreen'}}]
+            }))
+            //console.log('response reje', response?.data)
+        } catch (e) {
+            console.log('error cancelar',e)
+            setModalerror(true)
+            setTxtEror(e?.data?.message)
         } finally {
             setLoadingCancel(false)
         }
@@ -173,9 +231,9 @@ const DetailReservationScreen = () => {
             ):(
                 <View>
 
-                    {(dataReserve?.area?.maxPeople - dataReserve?.invitations.length) > 0 &&
+                    {(dataReserve?.area?.maxPeople - dataReserve?.invitations.length) > 0 && dataReserve?.hostedBy?.id === user?.id &&
                     <TouchableOpacity 
-                        onPress={() => navigation.navigate('AddPlayers', {players: dataReserve?.area?.maxPeople - 1, isFromEdit:true, invitations: invitations, idReservation:reservation?.id})}
+                        onPress={() => navigation.navigate('AddPlayers', {players: dataReserve?.area?.maxPeople - 1, isFromEdit:true, invitations: invitations, idReservation:reservation?.id, isGolf: dataReserve?.area?.service?.isGolf})}
                         style={styles.btn}>
                         <Text style={styles.lblBtn}>+ Añadir jugadores</Text>
                     </TouchableOpacity>}
@@ -187,6 +245,7 @@ const DetailReservationScreen = () => {
                         ):(
                             <TableUserReservation 
                                 players={players} 
+                                hostId={dataReserve?.hostedBy?.id}
                                 showQr={(item) => {
                                     console.log('a mostrar ', item)
                                     setDataSelected(item)
@@ -202,27 +261,59 @@ const DetailReservationScreen = () => {
 
                         )}
                     </View>
-                    <View style={{marginBottom:15}}>
+                    {getFindUser() ? (
+                        <View>
+                            <View style={{marginBottom:15}}>
+                                <BtnCustom 
+                                    title="Aceptar invitación" 
+                                    bgColor={ColorsCeiba.darkGray}
+                                    onPress={() => {
+                                        setModalAction(true)
+                                       setActionBook('Confirm')
+                                    }}
+                                    loading={loadingAccept}
+                                />
+            
+                            </View>
+                            <View style={{marginBottom:15}}>
+                                <BtnCustom 
+                                    title="Rechazar invitación" 
+                                    bgColor={ColorsCeiba.white}
+                                    color={ColorsCeiba.darkGray}
+                                    spinnerColor={ColorsCeiba.darkGray}
+                                    onPress={() => {
+                                        setModalAction(true)
+                                        setActionBook("Reject");
+                                    }}
+                                    loading={loadingCancel}
+                                />
+                                </View>
+                        </View>
+                    ):(
+                        <View style={{marginBottom:15}}>
+                            <BtnCustom 
+                                title="Código QR" 
+                                bgColor={ColorsCeiba.darkGray}
+                                onPress={() => {
+                                    let myUser = players.find(item => item.userId === user?.id)
+                                    console.log(myUser)
+                                    setShowModal(true)
+                                    setDataSelected(myUser)
+                                }}
+                            />
+        
+                        </View>
+                    )}
+                    {dataReserve?.hostedBy?.id === user?.id && 
                         <BtnCustom 
-                            title="Código QR" 
-                            bgColor={ColorsCeiba.darkGray}
-                            onPress={() => {
-                                let myUser = players.find(item => item.userId === user?.id)
-                                console.log(myUser)
-                                setShowModal(true)
-                                setDataSelected(myUser)
-                            }}
+                            title="Cancelar reservación" 
+                            bgColor={ColorsCeiba.white}
+                            color={ColorsCeiba.darkGray}
+                            onPress={() => setModalCancel(true)}
+                            spinnerColor={ColorsCeiba.darkGray}
+                            loading={loadingCancel}
                         />
-    
-                    </View>
-                    <BtnCustom 
-                        title="Cancelar reservación" 
-                        bgColor={ColorsCeiba.white}
-                        color={ColorsCeiba.darkGray}
-                        onPress={() => setModalCancel(true)}
-                        spinnerColor={ColorsCeiba.darkGray}
-                        loading={loadingCancel}
-                    />
+                    }
                 </View>
             )}
 
@@ -249,6 +340,15 @@ const DetailReservationScreen = () => {
                     setVisible={() => setModalerror(false)}
                     text={txtError}
                     iconType="exclamation"
+                />
+
+                <ModalConfirmRejectBook 
+                    visible={modalAction}
+                    setVisible={() => setModalAction(false)}
+                    type={actionBook}
+                    title={actionBook == "Confirm" ? "Confirmación de la reservación" : "Rechazar reservación"}
+                    data={{date: moment(dataReserve?.dueDate, "YYYY-MM-DD").format("DD-MM-YYYY"), hour: moment(dataReserve?.dueTime, "HH:mm").format("hh:mm a"), numPeople: dataReserve?.invitations?.length}}
+                    onAccept={actionBook == "Confirm" ? AcceptBooking : RejectBooking}
                 />
         </HeeaderBookingImage>
     )
