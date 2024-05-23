@@ -42,6 +42,7 @@ const DetailReservationScreen = () => {
     const [modalAction, setModalAction] = useState(false)
     const [actionBook, setActionBook] = useState(null);
     const [loadingAccept, setLoadingOk] = useState(false)
+    const currentDay = moment().format('YYYY-MM-DD');
 
     useEffect(() => {
         //getDataPlayers()
@@ -218,8 +219,8 @@ const DetailReservationScreen = () => {
                 <Text style={{marginTop:20, fontSize: getFontSize(16), marginBottom:8}}>Fecha y hora</Text>
                 <Text style={styles.lbl}>{moment(reservation?.dueDate,'YYYY-MM-DD').format('dddd MMMM D')}</Text>
                 <Text style={styles.lbl}>{reservation?.dueTime} hrs.</Text>
-                <Text style={styles.lbl}>Salida: {reservation?.area?.name}</Text>
-                <Text style={styles.lbl}>{reservation?.numHoles} hoyos</Text>
+                <Text style={styles.lbl}>{reservation?.area?.service?.isGolf && 'Salida:'} {reservation?.area?.name}</Text>
+                {reservation?.area?.service?.isGolf && <Text style={styles.lbl}>{reservation?.numHoles} hoyos</Text>}
                 <Text style={styles.lbl}>Green Fees utilizados: {greenFees.toString()}</Text>
             </View>
             {reservation?.deletedBy !=null ? (
@@ -231,7 +232,7 @@ const DetailReservationScreen = () => {
             ):(
                 <View>
 
-                    {(dataReserve?.area?.maxPeople - dataReserve?.invitations.length) > 0 && dataReserve?.hostedBy?.id === user?.id &&
+                    {(dataReserve?.area?.maxPeople - dataReserve?.invitations.length) > 0 && dataReserve?.hostedBy?.id === user?.id && !moment(reservation?.dueDate, 'YYYY-MM-DD').isBefore(currentDay) &&
                     <TouchableOpacity 
                         onPress={() => navigation.navigate('AddPlayers', {players: dataReserve?.area?.maxPeople - 1, isFromEdit:true, invitations: invitations, idReservation:reservation?.id, isGolf: dataReserve?.area?.service?.isGolf})}
                         style={styles.btn}>
@@ -256,6 +257,7 @@ const DetailReservationScreen = () => {
                                     setIdDelete(item)
                                     setModalDelete(true)
                                 }}
+                                isPast={moment(reservation?.dueDate, 'YYYY-MM-DD').isBefore(currentDay)}
                             />
         
 
@@ -304,7 +306,7 @@ const DetailReservationScreen = () => {
         
                         </View>
                     )}
-                    {dataReserve?.hostedBy?.id === user?.id && 
+                    {dataReserve?.hostedBy?.id === user?.id && !moment(reservation?.dueDate, 'YYYY-MM-DD').isBefore(currentDay) &&
                         <BtnCustom 
                             title="Cancelar reservación" 
                             bgColor={ColorsCeiba.white}

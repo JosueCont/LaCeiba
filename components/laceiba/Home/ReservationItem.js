@@ -38,7 +38,7 @@ const ReservationItem = ({item, index}) => {
                 <Text style={styles.lblTitle}>{item?.area?.service?.name}</Text>
                 <Text style={styles.lbl}>{moment(item?.dueDate).format('dddd')}, {moment(item?.dueDate).format('MMMM DD')}</Text>
                 <Text style={styles.lbl}>{item?.dueTime}</Text>
-                <Text style={styles.lbl}>Hole {item?.numHoles}</Text>
+                {item?.area?.service?.isGolf ? <Text style={styles.lbl}>Hole {item?.numHoles}</Text> : <Text style={styles.lbl}>{item?.area?.name}</Text> }
                 <View style={{flexDirection:'row', alignItems:'center'}}>
                 {getStatus()}
                    

@@ -31,6 +31,7 @@ const AddPlayersScreen = () => {
     const [modalInvitations, setModalInvitations] = useState(false)
     const [textInvitation, setTxtInvitation] = useState('')
     const infoBooking = useSelector(state => state.bookingDuck.createBooking)
+    const user = useSelector(state => state.appDuck.user)
 
 
     
@@ -74,8 +75,8 @@ const AddPlayersScreen = () => {
             let url = infoBooking?.activity?.isGolf || isGolf ? `${query}&accessToGolf=${isFromEdit ? isGolf: infoBooking?.activity?.isGolf}` : query
             const response = typeGuessing === 0 ? await findPartnerQuery(url)
             : await getListGuessing(`?page=1&limit=100&sort=desc&q=${search}`)
-            //console.log('partners', response?.data)
-            setParners(response?.data?.items || [])
+            console.log('partners', response?.data)
+            setParners(response?.data?.items.filter(item => item.userId !== user?.id) || [])
         } catch (e) {
             console.log('error parners', e)
         } finally{
@@ -143,8 +144,11 @@ const AddPlayersScreen = () => {
     return(
         <HeaderBooking showFilters={false} isScrolling={false}>
             <View style={styles.container}>
-                <Text style={styles.lblTitle}>Seleccionar invitado</Text>
-                <Text>Tipo invitado</Text>
+                <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
+                    <Text style={styles.lblTitle}>Seleccionar jugador</Text>
+                    <Text style={[styles.lblTitle, {fontSize: getFontSize(15)}]}>{partnersSelected.length-1}/{players-1}</Text>
+                </View>
+                <Text>Tipo de persona</Text>
                 <View style={styles.contFilter}>
                     <View style={{flexDirection:'row'}}>
                         {typesInvite.map((item,index) => (

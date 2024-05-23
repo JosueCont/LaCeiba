@@ -10,11 +10,11 @@ import { onDeletePlayer } from "../../../redux/ducks/bookingDuck";
 
 
 
-const TableUserReservation = ({players, showQr, onDeletePlayer, hostId}) => {
+const TableUserReservation = ({players, showQr, onDeletePlayer, hostId, isPast}) => {
     const focused = useIsFocused();
     const dispatch = useDispatch();
     const user = useSelector(state => state.appDuck.user)
-    const tableHeaders = hostId === user?.id ? ['Estatus','Invitado','Socio','QR',' '] : ['Estatus','Invitado','Socio','QR']
+    const tableHeaders = hostId === user?.id && !isPast ? ['Estatus','Invitado','Socio','QR',' '] : ['Estatus','Invitado','Socio','QR']
     const [dataRows, setDataRows] = useState([])
 
 
@@ -24,7 +24,7 @@ const TableUserReservation = ({players, showQr, onDeletePlayer, hostId}) => {
 
     const getDataRows = () => {
         if(players.length >0){
-            let data = players.map((item, index) => hostId === user?.id ? (
+            let data = players.map((item, index) => hostId === user?.id && !isPast ? (
                 [
                     item?.status === 'CONFIRMED' ? 'Confirmado' : item?.status ==='REJECTED' ? 'Rechazado' : 'Pendiente', 
                     item?.user !== null ? `${item?.user?.firstName?.split(' ')[0]} ${item?.user?.lastName?.split(' ')[0] }` : item?.guestName,
