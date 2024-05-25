@@ -24,7 +24,7 @@ const CreatePetitionScreen = () => {
     const [holes, setHoles ] = useState(0)
     const [countCar, setCountCar] = useState(0)
     const infoBooking = useSelector(state => state.bookingDuck.createBooking)
-    const [countPlayers, setCountPlayers] = useState(infoBooking?.area?.minPeople)
+    const [countPlayers, setCountPlayers] = useState(2)
     const [modalExpiredTime, setModalExpired] = useState(false)
     const players = useSelector(state => state.bookingDuck.players)
     const user = useSelector(state => state.appDuck.user)
@@ -50,11 +50,12 @@ const CreatePetitionScreen = () => {
     },[])
 
     useEffect(() => {
-        console.log('players', players)
         //if(counterRef.current === null){
             //setReservedTime() se hablitara nuevamente
             //}
-    },[focused])
+        if(infoBooking?.area?.minPeople)
+            setCountPlayers(infoBooking?.area?.minPeople)
+    },[focused, infoBooking])
         
         useEffect(() => {
             if(players.length > 1) getTotalPointsUsed()
@@ -111,7 +112,7 @@ const CreatePetitionScreen = () => {
     },[])
 
     const getColor = (status) => {
-        if(status.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id)){
+        if(status?.booking !=null && status?.booking?.invitations.find((reservation) => reservation?.user?.id === user.id)){
             return ColorsCeiba.aqua
         }else if(status?.fullBooking){
             return ColorsCeiba.lightgray
@@ -166,7 +167,9 @@ const CreatePetitionScreen = () => {
 
                 <TablePlayers players={players} showDelete={true}/>
                     
-                <Text style={{alignSelf:'center', marginVertical:10, fontSize: getFontSize(16)}}>Green Fees</Text>
+                {infoBooking?.activity?.isGolf && 
+                <View>
+                    <Text style={{alignSelf:'center', marginVertical:10, fontSize: getFontSize(16)}}>Green Fees</Text>
                     <View style={{flexDirection:'row', justifyContent:'space-evenly', marginBottom:15}}>
                         <View>
                             <Text>Disponibles:</Text>
@@ -178,6 +181,7 @@ const CreatePetitionScreen = () => {
                         </View>
 
                     </View>
+                </View>}
                 <BtnCustom 
                     title="Hacer reserva"
                     disable={players.length !== countPlayers}

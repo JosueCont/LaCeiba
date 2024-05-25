@@ -92,3 +92,4 @@ export const getReservationInfoId = async(queryStringParams=[]) => await request
 export const getReservationPerUserDay = async(params, queryStringParams=[]) => await request(URLTypes.GET_MY_RESERVATIONS_PER_DAY,params,'get', null, queryStringParams)
 export const getPartnersFamily = async(params, queryStringParams=[]) => await request(URLTypes.GET_FAMILY_PARTNERS, params,'get', null, queryStringParams)
 export const getStatementAccountfile = async(params, queryStringParams=[]) => await request(URLTypes.GET_FILE_STATEMENT,params,'get')
+export const getUserDebt = async(params, queryStringParams=[]) => await request(URLTypes.GET_DEBT_USER, params, 'get', null, queryStringParams)

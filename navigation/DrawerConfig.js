@@ -182,7 +182,27 @@ const DrawerConfig = () => {
             const handleBackButton = () => {
                 //console.log('bloquadeo', navigation.getCurrentRoute())
                 let route = navigation.getCurrentRoute().name
-                if(route === 'JoinSend' && route === 'BookingSuccess') navigation.navigate('House')
+                if(route === 'JoinSend' || route === 'BookingSuccess'){
+                    navigation.dispatch(CommonActions.reset({
+                        index:0,
+                        routes:[{name:'HomeScreen', params: {screen: 'HomeScreen'}}]
+                    }))
+                    return true
+                }else if(route === 'DetailReservation'){
+                    console.log('detail back',navigation.getRootState().routes.find(item => item.name === 'BookingServicesScreen').params?.params?.route)
+                    if(navigation.getRootState().routes.find(item => item.name === 'BookingServicesScreen').params?.params?.route){
+                        console.log('retornar a reservaciones', navigation)
+                        navigation.reset({
+                            index:0,
+                            routes:[{name:'ReservationsScreen', params:{ screen: 'ReservationsScreen'}}]
+                        })
+                    }else navigation.goBack()
+                    return true
+                }else if(route === 'ReservationsScreen'){
+                    navigation.navigate('HomeScreen')
+                     return true
+                }else if(route === 'HomeScreen') return true
+                return false
                 console.log('route',route)
             }
 
@@ -191,7 +211,7 @@ const DrawerConfig = () => {
             return () => {
               BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
             };
-        },[])
+        },[navigation])
     )
 
     const BookingServicesNavigator = () => {

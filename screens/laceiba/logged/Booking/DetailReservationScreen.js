@@ -221,7 +221,7 @@ const DetailReservationScreen = () => {
                 <Text style={styles.lbl}>{reservation?.dueTime} hrs.</Text>
                 <Text style={styles.lbl}>{reservation?.area?.service?.isGolf && 'Salida:'} {reservation?.area?.name}</Text>
                 {reservation?.area?.service?.isGolf && <Text style={styles.lbl}>{reservation?.numHoles} hoyos</Text>}
-                <Text style={styles.lbl}>Green Fees utilizados: {greenFees.toString()}</Text>
+                {greenFees > 0 && <Text style={styles.lbl}>Green Fees utilizados: {greenFees.toString()}</Text>}
             </View>
             {reservation?.deletedBy !=null ? (
                 <View style={{height: 200, justifyContent:'center', alignItems:'center'}}>

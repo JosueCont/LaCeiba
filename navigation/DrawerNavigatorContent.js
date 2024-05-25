@@ -22,6 +22,7 @@ import {logOut} from "../api/Requests";
 import { setAttribute } from '../redux/ducks/navigationDuck';
 import Constants from "expo-constants";
 import { imageImport } from "../organizations/assets/ImageImporter";
+import { CommonActions } from "@react-navigation/native";
 
 
 const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
@@ -65,7 +66,12 @@ const CustomDrawerContent = ({navigation, loggedOutAction, appDuck}) => {
             </View>
             <View flex={1}>
             <ScrollView flexGrow={1} showsVerticalScrollIndicator={false}>
-                <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+                <TouchableOpacity onPress={() => {
+                    navigation.dispatch(CommonActions.reset({
+                        index:0,
+                        routes:[{name:'HomeScreen', params: {screen: 'HomeScreen'}}]
+                    }))
+                }}>
                     <View flexDirection={'row'} mb={4}>
                         <View flex={0.3} alignItems={'center'} justifyContent={'center'}>
                             <Image source={iconHome} style={{width: 20, height: 20}}></Image>

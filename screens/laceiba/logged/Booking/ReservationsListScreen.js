@@ -82,7 +82,7 @@ const ReservationsListScreen = () => {
                         keyExtractor={(_, index) => (index+1).toString()}
                         renderItem={({item, index}) => (
                             <TouchableOpacity style={{marginBottom:30}} onPress={() => navigation.navigate('BookingServicesScreen', {screen: 'DetailReservation', params: {reservation: item, route: 'ReservationsScreen'}})}>
-                                <ReservationItem item={item} index={index}/>
+                                <ReservationItem item={item} index={index} img={booking[option]?.fileUrl}/>
     
                             </TouchableOpacity>
                         )}

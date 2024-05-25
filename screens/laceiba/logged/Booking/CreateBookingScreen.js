@@ -62,12 +62,12 @@ const CreateBookingScreen = () => {
     },[areaSelected, option])
 
     useEffect(() => {
-        if(selectDay != null && selectDay != undefined && areaSelected !=null && areaSelected != undefined &&  booking[option]?.areas.length > 0){
+        if(selectDay != null && selectDay != undefined && areaSelected !=null && areaSelected != undefined &&  booking[option]?.areas.length > 0 && focused){
             //setDisabledHours(booking[option]?.bookPartnerSameDay)
             setNewHours()
 
         }
-    },[areaSelected, selectDay, option])
+    },[areaSelected, selectDay, option, focused])
 
     useEffect(() => {
         if(focused){
@@ -105,7 +105,7 @@ const CreateBookingScreen = () => {
             setMyReservations(response?.data)
             if(response?.data.length >0) setDisabledHours(!booking[option]?.bookPartnerSameDay)
             else setDisabledHours(false)
-            //console.log('reservations', response?.data, appDuck?.user)
+            console.log('reservations', response?.data, appDuck?.user)
         } catch (e) {
             console.log('error my reservation',e)
         }
@@ -158,7 +158,7 @@ const CreateBookingScreen = () => {
             const response = await getAllIntervalsTime(filters, [booking[option]?.areas[areaSelected]?.id])
             setHours(response?.data)
             setOriginalHours(response?.data)
-            //console.log('response horarios',response?.data, 'query', filters)
+            console.log('response horarios',response?.data, 'query', filters)
         } catch (e) {
             console.log('error horarios',e)
             setHours([])

@@ -5,6 +5,7 @@ import {useFormik} from "formik";
 import * as Yup from "yup";
 import {forgotPassword} from "../api/Requests";
 import ModalInfo from "./Modals/ModalInfo";
+import { ColorsCeiba } from "../Colors";
 
 const RecoverPasswordScreen = ({navigation}) => {
     const [modalRequestSentVisible, setModalRequestSentVisible] = useState(null)
@@ -52,7 +53,7 @@ const RecoverPasswordScreen = ({navigation}) => {
 
                     <FormControl isInvalid={errors.email} mb={4}>
                         <Text textAlign={'center'} mb={2}>Recuperar contraseña</Text>
-                        <Input autoCapitalize={'none'} autoCorrect={false} onChangeText={(v) => setFieldValue('email', v)}/>
+                        <Input autoCapitalize={'none'} placeholder='Ingresa el correo' placeholderTextColor={ColorsCeiba.gray} autoCorrect={false} onChangeText={(v) => setFieldValue('email', v)}/>
                         <FormControl.ErrorMessage>
                             {errors.email}
                         </FormControl.ErrorMessage>

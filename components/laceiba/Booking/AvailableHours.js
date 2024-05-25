@@ -6,7 +6,7 @@ import AvailableHoursItem from "./AvailableHoursItem";
 import { MaterialIcons } from '@expo/vector-icons';
 
 
-const AvailableHours = ({hours, selectedHour, disabledHours}) => {
+const AvailableHours = ({hours, selectedHour, disabledHours=false}) => {
     return(
         <View style={styles.container}>
             {hours.length > 0 ? hours.map((item,index) => (

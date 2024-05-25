@@ -48,7 +48,7 @@ const BookingServicesScreen = ({navigation, loggedOutAction, appDuck, setOption}
             setLoading(false);
         } catch (e) {
             let v = await errorCapture(e);
-            alert(v.value)
+            //alert(v.value)
             if(e?.data?.message == 'Unauthorized'){
                 toast.show({
                     description: "Sin autorización. Inicie sesión nuevamente"

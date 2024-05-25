@@ -32,6 +32,7 @@ const AddPlayersScreen = () => {
     const [textInvitation, setTxtInvitation] = useState('')
     const infoBooking = useSelector(state => state.bookingDuck.createBooking)
     const user = useSelector(state => state.appDuck.user)
+    const points = useSelector(state => state.bookingDuck.points)
 
 
     
@@ -76,7 +77,14 @@ const AddPlayersScreen = () => {
             const response = typeGuessing === 0 ? await findPartnerQuery(url)
             : await getListGuessing(`?page=1&limit=100&sort=desc&q=${search}`)
             console.log('partners', response?.data)
-            setParners(response?.data?.items.filter(item => item.userId !== user?.id) || [])
+            if(typeGuessing === 0) setParners(response?.data?.items.filter(item => item.userId !== user?.id) || [])
+            else if(points > 0 && typeGuessing === 1){
+                setParners(response?.data?.items.filter(item => item.userId !== user?.id) || [])
+            }else{
+                setModalInvitations(true)
+                setTxtInvitation('No tienes suficientes gree fees para agregar un invitado')
+            }
+
         } catch (e) {
             console.log('error parners', e)
         } finally{
@@ -191,6 +199,8 @@ const AddPlayersScreen = () => {
                             countPlayers={players}
                             people={partnersList} 
                             peopleSelected={partnersSelected}
+                            txt={txtSearch}
+                            type={typeGuessing}
                             selectedPerson={(item) => {
                                 const isExist = partnersSelected.some(person => item?.userId ? item?.userId === person?.userId : item?.idInvitado === person?.idInvitado)
 

@@ -49,9 +49,15 @@ export const setOption = (option) => {
 
 export const setInfoBooking = (data) => {
     let sortedArray = _.sortBy(data?.items,'name')
+    let newList = sortedArray?.map(item => {
+        return {
+            ...item,
+            areas: item.areas.filter(area => area.status)
+          };
+    })
     return{
         type: SET_DATA_BOOKKING,
-        payload: sortedArray
+        payload: newList
     }
 }
 
