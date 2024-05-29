@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, FlatList } from "react-native";
-import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
+import { CommonActions, useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking";
 import { ColorsCeiba } from "../../../../Colors";
 import { getFontSize } from "../../../../utils";
 import ReservationItem from "../../../../components/laceiba/Home/ReservationItem";
-import { getAllBookings } from "../../../../api/Requests";
+import { getAllBookings, getAllInvitations } from "../../../../api/Requests";
 import moment from "moment";
 import { Spinner } from "native-base";
 
@@ -33,8 +33,10 @@ const ReservationsListScreen = () => {
     const getReservations = async() => {
         try {
             setLoaading(true)
+            const queryString = `?userId=${user?.user?.id}&limit=100`;
             const response = await getAllBookings(`?limit=${100}`);
-            //console.log('reservaciones', response?.data)
+            const reserv = await getAllInvitations(queryString)
+            console.log('reservaciones', response?.data, 'second fomr', reserv?.data)
             const myReservations = response?.data?.items.filter((item) =>  item?.invitations?.some(person => person?.user?.id === user?.id)).sort(getsortList)
             //console.log('lista ordenada',myReservations)
             setReservations(myReservations)
@@ -66,7 +68,7 @@ const ReservationsListScreen = () => {
                 <View style={styles.contActions}>
                     <Text style={styles.lblTitle}>Reservaciones</Text>
                     <TouchableOpacity 
-                        onPress={() => navigation.navigate('BookingServicesScreen',{screen:'CreateBooking'})} //Posiblemente regresar a navigation.navigate('CreateBooking')
+                        onPress={() => navigation.navigate('BookingServicesScreen',{screen:'CreateBooking', params:{route:'ListReservations'}})} //Posiblemente regresar a navigation.navigate('CreateBooking')
                         style={styles.btn}>
                         <Text style={styles.lbl}>+ Nueva reserva</Text>
                     </TouchableOpacity>

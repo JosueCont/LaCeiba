@@ -41,7 +41,7 @@ const AvailableHoursItem = ({item, index, selectHour, disabledHours=false}) => {
             disabled={disabled }
             //accessibilityState={{ disabled: disabled }}
             onPress={() => !disabled && selectHour(item)}
-            style={[styles.btn, {backgroundColor: getColor(item), borderColor:  item?.isPastDueTime === true ? ColorsCeiba.lightgray : disabledHours ? ColorsCeiba.lightgray : ColorsCeiba.darkGray}]}>
+            style={[styles.btn, {backgroundColor: item?.isPastDueTime ? ColorsCeiba.white : getColor(item), borderColor:  item?.isPastDueTime === true ? ColorsCeiba.lightgray : disabledHours ? ColorsCeiba.lightgray : ColorsCeiba.darkGray}]}>
             <Text style={{fontSize: getFontSize(16), fontWeight:'400', color: isUserInvited === true? ColorsCeiba.darkGray :  item?.isPastDueTime === true ? ColorsCeiba.lightgray : disabledHours ? ColorsCeiba.lightgray : ColorsCeiba.darkGray}}>{item?.time}</Text>
         </TouchableOpacity>
     )

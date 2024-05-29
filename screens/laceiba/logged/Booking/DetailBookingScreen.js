@@ -112,16 +112,10 @@ const DetailBokingScreen = () => {
 
             if(myEmail) dataSend.specificEmail = user?.email
             //console.log('dataSend',dataSend, user)
-            const hasDebt = await getUserDebt('',[user?.partner?.id])
-            if(hasDebt?.data > 0){
-                setModalError(true)
-                setMessageError('Lo sentimos usted presenta un adeudo en su estado de cuenta, por favor contactar administración para más detalle.')
-            }else{
-                const response = await bookService(dataSend,[user?.id])
-                console.log('response bokking',response?.data)
-                navigation.navigate('BookingSuccess', {people: players, date: infoBooking?.date, hour: infoBooking?.hour?.time})
+            const response = await bookService(dataSend,[user?.id])
+            console.log('response bokking',response?.data)
+            navigation.navigate('BookingSuccess', {people: players, date: infoBooking?.date, hour: infoBooking?.hour?.time})
 
-            }
         } catch (e) {
             console.log('error',e)
             setModalExpired(true)

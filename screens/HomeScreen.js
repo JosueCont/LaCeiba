@@ -13,7 +13,7 @@ import iconMatches from '../assets/iconMatches2.png'
 import iconBalance from '../assets/iconBalance2.png'
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import LayoutV4 from "./Layouts/LayoutV4";
-import {getAllGF, getGFLeader, sendPushToken, validatePartner, getAllServices, getAllBookings, getPoints} from "../api/Requests";
+import {getAllGF, getGFLeader, sendPushToken, validatePartner, getAllServices, getAllBookings, getPoints, getUserDebt} from "../api/Requests";
 import {connect} from "react-redux";
 import ModalInfo from "./Modals/ModalInfo";
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
@@ -37,6 +37,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
     const [allGroups, setAllGroups] = useState([]);
     const [groupsFounded, setGroupsFounded] = useState([]);
     const [reservations, setReservations] = useState([])
+    const [hasDebt, setHasDebt] = useState(false)
 
     const toast = useToast();
 
@@ -66,10 +67,21 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
             Promise.all([
                 getBookingConfig(),
                 //getReservations(),
-                getTotalPoints()
+                getTotalPoints(),
+                getDataDebt(),
             ])
         } catch (e) {
             console.log('error', e)
+        }
+    }
+
+    const getDataDebt  = async() => {
+        try {
+            const response = await getUserDebt('',[user?.partner?.id])
+            if(response?.data  > 0) setHasDebt(false) //cambiar a true
+                else setHasDebt(false)
+        } catch (e) {
+            console.log('error',e)
         }
     }
 
@@ -217,7 +229,17 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
                 
                         {Constants.expoConfig.extra.booking && //regresar a cmbio
                             <View flex={1}>
-                                <TouchableOpacity onPress={() => validatePartnerFunction('BookingServicesScreen')}>
+                                <TouchableOpacity onPress={() =>{
+                                    if(Constants.expoConfig.slug === 'laceiba'){
+                                        if(hasDebt){
+                                            setModalInfoVisible(true)
+                                            setText('Lo sentimos usted presenta un adeudo en su estado de cuenta, por favor contacte a administración para más detalle.')
+                                        }else validatePartnerFunction('BookingServicesScreen')
+                                    }else{
+
+                                        validatePartnerFunction('BookingServicesScreen')
+                                    }
+                                    }}>
                                     <View alignItems={'center'} mb={2}>
                                         <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
                                             <Image source={iconReserve} style={{width: 45, resizeMode: 'contain'}}/>
@@ -363,7 +385,8 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
                 </View>
 
             </View>
-            <ModalInfo visible={modalInfoVisible} setVisible={setModalInfoVisible} iconType={'exclamation'} text={text}></ModalInfo>
+            <ModalInfo visible={modalInfoVisible} setVisible={setModalInfoVisible} iconType={'exclamation'} text={text} title='Aviso'></ModalInfo>
+
         </LayoutV4>
 
     )

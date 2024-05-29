@@ -58,7 +58,7 @@ const DetailReservationScreen = () => {
             //console.log('reservation', reservation)
             setLoading(true)
             const response = await getAllBookings(`?bookingId=${reservation?.id}&limit=1`)
-            //console.log('informacion reservacion', response, 'id',reservation?.id,)
+            console.log('informacion reservacion', response?.data, 'id',reservation?.id,)
             setDataReserve(response?.data?.items[0])
             getDataPlayers(response?.data?.items[0])
             setUpdate(false)
@@ -217,7 +217,7 @@ const DetailReservationScreen = () => {
             <View style={styles.container}>
                 <Text>Reserva {dataReserve?.area?.service?.name}</Text>
                 <Text style={{marginTop:20, fontSize: getFontSize(16), marginBottom:8}}>Fecha y hora</Text>
-                <Text style={styles.lbl}>{moment(reservation?.dueDate,'YYYY-MM-DD').format('dddd MMMM D')}</Text>
+                <Text style={[styles.lbl, {textTransform:'capitalize'}]}>{moment(reservation?.dueDate,'YYYY-MM-DD').format('dddd D MMMM')}</Text>
                 <Text style={styles.lbl}>{reservation?.dueTime} hrs.</Text>
                 <Text style={styles.lbl}>{reservation?.area?.service?.isGolf && 'Salida:'} {reservation?.area?.name}</Text>
                 {reservation?.area?.service?.isGolf && <Text style={styles.lbl}>{reservation?.numHoles} hoyos</Text>}
@@ -291,7 +291,7 @@ const DetailReservationScreen = () => {
                                 />
                                 </View>
                         </View>
-                    ):(
+                    ): dataReserve?.invitations.find(item => item?.status === 'CONFIRMED' && item?.user?.id === user?.id) &&(
                         <View style={{marginBottom:15}}>
                             <BtnCustom 
                                 title="Código QR" 
@@ -329,13 +329,15 @@ const DetailReservationScreen = () => {
                     visible={modalDetele}
                     setVisible={() => setModalDelete(false)}
                     action={() => idDelete?.user !== null ? onDeletePartner() : onDeleteGuess()}
-                    text="¿Esta seguro de eliminar el usuario de la reservación?"
+                    text="¿Está seguro de eliminar el usuario de la reservación?"
+                    textButton="Si"
                 />
                 <ModalAsk 
                     visible={modalCancel}
                     setVisible={() => setModalCancel(false)}
                     action={() => onDeleteReservation()}
                     text="¿Desea eliminar la reservación?"
+                    textButton="Si"
                 />
                 <ModalInfo 
                     visible={modalError}

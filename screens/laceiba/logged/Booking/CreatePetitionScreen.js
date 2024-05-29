@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-nati
 import { getFontSize } from "../../../../utils";
 import { ColorsCeiba } from "../../../../Colors";
 import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking";
-import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
+import { useIsFocused, useNavigation, useRoute, useFocusEffect } from "@react-navigation/native";
 import AddBookItem from "../../../../components/laceiba/Booking/AddBookItem";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
@@ -49,13 +49,26 @@ const CreatePetitionScreen = () => {
         console.log('infoBooking',infoBooking,)
     },[])
 
-    useEffect(() => {
-        //if(counterRef.current === null){
-            //setReservedTime() se hablitara nuevamente
-            //}
-        if(infoBooking?.area?.minPeople)
-            setCountPlayers(infoBooking?.area?.minPeople)
-    },[focused, infoBooking])
+    useFocusEffect(
+        useCallback(() => {
+            if(focused){
+                //if(players.length < infoBooking?.area?.minPeople){
+                console.log('entro aqui',infoBooking?.area?.minPeople)
+                if(infoBooking?.area?.minPeople && Array.isArray(players) && players.length > 0){
+                    const newCountPlayers = Math.max(infoBooking.area.minPeople, players.length);
+                    setCountPlayers(newCountPlayers)
+                    console.log('si es array',players.length, 'cambiano',newCountPlayers)
+                    //if(players.length < infoBooking?.area?.minPeople){
+                    //    setCountPlayers(infoBooking?.area?.minPeople)
+                    //}else setCountPlayers(players.length)
+                }
+                //}else{
+    //
+                //}
+            }
+        },[focused, players.length, infoBooking])
+
+    )
         
         useEffect(() => {
             if(players.length > 1) getTotalPointsUsed()
@@ -122,7 +135,7 @@ const CreatePetitionScreen = () => {
             return ColorsCeiba.white
         }
     } 
-    
+    console.log('counter', countPlayers, 'players', players)
     return(
         <HeaderBooking disabledOptions={true} showFilters={false}>
             <View style={styles.container}>
@@ -146,7 +159,7 @@ const CreatePetitionScreen = () => {
                     onMinus={onMinusCar}
                     onPlus={onPlusCar}
                 />*/}
-                <AddBookItem 
+                {countPlayers > 0 && players.length > 0 &&<AddBookItem 
                     question="¿Cuántos jugadores?"
                     players={players.length}
                     isGolf={infoBooking?.activity?.isGolf}
@@ -158,7 +171,7 @@ const CreatePetitionScreen = () => {
                     setOption={(index) => setHoles(index)}
                     onMinus={onMinusPlayers}
                     onPlus={onPlusPlayers}
-                />
+                />}
                 {(infoBooking?.area?.maxPeople - players.length) > 0 && players.length != countPlayers && <TouchableOpacity 
                     onPress={() => navigation.navigate('AddPlayers', {players: countPlayers})}
                     style={styles.btn}>

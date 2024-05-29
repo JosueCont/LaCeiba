@@ -61,11 +61,11 @@ const TableUserReservation = ({players, showQr, onDeletePlayer, hostId, isPast})
 
     const getQr = (row, index) => {
         return(
-            hostId === user?.id ? (
+            hostId === user?.id && row?.status !== 'PENDING' && row?.status !== 'REJECTED' && row?.status !=='Rechazado'? (
                 <TouchableOpacity style={{alignItems:'center'}} onPress={() => showQr(row)}>
                     <Ionicons name="qr-code-outline" size={24} color={ColorsCeiba.aqua} />
                 </TouchableOpacity>
-            ): row?.user?.id === user?.id && (
+            ): row?.user?.id === user?.id &&  row?.status !== 'PENDING' && row?.status !== 'REJECTED' && row?.status !=='Rechazado' && (
                 <TouchableOpacity style={{alignItems:'center'}} onPress={() => showQr(row)}>
                     <Ionicons name="qr-code-outline" size={24} color={ColorsCeiba.aqua} />
                 </TouchableOpacity>

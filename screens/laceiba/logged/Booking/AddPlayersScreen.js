@@ -154,7 +154,7 @@ const AddPlayersScreen = () => {
             <View style={styles.container}>
                 <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
                     <Text style={styles.lblTitle}>Seleccionar jugador</Text>
-                    <Text style={[styles.lblTitle, {fontSize: getFontSize(15)}]}>{partnersSelected.length-1}/{players-1}</Text>
+                    <Text style={[styles.lblTitle, {fontSize: getFontSize(15)}]}>{isFromEdit ?  partnersSelected.length-invitations.length :partnersSelected.length-1}/{ isFromEdit ? players-invitations.length : players-1}</Text>
                 </View>
                 <Text>Tipo de persona</Text>
                 <View style={styles.contFilter}>

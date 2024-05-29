@@ -483,7 +483,7 @@ const DrawerConfig = () => {
     
                             }else if(navigation?.getCurrentRoute().name === 'DetailReservation'){
                                 if(navigation.getRootState().routes.find(item => item.name === 'BookingServicesScreen').params?.params?.route){
-                                    console.log('regresando a',navigation.getRootState().routes.find(item => item.name === 'BookingServicesScreen').params?.params?.route )
+                                    //console.log('regresando a',navigation.getRootState().routes.find(item => item.name === 'BookingServicesScreen').params?.params?.route )
                                     navigation.reset({
                                         index:0,
                                         routes:[{name:'ReservationsScreen', params:{ screen: 'ReservationsScreen'}}]
@@ -491,8 +491,15 @@ const DrawerConfig = () => {
                                 }else navigation.goBack(0)
 
                                 //console.log('navigation', navigation.getRootState().routes.find(item => item.name === 'BookingServicesScreen').params?.params?.route)
-                            }else  navigation.goBack()
-                            console.log('navegar a ',navigation?.getCurrentRoute())
+                            }else if(navigation?.getCurrentRoute().name === 'CreateBooking'){
+                                if(navigation?.getCurrentRoute()?.params?.route){
+                                    navigation.dispatch(CommonActions.reset({
+                                        index:0,
+                                        routes:[{name:'ReservationsScreen'}]
+                                    }))
+                                }else navigation.goBack()
+                            }else navigation.goBack()
+                            //console.log('navegar a ',navigation?.getCurrentRoute())
     
                         }} style={{
                             width: 50,

@@ -12,8 +12,7 @@ import FormSimpleGuest from "../../../../components/laceiba/Booking/FormSimpleGu
 const NewGuestScreen = () => {
     const [type, setSelecType] = useState(0)
     const typesGuest = [
-        {option:'Golf'},
-        {option:'Tennis'},
+        {option:'Verificado'},
         {option:'Sencillo'}
     ]
     return(
@@ -31,7 +30,7 @@ const NewGuestScreen = () => {
                     ))}
                 </View>
 
-                {type != 2 ? (
+                {type != 1 ? (
                     <FormNewGuest />
                 ):(
                     <FormSimpleGuest />

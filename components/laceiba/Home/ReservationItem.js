@@ -21,7 +21,6 @@ const ReservationItem = ({item, index, img}) => {
         if(item?.deletedBy != null){
             status = 'Cancelado'
         }else if(item?.invitations.some(elemento => elemento.status === 'REJECTED' && elemento?.user?.id === user?.id)){
-            console.log('aqui merengues')
             status = 'Rechazado'
         }else{
             const hasPending = item?.invitations.some(elemento => elemento.status === 'PENDING');
@@ -42,7 +41,7 @@ const ReservationItem = ({item, index, img}) => {
             <Image source={{uri: img}} style={styles.image}/>
             <View>
                 <Text style={styles.lblTitle}>{item?.area?.service?.name}</Text>
-                <Text style={styles.lbl}>{moment(item?.dueDate).format('dddd')}, {moment(item?.dueDate).format('MMMM DD')} {item?.dueTime}</Text>
+                <Text style={[styles.lbl, {textTransform:'capitalize'}]}>{moment(item?.dueDate).format('dddd')}, {moment(item?.dueDate).format('DD MMMM')} {item?.dueTime}</Text>
                 {item?.hostedBy?.id === user?.id ? <Text style={styles.lbl}>Tu eres el host</Text> : <Text  style={styles.lbl}>Invitado por: {item?.hostedBy?.firstName.split(' ')[0]} {item?.hostedBy?.lastName.split(' ')[0]}</Text>}
                 {item?.area?.service?.isGolf ? <Text style={styles.lbl}>Hole {item?.numHoles}</Text> : <Text style={styles.lbl}>{item?.area?.name}</Text> }
                 <View style={{flexDirection:'row', alignItems:'center'}}>

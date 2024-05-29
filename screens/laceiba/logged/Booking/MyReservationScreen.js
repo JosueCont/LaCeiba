@@ -35,7 +35,7 @@ const MyReservationScreen = () => {
                 <RequestJoinItem requested={infoBooking} myReservation={true}/>
 
                 <BtnCustom 
-                    title="Editar reservacion" 
+                    title="Editar reservación" 
                     bgColor={ColorsCeiba.darkGray}
                     onPress={() => navigation.navigate('DetailReservation', {reservation: infoBooking?.item?.booking, route: 'MyReservation'})}
                 />
