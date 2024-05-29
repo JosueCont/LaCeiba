@@ -6,7 +6,7 @@ import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking"
 import { ColorsCeiba } from "../../../../Colors";
 import { getFontSize } from "../../../../utils";
 import ReservationItem from "../../../../components/laceiba/Home/ReservationItem";
-import { getAllBookings, getAllInvitations } from "../../../../api/Requests";
+import { getAllBookings, getAllInvitations, getUserDebt } from "../../../../api/Requests";
 import moment from "moment";
 import { Spinner } from "native-base";
 
@@ -22,13 +22,25 @@ const ReservationsListScreen = () => {
     const [reservations, setReservations] = useState([])
     const [loading, setLoaading] = useState(true)
     const user = useSelector(state => state.appDuck.user)
+    const [hasDebt, setHasDebt] = useState(false)
 
 
 
     useEffect(() => {
         //console.log('filtra', navigation?.getParent())
         getReservations()
+        getDataDebt()
     },[focused])
+
+    const getDataDebt  = async() => {
+        try {
+            const response = await getUserDebt('',[user?.partner?.id])
+            if(response?.data  > 0) setHasDebt(true) //cambiar a true
+                else setHasDebt(false)
+        } catch (e) {
+            console.log('error',e)
+        }
+    }
 
     const getReservations = async() => {
         try {
@@ -67,10 +79,11 @@ const ReservationsListScreen = () => {
             <View style={styles.container}>
                 <View style={styles.contActions}>
                     <Text style={styles.lblTitle}>Reservaciones</Text>
-                    <TouchableOpacity 
+                    <TouchableOpacity
+                        disabled={hasDebt} 
                         onPress={() => navigation.navigate('BookingServicesScreen',{screen:'CreateBooking', params:{route:'ListReservations'}})} //Posiblemente regresar a navigation.navigate('CreateBooking')
-                        style={styles.btn}>
-                        <Text style={styles.lbl}>+ Nueva reserva</Text>
+                        style={[styles.btn, {borderColor:hasDebt ? ColorsCeiba.lightgray : ColorsCeiba.darkGray,}]}>
+                        <Text style={[styles.lbl, {color: hasDebt ? ColorsCeiba.lightgray : ColorsCeiba.darkGray}]}>+ Nueva reserva</Text>
                     </TouchableOpacity>
                 </View>
                 {loading ? (
@@ -114,7 +127,6 @@ const styles = StyleSheet.create({
         width: 176,
         height:30,
         borderRadius:20,
-        borderColor: ColorsCeiba.darkGray,
         borderWidth:1,
         justifyContent:'center',
         alignItems:'center',
