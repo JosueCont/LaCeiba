@@ -78,7 +78,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
     const getDataDebt  = async() => {
         try {
             const response = await getUserDebt('',[user?.partner?.id])
-            if(response?.data  > 0) setHasDebt(false) //cambiar a true
+            if(response?.data  > 0) setHasDebt(true) //cambiar a true
                 else setHasDebt(false)
         } catch (e) {
             console.log('error',e)
