@@ -170,6 +170,13 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
                         setGroupsFounded(groups => [...groups, groupElement]);
                     }
                 }
+                if (groupElement.allMembersCanConfirmFixedGroup) {
+                    for (const member of groupElement.members) {
+                        if (member?.id == appDuck.user.id) {
+                            setGroupsFounded(groups => [...groups, groupElement]);
+                        }
+                    }
+                }
             }
         } catch (error) {
             if(error?.data?.message == 'Unauthorized'){
