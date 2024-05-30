@@ -13,7 +13,7 @@ import iconMatches from '../assets/iconMatches2.png'
 import iconBalance from '../assets/iconBalance2.png'
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import LayoutV4 from "./Layouts/LayoutV4";
-import {getAllGF, getGFLeader, sendPushToken, validatePartner, getAllServices, getAllBookings, getPoints, getConfig} from "../api/Requests";
+import {getAllGF, getGFLeader, sendPushToken, validatePartner, getAllServices, getAllBookings, getPoints} from "../api/Requests";
 import {connect} from "react-redux";
 import ModalInfo from "./Modals/ModalInfo";
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
