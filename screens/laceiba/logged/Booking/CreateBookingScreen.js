@@ -44,7 +44,7 @@ const CreateBookingScreen = () => {
         'Wednesday':'Miércoles',
         'Thursday':'Jueves',
         'Friday':'Viernes',
-        'Saturday':'Sabado'
+        'Saturday':'Sábado'
 
     }
 
@@ -139,13 +139,14 @@ const CreateBookingScreen = () => {
                 const formattedDate = futureDate.format('YYYY-MM-DD');
                 return { day: day.day, date: formattedDate };
             })
+            //.uniqBy('date')
             .sortBy('date')
             .map(day => ({ day: `${typesDays[day.day]}`, date: moment(day.date).format('D'), dateString: moment(day.date,'YYYY-MM-DD').format('DD-MM-YYYY') }))
             .value();
 
             //console.log('dias',booking[option]?.areas[areaSelected]?.calendarDays)
         setAvailableDays(result)
-        //console.log('result',result)
+        console.log('result',result)
 
     }
 

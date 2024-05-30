@@ -24,7 +24,7 @@ const ReservationItem = ({item, index, img}) => {
             status = 'Rechazado'
         }else{
             const hasPending = item?.invitations.some(elemento => elemento.status === 'PENDING');
-            status = hasPending ? 'Pendiente' : 'Confirmado';
+            status = item?.hostedBy?.id === user?.id ? 'Confirmado' : hasPending ? 'Pendiente' : 'Confirmado';
 
         }
         return (

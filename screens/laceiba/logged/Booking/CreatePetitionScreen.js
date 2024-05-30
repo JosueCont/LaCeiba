@@ -43,7 +43,7 @@ const CreatePetitionScreen = () => {
         'Wednesday':'miércoles',
         'Thursday':'jueves',
         'Friday':'viernes',
-        'Saturday':'sabado'
+        'Saturday':'sábado'
 
     }
 
