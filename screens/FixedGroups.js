@@ -97,7 +97,7 @@ const FixedGroups = ({appDuck, navigation, route}) => {
                     const nameB = b.day.toUpperCase()
                     return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0
                 }).map((value, index)=>{
-                    const exist = group.schedules?.find(element => element.id == value.id);
+                    const exist = group.schedules?.find(element => element.id == value.id) || groupFounded.allMembersCanConfirmFixedGroup;
                     return(
                         value.isActive && (
                             <TouchableOpacity key={index} onPress={() => {navigation.navigate('FixedGroupDetail', {schedule: value, groupData: groupFounded, userId: appDuck.user.id, minPeople, maxPeople, blocked: !exist});}}>
