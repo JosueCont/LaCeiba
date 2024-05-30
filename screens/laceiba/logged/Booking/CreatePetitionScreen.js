@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-nati
 import { getFontSize } from "../../../../utils";
 import { ColorsCeiba } from "../../../../Colors";
 import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking";
-import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
+import { useIsFocused, useNavigation, useRoute, useFocusEffect } from "@react-navigation/native";
 import AddBookItem from "../../../../components/laceiba/Booking/AddBookItem";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
@@ -24,7 +24,7 @@ const CreatePetitionScreen = () => {
     const [holes, setHoles ] = useState(0)
     const [countCar, setCountCar] = useState(0)
     const infoBooking = useSelector(state => state.bookingDuck.createBooking)
-    const [countPlayers, setCountPlayers] = useState(infoBooking?.area?.minPeople)
+    const [countPlayers, setCountPlayers] = useState(2)
     const [modalExpiredTime, setModalExpired] = useState(false)
     const players = useSelector(state => state.bookingDuck.players)
     const user = useSelector(state => state.appDuck.user)
@@ -35,6 +35,17 @@ const CreatePetitionScreen = () => {
     const [pointsUsed, setUsedPoints] = useState(0)
 
     const {item, counterRef} = route?.params;
+
+    const typesDays = {
+        'Sunday': 'domingo',
+        'Monday':'lunes',
+        'Tuesday':'martes',
+        'Wednesday':'miércoles',
+        'Thursday':'jueves',
+        'Friday':'viernes',
+        'Saturday':'sabado'
+
+    }
 
     useEffect(() => {
         let myPlayer = {
@@ -49,12 +60,26 @@ const CreatePetitionScreen = () => {
         console.log('infoBooking',infoBooking,)
     },[])
 
-    useEffect(() => {
-        console.log('players', players)
-        //if(counterRef.current === null){
-            //setReservedTime() se hablitara nuevamente
-            //}
-    },[focused])
+    useFocusEffect(
+        useCallback(() => {
+            if(focused){
+                //if(players.length < infoBooking?.area?.minPeople){
+                console.log('entro aqui',infoBooking?.area?.minPeople)
+                if(infoBooking?.area?.minPeople && Array.isArray(players) && players.length > 0){
+                    const newCountPlayers = Math.max(infoBooking.area.minPeople, players.length);
+                    setCountPlayers(newCountPlayers)
+                    console.log('si es array',players.length, 'cambiano',newCountPlayers)
+                    //if(players.length < infoBooking?.area?.minPeople){
+                    //    setCountPlayers(infoBooking?.area?.minPeople)
+                    //}else setCountPlayers(players.length)
+                }
+                //}else{
+    //
+                //}
+            }
+        },[focused, players.length, infoBooking])
+
+    )
         
         useEffect(() => {
             if(players.length > 1) getTotalPointsUsed()
@@ -62,11 +87,10 @@ const CreatePetitionScreen = () => {
 
     const getTotalPointsUsed = () => {
         let guests = players.filter(item => item?.idInvitado)
-        console.log('invitados', guests)
         if(guests.length > 0){
             let date = moment(infoBooking?.date,'YYYY-MM-DD').format('dddd')
-            let points = guests.length * (infoBooking?.area?.calendarDays?.find(item => item?.day === date).points)
-            console.log('usuarios', guests.length, points )
+            let points = guests.length * (infoBooking?.area?.calendarDays?.find(item => typesDays[item?.day] === date).points)
+            //console.log('usuarios', guests.length, points )
             setUsedPoints(points)
 
         }else setUsedPoints(0)
@@ -111,7 +135,7 @@ const CreatePetitionScreen = () => {
     },[])
 
     const getColor = (status) => {
-        if(status.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id)){
+        if(status?.booking !=null && status?.booking?.invitations.find((reservation) => reservation?.user?.id === user.id)){
             return ColorsCeiba.aqua
         }else if(status?.fullBooking){
             return ColorsCeiba.lightgray
@@ -121,7 +145,7 @@ const CreatePetitionScreen = () => {
             return ColorsCeiba.white
         }
     } 
-    
+    console.log('counter', countPlayers, 'players', players)
     return(
         <HeaderBooking disabledOptions={true} showFilters={false}>
             <View style={styles.container}>
@@ -145,7 +169,7 @@ const CreatePetitionScreen = () => {
                     onMinus={onMinusCar}
                     onPlus={onPlusCar}
                 />*/}
-                <AddBookItem 
+                {countPlayers > 0 && players.length > 0 &&<AddBookItem 
                     question="¿Cuántos jugadores?"
                     players={players.length}
                     isGolf={infoBooking?.activity?.isGolf}
@@ -157,7 +181,7 @@ const CreatePetitionScreen = () => {
                     setOption={(index) => setHoles(index)}
                     onMinus={onMinusPlayers}
                     onPlus={onPlusPlayers}
-                />
+                />}
                 {(infoBooking?.area?.maxPeople - players.length) > 0 && players.length != countPlayers && <TouchableOpacity 
                     onPress={() => navigation.navigate('AddPlayers', {players: countPlayers})}
                     style={styles.btn}>
@@ -166,7 +190,9 @@ const CreatePetitionScreen = () => {
 
                 <TablePlayers players={players} showDelete={true}/>
                     
-                <Text style={{alignSelf:'center', marginVertical:10, fontSize: getFontSize(16)}}>Green Fees</Text>
+                {infoBooking?.activity?.isGolf && 
+                <View>
+                    <Text style={{alignSelf:'center', marginVertical:10, fontSize: getFontSize(16)}}>Green Fees</Text>
                     <View style={{flexDirection:'row', justifyContent:'space-evenly', marginBottom:15}}>
                         <View>
                             <Text>Disponibles:</Text>
@@ -178,6 +204,7 @@ const CreatePetitionScreen = () => {
                         </View>
 
                     </View>
+                </View>}
                 <BtnCustom 
                     title="Hacer reserva"
                     disable={players.length !== countPlayers}

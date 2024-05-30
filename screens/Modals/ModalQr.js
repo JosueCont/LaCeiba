@@ -16,7 +16,6 @@ import Constants from "expo-constants";
 const {height, width} = Dimensions.get('window');
 
 const ModalQR = ({visible, setVisible, dataQr, dataReservation}) => {
-    console.log(dataQr)
     return(
         <Modal
             animationType="slide"
@@ -31,10 +30,10 @@ const ModalQR = ({visible, setVisible, dataQr, dataReservation}) => {
                     </View>
                     <View flex={1} backgroundColor={ColorsCeiba.aqua} alignItems={'center'} justifyContent={'center'}>
                         <Text style={styles.lbl}>{dataReservation?.area?.name}</Text>
-                        <Text style={styles.lbl}>{moment(dataReservation?.dueDate,'YYYY-MM-DD').format('dddd MMMM D')}</Text>
+                        <Text style={[styles.lbl, {textTransform:'capitalize'}]}>{moment(dataReservation?.dueDate,'YYYY-MM-DD').format('dddd MMMM D')}</Text>
                         <Text style={styles.lbl}>{dataReservation?.dueTime}</Text>
                     </View>
-                    <View flex={3} backgroundColor={ColorsCeiba.white} alignItems={'center'} justifyContent={'center'}>
+                    <View flex={3} backgroundColor={ColorsCeiba.white} alignItems={'center'} justifyContent={'center'} borderRadius={10}>
                         <QRCode
                             style={styles.qrCode}
                             value={dataQr?.accesCode}
@@ -45,18 +44,18 @@ const ModalQR = ({visible, setVisible, dataQr, dataReservation}) => {
                         />
                         <View flexDirection={'row'} justifyContent={'space-evenly'} width={'100%'} marginTop={3}> 
                             <View>
-                                <Text>Socio</Text>
+                                <Text style={{color: ColorsCeiba.darkGray, fontWeight:'700', textAlign:'center'}}>Socio</Text>
                                 <Text style={{textTransform:'capitalize'}}>{dataQr?.user?.firstName.split(' ')[0]} {dataQr?.user != null ? dataQr?.user?.lastName.split(' ')[0] : dataQr?.guestName}</Text>
                             </View>
                             <View>
-                                <Text>Reserva</Text>
-                                <Text>{dataReservation?.id.toString()}</Text>
+                                <Text style={{color: ColorsCeiba.darkGray, fontWeight:'700'}}>Reserva</Text>
+                                <Text style={{textAlign:'center'}}>{dataReservation?.id.toString()}</Text>
                             </View>
                         </View>
                     </View>
                 </View>
                 <View style={{marginBottom:20}}>
-                    <Text style={{marginVertical:20, width: 150, textAlign:'center', alignSelf:'center'}}>Muestre el codigo en la sala de registro para poder acceder</Text>
+                    <Text style={{marginVertical:20, width: 150, textAlign:'center', alignSelf:'center'}}>Muestre el codigo en la sala de registro para poder acceder a {dataReservation?.area?.name}</Text>
                     {/*<BtnCustom title="Compartir" bgColor={ColorsCeiba.darkGray}/>*/}
                 </View>
                 <TouchableOpacity style={{alignSelf:'center'}} onPress={setVisible}>

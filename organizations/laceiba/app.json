@@ -90,14 +90,14 @@
         }
     },
     "slug": "laceiba",
-    "version": "1.0.20",
+    "version": "24.05.29",
     "ios": {
-        "buildNumber": "72",
+        "buildNumber": "76",
         "supportsTablet": false,
         "bundleIdentifier": "com.hiumanlab.laceiba"
     },
     "android": {
-        "versionCode": 72,
+        "versionCode": 76,
         "adaptiveIcon": {
             "foregroundImage": "./organizations/laceiba/assets/adaptive-icon.png",
             "backgroundImage": "./organizations/laceiba/assets/adaptive-icon-bg.png"

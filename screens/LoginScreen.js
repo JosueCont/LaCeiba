@@ -54,7 +54,7 @@ const LoginScreen = ({loggedAction, navigation, setAttribute, navigationDuck}) =
                 data['device'] = deviceData;
             }
             const response = await signIn(data)
-           // console.log(data)
+            console.log('login', response?.data,data)
 
 
             response.data.user['pushToken'] = navigationDuck.pushToken

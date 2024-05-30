@@ -11,7 +11,7 @@ import BtnCustom from "../../../../components/laceiba/CustomBtn";
 import { MaterialIcons } from '@expo/vector-icons';
 import { setDataBooking } from "../../../../redux/ducks/bookingDuck";
 import ModalInfo from "../../../Modals/ModalInfo";
-import { bookService, cacheBookHour } from "../../../../api/Requests";
+import { bookService, cacheBookHour, getUserDebt } from "../../../../api/Requests";
 
 
 const DetailBokingScreen = () => {
@@ -34,6 +34,7 @@ const DetailBokingScreen = () => {
     const [loadingTwo, setloadingTwo] = useState(false)
     const [messageError, setMessageError] = useState('')
     const [isError, setError] = useState(false)
+    const [modalError, setModalError] = useState(false)
     
     const {holes } = route?.params
     //useEffect(() => {
@@ -110,10 +111,11 @@ const DetailBokingScreen = () => {
             if(infoBooking?.activity?.isGolf) dataSend.numHoles = holes !=0 ? 18 : 9
 
             if(myEmail) dataSend.specificEmail = user?.email
-            console.log('dataSend',dataSend)
+            //console.log('dataSend',dataSend, user)
             const response = await bookService(dataSend,[user?.id])
             console.log('response bokking',response?.data)
             navigation.navigate('BookingSuccess', {people: players, date: infoBooking?.date, hour: infoBooking?.hour?.time})
+
         } catch (e) {
             console.log('error',e)
             setModalExpired(true)
@@ -131,8 +133,9 @@ const DetailBokingScreen = () => {
                 <Text style={{marginTop:20, fontSize: getFontSize(16), marginBottom:8}}>Fecha y hora</Text>
                 <Text style={styles.lbl}>{moment(infoBooking?.date,'YYYY-MM-DD').format('dddd MMMM D')}</Text>
                 <Text style={styles.lbl}>{infoBooking?.hour?.time} hrs.</Text>
-                <Text style={styles.lbl}>Salida hoyo {infoBooking?.area?.name === 'Tee 1' ? '1' : '10'}</Text>
-                <Text style={styles.lbl}>{holes !=0 ? '18' : '9'} hoyos</Text>
+                {infoBooking?.activity?.isGolf ? <Text style={styles.lbl}>Salida hoyo {infoBooking?.area?.name === 'Tee 1' ? '1' : '10'}</Text>
+                : <Text style={styles.lbl}>{infoBooking?.area?.name}</Text>}
+               {infoBooking?.activity?.isGolf && <Text style={styles.lbl}>{holes !=0 ? '18' : '9'} hoyos</Text>}
                 
             </View>
             <View style={{justifyContent:'center', marginHorizontal:20, marginBottom:38}}>
@@ -190,6 +193,12 @@ const DetailBokingScreen = () => {
                 close={false}
                 title="Aviso"
                 text={isError ? messageError : "Se ha terminado el tiempo, vuelve a seleccionar horario"}
+            />
+            <ModalInfo 
+                visible={modalError}
+                setVisible={() => setModalError(false)}
+                title="Aviso"
+                text={messageError}
             />
         </HeeaderBookingImage>
     )

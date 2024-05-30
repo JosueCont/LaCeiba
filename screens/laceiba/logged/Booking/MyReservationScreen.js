@@ -20,11 +20,12 @@ const MyReservationScreen = () => {
     const [eror, setError] = useState('')
    
     const {infoBooking} = route?.params
-    console.log('infoBooking', navigation?.getState())
+   // console.log('infoBooking',infoBooking)
 
     return(
-        <HeaderBooking disabledOptions={true}>
+        <HeaderBooking disabledOptions={true} showFilters={false}>
             <View style={styles.container}>
+                <Text style={styles.lblTitle}>{infoBooking?.activity?.name}</Text>
                 <View style={styles.contHeader}>
                     <Text style={styles.lblTitle}>{moment(infoBooking?.date,'YYYY-MM-DD').format('dddd MMMM D')} - {infoBooking?.area?.name}</Text>
                     <View style={styles.btnHoles}>
@@ -34,7 +35,7 @@ const MyReservationScreen = () => {
                 <RequestJoinItem requested={infoBooking} myReservation={true}/>
 
                 <BtnCustom 
-                    title="Editar reservacion" 
+                    title="Editar reservación" 
                     bgColor={ColorsCeiba.darkGray}
                     onPress={() => navigation.navigate('DetailReservation', {reservation: infoBooking?.item?.booking, route: 'MyReservation'})}
                 />

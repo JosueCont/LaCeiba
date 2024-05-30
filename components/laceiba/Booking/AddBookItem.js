@@ -17,7 +17,7 @@ const AddBookItem = ({question='', showSubtitle=true, type=1, counter=0, optionS
                     <TouchableOpacity 
                         style={styles.itemCounter} 
                         //disabled={(type ===  1 && counter === 0 && optionSelect === 0)}
-                        disabled={type === 2 ? counter<= minLimit :counter<2}
+                        disabled={type === 2 ? players>=counter ? players:counter<= minLimit :counter<2}
                         onPress={onMinus}>
                         <Text>-</Text>
                     </TouchableOpacity>

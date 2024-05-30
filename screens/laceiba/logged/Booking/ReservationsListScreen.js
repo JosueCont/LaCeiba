@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, FlatList } from "react-native";
-import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
+import { CommonActions, useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking";
 import { ColorsCeiba } from "../../../../Colors";
 import { getFontSize } from "../../../../utils";
 import ReservationItem from "../../../../components/laceiba/Home/ReservationItem";
-import { getAllBookings } from "../../../../api/Requests";
+import { getAllBookings, getAllInvitations, getUserDebt } from "../../../../api/Requests";
 import moment from "moment";
 import { Spinner } from "native-base";
 
@@ -22,20 +22,35 @@ const ReservationsListScreen = () => {
     const [reservations, setReservations] = useState([])
     const [loading, setLoaading] = useState(true)
     const user = useSelector(state => state.appDuck.user)
+    const [hasDebt, setHasDebt] = useState(false)
 
 
 
     useEffect(() => {
         //console.log('filtra', navigation?.getParent())
-        getReservations()
+        getDataDebt()
     },[focused])
+    
+    useEffect(() => {
+        getReservations()
+    },[focused, option])
+
+    const getDataDebt  = async() => {
+        try {
+            const response = await getUserDebt('',[user?.partner?.id])
+            if(response?.data  > 0) setHasDebt(true) //cambiar a true
+                else setHasDebt(false)
+        } catch (e) {
+            console.log('error',e)
+        }
+    }
 
     const getReservations = async() => {
         try {
             setLoaading(true)
-            const response = await getAllBookings(`?limit=${100}`);
+            const response = await getAllBookings(`?limit=${100}&userId=${user?.id}&serviceId=${booking[option]?.id}`);
             //console.log('reservaciones', response?.data)
-            const myReservations = response?.data?.items.filter((item) =>  item?.invitations?.some(person => person?.user?.id === user?.id)).sort(getsortList)
+            const myReservations = response?.data?.items.sort(getsortList)
             //console.log('lista ordenada',myReservations)
             setReservations(myReservations)
 
@@ -65,10 +80,11 @@ const ReservationsListScreen = () => {
             <View style={styles.container}>
                 <View style={styles.contActions}>
                     <Text style={styles.lblTitle}>Reservaciones</Text>
-                    <TouchableOpacity 
-                        onPress={() => navigation.navigate('BookingServicesScreen',{screen:'CreateBooking'})} //Posiblemente regresar a navigation.navigate('CreateBooking')
-                        style={styles.btn}>
-                        <Text style={styles.lbl}>+ Nueva reserva</Text>
+                    <TouchableOpacity
+                        disabled={hasDebt} 
+                        onPress={() => navigation.navigate('BookingServicesScreen',{screen:'CreateBooking', params:{route:'ListReservations'}})} //Posiblemente regresar a navigation.navigate('CreateBooking')
+                        style={[styles.btn, {borderColor:hasDebt ? ColorsCeiba.lightgray : ColorsCeiba.darkGray,}]}>
+                        <Text style={[styles.lbl, {color: hasDebt ? ColorsCeiba.lightgray : ColorsCeiba.darkGray}]}>+ Nueva reserva</Text>
                     </TouchableOpacity>
                 </View>
                 {loading ? (
@@ -82,7 +98,7 @@ const ReservationsListScreen = () => {
                         keyExtractor={(_, index) => (index+1).toString()}
                         renderItem={({item, index}) => (
                             <TouchableOpacity style={{marginBottom:30}} onPress={() => navigation.navigate('BookingServicesScreen', {screen: 'DetailReservation', params: {reservation: item, route: 'ReservationsScreen'}})}>
-                                <ReservationItem item={item} index={index}/>
+                                <ReservationItem item={item} index={index} img={booking[option]?.fileUrl}/>
     
                             </TouchableOpacity>
                         )}
@@ -112,7 +128,6 @@ const styles = StyleSheet.create({
         width: 176,
         height:30,
         borderRadius:20,
-        borderColor: ColorsCeiba.darkGray,
         borderWidth:1,
         justifyContent:'center',
         alignItems:'center',

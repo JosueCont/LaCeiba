@@ -10,12 +10,12 @@ import { onDeletePlayer } from "../../../redux/ducks/bookingDuck";
 
 
 
-const TableUserReservation = ({players, showQr, onDeletePlayer}) => {
+const TableUserReservation = ({players, showQr, onDeletePlayer, hostId, isPast}) => {
     const focused = useIsFocused();
     const dispatch = useDispatch();
-    const tableHeaders = ['Estatus','Invitado','Socio','QR',' '] 
-    const [dataRows, setDataRows] = useState([])
     const user = useSelector(state => state.appDuck.user)
+    const tableHeaders = hostId === user?.id && !isPast ? ['Estatus','Invitado','Socio','QR',' '] : ['Estatus','Invitado','Socio','QR']
+    const [dataRows, setDataRows] = useState([])
 
 
     useEffect(() => {
@@ -24,16 +24,23 @@ const TableUserReservation = ({players, showQr, onDeletePlayer}) => {
 
     const getDataRows = () => {
         if(players.length >0){
-            let data = players.map((item, index) => (
+            let data = players.map((item, index) => hostId === user?.id && !isPast ? (
                 [
-                    item?.status === 'CONFIRMED' ? 'Confirmado' : 'Pendiente', 
+                    item?.status === 'CONFIRMED' ? 'Confirmado' : item?.status ==='REJECTED' ? 'Rechazado' : 'Pendiente', 
                     item?.user !== null ? `${item?.user?.firstName?.split(' ')[0]} ${item?.user?.lastName?.split(' ')[0] }` : item?.guestName,
                     item?.user?.partner?.id ? true : false, 
                     item,
                     item
                 ] 
+            ):(
+                [
+                    item?.status === 'CONFIRMED' ? 'Confirmado' : item?.status ==='REJECTED' ? 'Rechazado' : 'Pendiente', 
+                    item?.user !== null ? `${item?.user?.firstName?.split(' ')[0]} ${item?.user?.lastName?.split(' ')[0] }` : item?.guestName,
+                    item?.user?.partner?.id ? true : false, 
+                    item,
+                ]
             ))
-            console.log('data',data)
+            //console.log('data',data)
             setDataRows(data)
         }else{
 
@@ -54,9 +61,15 @@ const TableUserReservation = ({players, showQr, onDeletePlayer}) => {
 
     const getQr = (row, index) => {
         return(
-            <TouchableOpacity style={{alignItems:'center'}} onPress={() => showQr(row)}>
-                <Ionicons name="qr-code-outline" size={24} color={ColorsCeiba.aqua} />
-            </TouchableOpacity>
+            hostId === user?.id && row?.status !== 'PENDING' && row?.status !== 'REJECTED' && row?.status !=='Rechazado'? (
+                <TouchableOpacity style={{alignItems:'center'}} onPress={() => showQr(row)}>
+                    <Ionicons name="qr-code-outline" size={24} color={ColorsCeiba.aqua} />
+                </TouchableOpacity>
+            ): row?.user?.id === user?.id &&  row?.status !== 'PENDING' && row?.status !== 'REJECTED' && row?.status !=='Rechazado' && (
+                <TouchableOpacity style={{alignItems:'center'}} onPress={() => showQr(row)}>
+                    <Ionicons name="qr-code-outline" size={24} color={ColorsCeiba.aqua} />
+                </TouchableOpacity>
+            )
         )
     }
 
@@ -69,7 +82,9 @@ const TableUserReservation = ({players, showQr, onDeletePlayer}) => {
             'Confirmado' : ColorsCeiba.aqua,
             'Pendiente': ColorsCeiba.yellow,
             'PENDING': ColorsCeiba.yellow,
-            'CONFIRMED': ColorsCeiba.aqua
+            'CONFIRMED': ColorsCeiba.aqua,
+            'REJECTED': ColorsCeiba.red,
+            'Rechazado': ColorsCeiba.red
         }
 
         return (
@@ -92,7 +107,7 @@ const TableUserReservation = ({players, showQr, onDeletePlayer}) => {
 
     const getDelete = (row, index) => {
         return(
-            row?.userId != user?.id &&  <TouchableOpacity style={{alignItems:'center'}} onPress={() =>onDeletePlayer(row)}>
+            row?.userId != user?.id && hostId === user?.id && <TouchableOpacity style={{alignItems:'center'}} onPress={() =>onDeletePlayer(row)}>
                 <FontAwesome6 name="trash-can" size={20} color={ColorsCeiba.red} />
             </TouchableOpacity>
         )

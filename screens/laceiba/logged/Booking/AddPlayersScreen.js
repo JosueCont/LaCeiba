@@ -8,7 +8,7 @@ import { useNavigation, useRoute, CommonActions } from "@react-navigation/native
 import { Ionicons } from '@expo/vector-icons';
 import ListPeople from "../../../../components/laceiba/Booking/ListPeople";
 import BtnCustom from "../../../../components/laceiba/CustomBtn";
-import { addGuestsBooking, addPartnersBooking, findPartnerQuery, getListGuessing } from "../../../../api/Requests";
+import { addGuestsBooking, addPartnersBooking, findPartnerQuery, getListGuessing, getUserDebt } from "../../../../api/Requests";
 import _ from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 import { setAtributeBooking } from "../../../../redux/ducks/bookingDuck";
@@ -31,10 +31,12 @@ const AddPlayersScreen = () => {
     const [modalInvitations, setModalInvitations] = useState(false)
     const [textInvitation, setTxtInvitation] = useState('')
     const infoBooking = useSelector(state => state.bookingDuck.createBooking)
+    const user = useSelector(state => state.appDuck.user)
+    const points = useSelector(state => state.bookingDuck.points)
 
 
     
-    const {players, isFromEdit, invitations, idReservation} = route?.params; 
+    const {players, isFromEdit, invitations, idReservation, isGolf} = route?.params; 
     const [partnersSelected, setPartnersSelected] = useState([])
     const typesInvite = [
         {option:'Socio'},{option:'Invitado'}
@@ -70,10 +72,19 @@ const AddPlayersScreen = () => {
     const getGuessList = async(search='') => {
         try {
             setLoaading(true)
-            const response = typeGuessing === 0 ? await findPartnerQuery(`?page=1&limit=30&sort=desc&q=${search}&userId=not_null&isActive=true&accessToGolf=${isFromEdit ? true: infoBooking?.activity?.isGolf}`)
+            let query = `?page=1&limit=30&sort=desc&q=${search}&userId=not_null&isActive=true`
+            let url = infoBooking?.activity?.isGolf || isGolf ? `${query}&accessToGolf=${isFromEdit ? isGolf: infoBooking?.activity?.isGolf}` : query
+            const response = typeGuessing === 0 ? await findPartnerQuery(url)
             : await getListGuessing(`?page=1&limit=100&sort=desc&q=${search}`)
-            //console.log('partners', response?.data)
-            setParners(response?.data?.items || [])
+            console.log('partners', response?.data)
+            if(typeGuessing === 0) setParners(response?.data?.items.filter(item => item.userId !== user?.id) || [])
+            else if(points > 0 && typeGuessing === 1){
+                setParners(response?.data?.items.filter(item => item.userId !== user?.id) || [])
+            }else{
+                setModalInvitations(true)
+                setTxtInvitation('No tienes suficientes gree fees para agregar un invitado')
+            }
+
         } catch (e) {
             console.log('error parners', e)
         } finally{
@@ -138,11 +149,47 @@ const AddPlayersScreen = () => {
         }
     }
 
+    const onSetInvited = async(item) => {
+        try {
+            const isExist = partnersSelected.some(person => item?.userId ? item?.userId === person?.userId : item?.idInvitado === person?.idInvitado)
+            
+            if(isExist){ 
+                //arreglar esto
+                setPartnersSelected(prevSeleccionados => prevSeleccionados.filter(person =>  person?.userId !== item?.userId ||  item?.idInvitado !== person?.idInvitado));
+            }else{
+                if(typeGuessing !=1){
+                    const response = await getUserDebt('',[item?.id])
+                    if(response?.data > 0){
+                        setModalInvitations(true)
+                        setTxtInvitation('Este socio presenta un adeudo y no puede ser invitado a la reservación')
+                    }else{
+                        partnersSelected.length >= players ? setShowModal(true)
+                        : setPartnersSelected(prevSeleccionados => [...prevSeleccionados, item]);
+
+                    }
+                    
+                }else{
+                    partnersSelected.length >= players ? setShowModal(true)
+                    : setPartnersSelected(prevSeleccionados => [...prevSeleccionados, item]);
+                }
+            }
+
+            
+            
+        } catch (error) {
+            console.log('error', error, item)
+        }
+
+    }
+
     return(
         <HeaderBooking showFilters={false} isScrolling={false}>
             <View style={styles.container}>
-                <Text style={styles.lblTitle}>Seleccionar invitado</Text>
-                <Text>Tipo invitado</Text>
+                <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
+                    <Text style={styles.lblTitle}>Seleccionar jugador</Text>
+                    <Text style={[styles.lblTitle, {fontSize: getFontSize(15)}]}>{isFromEdit ?  partnersSelected.length-invitations.length :partnersSelected.length-1}/{ isFromEdit ? players-invitations.length : players-1}</Text>
+                </View>
+                <Text>Tipo de persona</Text>
                 <View style={styles.contFilter}>
                     <View style={{flexDirection:'row'}}>
                         {typesInvite.map((item,index) => (
@@ -185,18 +232,9 @@ const AddPlayersScreen = () => {
                             countPlayers={players}
                             people={partnersList} 
                             peopleSelected={partnersSelected}
-                            selectedPerson={(item) => {
-                                const isExist = partnersSelected.some(person => item?.userId ? item?.userId === person?.userId : item?.idInvitado === person?.idInvitado)
-
-                                if(isExist){ 
-                                    //arreglar esto
-                                    setPartnersSelected(prevSeleccionados => prevSeleccionados.filter(person =>  person?.userId !== item?.userId ||  item?.idInvitado !== person?.idInvitado));
-                                }else{
-                                    partnersSelected.length >= players ? setShowModal(true)
-                                    : setPartnersSelected(prevSeleccionados => [...prevSeleccionados, item]);
-                                }
-
-                            }}
+                            txt={txtSearch}
+                            type={typeGuessing}
+                            selectedPerson={(item) => onSetInvited(item)}
                         />
                     </View>
 

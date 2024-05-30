@@ -14,7 +14,7 @@ import _ from "lodash";
 import { getAllIntervalsTime, getReservationPerUserDay, unBlockHour } from "../../../../api/Requests";
 import { getCounter, onResetCounter, setAtributeBooking, setDataBooking } from "../../../../redux/ducks/bookingDuck";
 
-moment.locale('en');
+moment.locale('es');
 const {height, width} = Dimensions.get('window');
 
 const CreateBookingScreen = () => {
@@ -37,6 +37,16 @@ const CreateBookingScreen = () => {
     const [myReservations, setMyReservations] = useState([])
 
     const counterRef = ''//useRef(null)
+    const typesDays = {
+        'Sunday': 'Domingo',
+        'Monday':'Lunes',
+        'Tuesday':'Martes',
+        'Wednesday':'Miércoles',
+        'Thursday':'Jueves',
+        'Friday':'Viernes',
+        'Saturday':'Sabado'
+
+    }
 
     useEffect(() => {
         console.log('cargando nuevos', booking)
@@ -62,12 +72,12 @@ const CreateBookingScreen = () => {
     },[areaSelected, option])
 
     useEffect(() => {
-        if(selectDay != null && selectDay != undefined && areaSelected !=null && areaSelected != undefined &&  booking[option]?.areas.length > 0){
+        if(selectDay != null && selectDay != undefined && areaSelected !=null && areaSelected != undefined &&  booking[option]?.areas.length > 0 && focused){
             //setDisabledHours(booking[option]?.bookPartnerSameDay)
             setNewHours()
 
         }
-    },[areaSelected, selectDay, option])
+    },[areaSelected, selectDay, option, focused])
 
     useEffect(() => {
         if(focused){
@@ -105,7 +115,7 @@ const CreateBookingScreen = () => {
             setMyReservations(response?.data)
             if(response?.data.length >0) setDisabledHours(!booking[option]?.bookPartnerSameDay)
             else setDisabledHours(false)
-            //console.log('reservations', response?.data, appDuck?.user)
+            console.log('reservations', response?.data, appDuck?.user)
         } catch (e) {
             console.log('error my reservation',e)
         }
@@ -115,22 +125,11 @@ const CreateBookingScreen = () => {
         //console.log('cambiando dias', booking[option]?.areas[areaSelected]?.calendarDays)
         const today = moment();
 
-        const typesDays = {
-            'Sunday': 'Domingo',
-            'Monday':'Lunes',
-            'Tuesday':'Martes',
-            'Wednesday':'Miércoles',
-            'Thursday':'Jueves',
-            'Friday':'Viernes',
-            'Saturday':'Sabado'
-
-        }
-
         // Mapear los días con la fecha futura
         const result = _.chain(booking[option]?.areas[areaSelected]?.calendarDays)
             .filter(day => day.isActive)
             .map(day => {
-                const futureDate = today.clone().day(day.day);
+                const futureDate = today.clone().day(typesDays[day.day]);
                 
                 // Ajustar la fecha futura si es necesario
                 if (!day.isActive || futureDate.isBefore(today)) {
@@ -158,7 +157,7 @@ const CreateBookingScreen = () => {
             const response = await getAllIntervalsTime(filters, [booking[option]?.areas[areaSelected]?.id])
             setHours(response?.data)
             setOriginalHours(response?.data)
-            //console.log('response horarios',response?.data, 'query', filters)
+            console.log('response horarios',response?.data, 'query', filters)
         } catch (e) {
             console.log('error horarios',e)
             setHours([])

@@ -152,7 +152,8 @@ const RegisterStep4Screen = ({navigation, loggedAction, navigationDuck, route}) 
                         <Text textAlign={'center'} mb={2}>Correo electrónico</Text>
                         <Input
                             autoCapitalize={'none'}
-                           // autoCorrect={false}
+                            autoComplete="off"
+                            autoCorrect={false}
                             keyboardType={'email-address'}
                            // defaultValue={navigationDuck.user.email}
                             onChangeText={(v) => setFieldValue('email', v)}

@@ -3,20 +3,25 @@ import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
 import { getFontSize } from "../../../utils";
 import { ColorsCeiba } from "../../../Colors";
 import moment from "moment";
+import { useSelector } from "react-redux";
 
 const {height, width} = Dimensions.get('window');
 
-const ReservationItem = ({item, index}) => {
+const ReservationItem = ({item, index, img}) => {
+    const user = useSelector(state => state.appDuck.user)
+
     const colors = {
         'Confirmado': 'green',
         'Pendiente':'yellow',
-        'Cancelado':'red'
+        'Cancelado':'red',
+        'Rechazado': 'red'
     }
-    
     const getStatus = () => {
         let status;
         if(item?.deletedBy != null){
             status = 'Cancelado'
+        }else if(item?.invitations.some(elemento => elemento.status === 'REJECTED' && elemento?.user?.id === user?.id)){
+            status = 'Rechazado'
         }else{
             const hasPending = item?.invitations.some(elemento => elemento.status === 'PENDING');
             status = hasPending ? 'Pendiente' : 'Confirmado';
@@ -33,15 +38,14 @@ const ReservationItem = ({item, index}) => {
     }
     return(
         <View style={styles.card}>
-            <Image source={require('../../../assets/provitionalReservation.png')} style={styles.image}/>
+            <Image source={{uri: img}} style={styles.image}/>
             <View>
                 <Text style={styles.lblTitle}>{item?.area?.service?.name}</Text>
-                <Text style={styles.lbl}>{moment(item?.dueDate).format('dddd')}, {moment(item?.dueDate).format('MMMM DD')}</Text>
-                <Text style={styles.lbl}>{item?.dueTime}</Text>
-                <Text style={styles.lbl}>Hole {item?.numHoles}</Text>
+                <Text style={[styles.lbl, {textTransform:'capitalize'}]}>{moment(item?.dueDate).format('dddd')}, {moment(item?.dueDate).format('DD MMMM')} {item?.dueTime}</Text>
+                {item?.hostedBy?.id === user?.id ? <Text style={styles.lbl}>Tu eres el host</Text> : <Text  style={styles.lbl}>Invitado por: {item?.hostedBy?.firstName.split(' ')[0]} {item?.hostedBy?.lastName.split(' ')[0]}</Text>}
+                {item?.area?.service?.isGolf ? <Text style={styles.lbl}>Hole {item?.numHoles}</Text> : <Text style={styles.lbl}>{item?.area?.name}</Text> }
                 <View style={{flexDirection:'row', alignItems:'center'}}>
                 {getStatus()}
-                   
                 </View>
             </View>
         </View>

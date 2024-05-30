@@ -28,8 +28,9 @@ const BookingDoneScreen = () => {
                 <Text style={{marginTop:20, fontSize: getFontSize(16), marginBottom:8}}>Fecha y hora</Text>
                 <Text style={styles.lbl}>{moment(infoBooking?.date,'YYYY-MM-DD').format('dddd MMMM D')}</Text>
                 <Text style={styles.lbl}>{infoBooking?.hour?.time} hrs.</Text>
-                <Text style={styles.lbl}>Salida hoyo {infoBooking?.area?.name === 'Tee 1' ? '1' : '10'}</Text>
-                <Text style={styles.lbl}>{holes !=0 ? '18' : '9'} hoyos</Text>
+                {infoBooking?.activity?.isGolf ? <Text style={styles.lbl}>Salida hoyo {infoBooking?.area?.name === 'Tee 1' ? '1' : '10'}</Text>
+                    : <Text style={styles.lbl}>{infoBooking?.area?.name}</Text>}
+                {infoBooking?.activity?.isGolf && <Text style={styles.lbl}>{holes !=0 ? '18' : '9'} hoyos</Text>}
             </View>
             <View style={{justifyContent:'center', marginHorizontal:20, marginBottom:38}}>
                 <TablePlayers players={players} showDelete={false}/>
