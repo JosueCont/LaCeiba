@@ -13,7 +13,7 @@ import iconMatches from '../assets/iconMatches2.png'
 import iconBalance from '../assets/iconBalance2.png'
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import LayoutV4 from "./Layouts/LayoutV4";
-import {getAllGF, getGFLeader, sendPushToken, validatePartner, getAllServices, getAllBookings, getPoints} from "../api/Requests";
+import {getAllGF, getGFLeader, sendPushToken, validatePartner, getAllServices, getAllBookings, getPoints, getConfig} from "../api/Requests";
 import {connect} from "react-redux";
 import ModalInfo from "./Modals/ModalInfo";
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
@@ -156,6 +156,13 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
                 for (const leader of groupElement.leaders) {
                     if(leader?.id == appDuck.user.id){
                         setGroupsFounded(groups => [...groups, groupElement]);
+                    }
+                }
+                if (groupElement.allMembersCanConfirmFixedGroup) {
+                    for (const member of groupElement.members) {
+                        if (member?.id == appDuck.user.id) {
+                            setGroupsFounded(groups => [...groups, groupElement]);
+                        }
                     }
                 }
             }
