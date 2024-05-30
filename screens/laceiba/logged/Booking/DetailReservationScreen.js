@@ -58,7 +58,7 @@ const DetailReservationScreen = () => {
             //console.log('reservation', reservation)
             setLoading(true)
             const response = await getAllBookings(`?bookingId=${reservation?.id}&limit=1`)
-            console.log('informacion reservacion', response?.data, 'id',reservation?.id,)
+            //console.log('informacion reservacion', response?.data, 'id',reservation?.id,)
             setDataReserve(response?.data?.items[0])
             getDataPlayers(response?.data?.items[0])
             setUpdate(false)
@@ -263,7 +263,7 @@ const DetailReservationScreen = () => {
 
                         )}
                     </View>
-                    {getFindUser() ? (
+                    {getFindUser() ? !moment(reservation?.dueDate, 'YYYY-MM-DD').isBefore(currentDay) && (
                         <View>
                             <View style={{marginBottom:15}}>
                                 <BtnCustom 

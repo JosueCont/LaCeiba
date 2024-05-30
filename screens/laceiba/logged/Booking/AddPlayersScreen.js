@@ -8,7 +8,7 @@ import { useNavigation, useRoute, CommonActions } from "@react-navigation/native
 import { Ionicons } from '@expo/vector-icons';
 import ListPeople from "../../../../components/laceiba/Booking/ListPeople";
 import BtnCustom from "../../../../components/laceiba/CustomBtn";
-import { addGuestsBooking, addPartnersBooking, findPartnerQuery, getListGuessing } from "../../../../api/Requests";
+import { addGuestsBooking, addPartnersBooking, findPartnerQuery, getListGuessing, getUserDebt } from "../../../../api/Requests";
 import _ from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 import { setAtributeBooking } from "../../../../redux/ducks/bookingDuck";
@@ -149,6 +149,39 @@ const AddPlayersScreen = () => {
         }
     }
 
+    const onSetInvited = async(item) => {
+        try {
+            const isExist = partnersSelected.some(person => item?.userId ? item?.userId === person?.userId : item?.idInvitado === person?.idInvitado)
+            
+            if(isExist){ 
+                //arreglar esto
+                setPartnersSelected(prevSeleccionados => prevSeleccionados.filter(person =>  person?.userId !== item?.userId ||  item?.idInvitado !== person?.idInvitado));
+            }else{
+                if(typeGuessing !=1){
+                    const response = await getUserDebt('',[item?.id])
+                    if(response?.data > 0){
+                        setModalInvitations(true)
+                        setTxtInvitation('Este socio presenta un adeudo y no puede ser invitado a la reservación')
+                    }else{
+                        partnersSelected.length >= players ? setShowModal(true)
+                        : setPartnersSelected(prevSeleccionados => [...prevSeleccionados, item]);
+
+                    }
+                    
+                }else{
+                    partnersSelected.length >= players ? setShowModal(true)
+                    : setPartnersSelected(prevSeleccionados => [...prevSeleccionados, item]);
+                }
+            }
+
+            
+            
+        } catch (error) {
+            console.log('error', error, item)
+        }
+
+    }
+
     return(
         <HeaderBooking showFilters={false} isScrolling={false}>
             <View style={styles.container}>
@@ -201,18 +234,7 @@ const AddPlayersScreen = () => {
                             peopleSelected={partnersSelected}
                             txt={txtSearch}
                             type={typeGuessing}
-                            selectedPerson={(item) => {
-                                const isExist = partnersSelected.some(person => item?.userId ? item?.userId === person?.userId : item?.idInvitado === person?.idInvitado)
-
-                                if(isExist){ 
-                                    //arreglar esto
-                                    setPartnersSelected(prevSeleccionados => prevSeleccionados.filter(person =>  person?.userId !== item?.userId ||  item?.idInvitado !== person?.idInvitado));
-                                }else{
-                                    partnersSelected.length >= players ? setShowModal(true)
-                                    : setPartnersSelected(prevSeleccionados => [...prevSeleccionados, item]);
-                                }
-
-                            }}
+                            selectedPerson={(item) => onSetInvited(item)}
                         />
                     </View>
 

@@ -36,6 +36,17 @@ const CreatePetitionScreen = () => {
 
     const {item, counterRef} = route?.params;
 
+    const typesDays = {
+        'Sunday': 'domingo',
+        'Monday':'lunes',
+        'Tuesday':'martes',
+        'Wednesday':'miércoles',
+        'Thursday':'jueves',
+        'Friday':'viernes',
+        'Saturday':'sabado'
+
+    }
+
     useEffect(() => {
         let myPlayer = {
             status: 'Confirmado',
@@ -76,11 +87,10 @@ const CreatePetitionScreen = () => {
 
     const getTotalPointsUsed = () => {
         let guests = players.filter(item => item?.idInvitado)
-        console.log('invitados', guests)
         if(guests.length > 0){
             let date = moment(infoBooking?.date,'YYYY-MM-DD').format('dddd')
-            let points = guests.length * (infoBooking?.area?.calendarDays?.find(item => item?.day === date).points)
-            console.log('usuarios', guests.length, points )
+            let points = guests.length * (infoBooking?.area?.calendarDays?.find(item => typesDays[item?.day] === date).points)
+            //console.log('usuarios', guests.length, points )
             setUsedPoints(points)
 
         }else setUsedPoints(0)

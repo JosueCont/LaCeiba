@@ -28,9 +28,12 @@ const ReservationsListScreen = () => {
 
     useEffect(() => {
         //console.log('filtra', navigation?.getParent())
-        getReservations()
         getDataDebt()
     },[focused])
+    
+    useEffect(() => {
+        getReservations()
+    },[focused, option])
 
     const getDataDebt  = async() => {
         try {
@@ -45,11 +48,9 @@ const ReservationsListScreen = () => {
     const getReservations = async() => {
         try {
             setLoaading(true)
-            const queryString = `?userId=${user?.user?.id}&limit=100`;
-            const response = await getAllBookings(`?limit=${100}`);
-            const reserv = await getAllInvitations(queryString)
-            console.log('reservaciones', response?.data, 'second fomr', reserv?.data)
-            const myReservations = response?.data?.items.filter((item) =>  item?.invitations?.some(person => person?.user?.id === user?.id)).sort(getsortList)
+            const response = await getAllBookings(`?limit=${100}&userId=${user?.id}&serviceId=${booking[option]?.id}`);
+            //console.log('reservaciones', response?.data)
+            const myReservations = response?.data?.items.sort(getsortList)
             //console.log('lista ordenada',myReservations)
             setReservations(myReservations)
 

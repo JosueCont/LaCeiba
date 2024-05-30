@@ -11,10 +11,35 @@ import FormSimpleGuest from "../../../../components/laceiba/Booking/FormSimpleGu
 
 const NewGuestScreen = () => {
     const [type, setSelecType] = useState(0)
+    const [dataForm, setDataForm] = useState({
+        name: "",
+        lastName: "",
+        birthdate: "",
+        email: "",
+        identificationNumber: "",
+        phone: ""
+    })
+    const [disableBtn, setDisableBtn] = useState(false)
     const typesGuest = [
         {option:'Verificado'},
         {option:'Sencillo'}
     ]
+
+    useEffect(() => {
+        setDataForm({
+            name: "",
+            lastName: "",
+            birthdate: "",
+            email: "",
+            identificationNumber: "",
+            phone: ""
+        })
+    },[type])
+
+    useEffect(() => {
+        if(dataForm?.name !='' && dataForm?.lastName !='') setDisableBtn(false)
+            else setDisableBtn(true)
+    },[dataForm])
     return(
         <HeaderBooking showFilters={false}>
             <View style={styles.container}>
@@ -31,14 +56,24 @@ const NewGuestScreen = () => {
                 </View>
 
                 {type != 1 ? (
-                    <FormNewGuest />
+                    <FormNewGuest data={dataForm} changeValue={(txt, prop) => {
+                        setDataForm((prevState) => ({
+                            ...prevState,
+                            [prop]: txt
+                          }));
+                    }}/>
                 ):(
-                    <FormSimpleGuest />
+                    <FormSimpleGuest data={dataForm} changeValue={(txt, prop) => {
+                        setDataForm((prevState) => ({
+                            ...prevState,
+                            [prop]: txt
+                          }));
+                    }}/>
                 )}
 
 
                 <View style={{marginBottom:12}}>
-                    <BtnCustom title="Aceptar"/>
+                    <BtnCustom title="Aceptar" disable={disableBtn} onPress={() => console.log('data a mandar', dataForm)}/>
 
                 </View>
                 <BtnCustom 

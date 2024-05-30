@@ -40,7 +40,7 @@ const TableUserReservation = ({players, showQr, onDeletePlayer, hostId, isPast})
                     item,
                 ]
             ))
-            console.log('data',data)
+            //console.log('data',data)
             setDataRows(data)
         }else{
 
