@@ -81,5 +81,7 @@ export const URLTypes = {
     GET_MY_RESERVATIONS_PER_DAY: '/v1/bookings/info',
     GET_FAMILY_PARTNERS:'/v1/users/partners/family',
     GET_FILE_STATEMENT:'v1/reporter',
-    GET_DEBT_USER:'/v1/users/{{param}}/partners/defaulter'
+    GET_DEBT_USER:'/v1/users/{{param}}/partners/defaulter',
+    POST_ADD_INVITED:'/v1/official-guests',
+    GET_INFO_INVITED:'/v1/official-guests/{{param}}'
 };

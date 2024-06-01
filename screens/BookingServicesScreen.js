@@ -9,7 +9,7 @@ import _ from "lodash";
 import {errorCapture} from "../utils";
 import ModalInfo from "./Modals/ModalInfo";
 import { loggedOutAction } from '../redux/ducks/appDuck';
-import {connect} from "react-redux";
+import {connect, useSelector} from "react-redux";
 import Constants from "expo-constants";
 import { setOption } from "../redux/ducks/bookingDuck";
 
@@ -19,6 +19,9 @@ const BookingServicesScreen = ({navigation, loggedOutAction, appDuck, setOption}
     const [getActiveStatus, setGetActiveStatus] = useState({isActive: true, reason: "Esta es una razón"});
     const [textModalInfo, setTextModalInfo] = useState("");
     const [modalInfo, setModalInfo] = useState(null);
+    const [modalAccess, setModalAccess] = useState(false)
+    const option = useSelector(state => state.bookingDuck.option)
+    const user = useSelector(state => state.appDuck.user)
     const isFocused = useIsFocused();
     const toast = useToast();
 
@@ -107,7 +110,15 @@ const BookingServicesScreen = ({navigation, loggedOutAction, appDuck, setOption}
                                                         <Button onPress={() => {
                                                             if(Constants.expoConfig.slug === 'laceiba'){
                                                                 setOption(index);
-                                                                navigation.navigate('CreateBooking')
+                                                                if(services[index]?.isGolf){
+                                                                    if(user?.partner?.membership?.accessToGolf){
+                                                                        navigation.navigate('CreateBooking')
+                                                                    }else{
+                                                                        setModalAccess(true)
+                                                                        setTextModalInfo('Tu membresía no incluye acceso al campo de golf')
+                                                                    }
+                                                                }else navigation.navigate('CreateBooking')
+                                                                //navigation.navigate('CreateBooking')
 
                                                             }else navigation.navigate('BookingCollectDataScreen', {clean: true, service: service})
                                                             }}>Reservar</Button>
@@ -133,6 +144,12 @@ const BookingServicesScreen = ({navigation, loggedOutAction, appDuck, setOption}
                 textButton="Entendido"
                 action={()=>{navigation.goBack();}}>
             </ModalInfo>
+            <ModalInfo 
+                visible={modalAccess}
+                title="Acceso denegado"
+                text={textModalInfo}
+                setVisible={() => setModalAccess(false)}
+            />
 
         </LayoutV3>
     )

@@ -2,12 +2,14 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Image } from "react-native";
 import { getFontSize } from "../../../utils";
 import { ColorsCeiba } from "../../../Colors";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { useNavigation } from "@react-navigation/native";
 
 
 const {height, width} = Dimensions.get('window');
 
 const ItemListPeople = ({item, index, selectPerson, peopleSelected, countPlayers}) => {
+    const navigation = useNavigation()
 
     const findPerson = () => {
         return peopleSelected.find((person) => item?.id ? person?.user?.id === item?.user?.id : person?.idInvitado === item?.idInvitado) 
@@ -22,6 +24,11 @@ const ItemListPeople = ({item, index, selectPerson, peopleSelected, countPlayers
                 )}
             </View>
             <Text style={styles.lbl}>{item?.nombreSocio || item?.nombre +' '+item?.apellidoPaterno +' '+item?.apellidoMaterno}</Text>
+            {item?.idInvitado && (
+                <TouchableOpacity onPress={() => navigation.navigate('AddGuest',{invited: item, isEdit: true})}>
+                    <Ionicons name="pencil" size={18} color="black" />
+                </TouchableOpacity>
+            )}
             <View style={[styles.checkBox, {backgroundColor: findPerson() ? ColorsCeiba.aqua : ColorsCeiba.white}]}>
                 <AntDesign name="check" size={15} color={ColorsCeiba.white} />
             </View>

@@ -201,11 +201,11 @@ const AddPlayersScreen = () => {
                             </TouchableOpacity>
                         ))}
                     </View>
-                    {/*<TouchableOpacity 
+                    <TouchableOpacity 
                         onPress={() => navigation.navigate('AddGuest')}
                         style={[styles.centerBtn,styles.btnAdd]}>
                         <Text>+ Nuevo contacto</Text>
-                        </TouchableOpacity>*/}
+                        </TouchableOpacity>
                 </View>
             </View>
             

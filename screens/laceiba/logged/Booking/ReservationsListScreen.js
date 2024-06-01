@@ -9,6 +9,7 @@ import ReservationItem from "../../../../components/laceiba/Home/ReservationItem
 import { getAllBookings, getAllInvitations, getUserDebt } from "../../../../api/Requests";
 import moment from "moment";
 import { Spinner } from "native-base";
+import ModalInfo from "../../../Modals/ModalInfo";
 
 const {height, width} = Dimensions.get('window');
 
@@ -23,6 +24,7 @@ const ReservationsListScreen = () => {
     const [loading, setLoaading] = useState(true)
     const user = useSelector(state => state.appDuck.user)
     const [hasDebt, setHasDebt] = useState(false)
+    const [showModal, setShowModal] = useState(false)
 
 
 
@@ -75,6 +77,10 @@ const ReservationsListScreen = () => {
         }
     }
 
+    const setIsDisabled = () => {
+        return !user?.partner?.membership?.accessToGolf || hasDebt
+    }
+
     return(
         <HeaderBooking isScrolling={false}>
             <View style={styles.container}>
@@ -82,9 +88,9 @@ const ReservationsListScreen = () => {
                     <Text style={styles.lblTitle}>Reservaciones</Text>
                     <TouchableOpacity
                         disabled={hasDebt} 
-                        onPress={() => navigation.navigate('BookingServicesScreen',{screen:'CreateBooking', params:{route:'ListReservations'}})} //Posiblemente regresar a navigation.navigate('CreateBooking')
-                        style={[styles.btn, {borderColor:hasDebt ? ColorsCeiba.lightgray : ColorsCeiba.darkGray,}]}>
-                        <Text style={[styles.lbl, {color: hasDebt ? ColorsCeiba.lightgray : ColorsCeiba.darkGray}]}>+ Nueva reserva</Text>
+                        onPress={() => booking[option]?.isGolf && setIsDisabled() ? setShowModal(true): navigation.navigate('BookingServicesScreen',{screen:'CreateBooking', params:{route:'ListReservations'}})} //Posiblemente regresar a navigation.navigate('CreateBooking')
+                        style={[styles.btn, {borderColor: hasDebt ? ColorsCeiba.lightgray : ColorsCeiba.darkGray,}]}>
+                        <Text style={[styles.lbl, {color:  hasDebt ? ColorsCeiba.lightgray : ColorsCeiba.darkGray}]}>+ Nueva reserva</Text>
                     </TouchableOpacity>
                 </View>
                 {loading ? (
@@ -110,6 +116,13 @@ const ReservationsListScreen = () => {
                     </View>
                 )}
             </View>
+            <ModalInfo 
+                visible={showModal}
+                title="Aviso"
+                text="Tu membresía no incluye acceso al campo de golf"
+                setVisible={() => setShowModal(false)}
+                iconType="exclamation"
+            />
         </HeaderBooking>
     )
 }

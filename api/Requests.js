@@ -93,3 +93,6 @@ export const getReservationPerUserDay = async(params, queryStringParams=[]) => a
 export const getPartnersFamily = async(params, queryStringParams=[]) => await request(URLTypes.GET_FAMILY_PARTNERS, params,'get', null, queryStringParams)
 export const getStatementAccountfile = async(params, queryStringParams=[]) => await request(URLTypes.GET_FILE_STATEMENT,params,'get')
 export const getUserDebt = async(params, queryStringParams=[]) => await request(URLTypes.GET_DEBT_USER, params, 'get', null, queryStringParams)
+export const postAddInvited = async(params, queryStringParams=[]) => await request(URLTypes.POST_ADD_INVITED, params, 'post', null, queryStringParams)
+export const getInfoInvited = async(params, queryStringParams=[]) => await request(URLTypes.GET_INFO_INVITED, params, 'get', null, queryStringParams)
+export const putInfoInvited = async(params, queryStringParams=[]) => await request(URLTypes.GET_INFO_INVITED, params, 'put', null, queryStringParams)
