@@ -96,3 +96,4 @@ export const getUserDebt = async(params, queryStringParams=[]) => await request(
 export const postAddInvited = async(params, queryStringParams=[]) => await request(URLTypes.POST_ADD_INVITED, params, 'post', null, queryStringParams)
 export const getInfoInvited = async(params, queryStringParams=[]) => await request(URLTypes.GET_INFO_INVITED, params, 'get', null, queryStringParams)
 export const putInfoInvited = async(params, queryStringParams=[]) => await request(URLTypes.GET_INFO_INVITED, params, 'put', null, queryStringParams)
+export const getTotalReservationsPerMonth = async(params, queryStringParams=[]) => await request(URLTypes.BOOK_SERVICE, params, 'get', null, queryStringParams)

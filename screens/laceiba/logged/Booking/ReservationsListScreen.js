@@ -6,7 +6,7 @@ import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking"
 import { ColorsCeiba } from "../../../../Colors";
 import { getFontSize } from "../../../../utils";
 import ReservationItem from "../../../../components/laceiba/Home/ReservationItem";
-import { getAllBookings, getAllInvitations, getUserDebt } from "../../../../api/Requests";
+import { getAllBookings, getAllInvitations, getTotalReservationsPerMonth, getUserDebt } from "../../../../api/Requests";
 import moment from "moment";
 import { Spinner } from "native-base";
 import ModalInfo from "../../../Modals/ModalInfo";
@@ -25,17 +25,40 @@ const ReservationsListScreen = () => {
     const user = useSelector(state => state.appDuck.user)
     const [hasDebt, setHasDebt] = useState(false)
     const [showModal, setShowModal] = useState(false)
+    const [isRebaseLimitReservations, setLimitReservation] = useState(false)
 
 
 
     useEffect(() => {
         //console.log('filtra', navigation?.getParent())
-        getDataDebt()
+        getData()
     },[focused])
     
     useEffect(() => {
         getReservations()
     },[focused, option])
+
+    const getData = async() => {
+        try {
+            Promise.all([
+                await getDataDebt(),
+                await getTotalReservations()
+            ])
+        } catch (e) {
+            
+        }
+    }
+
+    const getTotalReservations = async() => {
+        try {
+            const response = await getTotalReservationsPerMonth('',[user?.id])
+            console.log('infoReservation', response?.data)
+            if(response?.data?.totalGolfBookings < response?.data?.maxGolfBookingsPerMonth) setLimitReservation(false)
+                else setLimitReservation(true)
+        } catch (e) {
+            console.log('error info',e)
+        }
+    }
 
     const getDataDebt  = async() => {
         try {
@@ -78,6 +101,9 @@ const ReservationsListScreen = () => {
     }
 
     const setIsDisabled = () => {
+        if (isRebaseLimitReservations) {
+            return true;
+        }
         return !user?.partner?.membership?.accessToGolf || hasDebt
     }
 
@@ -119,7 +145,7 @@ const ReservationsListScreen = () => {
             <ModalInfo 
                 visible={showModal}
                 title="Aviso"
-                text="Tu membresía no incluye acceso al campo de golf"
+                text={hasDebt ? "Tu membresía no incluye acceso al campo de golf" : 'Lo sentimos, ha superado el limite de reservaciones permitido por mes.'}
                 setVisible={() => setShowModal(false)}
                 iconType="exclamation"
             />

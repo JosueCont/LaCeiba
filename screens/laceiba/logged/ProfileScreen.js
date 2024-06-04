@@ -10,6 +10,7 @@ import { getConfig } from "../../../api/Requests";
 import HeaderBooking from "../../../components/laceiba/Headers/HeaderBooking";
 import moment from "moment";
 import { ColorsCeiba } from "../../../Colors";
+import Actions from "../../../components/laceiba/Profile/Actions";
 
 const {height, width} = Dimensions.get('window');
 
@@ -92,6 +93,8 @@ const ProfileScreen = () => {
                 </TouchableOpacity>
 
             </View>
+
+            <Actions />
             <ModalAsk 
                 visible={modalSessionVisible}
                 iconType={'exclamation'}
@@ -110,7 +113,8 @@ const ProfileScreen = () => {
 const styles = StyleSheet.create({
     btnAdd:{
         width: width * .7,
-        height:30, 
+        height:35,
+        borderRadius:8, 
         backgroundColor: ColorsCeiba.darkGray
     }
 })

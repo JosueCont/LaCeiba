@@ -13,7 +13,7 @@ import iconMatches from '../assets/iconMatches2.png'
 import iconBalance from '../assets/iconBalance2.png'
 import SliderCustom from "../components/SliderCustom/SliderCustom";
 import LayoutV4 from "./Layouts/LayoutV4";
-import {getAllGF, getGFLeader, sendPushToken, validatePartner, getAllServices, getAllBookings, getPoints, getUserDebt} from "../api/Requests";
+import {getAllGF, getGFLeader, sendPushToken, validatePartner, getAllServices, getAllBookings, getPoints, getUserDebt, getTotalReservationsPerMonth} from "../api/Requests";
 import {connect} from "react-redux";
 import ModalInfo from "./Modals/ModalInfo";
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
@@ -38,7 +38,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
     const [groupsFounded, setGroupsFounded] = useState([]);
     const [reservations, setReservations] = useState([])
     const [hasDebt, setHasDebt] = useState(false)
-
+    const [isRebaseLimitReservations, setLimitReservation] = useState(false)
     const toast = useToast();
 
     const isFocused = useIsFocused();
@@ -69,6 +69,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
                 //getReservations(),
                 getTotalPoints(),
                 getDataDebt(),
+                //getTotalReservations()
             ])
         } catch (e) {
             console.log('error', e)
@@ -78,7 +79,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
     const getDataDebt  = async() => {
         try {
             const response = await getUserDebt('',[user?.partner?.id])
-            if(response?.data  > 0) setHasDebt(false) //cambiar a true
+            if(response?.data  > 0) setHasDebt(true) //cambiar a true
                 else setHasDebt(false)
         } catch (e) {
             console.log('error',e)

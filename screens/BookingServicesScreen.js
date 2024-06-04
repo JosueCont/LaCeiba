@@ -1,7 +1,7 @@
 import {Button, ScrollView, Text, View, useToast} from "native-base";
 import React, {useEffect, useState} from "react";
 import {ImageBackground, RefreshControl} from "react-native";
-import {getAllServices} from "../api/Requests";
+import {getAllServices, getTotalReservationsPerMonth} from "../api/Requests";
 import LayoutV3 from "./Layouts/LayoutV3";
 import {Colors} from "../Colors";
 import {useFocusEffect, useIsFocused} from "@react-navigation/native";
@@ -22,6 +22,8 @@ const BookingServicesScreen = ({navigation, loggedOutAction, appDuck, setOption}
     const [modalAccess, setModalAccess] = useState(false)
     const option = useSelector(state => state.bookingDuck.option)
     const user = useSelector(state => state.appDuck.user)
+    const [isRebaseLimitReservations, setLimitReservation] = useState(false)
+
     const isFocused = useIsFocused();
     const toast = useToast();
 
@@ -38,8 +40,20 @@ const BookingServicesScreen = ({navigation, loggedOutAction, appDuck, setOption}
     useEffect(() => {
         if (isFocused) {
             getServices();
+            getTotalReservations()
         }
     }, [isFocused])
+
+    const getTotalReservations = async() => {
+        try {
+            const response = await getTotalReservationsPerMonth('',[user?.id])
+            console.log('infoReservation', response?.data)
+            if(response?.data?.totalGolfBookings < response?.data?.maxGolfBookingsPerMonth) setLimitReservation(false)
+                else setLimitReservation(true)
+        } catch (e) {
+            console.log('error info',e)
+        }
+    }
 
     const getServices = async () => {
         try {
@@ -111,7 +125,11 @@ const BookingServicesScreen = ({navigation, loggedOutAction, appDuck, setOption}
                                                             if(Constants.expoConfig.slug === 'laceiba'){
                                                                 setOption(index);
                                                                 if(services[index]?.isGolf){
-                                                                    if(user?.partner?.membership?.accessToGolf){
+                                                                    if(isRebaseLimitReservations){
+                                                                        setModalAccess(true)
+                                                                        setTextModalInfo('Lo sentimos, ha superado el limite de reservaciones permitido por mes.')
+
+                                                                    }else if(user?.partner?.membership?.accessToGolf){
                                                                         navigation.navigate('CreateBooking')
                                                                     }else{
                                                                         setModalAccess(true)

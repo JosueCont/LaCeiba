@@ -60,15 +60,17 @@ const CreatePetitionScreen = () => {
         console.log('infoBooking',infoBooking,)
     },[])
 
+    useEffect(() => {
+        if(focused) getTotalPoints()
+    },[focused])
+
     useFocusEffect(
         useCallback(() => {
             if(focused){
                 //if(players.length < infoBooking?.area?.minPeople){
-                console.log('entro aqui',infoBooking?.area?.minPeople)
                 if(infoBooking?.area?.minPeople && Array.isArray(players) && players.length > 0){
                     const newCountPlayers = Math.max(infoBooking.area.minPeople, players.length);
                     setCountPlayers(newCountPlayers)
-                    console.log('si es array',players.length, 'cambiano',newCountPlayers)
                     //if(players.length < infoBooking?.area?.minPeople){
                     //    setCountPlayers(infoBooking?.area?.minPeople)
                     //}else setCountPlayers(players.length)
@@ -85,6 +87,15 @@ const CreatePetitionScreen = () => {
             if(players.length > 1) getTotalPointsUsed()
         },[players])
 
+    const getTotalPoints = async() => {
+        try {
+            const response = await getPoints('',[user?.id])
+            //console.log('puntos totales',response?.data?.totalPoints)
+            setAtributeBooking({prop:'points', value: response?.data?.totalPoints})
+        } catch (e) {
+            console.log('error',e)
+        }
+    } 
     const getTotalPointsUsed = () => {
         let guests = players.filter(item => item?.idInvitado)
         if(guests.length > 0){
@@ -183,7 +194,7 @@ const CreatePetitionScreen = () => {
                     onPlus={onPlusPlayers}
                 />}
                 {(infoBooking?.area?.maxPeople - players.length) > 0 && players.length != countPlayers && <TouchableOpacity 
-                    onPress={() => navigation.navigate('AddPlayers', {players: countPlayers})}
+                    onPress={() => navigation.navigate('AddPlayers', {players: countPlayers, isFromEdit: false})}
                     style={styles.btn}>
                     <Text style={styles.lbl}>+ Añadir jugadores</Text>
                 </TouchableOpacity>}
