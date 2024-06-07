@@ -86,7 +86,7 @@ const FixedGroupList = ({appDuck, loggedOutAction, navigation, route}) => {
                                                 flexDirection: 'column'
                                             }} borderRadius={60}>
                                                 <Text fontSize={'lg'}> {value?.name} </Text>
-                                                <Text fontSize={'sm'}> {value?.area?.service?.name} </Text>
+                                                <Text fontSize={'sm'}> {value?.area ? value?.area?.service?.name : value?.schedules[0]?.area?.service?.name} </Text>
                                             </ImageBackground>
                                         </TouchableOpacity>
                                     </View>

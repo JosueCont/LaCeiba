@@ -35,10 +35,6 @@ const FixedGroups = ({appDuck, navigation, route}) => {
         }, [])
     );
 
-    useEffect(()=>{
-        //console.log(groupFounded);
-    }, [groupFounded])
-
 
     useEffect(()=>{
         
@@ -90,7 +86,7 @@ const FixedGroups = ({appDuck, navigation, route}) => {
                     <Text fontSize={'sm'}> {groupFounded?.area?.service?.name} </Text>
                 </ImageBackground>
             </View>
-            {groupFounded && <Text fontFamily={'titleConfortaaRegular'} color={Colors.primary} textAlign={'center'} fontSize={'lg'} mb={8}> {groupFounded?.area?.name} </Text>}
+            {groupFounded && <Text fontFamily={'titleConfortaaRegular'} color={Colors.primary} textAlign={'center'} fontSize={'lg'} mb={8}> {groupFounded?.area ? groupFounded?.area?.name : ''} </Text>}
             {
                 groupFounded && group && groupFounded?.schedules?.sort((a, b) => {
                     const nameA = a.day.toUpperCase()
@@ -110,6 +106,7 @@ const FixedGroups = ({appDuck, navigation, route}) => {
                             }}>
 
                                 <View flex={1} justifyContent={'center'} alignItems={'center'}>
+                                <Text fontSize={'md'} color={Colors.primary}> {value?.area ? value?.area?.name: ''} </Text>
                                 <Text fontSize={'md'} color={Colors.primary}> {dayWeek[value.day].day} {formatHour(value.fromHour)} </Text>
                                 <Text fontSize={'md'} color={Colors.primary}>{!exist ? 'Integrantes confirmados' : 'Integrantes por confirmar'}</Text>
                                 </View>
