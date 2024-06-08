@@ -106,7 +106,7 @@ const FixedGroups = ({appDuck, navigation, route}) => {
                             }}>
 
                                 <View flex={1} justifyContent={'center'} alignItems={'center'}>
-                                <Text fontSize={'md'} color={Colors.primary}> {value?.area ? value?.area?.name: ''} </Text>
+                                <Text fontSize={'md'} color={Colors.primary}> {value?.area ? value?.area?.name : ''} </Text>
                                 <Text fontSize={'md'} color={Colors.primary}> {dayWeek[value.day].day} {formatHour(value.fromHour)} </Text>
                                 <Text fontSize={'md'} color={Colors.primary}>{!exist ? 'Integrantes confirmados' : 'Integrantes por confirmar'}</Text>
                                 </View>
