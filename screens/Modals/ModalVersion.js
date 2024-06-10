@@ -38,7 +38,7 @@ const ModalVersion = ({
         try {
             setLoading(true)
             const update = await Updates.checkForUpdateAsync();
-            setMessage("No se encontraró actualización")
+            setMessage("No se encontró actualización")
             if (update.isAvailable) {
                 setMessage("Actualización descargada.")
                 await Updates.fetchUpdateAsync();
