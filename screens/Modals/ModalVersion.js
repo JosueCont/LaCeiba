@@ -1,34 +1,65 @@
-import React, { useState } from "react";
-import { Alert, Modal, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, Alert, Modal, TouchableOpacity } from "react-native";
 import { styles } from './ModalInfoStyleSheet';
 import { Button, Icon, Text, View } from "native-base";
 import { AntDesign } from "@expo/vector-icons";
 import { Colors } from "../../Colors";
 import { LinearGradient } from "expo-linear-gradient";
+import * as Updates from "expo-updates"
 
-
-const ModalInfo = ({
+const ModalVersion = ({
     visible,
     setVisible,
     title = '',
-    text = 'Texto informativo',
     textButton = 'Entendido',
     close = true,
     textDescription = '',
     iconType = 'check',
     action = null,
 }) => {
+    const {
+        currentlyRunning,
+        isUpdateAvailable,
+        isUpdatePending
+    } = Updates.useUpdates();
 
+    const [loading, setLoading] = useState(false)
     const [heightGradient, setHeightGradient] = useState(null);
+    const [message, setMessage] = useState("")
+
+
+    useEffect(() => {
+        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+
+        onFetchUpdateAsync()
+    }, []);
+
+    const onFetchUpdateAsync = async () => {
+        try {
+            setLoading(true)
+            const update = await Updates.checkForUpdateAsync();
+            setMessage("No se encontraró actualización")
+            if (update.isAvailable) {
+                setMessage("Actualización descargada.")
+                await Updates.fetchUpdateAsync();
+                await Updates.reloadAsync();
+            }
+x        } catch (error) {
+            // You can also add an alert() to see the error message in case of an error when fetching updates.
+            console.log(`Error fetching latest Expo update: ${error}`);
+            setMessage("Error al actualizar, intente más tarde.")
+        }
+        setLoading(false)
+    }
+
     return (
         <Modal
             animationType="slide"
             transparent={true}
             visible={visible}
-            onRequestClose={() => {
-                setVisible(!visible);
+            onRquestClose={() => {
+                setVisible(!visible)
             }}
-
         >
             <View style={styles.centeredView}>
                 <View style={styles.modalView} onLayout={(event) => {
@@ -56,22 +87,13 @@ const ModalInfo = ({
                         </TouchableOpacity>
                     }
 
-                    <View mb={10} width={'100%'} alignItems={'center'} justifyContent={'center'}>
-                        {
-                            iconType === 'exclamation' ?
-                                <Icon as={AntDesign} name={'exclamationcircleo'} color={Colors.secondary} size={'2xl'} /> :
-                                iconType === 'check' &&
-                                <Icon as={AntDesign} name={'checkcircleo'} color={Colors.secondary} size={'2xl'} />
-                        }
 
-
-                    </View>
                     <View>
                         {
                             title !== '' ?
                                 <View>
                                     <Text style={styles.modalText} fontSize={'lg'} mb={6}>{title}</Text>
-                                    <Text style={styles.modalText} fontSize={'xs'} mb={6} textAlign={'justify'}>{text}</Text>
+                                    <Text style={styles.modalText} fontSize={'xs'} mb={6} textAlign={'justify'}>{message}</Text>
 
                                     {textDescription !== '' &&
                                         <Text style={styles.modalText} fontSize={'xs'} mb={6} textAlign={'justify'}>{textDescription}</Text>
@@ -79,19 +101,17 @@ const ModalInfo = ({
                                 </View>
                                 :
                                 <View>
-                                    <Text style={styles.modalText} fontSize={'lg'} mb={6} textAlign={'justify'}>{text}</Text>
+                                    <Text style={styles.modalText} fontSize={'lg'} mb={6} textAlign={'justify'}>{message}</Text>
                                 </View>
                         }
-
+                        {loading && <ActivityIndicator animating={loading} size="large" />}
                         <Button onPress={() => { if (action) { action(); } setVisible(false) }}>{textButton}</Button>
                     </View>
 
                 </View>
             </View>
         </Modal>
+    )
+}
 
-    );
-};
-
-
-export default ModalInfo;
+export default ModalVersion;
