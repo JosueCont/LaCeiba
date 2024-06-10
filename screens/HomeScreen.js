@@ -357,14 +357,14 @@ const HomeScreen = ({ navigation, loggedOutAction, appDuck, navigationDuck, setI
                                     <View>
                                         <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Saldos</Text>
                                     </View>
-                                </TouchableOpacity>
-                            </View>}
-
-                        </View>
-
-                        <View mb={4} flexDirection={'row'}>
-
-                            {/* { (fixedGroups > 0 || groupsFounded.length > 0) &&
+                                </TouchableOpacity>                            
+                            </View>
+                        }
+                    </View>
+                    
+                    <View mb={4} flexDirection={'row'}>
+                        
+                        { (fixedGroups > 0 || groupsFounded.length > 0) &&
                                 <View flex={1}>
                                     <TouchableOpacity onPress={() => navigation.navigate('FixedGroupList', {user: appDuck.user.id, groupsFounded: groupsFounded})}>
                                         <View alignItems={'center'} mb={2}>
@@ -377,10 +377,10 @@ const HomeScreen = ({ navigation, loggedOutAction, appDuck, navigationDuck, setI
                                         </View>
                                     </TouchableOpacity>
                                 </View>
-                        } */}
+                        }
 
 
-                            {Constants.expoConfig.extra.eCommerce && <View flex={1} alignItems={'center'}>
+                            { Constants.expoConfig.extra.eCommerce && <View flex={1} alignItems={'center'}>
                                 <TouchableOpacity onPress={() => navigation.navigate('StoreScreen')}>
 
                                     <View alignItems={'center'} mb={2}>
