@@ -95,6 +95,7 @@ import MyReservationScreen from "../screens/laceiba/logged/Booking/MyReservation
 import DetailReservationScreen from "../screens/laceiba/logged/Booking/DetailReservationScreen";
 import MyFamilyScreen from "../screens/laceiba/logged/Profile/MyFamilyScreen";
 import ProfileScreenCeiba from '../screens/laceiba/logged/ProfileScreen'
+import PaymentView from "../screens/PaymentView";
 
 const Stack = createNativeStackNavigator();
 
@@ -427,6 +428,7 @@ const DrawerConfig = () => {
             <Drawer.Screen name={'QRScreen'} component={QRScreen} options={{title: ''}}/>
             <Drawer.Screen name={'QRSentScreen'} component={QRSentScreen} options={{title: ''}}/>
             <Drawer.Screen name={'QRNonPaymentScreen'} component={QRNonPaymentScreen} options={{title: ''}}/>
+            <Drawer.Screen name={'PaymentScreen'} component={PaymentView} options={{title: ''}}/>
             <Drawer.Screen name={'NotificationsScreen'} component={NotificationsScreen} options={{title: ''}}/>
             <Drawer.Screen name={'NotificationDetail'} component={NotificationDetail} options={{title: ''}}/>
             <Drawer.Screen name={'InstallationsScreen'} component={InstallationsScreen} options={{title: ''}}/>

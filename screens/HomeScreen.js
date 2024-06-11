@@ -319,6 +319,20 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
                                 </TouchableOpacity>
                             </View>
                         }
+
+                        <View flex={1}>
+                            <TouchableOpacity onPress={() =>  navigation.navigate('PaymentScreen', {card: true})}>
+                                <View alignItems={'center'} mb={2}>
+                                    {/*<View borderRadius={60} height={120} width={120} bgColor={'#ccc'}></View>*/}
+                                    <ImageBackground borderRadius={50} source={imageImport(Constants.expoConfig.slug).bgButton} style={{height: 100, width: 100, borderRadius: 60, alignItems: 'center', justifyContent: 'center'}}>
+                                        <Image source={iconBalance} style={{width: 45, resizeMode: 'contain'}}/>
+                                    </ImageBackground>
+                                </View>
+                                <View>
+                                    <Text textAlign={'center'} color={Colors.primary} fontSize={'lg'}>Mis movimientos</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
     
                     </View>
                     
