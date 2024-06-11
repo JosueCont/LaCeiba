@@ -122,7 +122,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
             const body = {
                 dueDate : dateBooking,
                 dueTime : schedule.fromHour,
-                areaId : groupData.area.id,
+                areaId : groupData?.area ? groupData.area.id : groupData?.schedules?.length > 0 ? groupData?.schedules[0]?.area?.id : null,
                 users : membersFiltered
             }
             console.log(body);
@@ -167,7 +167,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
         <LayoutV4 overlay={true}>
             <View flex={1} mx={4}>
                 <Text textAlign={'center'} mt={8} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>{groupData.name}</Text>
-                <Text fontFamily={'titleConfortaaRegular'} color={Colors.primary} textAlign={'center'} fontSize={'lg'}>{groupData.area.service.name} | {groupData.area.name}</Text>
+                <Text fontFamily={'titleConfortaaRegular'} color={Colors.primary} textAlign={'center'} fontSize={'lg'}>{groupData?.area ? groupData?.area?.service?.name : groupData?.schedules?.length > 0 ? groupData?.schedules[0]?.area?.service?.name : ''} | {groupData?.area ? groupData?.area?.name : groupData?.schedules?.length > 0 ? groupData?.schedules[0]?.area?.name : ''}</Text>
                 <Text fontFamily={'titleConfortaaRegular'} color={Colors.primary} textAlign={'center'} fontSize={'md'}> {dayWeek[schedule?.day].day} {getNextDayOfWeek(dayWeek[schedule?.day].id)} </Text>
                 <Text fontFamily={'titleConfortaaRegular'} color={Colors.primary} textAlign={'center'} fontSize={'md'} mb={8}> {formatHour(schedule?.fromHour)}</Text>
                 {
@@ -241,7 +241,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                 <ModalAsk
                 setVisible={setModalAskVisible}
                 visible={modalAskVisible}
-                text={`¿Estás seguro que deseas agendar el grupo fijo?\n\n ${groupData.name} \n ${groupData.area.service.name} (${groupData.area.name}) \n${getNextDayOfWeek(dayWeek[schedule.day].id)} \n\n Miembros:\n ${membersFormated()}`}
+                text={`¿Estás seguro que deseas agendar el grupo fijo?\n\n ${groupData.name} \n ${groupData?.area ? groupData.area?.service?.name : groupData?.schedules?.length > 0 ? groupData?.schedules[0]?.area?.service?.name : ''} (${groupData?.area ? groupData?.area?.name : groupData?.schedules?.length > 0 ? groupData?.schedules[0]?.area?.name : ''}) \n${getNextDayOfWeek(dayWeek[schedule.day].id)} \n\n Miembros:\n ${membersFormated()}`}
                 title={'Confirmación'}
                 textButton={'Sī'}
                 textNoButton={'No'}

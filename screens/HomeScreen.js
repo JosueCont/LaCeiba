@@ -372,7 +372,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
                     
                     <View mb={4} flexDirection={'row'}>
                         
-                        {/* { (fixedGroups > 0 || groupsFounded.length > 0) &&
+                        { (fixedGroups > 0 || groupsFounded.length > 0) &&
                                 <View flex={1}>
                                     <TouchableOpacity onPress={() => navigation.navigate('FixedGroupList', {user: appDuck.user.id, groupsFounded: groupsFounded})}>
                                         <View alignItems={'center'} mb={2}>
@@ -385,7 +385,7 @@ const HomeScreen = ({navigation, loggedOutAction, appDuck, navigationDuck, setIn
                                         </View>
                                     </TouchableOpacity>
                                 </View>
-                        } */}
+                        }
 
                         { Constants.expoConfig.extra.eCommerce &&
                             <View flex={1} alignItems={'center'}>
