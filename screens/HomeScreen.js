@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { Icon, Image, Modal, Text, View, useToast } from "native-base";
-import { Colors } from "../Colors";
-import { Image as ImageRN, ImageBackground, TouchableOpacity } from "react-native";
+import React, {useEffect, useState} from 'react'
+import {Image, ScrollView, Text, View, useToast} from "native-base";
+import {Colors} from "../Colors";
+import {Image as ImageRN, ImageBackground, TouchableOpacity, RefreshControl} from "react-native";
 import imgLogo from '../assets/imgLogo.png';
 import iconAccess from '../assets/iconAccess.png';
 import iconReserve from '../assets/iconReserve.png'
@@ -40,12 +40,23 @@ const HomeScreen = ({ navigation, loggedOutAction, appDuck, navigationDuck, setI
     const [groupsFounded, setGroupsFounded] = useState([]);
     const [reservations, setReservations] = useState([])
     const [hasDebt, setHasDebt] = useState(false)
+    const [refreshingPage, setRefresingPage] = useState(false);
     const [isRebaseLimitReservations, setLimitReservation] = useState(false)
     const [modalVersionVisible, setModalVersionVisible] = useState(null);
 
     const toast = useToast();
 
     const isFocused = useIsFocused();
+
+    const handleRefresh = () => {
+        setRefresingPage(true);
+        setRefresingPage(false);
+        getData()
+        setAllGroups([]);
+        setGroupsFounded([]);
+        getAllFixedGroups();
+        // checkFixedGroups();
+    }
 
     useEffect(() => {
         if (isFocused) {
@@ -170,6 +181,9 @@ const HomeScreen = ({ navigation, loggedOutAction, appDuck, navigationDuck, setI
             const response = await getAllGF();
             setAllGroups(response?.data);
             for (const groupElement of response?.data) {
+                if (!groupElement?.isActive) {
+                    continue;
+                }
                 for (const leader of groupElement.leaders) {
                     if (leader?.id == appDuck.user.id) {
                         setGroupsFounded(groups => [...groups, groupElement]);
@@ -206,10 +220,18 @@ const HomeScreen = ({ navigation, loggedOutAction, appDuck, navigationDuck, setI
 
     return (
         <>
-            <LayoutV4 white={true} overlay={true}>
-                <View flex={1}>
-
-                    {/*  <View bgColor={Colors.primary}>
+        <LayoutV4 white={true} overlay={true}>
+            <ScrollView 
+                refreshControl={
+                    <RefreshControl
+                        onRefresh={handleRefresh}
+                        refreshing={refreshingPage}
+                        progressViewOffset={50}
+                        style={{zIndex: 100}}
+                    />
+                } 
+                >
+               {/*  <View bgColor={Colors.primary}>
                     <SliderCustom
                         height={250}
                         items={[
@@ -412,7 +434,7 @@ const HomeScreen = ({ navigation, loggedOutAction, appDuck, navigationDuck, setI
 
 
                     </View>
-                </View>
+                </ScrollView>
 
                 <ModalInfo visible={modalInfoVisible} setVisible={setModalInfoVisible} iconType={'exclamation'} text={text} title='Aviso'></ModalInfo>
                 {modalVersionVisible && <ModalVersion visible={modalVersionVisible} setVisible={setModalVersionVisible}></ModalVersion>}

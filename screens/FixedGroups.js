@@ -83,10 +83,10 @@ const FixedGroups = ({appDuck, navigation, route}) => {
             <View flex={1} mt={8} mb={4} mx={8}>
                 <ImageBackground resizeMode={'stretch'} source={imageImport(Constants.expoConfig.slug).bgButton} style={{ width: '100%', height: 67, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}} borderRadius={60}>
                     <Text fontSize={'lg'}> {groupFounded?.name} </Text>
-                    <Text fontSize={'sm'}> {groupFounded?.area?.service?.name} </Text>
+                    {groupFounded?.area?.service?.name && <Text fontSize={'sm'}> {groupFounded?.area?.service?.name} </Text>}
                 </ImageBackground>
             </View>
-            {groupFounded && <Text fontFamily={'titleConfortaaRegular'} color={Colors.primary} textAlign={'center'} fontSize={'lg'} mb={8}> {groupFounded?.area ? groupFounded?.area?.name : ''} </Text>}
+            {/* {groupFounded && <Text fontFamily={'titleConfortaaRegular'} color={Colors.primary} textAlign={'center'} fontSize={'lg'} mb={8}> {groupFounded?.area ? groupFounded?.area?.name : ''} </Text>} */}
             {
                 groupFounded && group && groupFounded?.schedules?.sort((a, b) => {
                     const nameA = a.day.toUpperCase()
@@ -106,7 +106,7 @@ const FixedGroups = ({appDuck, navigation, route}) => {
                             }}>
 
                                 <View flex={1} justifyContent={'center'} alignItems={'center'}>
-                                <Text fontSize={'md'} color={Colors.primary}> {value?.area ? value?.area?.name : ''} </Text>
+                                <Text fontSize={'md'} color={Colors.primary}> {value?.area ? value?.area?.name : groupFounded?.area ? groupFounded?.area?.name : ''} </Text>
                                 <Text fontSize={'md'} color={Colors.primary}> {dayWeek[value.day].day} {formatHour(value.fromHour)} </Text>
                                 <Text fontSize={'md'} color={Colors.primary}>{!exist ? 'Integrantes confirmados' : 'Integrantes por confirmar'}</Text>
                                 </View>
