@@ -1,14 +1,7 @@
-<<<<<<< HEAD
 import React, {useEffect, useState} from 'react'
 import {Image, ScrollView, Text, View, useToast} from "native-base";
 import {Colors} from "../Colors";
 import {Image as ImageRN, ImageBackground, TouchableOpacity, RefreshControl} from "react-native";
-=======
-import React, { useEffect, useState } from 'react'
-import { Icon, Image, Modal, Text, View, useToast } from "native-base";
-import { Colors } from "../Colors";
-import { Image as ImageRN, ImageBackground, TouchableOpacity } from "react-native";
->>>>>>> 1bd975a9796a9b1afacb7ee80344f17268a6f2a5
 import imgLogo from '../assets/imgLogo.png';
 import iconAccess from '../assets/iconAccess.png';
 import iconReserve from '../assets/iconReserve.png'
