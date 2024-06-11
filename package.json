@@ -40,7 +40,7 @@
     "patch-package": "^8.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.74.1",
+    "react-native": "0.74.2",
     "react-native-calendars": "^1.1289.0",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-image-pan-zoom": "^2.1.12",

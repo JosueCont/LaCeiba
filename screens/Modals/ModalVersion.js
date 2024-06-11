@@ -29,8 +29,6 @@ const ModalVersion = ({
 
 
     useEffect(() => {
-        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-
         onFetchUpdateAsync()
     }, []);
 
@@ -38,16 +36,17 @@ const ModalVersion = ({
         try {
             setLoading(true)
             const update = await Updates.checkForUpdateAsync();
-            setMessage("No se encontró actualización")
             if (update.isAvailable) {
                 setMessage("Actualización descargada.")
                 await Updates.fetchUpdateAsync();
                 await Updates.reloadAsync();
+            }else{
+                setMessage("No se encontraron actualizaciones.")
             }
 x        } catch (error) {
             // You can also add an alert() to see the error message in case of an error when fetching updates.
             console.log(`Error fetching latest Expo update: ${error}`);
-            setMessage("Error al actualizar, intente más tarde.")
+            setMessage("No se encontraron actualizaciones.")
         }
         setLoading(false)
     }
