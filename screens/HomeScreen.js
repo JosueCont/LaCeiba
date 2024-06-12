@@ -29,7 +29,6 @@ import { AntDesign } from "@expo/vector-icons";
 import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import ModalVersion from './Modals/ModalVersion';
-import { Icon } from 'native-base';
 
 const HomeScreen = ({ navigation, loggedOutAction, appDuck, navigationDuck, setInfoBooking, setAtributeBooking }) => {
     const user = useSelector(state => state.appDuck.user)
