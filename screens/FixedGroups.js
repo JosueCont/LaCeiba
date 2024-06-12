@@ -96,7 +96,7 @@ const FixedGroups = ({appDuck, navigation, route}) => {
                     const exist = group.schedules?.find(element => element.id == value.id) || groupFounded.allMembersCanConfirmFixedGroup;
                     return(
                         value.isActive && (
-                            <TouchableOpacity key={index} onPress={() => {navigation.navigate('FixedGroupDetail', {schedule: value, groupData: groupFounded, userId: appDuck.user.id, minPeople, maxPeople, blocked: !exist});}}>
+                            <TouchableOpacity key={index} onPress={() => {navigation.navigate('FixedGroupDetail', {schedule: value, groupData: groupFounded, userId: appDuck.user.id, minPeople: minPeople != null ? minPeople : value?.area ? value?.area?.minPeople : 1, maxPeople: maxPeople != null ? maxPeople : value?.area ? value?.area?.maxPeople : 1, blocked: !exist});}}>
                             <View flexDirection={'row'} bgColor={'#fff'} borderRadius={50} paddingX={6} paddingY={2.5} mb={4} mx={4} style={{
                                 shadowColor: '#000',
                                 shadowOffset: { width: 0, height: (!exist ? 0: 3)},

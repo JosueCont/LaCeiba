@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Image, ScrollView, Text, View, useToast} from "native-base";
+import {Icon, Image, ScrollView, Text, View, useToast} from "native-base";
 import {Colors} from "../Colors";
 import {Image as ImageRN, ImageBackground, TouchableOpacity, RefreshControl} from "react-native";
 import imgLogo from '../assets/imgLogo.png';
@@ -29,7 +29,6 @@ import { AntDesign } from "@expo/vector-icons";
 import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import ModalVersion from './Modals/ModalVersion';
-import { Icon } from 'native-base';
 
 const HomeScreen = ({ navigation, loggedOutAction, appDuck, navigationDuck, setInfoBooking, setAtributeBooking }) => {
     const user = useSelector(state => state.appDuck.user)
