@@ -61,8 +61,9 @@ const FixedGroupList = ({appDuck, loggedOutAction, navigation, route}) => {
                         {
                             (groupsFoundedDetail.length>0 ) && groupsFoundedDetail.map((value, index) => {
                                 const groupTarget = groupsFounded?.find(group => group.id == value.id);
-                                const minP = groupTarget?.area?.minPeople;
-                                const maxP = groupTarget?.area?.maxPeople;
+                                
+                                const minP = groupTarget?.minPeople !== null && groupTarget?.minPeople !== undefined && groupTarget?.minPeople != -1 ? groupTarget?.minPeople : groupTarget?.area ? groupTarget?.area?.minPeople : null;
+                                const maxP = groupTarget?.maxPeople !== null && groupTarget?.maxPeople !== undefined && groupTarget?.maxPeople != -1 ? groupTarget?.maxPeople : groupTarget?.area ? groupTarget?.area?.maxPeople : null;
                                 if(!value.isActive){
                                     return;
                                 }

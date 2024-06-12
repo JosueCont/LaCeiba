@@ -234,7 +234,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
                 
 
                 <View flex={1} mb={10} mt={5} px={10}>
-                    <Button size={'lg'} disabled={loading || membersInvite.length<minPeople} opacity={loading || membersInvite.length < minPeople ? 0.5 : 1} onPress={sendBooking} mt={5}>{loading ? <Spinner size={'sm'} color={Colors.bgPrimaryText}></Spinner> : 'Aplicar'}</Button>
+                    <Button size={'lg'} disabled={loading || (membersInvite.length == 0 || membersInvite.length<minPeople)} opacity={loading || membersInvite.length < minPeople ? 0.5 : 1} onPress={sendBooking} mt={5}>{loading ? <Spinner size={'sm'} color={Colors.bgPrimaryText}></Spinner> : 'Aplicar'}</Button>
                 </View>
 
 
