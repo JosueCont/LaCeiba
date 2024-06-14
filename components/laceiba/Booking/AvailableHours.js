@@ -6,11 +6,11 @@ import AvailableHoursItem from "./AvailableHoursItem";
 import { MaterialIcons } from '@expo/vector-icons';
 
 
-const AvailableHours = ({hours, selectedHour, disabledHours=false}) => {
+const AvailableHours = ({hours, selectedHour, disabledHours=false, exactDate = null}) => {
     return(
         <View style={styles.container}>
             {hours.length > 0 ? hours.map((item,index) => (
-                <AvailableHoursItem index={index} item={item} selectHour={selectedHour} disabledHours={disabledHours}/>
+                <AvailableHoursItem index={index} item={item} selectHour={selectedHour} disabledHours={disabledHours} exactDate={exactDate}/>
             )):(
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <MaterialIcons name="error-outline" size={60} marginTop={50} marginBottom={20} color={ColorsCeiba.aqua} />

@@ -3,8 +3,9 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-nati
 import { getFontSize } from "../../../utils";
 import { ColorsCeiba } from "../../../Colors";
 import { useSelector } from "react-redux";
+import moment from "moment";
 
-const AvailableHoursItem = ({item, index, selectHour, disabledHours=false}) => {
+const AvailableHoursItem = ({item, index, selectHour, disabledHours=false, exactDate = null}) => {
     const appDuck = useSelector(state => state.appDuck)
     
     const types = {
@@ -15,9 +16,13 @@ const AvailableHoursItem = ({item, index, selectHour, disabledHours=false}) => {
     
     
     const getColor = (status) => {
+        const todayDate = moment().format('YYYY-MM-DD')
+        const isToday = todayDate == exactDate
         if(Array.isArray(status?.booking?.invitations) && status.booking?.invitations?.some((reservation) => reservation?.user?.id === appDuck.user.id) === true){
             return ColorsCeiba.aqua
-        }else if(status?.fullBooking || (status?.fixedGroup && !status?.booking)){
+        }else if(status?.fullBooking || (status?.fixedGroup && !status?.booking)) {
+            if (isToday && status?.fixedGroup && !status?.booking)
+                return ColorsCeiba.white
             return ColorsCeiba.lightgray
         }else if(status.booking !== null || status?.fixedGroup !== null){
             return ColorsCeiba.lightYellow
