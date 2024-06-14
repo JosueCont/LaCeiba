@@ -321,7 +321,8 @@ const CreateBookingScreen = () => {
                     </View>
                ):(
                    <AvailableHours 
-                        hours={hours} 
+                        hours={hours}
+                        exactDate={moment(availableDays[selectDay]?.dateString,'DD-MM-YYYY').format('YYYY-MM-DD')}
                         selectedHour={async(item) =>{
                             if(!item.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id) && !item?.fullBooking){
                                 //if(infoBooking?.hour) dispatch(setAtributeBooking({prop:'timeExpired', value: false}))
@@ -336,12 +337,18 @@ const CreateBookingScreen = () => {
                                         navigation.navigate('JoinPetition')
                                         return;
                                     }
-                                    if (item?.fixedGroup !== null) 
+                                    if (item?.fixedGroup !== null){
+                                        const isToday = moment().format('YYYY-MM-DD') == moment(availableDays[selectDay]?.dateString,'DD-MM-YYYY').format('YYYY-MM-DD')
+                                        if (isToday) {
+                                            navigation.navigate('CreatePetition',{item, counterRef})
+                                            return;
+                                        }
                                         navigation.navigate('FixedGroupDetailBooking', {
                                             fixedGroup: item.fixedGroup, 
                                             areaId: areaSelected,
                                             hour: item?.time,
                                             date: moment(availableDays[selectDay]?.dateString,'DD-MM-YYYY').format('YYYY-MM-DD'),})
+                                    }
                                 }
                                 else navigation.navigate('CreatePetition',{item, counterRef})
                             }else {
