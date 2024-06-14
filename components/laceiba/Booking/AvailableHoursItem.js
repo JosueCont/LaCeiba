@@ -17,7 +17,7 @@ const AvailableHoursItem = ({item, index, selectHour, disabledHours=false}) => {
     const getColor = (status) => {
         if(Array.isArray(status?.booking?.invitations) && status.booking?.invitations?.some((reservation) => reservation?.user?.id === appDuck.user.id) === true){
             return ColorsCeiba.aqua
-        }else if(status?.fullBooking){
+        }else if(status?.fullBooking || (status?.fixedGroup && !status?.booking)){
             return ColorsCeiba.lightgray
         }else if(status.booking !== null || status?.fixedGroup !== null){
             return ColorsCeiba.lightYellow
