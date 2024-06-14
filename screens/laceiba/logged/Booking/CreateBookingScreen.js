@@ -332,8 +332,10 @@ const CreateBookingScreen = () => {
                                     activity: booking[option]
                                 }))
                                 if(item?.booking !== null || item?.fixedGroup !== null) {
-                                    if (item?.booking !== null)
+                                    if (item?.booking !== null) {
                                         navigation.navigate('JoinPetition')
+                                        return;
+                                    }
                                     if (item?.fixedGroup !== null) 
                                         navigation.navigate('FixedGroupDetailBooking', {
                                             fixedGroup: item.fixedGroup, 

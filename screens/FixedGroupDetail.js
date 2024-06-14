@@ -14,7 +14,7 @@ import { dayWeek } from "../utils";
 import { formatHour } from "../utils";
 
 const FixedGroupDetail = ({appDuck, navigation, route}) => {
-    const {schedule, groupData, userId, minPeople, maxPeople, blocked} = route.params;
+    const {schedule, groupData, userId, minPeople, maxPeople, blocked, areaGroup} = route.params;
     const [groupDataConst, setGroupDataConst] = useState(null);
     const [membersInvite, setMembersInvite] = useState([])
     const [membersInviteLeaders, setMembersInviteLeaders] = useState([]);
@@ -122,13 +122,11 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
             const body = {
                 dueDate : dateBooking,
                 dueTime : schedule.fromHour,
-                areaId : groupData?.area ? groupData.area.id : groupData?.schedules?.length > 0 ? groupData?.schedules[0]?.area?.id : null,
+                areaId : groupData?.area ? groupData.area.id : areaGroup ? areaGroup?.id : null,
                 users : membersFiltered
             }
-            console.log(body);
             setLoading(true);
             const response = await createBookingGF(body, [groupData.id, userLeader]);
-            console.log(response?.data);
             if(response.data){
                 setLoading(false);
                 setTextModal('Se agendó correctamente el grupo fijo');
@@ -136,9 +134,8 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
             }
             
         } catch (error) {
-            console.log(error?.data);
             setErrorBooking(true);
-            setTextModal('Ocurrió un error, intenta de nuevo');
+            setTextModal(error?.data?.message ?? 'Ocurrió un error, intenta de nuevo');
             setModalInfoVisible(true);
             setLoading(false);
         }
@@ -167,7 +164,7 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
         <LayoutV4 overlay={true}>
             <View flex={1} mx={4}>
                 <Text textAlign={'center'} mt={8} mb={5} color={Colors.primary} fontFamily={'titleComfortaaBold'} fontSize={'2xl'} textTransform={'uppercase'}>{groupData.name}</Text>
-                <Text fontFamily={'titleConfortaaRegular'} color={Colors.primary} textAlign={'center'} fontSize={'lg'}>{groupData?.area ? groupData?.area?.service?.name : groupData?.schedules?.length > 0 ? groupData?.schedules[0]?.area?.service?.name : ''} | {groupData?.area ? groupData?.area?.name : groupData?.schedules?.length > 0 ? groupData?.schedules[0]?.area?.name : ''}</Text>
+                <Text fontFamily={'titleConfortaaRegular'} color={Colors.primary} textAlign={'center'} fontSize={'lg'}>{groupData?.area ? groupData?.area?.service?.name : groupData?.schedules?.length > 0 ? groupData?.schedules[0]?.area?.service?.name : ''} | {groupData?.area ? groupData?.area?.name : areaGroup ? areaGroup?.name : ''}</Text>
                 <Text fontFamily={'titleConfortaaRegular'} color={Colors.primary} textAlign={'center'} fontSize={'md'}> {dayWeek[schedule?.day].day} {getNextDayOfWeek(dayWeek[schedule?.day].id)} </Text>
                 <Text fontFamily={'titleConfortaaRegular'} color={Colors.primary} textAlign={'center'} fontSize={'md'} mb={8}> {formatHour(schedule?.fromHour)}</Text>
                 {
