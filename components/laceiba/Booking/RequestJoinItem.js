@@ -6,18 +6,26 @@ import { ColorsCeiba } from "../../../Colors";
 
 const {height, width} = Dimensions.get('window');
 
-const RequestJoinItem = ({requested, myReservation=false}) => {
+const RequestJoinItem = ({requested, myReservation=false, hour = null, members = null}) => {
 
     return(
         <View style={styles.card}>
             <View style={[styles.contSchedule, {backgroundColor: myReservation ? ColorsCeiba.aqua : ColorsCeiba.lightYellow}]}>
-                <Text style={styles.lbl}>{requested?.hour?.time}</Text>
+                <Text style={styles.lbl}>{hour ?? requested?.hour?.time}</Text>
             </View>
             <View style={styles.contPeople}>
                 {requested?.hour?.booking?.invitations.map((item,index) => (
                     <Text key={index+1} style={[styles.lbl,{color: ColorsCeiba.darkGray, width: '50%', marginBottom:4, textTransform:'capitalize'}]}>{item?.user != null ? item?.user?.fullName : item?.guestName}</Text>
                 ))}
             </View>
+            {
+                members &&
+                <View style={styles.contPeople}>
+                    {members.map((item,index) => (
+                        <Text key={index+1} style={[styles.lbl,{color: ColorsCeiba.darkGray, width: '50%', marginBottom:4, textTransform:'capitalize'}]}>{item}</Text>
+                    ))}
+                </View>
+            }
         </View>
     )
 }

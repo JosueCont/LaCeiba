@@ -202,7 +202,7 @@ const CreateBookingScreen = () => {
             0: originalHours,
             1: originalHours.filter((item) => !item?.fullBooking && item?.booking === null),
             2: originalHours.filter((item) => item?.booking !=null &&  !item.booking?.invitations.some((reservation) => reservation?.user?.id === appDuck.user.id)),
-            3: originalHours.filter((item) => item?.fullBooking),
+            3: originalHours.filter((item) => item?.fullBooking || item?.fixedGroup),
             4: originalHours.filter((item) => item.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id) && !item?.fullBooking)
         }
 
@@ -331,7 +331,18 @@ const CreateBookingScreen = () => {
                                     date: moment(availableDays[selectDay]?.dateString,'DD-MM-YYYY').format('YYYY-MM-DD'),
                                     activity: booking[option]
                                 }))
-                                if(item?.booking !== null) navigation.navigate('JoinPetition')
+                                if(item?.booking !== null || item?.fixedGroup !== null) {
+                                    if (item?.booking !== null) {
+                                        navigation.navigate('JoinPetition')
+                                        return;
+                                    }
+                                    if (item?.fixedGroup !== null) 
+                                        navigation.navigate('FixedGroupDetailBooking', {
+                                            fixedGroup: item.fixedGroup, 
+                                            areaId: areaSelected,
+                                            hour: item?.time,
+                                            date: moment(availableDays[selectDay]?.dateString,'DD-MM-YYYY').format('YYYY-MM-DD'),})
+                                }
                                 else navigation.navigate('CreatePetition',{item, counterRef})
                             }else {
                                 navigation.navigate('MyReservation', {infoBooking: {
