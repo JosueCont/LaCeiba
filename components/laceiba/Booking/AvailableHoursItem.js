@@ -19,7 +19,7 @@ const AvailableHoursItem = ({item, index, selectHour, disabledHours=false}) => {
             return ColorsCeiba.aqua
         }else if(status?.fullBooking){
             return ColorsCeiba.lightgray
-        }else if(status.booking !== null){
+        }else if(status.booking !== null || status?.fixedGroup !== null){
             return ColorsCeiba.lightYellow
         }else{
             return ColorsCeiba.white

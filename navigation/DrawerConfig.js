@@ -96,6 +96,7 @@ import DetailReservationScreen from "../screens/laceiba/logged/Booking/DetailRes
 import MyFamilyScreen from "../screens/laceiba/logged/Profile/MyFamilyScreen";
 import ProfileScreenCeiba from '../screens/laceiba/logged/ProfileScreen'
 import PaymentView from "../screens/PaymentView";
+import FixedGroupDetailScreen from "../screens/laceiba/logged/Booking/FixedGroupDetailsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -230,6 +231,7 @@ const DrawerConfig = () => {
                 <Stack.Screen name="CreateBooking" component={CreateBookingScreen} />
                 <Stack.Screen name="CreatePetition" component={CreatePetitionScreen} />
                 <Stack.Screen name="JoinPetition" component={JoinPetitionScreen}/>
+                <Stack.Screen name="FixedGroupDetailBooking" component={FixedGroupDetailScreen}/>
                 <Stack.Screen name="MyReservation" component={MyReservationScreen}/>
                 <Stack.Screen name="JoinSend" component={RequesJoinSendScreen} options={{gestureEnabled:false }}/>
                 <Stack.Screen name="AddPlayers" component={AddPlayersScreen}/>
