@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView, RefreshControl } from 'react-native';
 import { useSelector } from 'react-redux';
 import { request } from '../api/Methods';
+import { useIsFocused } from '@react-navigation/native';
 
 const PaymentView = () => {
   const user = useSelector(state => state.appDuck.user);
@@ -11,8 +12,20 @@ const PaymentView = () => {
   const [pagos, setPagos] = useState([]);
   const [cargos, setCargos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const isFocused = useIsFocused();
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchMovements().then(() => setRefreshing(false));
+  }, []);
 
   useEffect(() => {
+    if (isFocused) {
+      fetchMovements();
+    }
+  }, [isFocused, partnerId]);
+
     const fetchMovements = async () => {
       if (!partnerId) {
         setLoading(false);
@@ -20,6 +33,7 @@ const PaymentView = () => {
       }
 
       try {
+        console.log('fetchinf movements for ', partnerId);
         const response = await request(
           'v1/collection/movements/app',
           `?page=1&limit=10000&sort=desc&partnerId=${partnerId}`,
@@ -38,10 +52,6 @@ const PaymentView = () => {
         setLoading(false);
       }
     };
-
-    fetchMovements();
-  }, [partnerId]);
-
   const renderItem = ({ item }) => (
     <View style={styles.item}>
       <View style={styles.textContainer}>
@@ -70,15 +80,25 @@ const PaymentView = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Mis movimientos</Text>
-      <View style={styles.tabs}>
-        <TouchableOpacity onPress={() => setSelectedTab('Pagos')} style={[styles.tab, selectedTab === 'Pagos' && styles.activeTab]}>
-          <Text style={styles.tabText}>Pagos</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setSelectedTab('Cargos')} style={[styles.tab, selectedTab === 'Cargos' && styles.activeTab]}>
-          <Text style={styles.tabText}>Cargos</Text>
-        </TouchableOpacity>
-      </View>
+      <ScrollView
+        scrollEnabled={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
+      >
+        <Text style={styles.header}>Mis movimientos</Text>
+        <View style={styles.tabs}>
+          <TouchableOpacity onPress={() => setSelectedTab('Pagos')} style={[styles.tab, selectedTab === 'Pagos' && styles.activeTab]}>
+            <Text style={styles.tabText}>Pagos</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setSelectedTab('Cargos')} style={[styles.tab, selectedTab === 'Cargos' && styles.activeTab]}>
+            <Text style={styles.tabText}>Cargos</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
       <FlatList
         data={filteredPayments}
         renderItem={renderItem}
