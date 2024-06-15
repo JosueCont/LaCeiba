@@ -34,3 +34,4 @@ web-build/
 yarn.lock
 .vscode
 .idea
+package-lock.json
