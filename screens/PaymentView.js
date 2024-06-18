@@ -80,25 +80,15 @@ const PaymentView = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        scrollEnabled={false}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }
-      >
-        <Text style={styles.header}>Mis movimientos</Text>
-        <View style={styles.tabs}>
-          <TouchableOpacity onPress={() => setSelectedTab('Pagos')} style={[styles.tab, selectedTab === 'Pagos' && styles.activeTab]}>
-            <Text style={styles.tabText}>Pagos</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setSelectedTab('Cargos')} style={[styles.tab, selectedTab === 'Cargos' && styles.activeTab]}>
-            <Text style={styles.tabText}>Cargos</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+      <Text style={styles.header}>Mis movimientos</Text>
+      <View style={styles.tabs}>
+        <TouchableOpacity onPress={() => setSelectedTab('Pagos')} style={[styles.tab, selectedTab === 'Pagos' && styles.activeTab]}>
+          <Text style={styles.tabText}>Pagos</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setSelectedTab('Cargos')} style={[styles.tab, selectedTab === 'Cargos' && styles.activeTab]}>
+          <Text style={styles.tabText}>Cargos</Text>
+        </TouchableOpacity>
+      </View>
       <FlatList
         data={filteredPayments}
         renderItem={renderItem}
