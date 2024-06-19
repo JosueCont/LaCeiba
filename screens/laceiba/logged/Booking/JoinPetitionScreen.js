@@ -10,6 +10,7 @@ import BtnCustom from "../../../../components/laceiba/CustomBtn";
 import moment from "moment";
 import { postJoinBookingRequest } from "../../../../api/Requests";
 import ModalInfo from "../../../Modals/ModalInfo";
+const {height, width} = Dimensions.get('window');
 
 const JoinPetitionScreen = () => {
     const navigation = useNavigation();
@@ -49,7 +50,7 @@ const JoinPetitionScreen = () => {
     }
 
     return(
-        <HeaderBooking disabledOptions={true}>
+        <HeaderBooking disabledOptions={true} showFilters={false}>
             <View style={styles.container}>
                 <View style={styles.contHeader}>
                     <Text style={styles.lblTitle}>{moment(infoBooking?.date,'YYYY-MM-DD').format('dddd MMMM D')} - {infoBooking?.area?.name}</Text>
@@ -90,7 +91,8 @@ const styles = StyleSheet.create({
         fontSize: getFontSize(20), 
         fontWeight:'400',
         textTransform:'capitalize',
-        marginBottom:10
+        marginBottom:10,
+        width: width * .7
     },
     contHeader:{
         flexDirection:'row', 

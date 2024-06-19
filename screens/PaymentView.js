@@ -3,6 +3,8 @@ import { View, Text, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator, 
 import { useSelector } from 'react-redux';
 import { request } from '../api/Methods';
 import { useIsFocused } from '@react-navigation/native';
+import { getFontSize, setFormatNumber } from '../utils';
+import { ColorsCeiba } from '../Colors';
 
 const PaymentView = () => {
   const user = useSelector(state => state.appDuck.user);
@@ -44,6 +46,9 @@ const PaymentView = () => {
         const pagosData = items.filter(item => item.isPaid);
         const cargosData = items.filter(item => !item.isPaid);
 
+        console.log('pagos data', pagosData)
+        console.log('cargos data', cargosData)
+
         setPagos(pagosData);
         setCargos(cargosData);
       } catch (error) {
@@ -78,6 +83,18 @@ const PaymentView = () => {
     );
   }
 
+  const getTotalBalance = () => {
+    if(selectedTab === 'Pagos'){
+      return pagos.reduce((total, item) => {
+        return total + parseFloat(item?.amount)
+      }, 0);
+    }else{
+      return cargos.reduce((total, item) => {
+        return total + parseFloat(item?.amount)
+      }, 0);
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Mis movimientos</Text>
@@ -94,6 +111,11 @@ const PaymentView = () => {
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
       />
+      <View style={{marginLeft:20, height:80, flexDirection:'row', alignItems:'center'}}>
+        <Text style={{fontSize: getFontSize(20), fontWeight:'700', color: ColorsCeiba.darkGray}}>Total: </Text>
+        <Text style={{fontSize: getFontSize(15), fontWeight:'400', color: ColorsCeiba.darkGray}}>${setFormatNumber(getTotalBalance())}</Text>
+
+      </View>
     </View>
   );
 };
