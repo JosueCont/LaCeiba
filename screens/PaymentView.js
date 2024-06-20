@@ -5,6 +5,7 @@ import { request } from '../api/Methods';
 import { useIsFocused } from '@react-navigation/native';
 import { getFontSize, setFormatNumber } from '../utils';
 import { ColorsCeiba } from '../Colors';
+import moment from 'moment';
 
 const PaymentView = () => {
   const user = useSelector(state => state.appDuck.user);
@@ -36,9 +37,14 @@ const PaymentView = () => {
 
       try {
         console.log('fetchinf movements for ', partnerId);
+        const today = moment().format('YYYY-MM-DD');
+
+        const oneMonthAgo = moment().subtract(1, 'month').format('YYYY-MM-DD');        
+        //const lastDayOfMonth = today.endOf('month').format('YYYY-MM-DD');
+
         const response = await request(
           'v1/collection/movements/app',
-          `?page=1&limit=10000&sort=desc&partnerId=${partnerId}`,
+          `?page=1&limit=10000&sort=desc&partnerId=${partnerId}&created_gte=${oneMonthAgo}&created_lte=${today}`,
           'get'
         );
         const items = response.data.items;
