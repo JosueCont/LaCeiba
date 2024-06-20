@@ -90,7 +90,7 @@
         }
     },
     "slug": "laceiba",
-    "version": "24.06.11",
+    "version": "24.06.11-6",
     "ios": {
         "buildNumber": "79",
         "supportsTablet": false,

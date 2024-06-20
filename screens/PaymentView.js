@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView, RefreshControl } from 'react-native';
 import { useSelector } from 'react-redux';
 import { request } from '../api/Methods';
+import { useIsFocused } from '@react-navigation/native';
+import { getFontSize, setFormatNumber } from '../utils';
+import { ColorsCeiba } from '../Colors';
 
 const PaymentView = () => {
   const user = useSelector(state => state.appDuck.user);
@@ -11,8 +14,20 @@ const PaymentView = () => {
   const [pagos, setPagos] = useState([]);
   const [cargos, setCargos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const isFocused = useIsFocused();
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchMovements().then(() => setRefreshing(false));
+  }, []);
 
   useEffect(() => {
+    if (isFocused) {
+      fetchMovements();
+    }
+  }, [isFocused, partnerId]);
+
     const fetchMovements = async () => {
       if (!partnerId) {
         setLoading(false);
@@ -20,6 +35,7 @@ const PaymentView = () => {
       }
 
       try {
+        console.log('fetchinf movements for ', partnerId);
         const response = await request(
           'v1/collection/movements/app',
           `?page=1&limit=10000&sort=desc&partnerId=${partnerId}`,
@@ -30,6 +46,9 @@ const PaymentView = () => {
         const pagosData = items.filter(item => item.isPaid);
         const cargosData = items.filter(item => !item.isPaid);
 
+        console.log('pagos data', pagosData)
+        console.log('cargos data', cargosData)
+
         setPagos(pagosData);
         setCargos(cargosData);
       } catch (error) {
@@ -38,10 +57,6 @@ const PaymentView = () => {
         setLoading(false);
       }
     };
-
-    fetchMovements();
-  }, [partnerId]);
-
   const renderItem = ({ item }) => (
     <View style={styles.item}>
       <View style={styles.textContainer}>
@@ -68,6 +83,18 @@ const PaymentView = () => {
     );
   }
 
+  const getTotalBalance = () => {
+    if(selectedTab === 'Pagos'){
+      return pagos.reduce((total, item) => {
+        return total + parseFloat(item?.amount)
+      }, 0);
+    }else{
+      return cargos.reduce((total, item) => {
+        return total + parseFloat(item?.amount)
+      }, 0);
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Mis movimientos</Text>
@@ -84,6 +111,11 @@ const PaymentView = () => {
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
       />
+      <View style={styles.contTotal}>
+        <Text style={styles.lblTitleTotal}>Total: </Text>
+        <Text style={styles.lblDescTotal}>${setFormatNumber(getTotalBalance())}</Text>
+
+      </View>
     </View>
   );
 };
@@ -146,6 +178,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  contTotal:{
+    height:60,
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  lblTitleTotal:{
+    fontSize: getFontSize(24), 
+    fontWeight:'700', 
+    color: ColorsCeiba.darkGray
+  },
+  lblDescTotal:{
+    fontSize: getFontSize(24), 
+    fontWeight:'400', 
+    color: ColorsCeiba.darkGray
   }
 });
 

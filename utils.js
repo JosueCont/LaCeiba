@@ -154,3 +154,8 @@ export const NOTIFICATION_TYPES = {
 
 const fontScale = PixelRatio.getFontScale();
 export const getFontSize = size => size * fontScale;
+
+export const setFormatNumber = (number) => {
+    const formattedNumber = number.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return formattedNumber;
+  }
