@@ -111,9 +111,9 @@ const PaymentView = () => {
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
       />
-      <View style={{marginLeft:20, height:80, flexDirection:'row', alignItems:'center'}}>
-        <Text style={{fontSize: getFontSize(20), fontWeight:'700', color: ColorsCeiba.darkGray}}>Total: </Text>
-        <Text style={{fontSize: getFontSize(15), fontWeight:'400', color: ColorsCeiba.darkGray}}>${setFormatNumber(getTotalBalance())}</Text>
+      <View style={styles.contTotal}>
+        <Text style={styles.lblTitleTotal}>Total: </Text>
+        <Text style={styles.lblDescTotal}>${setFormatNumber(getTotalBalance())}</Text>
 
       </View>
     </View>
@@ -178,6 +178,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  contTotal:{
+    height:60,
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  lblTitleTotal:{
+    fontSize: getFontSize(24), 
+    fontWeight:'700', 
+    color: ColorsCeiba.darkGray
+  },
+  lblDescTotal:{
+    fontSize: getFontSize(24), 
+    fontWeight:'400', 
+    color: ColorsCeiba.darkGray
   }
 });
 
