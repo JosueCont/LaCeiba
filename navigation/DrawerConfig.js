@@ -97,6 +97,7 @@ import MyFamilyScreen from "../screens/laceiba/logged/Profile/MyFamilyScreen";
 import ProfileScreenCeiba from '../screens/laceiba/logged/ProfileScreen'
 import PaymentView from "../screens/PaymentView";
 import FixedGroupDetailScreen from "../screens/laceiba/logged/Booking/FixedGroupDetailsScreen";
+import ModalListGuestScreen from "../screens/laceiba/logged/Booking/ModalListGuestScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -240,6 +241,9 @@ const DrawerConfig = () => {
                 <Stack.Screen name="BookingSuccess" component={BookingDoneScreen} options={{gestureEnabled:false }}/>
                 <Stack.Screen name="Reservations" component={ReservationsListScreen} />
                 <Stack.Screen name="DetailReservation" component={DetailReservationScreen}/>
+                <Stack.Group screenOptions={{presentation:'transparentModal', headerShown:false, animation:'slide_from_bottom', gestureEnabled:true }} >
+                    <Stack.Screen name="ModalListGuest" component={ModalListGuestScreen}/>
+                </Stack.Group>
 
             </Stack.Navigator>
         )

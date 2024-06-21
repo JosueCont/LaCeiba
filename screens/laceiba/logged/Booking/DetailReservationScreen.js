@@ -14,7 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModalAsk from "../../../Modals/ModalAsk";
 import ModalInfo from "../../../Modals/ModalInfo";
 import { Spinner } from "native-base";
-import _ from "lodash";
+import _, { lastIndexOf } from "lodash";
 import ModalConfirmRejectBook from "../../../Modals/ModalConfirmRejectBook";
 
 const DetailReservationScreen = () => {
@@ -42,6 +42,7 @@ const DetailReservationScreen = () => {
     const [modalAction, setModalAction] = useState(false)
     const [actionBook, setActionBook] = useState(null);
     const [loadingAccept, setLoadingOk] = useState(false)
+    const [guestsRequest, setGuestRequest] = useState([])
     const currentDay = moment().format('YYYY-MM-DD');
 
     useEffect(() => {
@@ -212,6 +213,19 @@ const DetailReservationScreen = () => {
         }
     }
 
+    const requests = [
+        {
+            name:'Josue',
+            lastName:'Contreras',
+            id:'1'
+        },
+        {
+            name:'Josue',
+            lastName:'Contreras',
+            id:'2'
+        }
+    ]
+
     return(
         <HeeaderBookingImage>
             <View style={styles.container}>
@@ -222,6 +236,16 @@ const DetailReservationScreen = () => {
                 <Text style={styles.lbl}>{reservation?.area?.service?.isGolf && 'Salida:'} {reservation?.area?.name}</Text>
                 {reservation?.area?.service?.isGolf && <Text style={styles.lbl}>{reservation?.numHoles} hoyos</Text>}
                 {greenFees > 0 && <Text style={styles.lbl}>Green Fees utilizados: {greenFees.toString()}</Text>}
+                {dataReserve?.hostedBy?.id === user?.id && !moment(reservation?.dueDate, 'YYYY-MM-DD').isBefore(currentDay) && guestsRequest.length > 0 && (
+                    <View style={{marginVertical:10, borderBottomWidth:1, borderBottomColor: ColorsCeiba.darkGray, paddingBottom:10}}>
+                        <Text style={styles.lbl}>Hay 1 o más socios que desean unirse a la reservación. </Text>
+                        <TouchableOpacity 
+                            onPress={() => navigation.navigate('ModalListGuest', {requests, dataReserve})}
+                            style={{alignSelf:'center', paddingVertical:5, paddingHorizontal:20, borderRadius:30, borderColor: ColorsCeiba.darkGray, borderWidth:1, marginTop:10}}>
+                            <Text>Ver solicitudes</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
             </View>
             {reservation?.deletedBy !=null ? (
                 <View style={{height: 200, justifyContent:'center', alignItems:'center'}}>
