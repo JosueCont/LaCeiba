@@ -324,6 +324,16 @@ const CreateBookingScreen = () => {
                         hours={hours}
                         exactDate={moment(availableDays[selectDay]?.dateString,'DD-MM-YYYY').format('YYYY-MM-DD')}
                         selectedHour={async(item) =>{
+                            if (item?.isBlocked == true) {
+                                navigation.navigate('FixedGroupDetailBooking', {
+                                    isBlocked: true,
+                                    fixedGroup: null, 
+                                    areaId: areaSelected,
+                                    hour: item?.time,
+                                    date: moment(availableDays[selectDay]?.dateString,'DD-MM-YYYY').format('YYYY-MM-DD'),
+                                })
+                                return;
+                            }
                             if(!item.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id) && !item?.fullBooking){
                                 //if(infoBooking?.hour) dispatch(setAtributeBooking({prop:'timeExpired', value: false}))
                                 dispatch(setDataBooking({
@@ -344,10 +354,12 @@ const CreateBookingScreen = () => {
                                             return;
                                         }
                                         navigation.navigate('FixedGroupDetailBooking', {
+                                            isBlocked: false,
                                             fixedGroup: item.fixedGroup, 
                                             areaId: areaSelected,
                                             hour: item?.time,
                                             date: moment(availableDays[selectDay]?.dateString,'DD-MM-YYYY').format('YYYY-MM-DD'),})
+                                        return;
                                     }
                                 }
                                 else navigation.navigate('CreatePetition',{item, counterRef})
