@@ -20,7 +20,7 @@ const AvailableHoursItem = ({item, index, selectHour, disabledHours=false, exact
         const isToday = todayDate == exactDate
         if(Array.isArray(status?.booking?.invitations) && status.booking?.invitations?.some((reservation) => reservation?.user?.id === appDuck.user.id) === true){
             return ColorsCeiba.aqua
-        }else if(status?.fullBooking || (status?.fixedGroup && !status?.booking)) {
+        }else if(status?.fullBooking || (status?.fixedGroup && !status?.booking) || item?.isBlocked) {
             if (isToday && status?.fixedGroup && !status?.booking)
                 return ColorsCeiba.white
             return ColorsCeiba.lightgray
@@ -38,8 +38,6 @@ const AvailableHoursItem = ({item, index, selectHour, disabledHours=false, exact
     ? false
     : item?.isPastDueTime === true
     ? true
-    : item?.isBlocked == true
-    ? true
     : disabledHours;
 
 
@@ -48,8 +46,8 @@ const AvailableHoursItem = ({item, index, selectHour, disabledHours=false, exact
             disabled={disabled }
             //accessibilityState={{ disabled: disabled }}
             onPress={() => !disabled && selectHour(item)}
-            style={[styles.btn, {backgroundColor: item?.isPastDueTime || item?.isBlocked ? ColorsCeiba.white : getColor(item), borderColor:  item?.isPastDueTime === true || item?.isBlocked ? ColorsCeiba.lightgray : disabledHours ? ColorsCeiba.lightgray : ColorsCeiba.darkGray}]}>
-            <Text style={{fontSize: getFontSize(16), fontWeight:'400', color: isUserInvited === true? ColorsCeiba.darkGray :  item?.isPastDueTime === true || item?.isBlocked ? ColorsCeiba.lightgray : disabledHours ? ColorsCeiba.lightgray : ColorsCeiba.darkGray}}>{item?.time}</Text>
+            style={[styles.btn, {backgroundColor: item?.isPastDueTime ? ColorsCeiba.white : getColor(item), borderColor:  item?.isPastDueTime === true ? ColorsCeiba.lightgray : disabledHours ? ColorsCeiba.lightgray : ColorsCeiba.darkGray}]}>
+            <Text style={{fontSize: getFontSize(16), fontWeight:'400', color: isUserInvited === true? ColorsCeiba.darkGray :  item?.isPastDueTime === true ? ColorsCeiba.lightgray : disabledHours ? ColorsCeiba.lightgray : ColorsCeiba.darkGray}}>{item?.time}</Text>
         </TouchableOpacity>
     )
 }

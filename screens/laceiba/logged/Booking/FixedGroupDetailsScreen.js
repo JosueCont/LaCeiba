@@ -16,7 +16,7 @@ const FixedGroupDetailScreen = () => {
     const route = useRoute();
     const appDuck = useSelector(state => state.appDuck)
     const [allMembers, setAllMembers] = useState(null)
-    const {fixedGroup, hour, areaId, date} = route?.params
+    const {fixedGroup, hour, areaId, date, isBlocked} = route?.params
 
     useEffect(() => {
         if (!fixedGroup) return;
@@ -33,11 +33,11 @@ const FixedGroupDetailScreen = () => {
         <HeaderBooking disabledOptions={true}>
             <View style={styles.container}>
                 <View style={styles.contHeader}>
-                    <Text style={styles.lblTitle}>{moment(date,'YYYY-MM-DD').format('dddd MMMM D')} - {fixedGroup?.name}</Text>
+                    <Text style={styles.lblTitle}>{moment(date,'YYYY-MM-DD').format('dddd MMMM D')} - {isBlocked ? "Administración" : fixedGroup?.name}</Text>
                     
-                    <View style={styles.btnHoles}>
+                    {!isBlocked && <View style={styles.btnHoles}>
                         <Text>Grupo fijo</Text>
-                    </View>
+                    </View>}
                 </View>
                 <RequestJoinItem requested={fixedGroup} hour={hour} members={allMembers} />
             </View>
