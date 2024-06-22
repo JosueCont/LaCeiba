@@ -33,13 +33,13 @@ const FixedGroupDetailScreen = () => {
         <HeaderBooking disabledOptions={true}>
             <View style={styles.container}>
                 <View style={styles.contHeader}>
-                    <Text style={styles.lblTitle}>{moment(date,'YYYY-MM-DD').format('dddd MMMM D')} - {isBlocked ? "Administración" : fixedGroup?.name}</Text>
+                    <Text style={styles.lblTitle}>{moment(date,'YYYY-MM-DD').format('dddd MMMM D')}</Text>
                     
                     {!isBlocked && <View style={styles.btnHoles}>
                         <Text>Grupo fijo</Text>
                     </View>}
                 </View>
-                <RequestJoinItem requested={fixedGroup} hour={hour} members={allMembers} />
+                <RequestJoinItem requested={fixedGroup} hour={hour} members={allMembers} title={isBlocked ? "ADMINISTRACIÓN" : fixedGroup?.name}/>
             </View>
         </HeaderBooking>
     )
