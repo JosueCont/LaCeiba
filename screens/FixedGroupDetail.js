@@ -128,8 +128,13 @@ const FixedGroupDetail = ({appDuck, navigation, route}) => {
             setLoading(true);
             const response = await createBookingGF(body, [groupData.id, userLeader]);
             if(response.data){
+                const userInvitations = response?.data?.invitations?.filter(i => i?.user != null);
+                if (userInvitations?.length < membersInvite.length) {
+                    setTextModal(`Se agendó correctamente el grupo fijo. Algunas personas se eliminaron de la confirmación del grupo fijo debido a tienen otra reservación`);
+                }else{
+                    setTextModal('Se agendó correctamente el grupo fijo');
+                }
                 setLoading(false);
-                setTextModal('Se agendó correctamente el grupo fijo');
                 setModalInfoVisible(true);
             }
             

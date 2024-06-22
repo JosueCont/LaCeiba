@@ -6,10 +6,16 @@ import { ColorsCeiba } from "../../../Colors";
 
 const {height, width} = Dimensions.get('window');
 
-const RequestJoinItem = ({requested, myReservation=false, hour = null, members = null}) => {
+const RequestJoinItem = ({requested, myReservation=false, hour = null, members = null, title = null}) => {
 
     return(
         <View style={styles.card}>
+            {
+                title && 
+                <View style={[styles.contSchedule, {width: "auto"}]}>
+                    <Text style={{marginHorizontal: 10}} numberOfLines={1} ellipsizeMode="tail">{title}</Text>
+                </View>
+            }
             <View style={[styles.contSchedule, {backgroundColor: myReservation ? ColorsCeiba.aqua : ColorsCeiba.lightYellow}]}>
                 <Text style={styles.lbl}>{hour ?? requested?.hour?.time}</Text>
             </View>
