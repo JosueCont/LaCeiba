@@ -18,7 +18,7 @@ const AvailableHoursItem = ({item, index, selectHour, disabledHours=false, exact
     const getColor = (status) => {
         const todayDate = moment().format('YYYY-MM-DD')
         const isToday = todayDate == exactDate
-        if(Array.isArray(status?.booking?.invitations) && status.booking?.invitations?.some((reservation) => reservation?.user?.id === appDuck.user.id) === true){
+        if(Array.isArray(status?.booking?.invitations) && status.booking?.invitations?.some((reservation) => reservation?.user?.id === appDuck.user.id && reservation?.status === 'CONFIRMED') === true){
             return ColorsCeiba.aqua
         }else if(status?.fullBooking || (status?.fixedGroup && !status?.booking) || item?.isBlocked) {
             if (isToday && status?.fixedGroup && !status?.booking)

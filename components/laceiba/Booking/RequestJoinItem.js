@@ -20,7 +20,7 @@ const RequestJoinItem = ({requested, myReservation=false, hour = null, members =
                 <Text style={styles.lbl}>{hour ?? requested?.hour?.time}</Text>
             </View>
             <View style={styles.contPeople}>
-                {requested?.hour?.booking?.invitations.map((item,index) => (
+                {requested?.hour?.booking?.invitations.filter(item => item?.status !== 'REJECTED').map((item,index) => (
                     <Text key={index+1} style={[styles.lbl,{color: ColorsCeiba.darkGray, width: '50%', marginBottom:4, textTransform:'capitalize'}]}>{item?.user != null ? item?.user?.fullName : item?.guestName}</Text>
                 ))}
             </View>

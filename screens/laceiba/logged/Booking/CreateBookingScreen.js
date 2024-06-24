@@ -201,9 +201,9 @@ const CreateBookingScreen = () => {
         const options = {
             0: originalHours,
             1: originalHours.filter((item) => !item?.fullBooking && item?.booking === null),
-            2: originalHours.filter((item) => item?.booking !=null &&  !item.booking?.invitations.some((reservation) => reservation?.user?.id === appDuck.user.id)),
+            2: originalHours.filter((item) => item?.booking !=null &&  !item.booking?.invitations.some((reservation) => reservation?.user?.id === appDuck.user.id && reservation?.status !== 'REJECTED')),
             3: originalHours.filter((item) => item?.fullBooking || item?.fixedGroup),
-            4: originalHours.filter((item) => item.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id) && !item?.fullBooking)
+            4: originalHours.filter((item) => item.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id && reservation?.status !== 'REJECTED') && !item?.fullBooking)
         }
 
         filterData = options[index],
@@ -334,7 +334,7 @@ const CreateBookingScreen = () => {
                                 })
                                 return;
                             }
-                            if(!item.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id) && !item?.fullBooking){
+                            if(!item.booking?.invitations.find((reservation) => reservation?.user?.id === appDuck.user.id && reservation?.status === 'CONFIRMED') && !item?.fullBooking){
                                 //if(infoBooking?.hour) dispatch(setAtributeBooking({prop:'timeExpired', value: false}))
                                 dispatch(setDataBooking({
                                     area: booking[option]?.areas[areaSelected],

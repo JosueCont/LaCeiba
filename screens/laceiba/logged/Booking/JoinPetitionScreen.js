@@ -124,7 +124,7 @@ const JoinPetitionScreen = () => {
             setError('No se ha podido crear la nueva solicitud.')
         }
     }
-
+console.log('infoBooking',infoBooking)
     return(
         <HeaderBooking disabledOptions={true} showFilters={false}>
             <View style={styles.container}>
@@ -157,12 +157,18 @@ const JoinPetitionScreen = () => {
                         />
                     </View>
                 ):(
-                    <BtnCustom 
-                        title="Petición para unirse a grupo"
-                        disable={loading}
-                        loading={loading}
-                        onPress={() => onjoinBooking()}
-                    />
+                    infoBooking?.hour?.booking?.invitations.some(invitation => invitation?.user?.id === appDuck.user.id && invitation?.status === 'REJECTED') ? (
+                        <Text style={styles.lbl}>Ya no puedes solicitar unirte debido a que has rechazado la invitación anteriormente.</Text>
+                    ):(
+
+                        <BtnCustom 
+                            title="Petición para unirse a grupo"
+                            disable={loading}
+                            loading={loading}
+                            onPress={() => onjoinBooking()}
+                        />
+                    )
+
                 )}
 
             <ModalInfo

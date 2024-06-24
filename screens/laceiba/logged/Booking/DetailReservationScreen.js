@@ -42,7 +42,7 @@ const DetailReservationScreen = () => {
     const [modalAction, setModalAction] = useState(false)
     const [actionBook, setActionBook] = useState(null);
     const [loadingAccept, setLoadingOk] = useState(false)
-    const [guestsRequest, setGuestRequest] = useState([{}])
+    const [guestsRequest, setGuestRequest] = useState([])
     const currentDay = moment().format('YYYY-MM-DD');
 
     useEffect(() => {

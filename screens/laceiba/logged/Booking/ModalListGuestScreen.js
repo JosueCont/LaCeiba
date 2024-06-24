@@ -41,7 +41,6 @@ const ModalListGuestScreen = () => {
         try {
             setLoading(true)
             const response = await getListRequestGuests(`?bookingId=${dataReserve?.id}`)
-            console.log('reponse', response?.data)
             setListGuest(response?.data.filter(item => item?.status === 'PENDING'))
             setUpdate(false)
             setLoading(false)
@@ -57,11 +56,11 @@ const ModalListGuestScreen = () => {
                 "status": status
             }
             const response = await putAcceptRequestGuest(dataSend, [dataSelect?.id])
-            console.log('aceptado', response?.data)
             setUpdate(true)
             setModalAccept(false)
+            setModalReject(false)
             setModalSuccess(true)
-            setTxtModal(status === 'PENDING' ? 'Se ha aceptado la solicitud exitosamente.' : 'Se ha rechazado la solicitud exitosamente.')
+            setTxtModal(status === 'CONFIRMED' ? 'Se ha aceptado la solicitud exitosamente.' : 'Se ha rechazado la solicitud exitosamente.')
 
         } catch (e) {
             console.log('error',e)

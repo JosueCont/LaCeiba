@@ -17,7 +17,7 @@ const RequesJoinSendScreen = () => {
             <View style={styles.container}>
                 <Text style={[styles.lbl,{fontSize: getFontSize(20),}]}>Petición enviada</Text>
                 <Text style={[styles.lbl,styles.lblSubtitle]}>Te avisaremos cuando sea aceptada por los socios</Text>
-                <Text style={[styles.lbl,{fontSize: getFontSize(16),}]}>{moment(infoBooking?.date,'YYYY-MM-DD').format('D MMMM')} {infoBooking?.hour?.time}</Text>
+                <Text style={[styles.lbl,{fontSize: getFontSize(16),}]}>{moment(infoBooking?.date,'YYYY-MM-DD').format('D MMMM')} {infoBooking?.hour?.time} hrs.</Text>
                 <Text style={[styles.lbl,{fontSize: getFontSize(16),}]}>{infoBooking?.area?.name}</Text>
                 <TouchableOpacity 
                     style={styles.btn} 
