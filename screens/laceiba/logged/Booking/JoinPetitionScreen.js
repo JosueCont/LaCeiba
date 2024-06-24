@@ -115,7 +115,7 @@ const JoinPetitionScreen = () => {
             setLoading(true)
             const person = dataRequests.find(item => item?.user?.id === appDuck.user.id)
             console.log('eliminando', person)
-            //const response = await deleteRequestGuest('',[person?.id])
+            const response = await deleteRequestGuest('',[person?.id])
             onjoinBooking()
         } catch (e) {
             console.log('errpr',e)
