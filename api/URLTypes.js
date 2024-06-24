@@ -77,6 +77,7 @@ export const URLTypes = {
     GET_CONFIG: '/v1/configuration',
     GET_NORMAL_GUESSING:'/v1/official-guests',
     POST_JOIN_BOOKING_REQUEST:'/v1/bookings/requests',
+    BOOKING_REQUEST_GUESTS:'/v1/bookings/requests/{{param}}',
     GET_RESERVATION_ID: '/v1/bookings/{{param}}',
     GET_MY_RESERVATIONS_PER_DAY: '/v1/bookings/info',
     GET_FAMILY_PARTNERS:'/v1/users/partners/family',

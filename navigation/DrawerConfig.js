@@ -242,7 +242,7 @@ const DrawerConfig = () => {
                 <Stack.Screen name="Reservations" component={ReservationsListScreen} />
                 <Stack.Screen name="DetailReservation" component={DetailReservationScreen}/>
                 <Stack.Group screenOptions={{presentation:'transparentModal', headerShown:false, animation:'slide_from_bottom', gestureEnabled:true }} >
-                    <Stack.Screen name="ModalListGuest" component={ModalListGuestScreen}/>
+                    <Stack.Screen name="ModalListGuest" component={ModalListGuestScreen}  options={{ presentation:'fullScreenModal', orientation:'portrait',}}/>
                 </Stack.Group>
 
             </Stack.Navigator>

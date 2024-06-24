@@ -3,22 +3,29 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-nati
 import { useSelector } from "react-redux";
 import { getFontSize } from "../../../../utils";
 import { ColorsCeiba } from "../../../../Colors";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import HeaderBooking from "../../../../components/laceiba/Headers/HeaderBooking";
 import RequestJoinItem from "../../../../components/laceiba/Booking/RequestJoinItem";
 import BtnCustom from "../../../../components/laceiba/CustomBtn";
 import moment from "moment";
-import { postJoinBookingRequest } from "../../../../api/Requests";
+import { deleteRequestGuest, getListRequestGuests, postJoinBookingRequest, putAcceptRequestGuest } from "../../../../api/Requests";
 import ModalInfo from "../../../Modals/ModalInfo";
+import ModalAsk from "../../../Modals/ModalAsk";
 const {height, width} = Dimensions.get('window');
 
 const JoinPetitionScreen = () => {
     const navigation = useNavigation();
+    const focused = useIsFocused();
     const infoBooking = useSelector(state => state.bookingDuck.createBooking)
     const appDuck = useSelector(state => state.appDuck)
     const [loading, setLoading] = useState(false)
     const [modalError, setModalError] = useState(false)
+    const [dataRequests, setDataRequests] = useState([])
+    const [update, setUpdate] = useState(false)
     const [eror, setError] = useState('')
+    const [txt, setTxt] = useState('')
+    const [modalSuccess, setModalSuccess] = useState(false)
+    const [modalAsk, setModalAsk] = useState(false)
     const requested = {
         schedule: '8:00 am',
         people:[
@@ -27,6 +34,25 @@ const JoinPetitionScreen = () => {
             {name:'Alberto Noah'},
             {name:'Alex Dzul'}
         ]
+    }
+    
+    useEffect(() => {
+        getRequests()
+    },[focused])
+
+    useEffect(() => {
+        if(update) getRequests()
+    },[update])
+
+    const getRequests = async() => {
+        try {
+            const response = await getListRequestGuests(`?bookingId=${infoBooking?.hour?.booking?.id}`)
+            console.log('pendientes solicitudes', response?.data)
+            setUpdate(false)
+            setDataRequests(response?.data.filter(item => item.status === 'PENDING'))
+        } catch (e) {
+            console.log('error',e)
+        }
     }
 
     const onjoinBooking = async() => {
@@ -49,22 +75,95 @@ const JoinPetitionScreen = () => {
         }
     }
 
+    const onCancelRequest = async() => {
+        try {
+            let dataSend = {
+                status: 'REJECTED'
+            }
+            const person = dataRequests.find(item => item?.user?.id === appDuck.user.id)
+            console.log('dataSend', dataSend, person)
+            const response = await putAcceptRequestGuest(dataSend, [person?.id])
+        } catch (e) {
+            console.log('error',e)
+        }
+    }
+
+    const onDeleteRequest = async() => {
+        try {
+            setModalAsk(false)
+            setLoading(true)
+            const person = dataRequests.find(item => item?.user?.id === appDuck.user.id)
+            console.log('eliminando', person)
+            const response = await deleteRequestGuest('',[person?.id])
+            console.log('reponse eliminar', response?.data)
+            setModalSuccess(true)
+            setTxt('Se ha eliminado la solicitud.')
+            setError('Se ha eliminado la solicitud, ya no aparecerá al host tu petición.')
+            setUpdate(true)
+        } catch (e) {
+            console.log('error',e)
+            setModalError(true)
+            setTxt('Error al eliminarla solicitud')
+            setError('No se ha podido eliminar la solicitud.')
+        }finally {
+            setLoading(false)
+        }
+    }
+
+    const onNewRequest = async() => {
+        try {
+            setLoading(true)
+            const person = dataRequests.find(item => item?.user?.id === appDuck.user.id)
+            console.log('eliminando', person)
+            //const response = await deleteRequestGuest('',[person?.id])
+            onjoinBooking()
+        } catch (e) {
+            console.log('errpr',e)
+            setModalError(true)
+            setTxt('Error al crear nueva solicitud')
+            setError('No se ha podido crear la nueva solicitud.')
+        }
+    }
+
     return(
         <HeaderBooking disabledOptions={true} showFilters={false}>
             <View style={styles.container}>
                 <View style={styles.contHeader}>
                     <Text style={styles.lblTitle}>{moment(infoBooking?.date,'YYYY-MM-DD').format('dddd MMMM D')} - {infoBooking?.area?.name}</Text>
                     <View style={styles.btnHoles}>
-                        <Text>18 Hoyos</Text>
+                        <Text>{infoBooking?.hour?.booking?.numHoles} Hoyos</Text>
                     </View>
                 </View>
                 <RequestJoinItem requested={infoBooking} />
-                <BtnCustom 
-                    title="Petición para unirse a grupo"
-                    disable={loading}
-                    loading={loading}
-                    onPress={() => onjoinBooking()}
-                />
+                {dataRequests.some(item => item?.user?.id === appDuck.user.id) ? 
+                    dataRequests.find(item => item?.user?.id === appDuck.user.id && item?.status === 'REJECTED') ? (
+                        <View>
+                            <Text style={styles.lbl}>Tu solicitud ha sido rechazada.</Text>
+                            <BtnCustom 
+                                title="Volver a solicitar"
+                                disable={loading}
+                                loading={loading}
+                                onPress={() => onNewRequest()}
+                            />
+                    </View>
+                    ): (
+                    <View>
+                        <Text style={styles.lbl}>Ya has solicitado, unirte a esta reservación.</Text>
+                        <BtnCustom 
+                            title="Eliminar solicitud"
+                            disable={loading}
+                            loading={loading}
+                            onPress={() => setModalAsk(true)}
+                        />
+                    </View>
+                ):(
+                    <BtnCustom 
+                        title="Petición para unirse a grupo"
+                        disable={loading}
+                        loading={loading}
+                        onPress={() => onjoinBooking()}
+                    />
+                )}
 
             <ModalInfo
                 visible={modalError}
@@ -74,6 +173,23 @@ const JoinPetitionScreen = () => {
                 close={true}
                 title="Error al solicitar unirse"
                 text={eror}
+                iconType="exclamation"
+            />
+            <ModalInfo
+                visible={modalSuccess}
+                setVisible={() => {
+                    setModalSuccess(false)
+                }}
+                close={false}
+                title={txt}
+                text={eror}
+            />
+            <ModalAsk 
+                visible={modalAsk}
+                setVisible={() => setModalAsk(false)}
+                action={() => onDeleteRequest()}
+                text="¿Desea eliminar la solicitud?"
+                textButton="Si"
                 iconType="exclamation"
             />
             </View>
@@ -107,6 +223,12 @@ const styles = StyleSheet.create({
         borderColor: ColorsCeiba.darkGray,
         justifyContent:'center',
         alignItems:'center'
+    },
+    lbl:{
+        color: ColorsCeiba.gray,
+        fontSize: getFontSize(15),
+        fontWeight:'400', marginBottom:10,
+        textAlign:'center'
     }
 })
 
