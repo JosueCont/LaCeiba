@@ -48,7 +48,7 @@ const DetailReservationScreen = () => {
     useEffect(() => {
         //getDataPlayers()
         getDataReservation()
-        if(reservation?.hostedBy?.id === user?.id && !moment(reservation?.dueDate, 'YYYY-MM-DD').isBefore(currentDay))
+        if(reservation?.hostedId === user?.id && !moment(reservation?.dueDate, 'YYYY-MM-DD').isBefore(currentDay))
             getRequestGuests()
     },[focused])
 
@@ -58,9 +58,7 @@ const DetailReservationScreen = () => {
 
     const getRequestGuests = async() => {
         try {
-            console.log('mandado')
             const response = await getListRequestGuests(`?bookingId=${reservation?.id}`);
-            console.log('reqyests', response?.data)
             setGuestRequest(response?.data.filter(item => item?.status === 'PENDING'))
         } catch (e) {
             console.log('error,',e)

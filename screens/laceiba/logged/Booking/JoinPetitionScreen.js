@@ -62,10 +62,8 @@ const JoinPetitionScreen = () => {
                 "userId": appDuck.user.id,
                 "bookingId": infoBooking?.hour?.booking?.id
             }
-                console.log('dataSend', dataSend)
             const response = await postJoinBookingRequest(dataSend)
             if(response?.data?.bookingId) navigation.navigate('JoinSend',{booking: response?.data})
-            console.log('te has unido a ', response)
         } catch (e) {
            console.log('errr',e)
            setModalError(true)
@@ -81,7 +79,6 @@ const JoinPetitionScreen = () => {
                 status: 'REJECTED'
             }
             const person = dataRequests.find(item => item?.user?.id === appDuck.user.id)
-            console.log('dataSend', dataSend, person)
             const response = await putAcceptRequestGuest(dataSend, [person?.id])
         } catch (e) {
             console.log('error',e)
@@ -114,7 +111,7 @@ const JoinPetitionScreen = () => {
         try {
             setLoading(true)
             const person = dataRequests.find(item => item?.user?.id === appDuck.user.id)
-            console.log('eliminando', person)
+            //console.log('eliminando', person)
             const response = await deleteRequestGuest('',[person?.id])
             onjoinBooking()
         } catch (e) {
@@ -124,7 +121,6 @@ const JoinPetitionScreen = () => {
             setError('No se ha podido crear la nueva solicitud.')
         }
     }
-console.log('infoBooking',infoBooking)
     return(
         <HeaderBooking disabledOptions={true} showFilters={false}>
             <View style={styles.container}>
@@ -159,6 +155,13 @@ console.log('infoBooking',infoBooking)
                 ):(
                     infoBooking?.hour?.booking?.invitations.some(invitation => invitation?.user?.id === appDuck.user.id && invitation?.status === 'REJECTED') ? (
                         <Text style={styles.lbl}>Ya no puedes solicitar unirte debido a que has rechazado la invitación anteriormente.</Text>
+                    ): infoBooking?.hour?.booking?.invitations.some(invitation => invitation?.user?.id === appDuck.user.id && invitation?.status === 'PENDING') ? (
+                        <BtnCustom 
+                            title="Ver detalle reservación"
+                            disable={loading}
+                            loading={loading}
+                            onPress={() =>  navigation.navigate('DetailReservation', {reservation: infoBooking?.hour?.booking, route: 'JoinPetition'})}
+                        />
                     ):(
 
                         <BtnCustom 
